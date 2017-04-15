@@ -17,76 +17,45 @@ export default function NewsPage({navigator, route}: TopLevelViewPropsType) {
     <TabbedView
       tabs={[
         {
-          id: 'StOlafNewsView',
-          title: 'St. Olaf',
+          id: 'CarletonNewsView',
+          title: 'Carleton',
           icon: 'school',
           component: () => (
             <NewsContainer
               navigator={navigator}
               route={route}
-              mode="wp-json"
-              url="https://wp.stolaf.edu/wp-json/wp/v2/posts"
-              query={{per_page: 10, _embed: true}}
-              name="St. Olaf"
+              mode="rss"
+              url="https://apps.carleton.edu/media_relations/feeds/blogs/news"
+              name="Carleton"
             />
           ),
         },
         {
-          id: 'OlevilleNewsView',
-          title: 'Oleville',
-          icon: 'happy',
-          component: () => (
-            <NewsContainer
-              navigator={navigator}
-              route={route}
-              mode="wp-json"
-              url="http://oleville.com/wp-json/wp/v2/posts/"
-              query={{per_page: 10, _embed: true}}
-              embedFeaturedImage={true}
-              name="Oleville"
-            />
-          ),
-        },
-        {
-          id: 'MessNewsView',
-          title: 'The Mess',
+          id: 'CarletonianNewsView',
+          title: 'The Carletonian',
           icon: 'paper',
           component: () => (
             <NewsContainer
               navigator={navigator}
               route={route}
               mode="rss"
-              url="http://manitoumessenger.com/feed/"
-              name="The Mess"
+              url="https://apps.carleton.edu/carletonian/feeds/blogs/tonian"
+              name="The Carletonian"
             />
           ),
         },
         {
-          id: 'PoliticOleNewsView',
-          title: 'PoliticOle',
-          icon: 'megaphone',
-          component: () => (
-            <NewsContainer
-              navigator={navigator}
-              route={route}
-              mode="rss"
-              url="http://oleville.com/politicole/feed/"
-              name="PoliticOle"
-            />
-          ),
-        },
-        {
-          id: 'KstoNewsView',
-          title: 'KSTO',
+          id: 'KrlxNewsView',
+          title: 'KRLX',
           icon: 'radio',
           component: () => (
             <NewsContainer
               navigator={navigator}
               route={route}
               mode="wp-json"
-              url="https://pages.stolaf.edu/ksto/wp-json/wp/v2/posts/"
+              url="https://www.krlx.org/wp-json/wp/v2/posts/"
               query={{per_page: 10, _embed: true}}
-              name="KSTO"
+              name="KRLX"
             />
           ),
         },
