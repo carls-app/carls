@@ -14,27 +14,11 @@ export default function CalendarPage() {
     <TabbedView
       tabs={[
         {
-          id: 'StOlafCalendarView',
-          title: 'St. Olaf',
+          id: 'CarletonMasterCalendarView',
+          title: 'Carleton',
           icon: 'school',
           component: () => (
-            <GoogleCalendarView calendarId="le6tdd9i38vgb7fcmha0hu66u9gjus2e%40import.calendar.google.com" />
-          ),
-        },
-        {
-          id: 'OlevilleCalendarView',
-          title: 'Oleville',
-          icon: 'happy',
-          component: () => (
-            <GoogleCalendarView calendarId="stolaf.edu_fvulqo4larnslel75740vglvko@group.calendar.google.com" />
-          ),
-        },
-        {
-          id: 'PauseCalendarView',
-          title: 'The Pause',
-          icon: 'paw',
-          component: () => (
-            <GoogleCalendarView calendarId="stolaf.edu_qkrej5rm8c8582dlnc28nreboc@group.calendar.google.com" />
+            <GoogleCalendarView calendarId="c7lu6q4995afqqv43de8okj416pajcf8@import.calendar.google.com" />
           ),
         },
         {
