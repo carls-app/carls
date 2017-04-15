@@ -23,15 +23,12 @@ import {
 
 import CalendarView from './views/calendar'
 import {ContactsView} from './views/contacts'
-import {DictionaryView, DictionaryDetailView} from './views/dictionary'
 import {HomeView, EditHomeView} from './views/home'
-import StreamingView from './views/streaming'
 import {MenusView} from './views/menus'
 import {BonAppHostedMenu} from './views/menus/menu-bonapp'
 import {FilterView} from './views/components/filter'
 import NewsView from './views/news'
 import NewsItemView from './views/news/news-item'
-import SISView from './views/sis'
 import {
   BuildingHoursView,
   BuildingHoursDetailView,
@@ -42,9 +39,7 @@ import SISLoginView from './views/settings/login'
 import CreditsView from './views/settings/credits'
 import PrivacyView from './views/settings/privacy'
 import LegalView from './views/settings/legal'
-import {StudentOrgsView, StudentOrgsDetailView} from './views/student-orgs'
 import {FaqView} from './views/faqs'
-import {SnapshotsView} from './storybook'
 
 import NoRoute from './views/components/no-route'
 
@@ -66,12 +61,6 @@ function renderScene(route, navigator) {
       return <CalendarView {...props} />
     case 'ContactsView':
       return <ContactsView {...props} />
-    case 'DictionaryView':
-      return <DictionaryView {...props} />
-    case 'DictionaryDetailView':
-      return <DictionaryDetailView {...props} />
-    case 'StreamingView':
-      return <StreamingView {...props} />
     case 'NewsView':
       return <NewsView {...props} />
     case 'NewsItemView':
@@ -80,8 +69,6 @@ function renderScene(route, navigator) {
       return <BuildingHoursView {...props} />
     case 'BuildingHoursDetailView':
       return <BuildingHoursDetailView {...props} />
-    case 'SISView':
-      return <SISView {...props} />
     case 'TransportationView':
       return <TransportationView {...props} />
     case 'SettingsView':
@@ -96,14 +83,8 @@ function renderScene(route, navigator) {
       return <LegalView {...props} />
     case 'EditHomeView':
       return <EditHomeView {...props} />
-    case 'StudentOrgsView':
-      return <StudentOrgsView {...props} />
-    case 'StudentOrgsDetailView':
-      return <StudentOrgsDetailView {...props} />
     case 'FaqView':
       return <FaqView {...props} />
-    case 'SnapshotsView':
-      return <SnapshotsView {...props} />
     default:
       return <NoRoute {...props} />
   }
