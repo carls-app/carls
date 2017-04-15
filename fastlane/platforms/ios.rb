@@ -27,9 +27,9 @@ platform :ios do
 
     version = get_current_bundle_version(platform: "iOS")
     build_number = get_current_build_number(platform: "iOS")
-    increment_version_number(version_number: "#{version}.#{build_number}", xcodeproj: "./ios/AllAboutOlaf.xcodeproj")
-    increment_build_number(build_number: build_number, xcodeproj: "./ios/AllAboutOlaf.xcodeproj")
-    set_package_data(data: {"version": "#{version}.#{build_number}"})
+    increment_version_number(version_number: "#{version}.#{build_number}", xcodeproj: "./ios/CARLS.xcodeproj")
+    increment_build_number(build_number: build_number, xcodeproj: "./ios/CARLS.xcodeproj")
+    set_package_data(data: {"version" => "#{version}.#{build_number}"})
 
     # Build the app
     gym

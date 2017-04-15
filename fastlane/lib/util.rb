@@ -43,7 +43,7 @@ private_lane :get_current_bundle_version do |options|
   if options[:platform] == 'Android'
     get_gradle_version_name(gradle_path: "android/app/build.gradle")
   elsif options[:platform] == 'iOS'
-    get_info_plist_value(path: "ios/AllAboutOlaf/Info.plist", key: "CFBundleShortVersionString")
+    get_info_plist_value(path: "ios/CARLS/Info.plist", key: "CFBundleShortVersionString")
   end
 end
 
@@ -55,7 +55,7 @@ private_lane :make_changelog do |options|
   sh("git log #{from_ref}..#{to_ref} --pretty='%an, %aD (%h)%n> %s%n' | sed 's/^/    /'")
 end
 
-lane :bundle_data do |options|
+lane :bundle_data do
   sh("npm run bundle-data")
 end
 

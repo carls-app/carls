@@ -1,6 +1,6 @@
 {
-  "name": "AllAboutOlaf",
-  "version": "2.1.2",
+  "name": "CARLS",
+  "version": "1.0.0",
   "private": true,
   "config": {
     "prettier_args": "--single-quote --trailing-comma all --no-bracket-spacing --no-semi"
@@ -10,7 +10,7 @@
     "android-emulator": "VBoxManage list vms | peco --select-1 --query API --on-cancel error | sed  's~.*{\\(.*\\)}.*~\\1~' | xargs /Applications/Genymotion.app/Contents/MacOS/player.app/Contents/MacOS/player --vm-name",
     "bundle-data": "node scripts/bundle-data.js data/ docs/",
     "bundle:android": "react-native bundle --entry-file index.android.js --dev true --platform android --bundle-output ./android/app/src/main/assets/index.android.bundle --assets-dest ./android/app/src/main/res/",
-    "bundle:ios": "react-native bundle --entry-file index.ios.js --dev true --platform ios --bundle-output ./ios/AllAboutOlaf/main.jsbundle --assets-dest ./ios",
+    "bundle:ios": "react-native bundle --entry-file index.ios.js --dev true --platform ios --bundle-output ./ios/CARLS/main.jsbundle --assets-dest ./ios",
     "check": "npm run prettier && npm run flow && npm run test",
     "danger": "danger",
     "data": "node scripts/bundle-data.js data/ docs/",
@@ -27,14 +27,14 @@
   },
   "codepush": {
     "ios": {
-      "release": "oSozdf5RtDr2j8T7PFz-oWgNmoBIEJN_nzUOz",
-      "staging": "wU8CTAoyYARqbOBVPXo6kWm7iq8CEJN_nzUOz",
-      "nightly": "lkDky5WyEEILExg-RWX6ymfrJDn6EJN_nzUOz"
+      "release": "",
+      "staging": "",
+      "nightly": ""
     },
     "android": {
-      "release": "5jvlQ5-xBItoSRqf-D-3hqdEsPTLEJN_nzUOz",
-      "staging": "GsN8Ii8enIpe8dVijiFQWZ743lV_EJN_nzUOz",
-      "nightly": "cMzHZZ5aUuk0ILftVFFwJvZLxiycEJN_nzUOz"
+      "release": "",
+      "staging": "",
+      "nightly": ""
     }
   },
   "babel": {

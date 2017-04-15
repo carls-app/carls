@@ -15,9 +15,9 @@ lane :bump do |options|
   UI.message("Upgrading from #{old_version} to #{version}")
 
   # update iOS version
-  increment_version_number(version_number: version, xcodeproj: "./ios/AllAboutOlaf.xcodeproj")
+  increment_version_number(version_number: version, xcodeproj: "./ios/CARLS.xcodeproj")
   # update Android version
   set_gradle_version_name(version_name: version, gradle_path: "android/app/build.gradle")
   # update package.json version
-  set_package_data(data: {"version": version})
+  set_package_data(data: {"version" => version})
 end

@@ -27,16 +27,12 @@
 			<string>NFMTHAZVS9.com.drewvolz.stolaf</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>AllAboutOlaf</string>
+				<string>CARLS</string>
 			</array>
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>
-	<key>LSApplicationQueriesSchemes</key>
-	<array>
-		<string>KSTORadio</string>
-	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -53,27 +49,7 @@
 				<key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
 				<true/>
 			</dict>
-			<key>manitoumessenger.com</key>
-			<dict>
-				<key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
-				<true/>
-			</dict>
-			<key>oleville.com</key>
-			<dict>
-				<key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
-				<true/>
-			</dict>
-			<key>stolaf-flash.streamguys.net</key>
-			<dict>
-				<key>NSThirdPartyExceptionAllowsInsecureHTTPLoads</key>
-				<true/>
-			</dict>
 			<key>van-go.info</key>
-			<dict>
-				<key>NSThirdPartyExceptionAllowsInsecureHTTPLoads</key>
-				<true/>
-			</dict>
-			<key>wp.stolaf.edu</key>
 			<dict>
 				<key>NSThirdPartyExceptionAllowsInsecureHTTPLoads</key>
 				<true/>
@@ -111,6 +87,6 @@
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 	<key>CodePushDeploymentKey</key>
-	<string>oSozdf5RtDr2j8T7PFz-oWgNmoBIEJN_nzUOz</string>
+	<string></string>
 </dict>
 </plist>

@@ -1,4 +1,4 @@
-package com.allaboutolaf;
+package com.carls;
 
 import android.app.Application;
 import android.net.http.HttpResponseCache;
@@ -74,7 +74,7 @@ public class MainApplication extends Application implements ReactApplication {
       long httpCacheSize = 20 * 1024 * 1024; // 20 MiB
       HttpResponseCache.install(httpCacheDir, httpCacheSize);
     } catch (IOException e) {
-      Log.i("allaboutolaf", "HTTP response cache installation failed:", e);
+      Log.i("carls", "HTTP response cache installation failed:", e);
       //      Log.i(TAG, "HTTP response cache installation failed:", e);
     }
   }

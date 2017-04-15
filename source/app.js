@@ -205,7 +205,7 @@ export default class App extends React.Component {
           }
           initialRoute={{
             id: 'HomeView',
-            title: 'All About Olaf',
+            title: 'CARLS',
             index: 0,
           }}
           renderScene={renderScene}

@@ -43,8 +43,8 @@ module Fastlane
 
       def self.available_options
         [
-          FastlaneCore::ConfigItem.new(key: :xcodeproj, default_value: "./ios/AllAboutOlaf.xcodeproj"),
-          FastlaneCore::ConfigItem.new(key: :target, default_value: "AllAboutOlaf"),
+          FastlaneCore::ConfigItem.new(key: :xcodeproj, default_value: "./ios/CARLS.xcodeproj"),
+          FastlaneCore::ConfigItem.new(key: :target, default_value: "CARLS"),
           FastlaneCore::ConfigItem.new(key: :team_id, default_value: "NFMTHAZVS"),
           FastlaneCore::ConfigItem.new(key: :devteam, default_value: "NFMTHAZVS9"),
           FastlaneCore::ConfigItem.new(key: :bundle_id, default_value: "com.volz.drew.aao.rogue"),

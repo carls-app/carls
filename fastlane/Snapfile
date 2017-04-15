@@ -11,8 +11,8 @@ languages([
 ])
 
 # The name of the scheme which contains the UI Tests
-scheme "AllAboutOlaf"
-workspace "ios/AllAboutOlaf.xcworkspace"
+scheme "CARLS"
+workspace "ios/CARLS.xcworkspace"
 
 # Where should the resulting screenshots be stored?
 output_directory "fastlane/screenshots"
