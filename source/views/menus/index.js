@@ -9,8 +9,6 @@ import React from 'react'
 import type {TopLevelViewPropsType} from '../types'
 import TabbedView from '../components/tabbed-view'
 import {BonAppHostedMenu} from './menu-bonapp'
-import {GitHubHostedMenu} from './menu-github'
-import {CarletonMenuPicker} from './carleton-list'
 // import {BonAppPickerView} from './dev-bonapp-picker'
 
 export function MenusView({navigator, route}: TopLevelViewPropsType) {
@@ -18,70 +16,65 @@ export function MenusView({navigator, route}: TopLevelViewPropsType) {
     <TabbedView
       tabs={[
         {
-          id: 'StavHallMenuView',
-          title: 'Stav Hall',
-          icon: 'nutrition',
+          id: 'BurtonMenuView',
+          title: 'Burton',
+          icon: 'trophy',
           component: () => (
             <BonAppHostedMenu
               navigator={navigator}
               route={route}
-              name="stav"
-              cafeId="261"
+              name="Burton"
+              cafeId="35"
               loadingMessage={[
-                'Hunting Ferndale Turkey…',
-                'Tracking wild vegan burgers…',
-                '"Cooking" some lutefisk…',
+                'Searching for Schiller…',
               ]}
             />
           ),
         },
         {
-          id: 'TheCageMenuView',
-          title: 'The Cage',
-          icon: 'cafe',
+          id: 'LDCMenuView',
+          title: 'LDC',
+          icon: 'water',
           component: () => (
             <BonAppHostedMenu
               navigator={navigator}
               route={route}
-              name="cage"
-              cafeId="262"
-              ignoreProvidedMenus={true}
+              name="LDC"
+              cafeId="36"
               loadingMessage={[
-                'Checking for vegan cookies…',
-                'Serving up some shakes…',
+                'Tracking down empty seats…',
               ]}
             />
           ),
         },
         {
-          id: 'ThePauseMenuView',
-          title: 'The Pause',
-          icon: 'paw',
+          id: 'WeitzMenuView',
+          title: 'Weitz Center',
+          icon: 'wine',
           component: () => (
-            <GitHubHostedMenu
+            <BonAppHostedMenu
               navigator={navigator}
               route={route}
-              name="pause"
-              loadingMessage={['Mixing up a shake…', 'Spinning up pizzas…']}
+              name="weitz"
+              cafeId="458"
+              loadingMessage={['Observing the artwork…', 'Previewing performances…']}
             />
           ),
         },
         {
-          id: 'CarletonMenuListView',
-          title: 'Carleton',
-          icon: 'menu',
+          id: 'SaylesMenuView',
+          title: 'Sayles Hill',
+          icon: 'snow',
           component: () => (
-            <CarletonMenuPicker navigator={navigator} route={route} />
+            <BonAppHostedMenu
+              navigator={navigator}
+              route={route}
+              name="sayles"
+              cafeId="34"
+              loadingMessage={['Engaging in people-watching…', 'Checking the mail…']}
+            />
           ),
         },
-        // {
-        //   id: 'BonAppDevToolView',
-        //   title: 'BonApp',
-        //   icon: 'ionic',
-        //   component: () => (
-        //     <BonAppPickerView navigator={navigator} route={route} />
-        //   ),
-        // },
       ]}
     />
   )
