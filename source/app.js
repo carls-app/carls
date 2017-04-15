@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
       : c.androidLightBackground,
   },
   navigationBar: {
-    backgroundColor: c.olevilleGold,
+    backgroundColor: '#0b5091',
     ...Platform.select({
       ios: {
         shadowOffset: {width: 0, height: StyleSheet.hairlineWidth},

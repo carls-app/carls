@@ -157,7 +157,7 @@ export const burntOrange = 'rgb(184, 102, 37)'
 export const pastelOrange = 'rgb(248, 197, 143)'
 export const cantaloupe = 'rgb(250, 154, 79)'
 export const carrot = 'rgb(237, 145, 33)'
-export const mandarin = 'rgb(247, 145, 55)'
+export const mandarin = '#0b5091'
 
 // MARK: Browns
 export const chiliPowder = 'rgb(199, 63, 23)'
