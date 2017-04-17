@@ -23,11 +23,21 @@ xcode-select --install
 </tr>
 <tr>
 <td width="33%"><code>brew cask install fastlane</code></td>
-<td width="33%"><a href="https://download.fastlane.tools/fastlane.zip">Download the zip file</a>. Then double click on the <code>install</code> script (or run it in a terminal window).</td>
+<td width="33%"><a href="https://download.fastlane.tools">Download the zip file</a>. Then double click on the <code>install</code> script (or run it in a terminal window).</td>
 <td width="33%"><code>sudo gem install fastlane -NV</code></td>
 </tr>
 </table>
 # Available Actions
+### authorize_ci_for_keys
+```
+fastlane authorize_ci_for_keys
+```
+Add the github token for stodevx-bot to the CI machine
+### bundle_data
+```
+fastlane bundle_data
+```
+
 ### register
 ```
 fastlane register
@@ -38,55 +48,6 @@ Adds any unregistered devices to the provisioning profile
 fastlane bump
 ```
 Bump the version string to a new version
-
-----
-
-## iOS
-### ios test
-```
-fastlane ios test
-```
-Runs all the tests
-### ios screenshot
-```
-fastlane ios screenshot
-```
-Take screenshots
-### ios rogue
-```
-fastlane ios rogue
-```
-Go rogue
-### ios build
-```
-fastlane ios build
-```
-Provisions the profiles; bumps the build number; builds the app
-### ios beta
-```
-fastlane ios beta
-```
-Submit a new Beta Build to HockeyApp
-### ios auto_beta
-```
-fastlane ios auto_beta
-```
-Make a beta build if there have been new commits since the last beta
-### ios ci_keychains
-```
-fastlane ios ci_keychains
-```
-Do CI-system keychain setup
-### ios ci_run
-```
-fastlane ios ci_run
-```
-Run iOS builds or tests, as appropriate
-### ios update_match
-```
-fastlane ios update_match
-```
-In case match needs to be updated - probably never needs to be run
 
 ----
 
@@ -101,16 +62,50 @@ Makes a build
 fastlane android beta
 ```
 Submit a new Beta Build to HockeyApp
-### android auto_beta
+### android ci-run
 ```
-fastlane android auto_beta
-```
-Make a beta build if there have been new commits since the last beta
-### android ci_run
-```
-fastlane android ci_run
+fastlane android ci-run
 ```
 Run the appropriate action on CI
+
+----
+
+## iOS
+### ios test
+```
+fastlane ios test
+```
+Runs all the tests
+### ios screenshot
+```
+fastlane ios screenshot
+```
+Take screenshots
+### ios go-rogue
+```
+fastlane ios go-rogue
+```
+Go rogue
+### ios build
+```
+fastlane ios build
+```
+Provisions the profiles; bumps the build number; builds the app
+### ios beta
+```
+fastlane ios beta
+```
+Submit a new Beta Build to HockeyApp
+### ios ci-run
+```
+fastlane ios ci-run
+```
+Run iOS builds or tests, as appropriate
+### ios update-match
+```
+fastlane ios update-match
+```
+In case match needs to be updated - probably never needs to be run
 
 ----
 
