@@ -29,10 +29,6 @@ export default function SettingsView(props: SettingsViewPropsType) {
       keyboardDismissMode="on-drag"
     >
       <TableView>
-        <CredentialsLoginSection />
-
-        <TokenLoginSection navigator={props.navigator} route={props.route} />
-
         <SupportSection />
 
         <OddsAndEndsSection navigator={props.navigator} route={props.route} />
