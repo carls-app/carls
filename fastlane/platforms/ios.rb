@@ -21,9 +21,7 @@ platform :ios do
 
     # Set up code signing correctly
     # (more information: https://codesigning.guide)
-    # match(readonly: true)
-
-    activate_rogue_team
+    match(readonly: true)
 
     version = get_current_bundle_version(platform: "iOS")
     build_number = get_current_build_number(platform: "iOS")
