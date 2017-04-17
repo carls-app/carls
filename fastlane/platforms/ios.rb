@@ -21,9 +21,9 @@ platform :ios do
 
     # Set up code signing correctly
     # (more information: https://codesigning.guide)
-    match(readonly: true)
+    # match(readonly: true)
 
-    go_rogue
+    activate_rogue_team
 
     version = get_current_bundle_version(platform: "iOS")
     build_number = get_current_build_number(platform: "iOS")
@@ -41,7 +41,7 @@ platform :ios do
 
     hockey(
       api_token: ENV["HOCKEYAPP_TOKEN"],
-      ipa: "./ios/build/AllAboutOlaf.ipa",
+      ipa: "./ios/build/CARLS.ipa",
       commit_sha: ENV["TRAVIS_COMMIT"],
       notes: build_notes(platform: 'iOS'),
     )
