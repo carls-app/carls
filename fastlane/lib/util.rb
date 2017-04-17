@@ -13,7 +13,7 @@ desc "Get the hockeyapp version"
 private_lane :get_hockeyapp_version do |options|
   latest_hockeyapp_version_number(
     api_token: ENV["HOCKEYAPP_TOKEN"],
-    app_name: "All About Olaf",
+    app_name: "CARLS",
     platform: options[:platform],
   )
 end
@@ -22,7 +22,7 @@ desc "Get the commit of the latest build on HockeyApp"
 private_lane :get_hockeyapp_version_commit do |options|
   latest_hockeyapp_notes(
     api_token: ENV["HOCKEYAPP_TOKEN"],
-    app_name: "All About Olaf",
+    app_name: "CARLS",
     platform: options[:platform],
   )[:commit_hash]
 end
