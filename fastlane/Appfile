@@ -1,4 +1,4 @@
-app_identifier "com.volz.drew.aao.rogue" # The bundle identifier of your app
+app_identifier "com.volz.drew.carls.rogue" # The bundle identifier of your app
 apple_id "magneticpapergarden@gmail.com" # Your Apple email address
 
 team_id "NFMTHAZVS9"  # Developer Portal Team ID

@@ -7,4 +7,4 @@ type "development"
 username "magneticpapergarden@gmail.com"
 
 # The app identifiers to get profiles for
-app_identifier ["com.volz.drew.aao.rogue"]
+app_identifier ["com.volz.drew.carls.rogue"]
