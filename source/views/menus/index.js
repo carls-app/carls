@@ -64,7 +64,7 @@ export function MenusView({navigator, route}: TopLevelViewPropsType) {
         {
           id: 'SaylesMenuView',
           title: 'Sayles Hill',
-          icon: 'snow',
+          icon: 'cafe',
           component: () => (
             <BonAppHostedMenu
               navigator={navigator}
