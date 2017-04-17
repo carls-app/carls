@@ -59,7 +59,7 @@ export const allViews: ViewType[] = [
     type: 'url',
     url: 'https://apps.carleton.edu/campus/directory/',
     view: 'DirectoryView',
-    title: 'Directory',
+    title: 'Stalkernet',
     icon: 'v-card',
     tint: c.indianRed,
     gradient: c.redToPurple,
