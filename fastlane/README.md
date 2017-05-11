@@ -29,16 +29,6 @@ xcode-select --install
 </table>
 
 # Available Actions
-### authorize_ci_for_keys
-```
-fastlane authorize_ci_for_keys
-```
-Add the github token for stodevx-bot to the CI machine
-### bundle_data
-```
-fastlane bundle_data
-```
-
 ### register
 ```
 fastlane register
@@ -49,6 +39,21 @@ Adds any unregistered devices to the provisioning profile
 fastlane bump
 ```
 Bump the version string to a new version
+### propagate-version
+```
+fastlane propagate-version
+```
+Copy the package.json version into the other version locations
+### release_notes
+```
+fastlane release_notes
+```
+Build the release notes: branch, commit hash, changelog
+### bundle_data
+```
+fastlane bundle_data
+```
+run `npm run bundle-data`
 
 ----
 
@@ -68,6 +73,16 @@ Submit a new Beta Build to HockeyApp
 fastlane android ci-run
 ```
 Run the appropriate action on CI
+### android set_version
+```
+fastlane android set_version
+```
+Include the build number in the version string
+### android codepush
+```
+fastlane android codepush
+```
+
 
 ----
 
@@ -92,6 +107,16 @@ Go rogue
 fastlane ios build
 ```
 Provisions the profiles; bumps the build number; builds the app
+### ios rogue-build
+```
+fastlane ios rogue-build
+```
+Build, but for the rogue devs
+### ios rogue-beta
+```
+fastlane ios rogue-beta
+```
+Make a beta, but for the rogue devs
 ### ios beta
 ```
 fastlane ios beta
@@ -102,11 +127,16 @@ Submit a new Beta Build to HockeyApp
 fastlane ios ci-run
 ```
 Run iOS builds or tests, as appropriate
-### ios update-match
+### ios codepush
 ```
-fastlane ios update-match
+fastlane ios codepush
 ```
-In case match needs to be updated - probably never needs to be run
+
+### ios set_version
+```
+fastlane ios set_version
+```
+Include the build number in the version string
 
 ----
 

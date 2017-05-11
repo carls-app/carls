@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.util.Log;
 
 // keep these sorted alphabetically
+import com.airbnb.android.react.maps.MapsPackage;
+import com.bugsnag.BugsnagReactNative;
 import com.BV.LinearGradient.LinearGradientPackage;
 import com.facebook.react.ReactApplication;
 import com.facebook.react.ReactInstanceManager;
@@ -20,6 +22,7 @@ import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.microsoft.codepush.react.CodePush;
 import com.oblador.keychain.KeychainPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
+import com.pusherman.networkinfo.RNNetworkInfoPackage;
 import fr.greweb.reactnativeviewshot.RNViewShotPackage;
 
 import java.io.File;
@@ -45,13 +48,16 @@ public class MainApplication extends Application implements ReactApplication {
       return Arrays.<ReactPackage>asList(
         new MainReactPackage(),
         // please keep these sorted alphabetically
+        /* BugsnagReactNative.getPackage(), */
         new CodePush(getResources().getString(R.string.reactNativeCodePush_androidDeploymentKey), getApplicationContext(), BuildConfig.DEBUG),
         new CustomTabsPackage(),
         new GoogleAnalyticsBridgePackage(),
         new KeychainPackage(),
         new LinearGradientPackage(),
+        new MapsPackage(),
         new ReactNativeOneSignalPackage(),
         new RNDeviceInfo(),
+        new RNNetworkInfoPackage(),
         new RNViewShotPackage(),
         new VectorIconsPackage()
       );

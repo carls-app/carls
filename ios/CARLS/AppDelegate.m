@@ -9,6 +9,7 @@
 
 #import "AppDelegate.h"
 #import <CodePush/CodePush.h>
+#import <BugsnagReactNative/BugsnagReactNative.h>
 
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
@@ -29,6 +30,10 @@
 #else
     jsCodeLocation = [CodePush bundleURL];
 #endif
+
+  #ifndef DEBUG
+    [BugsnagReactNative start];
+  #endif
 
   UIStoryboard *loadingViewStoryBoard = [UIStoryboard storyboardWithName:@"LaunchScreen" bundle:nil];
   UIViewController *loadingViewController = [loadingViewStoryBoard instantiateViewControllerWithIdentifier:@"LaunchViewController"];
