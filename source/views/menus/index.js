@@ -61,23 +61,6 @@ export const MenusView = TabNavigator(
       },
     },
 
-    WeitzMenuScreen: {
-      screen: ({navigation}) =>
-        <BonAppHostedMenu
-          navigation={navigation}
-          name="weitz"
-          cafeId="458"
-          loadingMessage={[
-            'Observing the artwork…',
-            'Previewing performances…',
-          ]}
-        />,
-      navigationOptions: {
-        tabBarLabel: 'Weitz Center',
-        tabBarIcon: TabBarIcon('wine'),
-      },
-    },
-
     SaylesMenuScreen: {
       screen: ({navigation}: TopLevelViewPropsType) =>
         <BonAppHostedMenu
@@ -92,6 +75,23 @@ export const MenusView = TabNavigator(
       navigationOptions: {
         title: 'Sayles Hill',
         tabBarIcon: TabBarIcon('cafe'),
+      },
+    },
+
+    WeitzMenuScreen: {
+      screen: ({navigation}) =>
+        <BonAppHostedMenu
+          navigation={navigation}
+          name="weitz"
+          cafeId="458"
+          loadingMessage={[
+            'Observing the artwork…',
+            'Previewing performances…',
+          ]}
+        />,
+      navigationOptions: {
+        tabBarLabel: 'Weitz Center',
+        tabBarIcon: TabBarIcon('wine'),
       },
     },
 
