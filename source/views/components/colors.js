@@ -44,6 +44,7 @@ export const semitransparentGray = 'rgba(0,0,0,0.2)'
 export const theLatest = '#00BFFF'
 export const olevilleGold = '#F7B600'
 export const olevilleBackground = '#F0F0E1'
+export const carletonBlue = '#0B5091'
 
 // MARK: KSTO Colors
 export const kstoPrimaryLight = '#c5c5e8'
