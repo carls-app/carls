@@ -13,7 +13,7 @@ env:
     - REPO=$(git config remote.origin.url)
     - SSH_REPO=${REPO/https:\/\/github.com\//git@github.com:}
     # this just gives us a nice label to use
-    - ENCRYPTION_LABEL=199c454344e1
+    - ENCRYPTION_LABEL=049fe94b4060
     # set some other variables for the pushing process
     - ENCRYPTED_KEY_VAR="encrypted_${ENCRYPTION_LABEL}_key"
     - ENCRYPTED_IV_VAR="encrypted_${ENCRYPTION_LABEL}_iv"
