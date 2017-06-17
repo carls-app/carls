@@ -592,7 +592,6 @@
 				00D33BE31DDA58A8001E830E /* Info.plist */,
 				00D33C001DDA5958001E830E /* CARLS-Bridging-Header.h */,
 			);
-			name = CARLSUITests;
 			path = CARLSUITests;
 			sourceTree = "<group>";
 		};
@@ -844,7 +843,7 @@
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = 363G7T9TGX;
 						LastSwiftMigration = 0810;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -1443,8 +1442,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.frogpond.carls;
 				PRODUCT_NAME = CARLS;
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "16c5a4a8-a88a-4623-88b2-212c1d26fe7c";
+				PROVISIONING_PROFILE_SPECIFIER = "match Development com.frogpond.carls";
 				SWIFT_OBJC_BRIDGING_HEADER = "CARLSUITests/CARLS-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
@@ -1458,7 +1457,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = CARLS/CARLS.entitlements;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				DEVELOPMENT_TEAM = 363G7T9TGX;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1490,8 +1489,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.frogpond.carls;
 				PRODUCT_NAME = CARLS;
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "a4ffab81-98c9-44f3-b8f5-e09e6e08056e";
+				PROVISIONING_PROFILE_SPECIFIER = "match AppStore com.frogpond.carls";
 				SWIFT_OBJC_BRIDGING_HEADER = "CARLSUITests/CARLS-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
