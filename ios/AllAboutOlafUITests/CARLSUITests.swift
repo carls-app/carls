@@ -1,6 +1,6 @@
 //
-//  All_About_Olaf_UI_Tests.swift
-//  All About Olaf UI Tests
+//  CARLS_UI_Tests.swift
+//  CARLS UI Tests
 //
 //  Created by Hawken Rives on 11/14/16.
 //  Copyright © 2016 Facebook. All rights reserved.
@@ -8,7 +8,7 @@
 
 import XCTest
 
-class AllAboutOlafUITests: XCTestCase {
+class CARLSUITests: XCTestCase {
     var app = XCUIApplication()
 
     override func setUp() {
