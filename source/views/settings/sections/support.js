@@ -30,7 +30,7 @@ export default class SupportSection extends React.Component {
       ['odt@stolaf.edu'],
       null,
       null,
-      'Support: All About Olaf',
+      'Support: CARLS',
       this.getDeviceInfo(),
     )
   }
