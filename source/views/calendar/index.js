@@ -14,6 +14,18 @@ export {EventDetail} from './event-detail'
 
 export default TabNavigator(
   {
+    CarletonMasterCalendarView: {
+      screen: ({navigation}) =>
+        <GoogleCalendarView
+          navigation={navigation}
+          calendarId="c7lu6q4995afqqv43de8okj416pajcf8@import.calendar.google.com"
+        />,
+      navigationOptions: {
+        tabBarLabel: 'Carleton',
+        tabBarIcon: TabBarIcon('school'),
+      },
+    },
+
     StOlafCalendarView: {
       screen: ({navigation}) =>
         <GoogleCalendarView
@@ -22,19 +34,7 @@ export default TabNavigator(
         />,
       navigationOptions: {
         tabBarLabel: 'St. Olaf',
-        tabBarIcon: TabBarIcon('school'),
-      },
-    },
-
-    OlevilleCalendarView: {
-      screen: ({navigation}) =>
-        <GoogleCalendarView
-          navigation={navigation}
-          calendarId="stolaf.edu_fvulqo4larnslel75740vglvko@group.calendar.google.com"
-        />,
-      navigationOptions: {
-        tabBarLabel: 'Oleville',
-        tabBarIcon: TabBarIcon('happy'),
+        tabBarIcon: TabBarIcon('rose'),
       },
     },
 
