@@ -62,7 +62,7 @@ import {FaqView} from '../views/faqs'
 import {StudentOrgsView} from '../views/student-orgs'
 
 const {DocumentDir} = dirs
-const outputDir = `${DocumentDir}/aao-view-shots`
+const outputDir = `${DocumentDir}/carls-view-shots`
 
 type ViewCollectionType = {
   [key: string]: {
