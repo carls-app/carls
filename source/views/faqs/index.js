@@ -30,7 +30,7 @@ export class FaqView extends React.Component {
     this.fetchData()
   }
 
-  url = 'https://stodevx.github.io/AAO-React-Native/faqs.json'
+  url = 'https://carls-app.github.io/CARLS/faqs.json'
 
   fetchData = async () => {
     let html = faqs
