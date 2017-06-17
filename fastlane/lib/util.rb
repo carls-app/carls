@@ -35,7 +35,7 @@ def current_bundle_version
   when :android
     get_gradle_version_name(gradle_path: lane_context[:GRADLE_FILE])
   when :ios
-    get_info_plist_value(path: 'ios/AllAboutOlaf/Info.plist',
+    get_info_plist_value(path: 'ios/CARLS/Info.plist',
                          key: 'CFBundleShortVersionString')
   else
     get_package_key(key: :version)

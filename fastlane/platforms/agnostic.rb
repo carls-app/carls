@@ -20,7 +20,7 @@ desc 'Copy the package.json version into the other version locations'
 lane :'propagate-version' do |options|
   version = get_package_key(key: :version)
   UI.message "Propagating version: #{version}"
-  UI.message "into the Info.plist and build.gradle files" 
+  UI.message "into the Info.plist and build.gradle files"
 
   # update iOS version
   # we're splitting here because iTC can't handle versions with dashes in them
@@ -31,7 +31,7 @@ lane :'propagate-version' do |options|
   # update Android version
   set_gradle_version_name(version_name: version,
                           gradle_path: lane_context[:GRADLE_FILE])
-  
+
   current_version_code = get_gradle_version_code(gradle_path: lane_context[:GRADLE_FILE])
   set_gradle_version_code(version_code: current_version_code + 1,
                           gradle_path: lane_context[:GRADLE_FILE])
@@ -57,7 +57,7 @@ end
 
 desc 'clone the match repo'
 private_lane :clone_match do
-  git_url = 'https://github.com/hawkrives/aao-keys'
+  git_url = 'https://github.com/hawkrives/carls-keys'
   dir = Dir.mktmpdir
   command = "git clone --depth 1 '#{git_url}' '#{dir}'"
 
