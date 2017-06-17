@@ -50,20 +50,20 @@ export default function NewsItem(props: {
       iframe {
         max-width: 100%;
       }
-      .aao-header {
+      .carls-header {
         border-bottom: solid 2px #eaeaea;
         margin: 0 0 1em;
         padding-bottom: 1em;
         font-weight: bold;
         text-align: center;
       }
-      .aao-header h1 {
+      .carls-header h1 {
         line-height: 1.1em;
         font-size: 1.5em;
         margin-bottom: 0;
       }
     </style>
-    <header class="aao-header">
+    <header class="carls-header">
       <h1>${story.title}</h1>
     </header>
     ${embedFeaturedImage && story.featuredImage
