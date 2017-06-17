@@ -6,15 +6,13 @@
 
 import {TabNavigator} from '../components/tabbed-view'
 
-import KSTOView from './radio'
+import KRLXView from './krlx'
 // import WeeklyMovieView from './movie'
-import WebcamsView from './webcams'
 
 export default TabNavigator(
   {
-    KSTORadioView: {screen: KSTOView},
+    KRLXRadioView: {screen: KRLXView},
     // WeeklyMovieView: {screen: WeeklyMovieView},
-    LiveWebcamsView: {screen: WebcamsView},
   },
   {
     navigationOptions: {
