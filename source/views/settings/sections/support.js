@@ -27,7 +27,7 @@ export default class SupportSection extends React.Component {
 
   openEmail = () => {
     Communications.email(
-      ['odt@stolaf.edu'],
+      ['rives@stolaf.edu'],
       null,
       null,
       'Support: CARLS',

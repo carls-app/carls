@@ -5,6 +5,6 @@
 apple_id 'sgawebmaster@stolaf.edu'
 
 # This is a private key. It is not included in the repository.
-# Contact odt@stolaf.edu or another admin if you need access.
+# Contact rives@stolaf.edu or another admin if you need access.
 json_key_file 'fastlane/play-private-key.json'
 package_name 'com.frogpond.carls'

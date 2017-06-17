@@ -178,7 +178,7 @@ export class BonAppHostedMenu extends React.Component {
       tracker.trackException(err)
       bugsnag.notify(err)
       return (
-        <NoticeView text="Something went wrong. Email odt@stolaf.edu to let them know?" />
+        <NoticeView text="Something went wrong. Email rives@stolaf.edu to let them know?" />
       )
     }
 
