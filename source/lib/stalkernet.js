@@ -27,7 +27,7 @@ export function cache() {
       data,
       item => `${item.lastName}-${item.firstName}-${item.email}`,
     )
-    return AsyncStorage.setItem('@AllAboutOlaf:Stalkernet', data)
+    return AsyncStorage.setItem('@CARLS:Stalkernet', data)
   })
 }
 

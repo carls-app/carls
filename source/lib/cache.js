@@ -47,10 +47,10 @@ function setItem(key: string, value: any, cacheTime?: [number, string]) {
     timeToCache: cacheTime,
     value: value,
   }
-  return AsyncStorage.setItem(`aao:${key}`, JSON.stringify(dataToStore))
+  return AsyncStorage.setItem(`carls:${key}`, JSON.stringify(dataToStore))
 }
 function getItem(key: string): CacheResultType<any> {
-  return AsyncStorage.getItem(`aao:${key}`).then(stored =>
+  return AsyncStorage.getItem(`carls:${key}`).then(stored =>
     annotateCacheEntry(JSON.parse(stored)),
   )
 }

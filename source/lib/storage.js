@@ -8,13 +8,13 @@ export function clearAsyncStorage() {
 /// MARK: Utilities
 
 function setItem(key: string, value: any) {
-  return AsyncStorage.setItem(`aao:${key}`, JSON.stringify(value))
+  return AsyncStorage.setItem(`carls:${key}`, JSON.stringify(value))
 }
 function getItem(key: string): Promise<any> {
-  return AsyncStorage.getItem(`aao:${key}`).then(stored => JSON.parse(stored))
+  return AsyncStorage.getItem(`carls:${key}`).then(stored => JSON.parse(stored))
 }
 function removeItem(key: string): Promise<any> {
-  return AsyncStorage.removeItem(`aao:${key}`)
+  return AsyncStorage.removeItem(`carls:${key}`)
 }
 
 /// MARK: Settings
