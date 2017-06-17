@@ -4,20 +4,15 @@
  */
 
 import React from 'react'
-import {
-  StyleSheet,
-  View,
-  Text,
-  Linking,
-  Dimensions,
-} from 'react-native'
+import {StyleSheet, View, Text, Linking, Dimensions} from 'react-native'
 import {TabBarIcon} from '../components/tabbar-icon'
 import {Button} from '../components/button'
 import * as c from '../components/colors'
 
 function openWebsite() {
-  Linking.openURL('https://www.stolaf.edu/multimedia/play/embed/ksto.html')
-    .catch(() => {})
+  Linking.openURL(
+    'https://www.stolaf.edu/multimedia/play/embed/ksto.html',
+  ).catch(() => {})
 }
 
 export default function KRLXView() {
