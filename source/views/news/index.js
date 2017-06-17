@@ -13,76 +13,45 @@ import NewsContainer from './news-container'
 
 export default TabNavigator(
   {
-    StOlafNewsView: {
+    CarletonNewsView: {
       screen: ({navigation}) =>
         <NewsContainer
           navigation={navigation}
-          mode="wp-json"
-          url="https://wp.stolaf.edu/wp-json/wp/v2/posts"
-          query={{per_page: 10, _embed: true}}
-          name="St. Olaf"
+          mode="rss"
+          url="https://apps.carleton.edu/media_relations/feeds/blogs/news"
+          name="Carleton"
         />,
       navigationOptions: {
-        tabBarLabel: 'St. Olaf',
+        tabBarLabel: 'Carleton',
         tabBarIcon: TabBarIcon('school'),
       },
     },
 
-    OlevilleNewsView: {
-      screen: ({navigation}) =>
-        <NewsContainer
-          navigation={navigation}
-          mode="wp-json"
-          url="http://oleville.com/wp-json/wp/v2/posts/"
-          query={{per_page: 10, _embed: true}}
-          embedFeaturedImage={true}
-          name="Oleville"
-        />,
-      navigationOptions: {
-        tabBarLabel: 'Oleville',
-        tabBarIcon: TabBarIcon('happy'),
-      },
-    },
-
-    MessNewsView: {
+    CarletonianNewsView: {
       screen: ({navigation}) =>
         <NewsContainer
           navigation={navigation}
           mode="rss"
-          url="http://manitoumessenger.com/feed/"
-          name="The Mess"
+          url="https://apps.carleton.edu/carletonian/feeds/blogs/tonian"
+          name="The Carletonian"
         />,
       navigationOptions: {
-        tabBarLabel: 'The Mess',
+        tabBarLabel: 'The Carletonian',
         tabBarIcon: TabBarIcon('paper'),
       },
     },
 
-    PoliticOleNewsView: {
-      screen: ({navigation}) =>
-        <NewsContainer
-          navigation={navigation}
-          mode="rss"
-          url="http://oleville.com/politicole/feed/"
-          name="PoliticOle"
-        />,
-      navigationOptions: {
-        tabBarLabel: 'PoliticOle',
-        tabBarIcon: TabBarIcon('megaphone'),
-      },
-    },
-
-    KstoNewsView: {
+    KrlxNewsView: {
       screen: ({navigation}) =>
         <NewsContainer
           navigation={navigation}
           mode="wp-json"
-          url="https://pages.stolaf.edu/ksto/wp-json/wp/v2/posts/"
+          url="https://www.krlx.org/wp-json/wp/v2/posts/"
           query={{per_page: 10, _embed: true}}
-          name="KSTO"
+          name="KRLX"
         />,
       navigationOptions: {
-        tabBarLabel: 'KSTO',
+        tabBarLabel: 'KRLX',
         tabBarIcon: TabBarIcon('radio'),
       },
     },
