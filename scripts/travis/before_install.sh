@@ -23,9 +23,3 @@ npm config set progress=false
 
 npm install -g npm@5
 npm install -g greenkeeper-lockfile@1
-
-# Get the deploy key by using Travis's stored variables to decrypt deploy_key.enc
-openssl aes-256-cbc -K "$ENCRYPTED_KEY" -iv "$ENCRYPTED_IV" -in "$DEPLOY_KEY.enc" -out "$DEPLOY_KEY" -d
-chmod 600 "$DEPLOY_KEY"
-eval "$(ssh-agent -s)"
-ssh-add "$DEPLOY_KEY"
