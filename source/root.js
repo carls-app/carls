@@ -7,4 +7,4 @@ import App from './app'
 // the file here.
 import './bugsnag'
 
-AppRegistry.registerComponent('AllAboutOlaf', () => App)
+AppRegistry.registerComponent('CARLS', () => App)
