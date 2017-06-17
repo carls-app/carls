@@ -52,7 +52,7 @@ function HomePage({
 }
 HomePage.navigationOptions = ({navigation}) => {
   return {
-    title: 'All About Olaf',
+    title: 'CARLS',
     headerBackTitle: 'Home',
     headerLeft: <OpenSettingsButton navigation={navigation} />,
     headerRight: <EditHomeButton navigation={navigation} />,
