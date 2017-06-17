@@ -43,7 +43,7 @@ export const MenusView = TabNavigator(
         />,
       navigationOptions: {
         tabBarLabel: 'Burton',
-        tabBarIcon: TabBarIcon('nutrition'),
+        tabBarIcon: TabBarIcon('trophy'),
       },
     },
 
@@ -57,7 +57,7 @@ export const MenusView = TabNavigator(
         />,
       navigationOptions: {
         tabBarLabel: 'LDC',
-        tabBarIcon: TabBarIcon('cafe'),
+        tabBarIcon: TabBarIcon('water'),
       },
     },
 
@@ -74,7 +74,7 @@ export const MenusView = TabNavigator(
         />,
       navigationOptions: {
         tabBarLabel: 'Weitz Center',
-        tabBarIcon: TabBarIcon('paw'),
+        tabBarIcon: TabBarIcon('wine'),
       },
     },
 
@@ -91,7 +91,7 @@ export const MenusView = TabNavigator(
         />,
       navigationOptions: {
         title: 'Sayles Hill',
-        tabBarIcon: TabBarIcon('menu'),
+        tabBarIcon: TabBarIcon('cafe'),
       },
     },
 
