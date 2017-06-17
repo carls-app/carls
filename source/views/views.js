@@ -105,9 +105,10 @@ export const allViews: ViewType[] = [
     gradient: c.grayToDarkGray,
   },
   {
-    type: 'view',
-    view: 'DictionaryView',
-    title: 'Campus Dictionary',
+    type: 'url',
+    url: 'http://www.carlwiki.org/Carleton_College',
+    view: 'CarlWikiView',
+    title: 'CarlWiki',
     icon: 'open-book',
     tint: c.olive,
     gradient: c.yellowToGoldLight,
