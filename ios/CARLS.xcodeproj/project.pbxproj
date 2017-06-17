@@ -355,7 +355,7 @@
 		00C302D31ABCB9D200DB3ED1 /* RCTNetwork.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTNetwork.xcodeproj; path = "../node_modules/react-native/Libraries/Network/RCTNetwork.xcodeproj"; sourceTree = "<group>"; };
 		00C302DF1ABCB9EE00DB3ED1 /* RCTVibration.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTVibration.xcodeproj; path = "../node_modules/react-native/Libraries/Vibration/RCTVibration.xcodeproj"; sourceTree = "<group>"; };
 		00C8CB4C1D6EBA1A00E66E20 /* All About Olaf.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = "All About Olaf.entitlements"; path = "AllAboutOlaf/All About Olaf.entitlements"; sourceTree = "<group>"; };
-		00D33BDF1DDA58A8001E830E /* AllAboutOlafUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AllAboutOlafUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		00D33BDF1DDA58A8001E830E /* CARLSUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CARLSUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00D33BE11DDA58A8001E830E /* AllAboutOlafUITests.swift */ = {isa = PBXFileReference; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = AllAboutOlafUITests.swift; sourceTree = "<group>"; };
 		00D33BE31DDA58A8001E830E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00D33C001DDA5958001E830E /* AllAboutOlaf-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AllAboutOlaf-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -780,7 +780,7 @@
 			isa = PBXGroup;
 			children = (
 				13B07F961A680F5B00A75B9A /* All About Olaf.app */,
-				00D33BDF1DDA58A8001E830E /* AllAboutOlafUITests.xctest */,
+				00D33BDF1DDA58A8001E830E /* CARLSUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -788,9 +788,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		00D33BDE1DDA58A8001E830E /* AllAboutOlafUITests */ = {
+		00D33BDE1DDA58A8001E830E /* CARLSUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 00D33BFF1DDA58A8001E830E /* Build configuration list for PBXNativeTarget "AllAboutOlafUITests" */;
+			buildConfigurationList = 00D33BFF1DDA58A8001E830E /* Build configuration list for PBXNativeTarget "CARLSUITests" */;
 			buildPhases = (
 				00D33BDB1DDA58A8001E830E /* Sources */,
 				00D33BDC1DDA58A8001E830E /* Frameworks */,
@@ -801,14 +801,14 @@
 			dependencies = (
 				00D33BE51DDA58A8001E830E /* PBXTargetDependency */,
 			);
-			name = AllAboutOlafUITests;
+			name = CARLSUITests;
 			productName = AllAboutOlafUITests;
-			productReference = 00D33BDF1DDA58A8001E830E /* AllAboutOlafUITests.xctest */;
+			productReference = 00D33BDF1DDA58A8001E830E /* CARLSUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
-		13B07F861A680F5B00A75B9A /* AllAboutOlaf */ = {
+		13B07F861A680F5B00A75B9A /* CARLS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "AllAboutOlaf" */;
+			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "CARLS" */;
 			buildPhases = (
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
@@ -820,7 +820,7 @@
 			);
 			dependencies = (
 			);
-			name = AllAboutOlaf;
+			name = CARLS;
 			productName = "Hello World";
 			productReference = 13B07F961A680F5B00A75B9A /* All About Olaf.app */;
 			productType = "com.apple.product-type.application";
@@ -855,7 +855,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "AllAboutOlaf" */;
+			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "CARLS" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -978,8 +978,8 @@
 			);
 			projectRoot = "";
 			targets = (
-				13B07F861A680F5B00A75B9A /* AllAboutOlaf */,
-				00D33BDE1DDA58A8001E830E /* AllAboutOlafUITests */,
+				13B07F861A680F5B00A75B9A /* CARLS */,
+				00D33BDE1DDA58A8001E830E /* CARLSUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -1350,7 +1350,7 @@
 /* Begin PBXTargetDependency section */
 		00D33BE51DDA58A8001E830E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 13B07F861A680F5B00A75B9A /* AllAboutOlaf */;
+			target = 13B07F861A680F5B00A75B9A /* CARLS */;
 			targetProxy = 00D33BE41DDA58A8001E830E /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -1612,7 +1612,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		00D33BFF1DDA58A8001E830E /* Build configuration list for PBXNativeTarget "AllAboutOlafUITests" */ = {
+		00D33BFF1DDA58A8001E830E /* Build configuration list for PBXNativeTarget "CARLSUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				00D33BE61DDA58A8001E830E /* Debug */,
@@ -1621,7 +1621,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "AllAboutOlaf" */ = {
+		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "CARLS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				13B07F941A680F5B00A75B9A /* Debug */,
@@ -1630,7 +1630,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "AllAboutOlaf" */ = {
+		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "CARLS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				83CBBA201A601CBA00E9B192 /* Debug */,
