@@ -10,7 +10,6 @@ import {TabNavigator} from '../components/tabbed-view'
 import {TabBarIcon} from '../components/tabbar-icon'
 
 import {BonAppHostedMenu} from './menu-bonapp'
-import {GitHubHostedMenu} from './menu-github'
 import {
   StavHallMenuView,
   TheCageMenuView,
@@ -62,7 +61,7 @@ export const MenusView = TabNavigator(
     },
 
     SaylesMenuScreen: {
-      screen: ({navigation}: TopLevelViewPropsType) =>
+      screen: ({navigation}) =>
         <BonAppHostedMenu
           navigation={navigation}
           name="sayles"

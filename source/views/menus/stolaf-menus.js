@@ -8,7 +8,7 @@ import {ListRow, ListSeparator, Title} from '../components/list'
 import {BonAppHostedMenu} from './menu-bonapp'
 import {GitHubHostedMenu} from './menu-github'
 
-export const StavHallMenuView = ({navigation}) =>
+export const StavHallMenuView = ({navigation}: TopLevelViewPropsType) =>
   <BonAppHostedMenu
     navigation={navigation}
     name="stav"
@@ -24,7 +24,7 @@ StavHallMenuView.navigationOptions = {
   tabBarIcon: TabBarIcon('nutrition'),
 }
 
-export const TheCageMenuView = ({navigation}) =>
+export const TheCageMenuView = ({navigation}: TopLevelViewPropsType) =>
   <BonAppHostedMenu
     navigation={navigation}
     name="cage"
@@ -37,7 +37,7 @@ TheCageMenuView.navigationOptions = {
   tabBarIcon: TabBarIcon('cafe'),
 }
 
-export const ThePauseMenuView = ({navigation}) =>
+export const ThePauseMenuView = ({navigation}: TopLevelViewPropsType) =>
   <GitHubHostedMenu
     navigation={navigation}
     name="pause"
