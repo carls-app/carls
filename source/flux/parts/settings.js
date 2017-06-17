@@ -190,7 +190,7 @@ function tokenReducer(state = initialTokenState, action) {
 }
 
 const initialSettingsState = {
-  theme: 'All About Olaf',
+  theme: 'CARLS',
   dietaryPreferences: [],
 
   credentials: undefined,
