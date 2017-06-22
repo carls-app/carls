@@ -1,6 +1,6 @@
 {
   "name": "carls",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0-alpha.1",
   "private": true,
   "config": {
     "prettier_args": "--single-quote --trailing-comma all --no-bracket-spacing --no-semi"
