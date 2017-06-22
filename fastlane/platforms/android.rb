@@ -19,7 +19,7 @@ platform :android do
     lane_context[SharedValues::GRADLE_ALL_APK_OUTPUT_PATHS] =
       lane_context[SharedValues::GRADLE_ALL_APK_OUTPUT_PATHS].select{ |apk| apk.end_with? "-release.apk" }
 
-    supply(track: 'beta')
+    # supply(track: 'beta')
   end
 
   desc 'Run the appropriate action on CI'
