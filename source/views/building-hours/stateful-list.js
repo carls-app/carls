@@ -19,6 +19,7 @@ import groupBy from 'lodash/groupBy'
 
 import {CENTRAL_TZ} from './lib'
 const githubBaseUrl = 'https://carls-app.github.io/CARLS'
+import {fetchXyzHours, loadBackupXyzHours} from './xyz'
 
 const groupBuildings = (buildings: BuildingType[]) =>
   groupBy(buildings, b => b.category || 'Other')
@@ -40,7 +41,7 @@ export class BuildingHoursView extends React.Component {
     loading: true,
     // now: moment.tz('Wed 7:25pm', 'ddd h:mma', null, CENTRAL_TZ),
     now: moment.tz(CENTRAL_TZ),
-    buildings: groupBuildings(fallbackBuildingHours),
+    buildings: groupBuildings(loadBackupXyzHours()),
     intervalId: 0,
   }
 
@@ -67,18 +68,16 @@ export class BuildingHoursView extends React.Component {
 
     let buildings: BuildingType[] = []
     try {
-      let container = await fetchJson(`${githubBaseUrl}/building-hours.json`)
-      let data = container.data
-      buildings = data
+      buildings = await fetchXyzHours()
     } catch (err) {
       tracker.trackException(err.message)
       bugsnag.notify(err)
       console.warn(err)
-      buildings = fallbackBuildingHours
+      buildings = loadBackupXyzHours()
     }
 
     if (process.env.NODE_ENV === 'development') {
-      buildings = fallbackBuildingHours
+      buildings = loadBackupXyzHours()
     }
 
     this.setState({
