@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
 import {TabBarIcon} from '../components/tabbar-icon'
-import {View, Platform, FlatList, StyleSheet} from 'react-native'
+import {Platform, FlatList, StyleSheet} from 'react-native'
 import type {TopLevelViewPropsType} from '../types'
 import {Row} from '../components/layout'
 import {ListRow, ListSeparator, Title, ListEmpty} from '../components/list'
