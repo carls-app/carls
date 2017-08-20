@@ -19,7 +19,7 @@ import toPairs from 'lodash/toPairs'
 import groupBy from 'lodash/groupBy'
 
 import {CENTRAL_TZ} from './lib'
-const githubBaseUrl = 'https://stodevx.github.io/AAO-React-Native'
+const githubBaseUrl = 'https://carls-app.github.io/carls'
 
 const groupBuildings = (buildings: BuildingType[]) => {
   const grouped = groupBy(buildings, b => b.category || 'Other')
@@ -50,7 +50,7 @@ export class BuildingHoursView extends React.Component {
   }
 
   componentWillMount() {
-    // this.fetchData()
+    this.fetchData()
 
     // This updates the screen every ten seconds, so that the building
     // info statuses are updated without needing to leave and come back.
@@ -101,8 +101,8 @@ export class BuildingHoursView extends React.Component {
         navigation={this.props.navigation}
         buildings={this.state.buildings}
         now={this.state.now}
-        // onRefresh={this.fetchData}
-        // loading={this.state.loading}
+        onRefresh={this.fetchData}
+        loading={this.state.loading}
       />
     )
   }
