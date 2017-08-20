@@ -30,7 +30,7 @@ export function times(event: EventType) {
     end = `to ${event.endTime.format(endFormat)}`
   } else if (sillyZeroLength) {
     start = startTimeFormatted
-    end = 'until ???'
+    end = ''
   } else {
     start = startTimeFormatted
     end = endTimeFormatted
