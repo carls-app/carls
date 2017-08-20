@@ -95,6 +95,24 @@ export function getOleBalance(): CacheResultType<?number> {
   return getItem(oleBalanceKey)
 }
 
+const schillersBalanceKey = 'financials:schillers'
+const schillersBalanceCacheTime = [5, 'minutes']
+export function setSchillersBalance(balance: ?number) {
+  return setItem(schillersBalanceKey, balance, schillersBalanceCacheTime)
+}
+export function getSchillersBalance(): CacheResultType<?number> {
+  return getItem(schillersBalanceKey)
+}
+
+const diningBalanceKey = 'financials:diningdollars'
+const diningBalanceCacheTime = [5, 'minutes']
+export function setDiningBalance(balance: ?number) {
+  return setItem(diningBalanceKey, balance, diningBalanceCacheTime)
+}
+export function getDiningBalance(): CacheResultType<?number> {
+  return getItem(diningBalanceKey)
+}
+
 const printBalanceKey = 'financials:print'
 const printBalanceCacheTime = [5, 'minutes']
 export function setPrintBalance(balance: ?number) {
@@ -123,22 +141,22 @@ export function getWeeklyMealInfo(): CacheResultType<?string> {
 }
 
 type BalancesInputType = {
-  flex: ?number,
-  ole: ?number,
+  schillers: ?number,
+  dining: ?number,
   print: ?number,
   daily: ?string,
   weekly: ?string,
 }
 export function setBalances({
-  flex,
-  ole,
+  schillers,
+  dining,
   print,
   daily,
   weekly,
 }: BalancesInputType) {
   return Promise.all([
-    setFlexBalance(flex),
-    setOleBalance(ole),
+    setSchillersBalance(schillers),
+    setDiningBalance(dining),
     setPrintBalance(print),
     setDailyMealInfo(daily),
     setWeeklyMealInfo(weekly),
@@ -146,8 +164,8 @@ export function setBalances({
 }
 
 type BalancesOutputType = {
-  flex: BaseCacheResultType<?number>,
-  ole: BaseCacheResultType<?number>,
+  schillers: BaseCacheResultType<?number>,
+  dining: BaseCacheResultType<?number>,
   print: BaseCacheResultType<?number>,
   daily: BaseCacheResultType<?string>,
   weekly: BaseCacheResultType<?string>,
@@ -155,26 +173,26 @@ type BalancesOutputType = {
   _isCached: boolean,
 }
 export async function getBalances(): Promise<BalancesOutputType> {
-  const [flex, ole, print, daily, weekly] = await Promise.all([
-    getFlexBalance(),
-    getOleBalance(),
+  const [schillers, dining, print, daily, weekly] = await Promise.all([
+    getSchillersBalance(),
+    getDiningBalance(),
     getPrintBalance(),
     getDailyMealInfo(),
     getWeeklyMealInfo(),
   ])
 
   const _isExpired =
-    flex.isExpired ||
-    ole.isExpired ||
+    schillers.isExpired ||
+    dining.isExpired ||
     print.isExpired ||
     daily.isExpired ||
     weekly.isExpired
   const _isCached =
-    flex.isCached ||
-    ole.isCached ||
+    schillers.isCached ||
+    dining.isCached ||
     print.isCached ||
     daily.isCached ||
     weekly.isCached
 
-  return {flex, ole, print, daily, weekly, _isExpired, _isCached}
+  return {schillers, dining, print, daily, weekly, _isExpired, _isCached}
 }

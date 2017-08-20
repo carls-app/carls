@@ -2,7 +2,7 @@
 import {loadLoginCredentials} from '../login'
 import buildFormData from '../formdata'
 import {parseHtml, cssSelect, getTrimmedTextWithSpaces} from '../html'
-import {OLECARD_AUTH_URL} from './urls'
+import {ONECARD_DASHBOARD} from './urls'
 import type {BalancesShapeType} from './types'
 import fromPairs from 'lodash/fromPairs'
 import isNil from 'lodash/isNil'
@@ -17,9 +17,8 @@ export async function getBalances(
   force?: boolean,
 ): Promise<BalancesOrErrorType> {
   const {
-    flex,
-    ole,
-    print,
+    schillers,
+    dining,
     daily,
     weekly,
     _isExpired,
@@ -30,7 +29,7 @@ export async function getBalances(
     const balances = await fetchBalancesFromServer()
 
     // we don't want to cache error responses
-    if (balances.error) {
+    if (balances.error || !balances) {
       return balances
     }
 
@@ -41,9 +40,8 @@ export async function getBalances(
   return {
     error: false,
     value: {
-      flex: flex.value,
-      ole: ole.value,
-      print: print.value,
+      schillers: schillers.value,
+      dining: dining.value,
       daily: daily.value,
       weekly: weekly.value,
     },
@@ -56,11 +54,12 @@ async function fetchBalancesFromServer(): Promise<BalancesOrErrorType> {
     return {error: true, value: new Error('not logged in!')}
   }
 
-  const form = buildFormData({
-    username: username,
-    password: password,
+  const form = buildFormData({username, password})
+  const result = await fetch(ONECARD_DASHBOARD, {
+    method: 'POST',
+    body: form,
+    credentials: 'include',
   })
-  const result = await fetch(OLECARD_AUTH_URL, {method: 'POST', body: form})
   const page = await result.text()
   const dom = parseHtml(page)
 
@@ -69,26 +68,23 @@ async function fetchBalancesFromServer(): Promise<BalancesOrErrorType> {
 
 function parseBalancesFromDom(dom: mixed): BalancesOrErrorType {
   // .accountrow is the name of the row, and it's immediate sibling is a cell with id=value
-  const elements = cssSelect('.accountrow', dom)
-    .map(el => el.parent)
+  let elements = cssSelect('.dashboard > p, .dashboard > ul > li', dom)
     .map(getTrimmedTextWithSpaces)
     .map(rowIntoNamedAmount)
     .filter(Boolean)
 
   const namedValues = fromPairs(elements)
 
-  const flex = dollarAmountToInteger(namedValues.flex)
-  const ole = dollarAmountToInteger(namedValues.ole)
-  const print = dollarAmountToInteger(namedValues.print)
+  const schillers = dollarAmountToInteger(namedValues.schillers)
+  const dining = dollarAmountToInteger(namedValues.dining)
   const daily = namedValues.daily
   const weekly = namedValues.weekly
 
   return {
     error: false,
     value: {
-      flex: isNil(flex) ? null : flex,
-      ole: isNil(ole) ? null : ole,
-      print: isNil(print) ? null : print,
+      schillers: isNil(schillers) ? null : schillers,
+      dining: isNil(dining) ? null : dining,
       daily: isNil(daily) ? null : daily,
       weekly: isNil(weekly) ? null : weekly,
     },
@@ -96,9 +92,8 @@ function parseBalancesFromDom(dom: mixed): BalancesOrErrorType {
 }
 
 const lookupHash: Map<RegExp, string> = new Map([
-  [/sto flex/i, 'flex'],
-  [/ole/i, 'ole'],
-  [/print/i, 'print'],
+  [/schillers/i, 'schillers'],
+  [/dining/i, 'dining'],
   [/meals.*day/i, 'daily'],
   [/meals.*week/i, 'weekly'],
 ])
