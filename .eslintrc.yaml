@@ -25,6 +25,7 @@ globals:
   fetch: true
   FormData: true
   fetchJson: true
+  fetchXml: true
   rawFetch: true
 
 rules:
