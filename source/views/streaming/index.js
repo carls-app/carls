@@ -27,7 +27,7 @@ export default TabNavigator(
         tabBarIcon: TabBarIcon('film'),
       },
     },
-    LiveWebcamsView: {screen: WebcamsView},
+    //LiveWebcamsView: {screen: WebcamsView},
   },
   {
     navigationOptions: {
