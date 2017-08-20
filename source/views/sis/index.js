@@ -20,7 +20,7 @@ export default TabNavigator(
   },
   {
     navigationOptions: {
-      title: 'SIS',
+      title: 'The Hub',
     },
   },
 )
