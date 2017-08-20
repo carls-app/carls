@@ -19,6 +19,7 @@ export async function getBalances(
   const {
     schillers,
     dining,
+    print,
     daily,
     weekly,
     _isExpired,
@@ -29,7 +30,7 @@ export async function getBalances(
     const balances = await fetchBalancesFromServer()
 
     // we don't want to cache error responses
-    if (balances.error || !balances) {
+    if (balances.error) {
       return balances
     }
 
@@ -42,6 +43,7 @@ export async function getBalances(
     value: {
       schillers: schillers.value,
       dining: dining.value,
+      print: print.value,
       daily: daily.value,
       weekly: weekly.value,
     },
@@ -85,6 +87,7 @@ function parseBalancesFromDom(dom: mixed): BalancesOrErrorType {
     value: {
       schillers: isNil(schillers) ? null : schillers,
       dining: isNil(dining) ? null : dining,
+      print: null,
       daily: isNil(daily) ? null : daily,
       weekly: isNil(weekly) ? null : weekly,
     },

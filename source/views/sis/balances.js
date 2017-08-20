@@ -24,19 +24,15 @@ class BalancesView extends React.Component {
   }
 
   props: TopLevelViewPropsType & {
-    flex: ?number,
-    ole: ?number,
+    schillers: ?number,
+    dining: ?number,
     print: ?number,
     weeklyMeals: ?number,
     dailyMeals: ?number,
     credentialsValid: boolean,
     message: ?string,
-
+    loading: boolean,
     updateBalances: boolean => any,
-  }
-
-  state = {
-    loading: false,
   }
 
   fetchData = () => {
