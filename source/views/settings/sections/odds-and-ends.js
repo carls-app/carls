@@ -26,7 +26,7 @@ class OddsAndEndsSection extends React.Component {
   onSnapshotsButton = () => this.onPressButton('SnapshotsView')
   onSourceButton = () =>
     trackedOpenUrl({
-      url: 'https://github.com/StoDevX/AAO-React-Native',
+      url: 'https://github.com/carls-app/carls',
       id: 'ContributingView',
     })
 

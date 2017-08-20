@@ -11,7 +11,7 @@ import {ContactCard} from './card'
 import {data} from './data'
 import type {CardType} from './types'
 
-const AAO_URL = 'https://github.com/StoDevX/AAO-React-Native/issues/new'
+const AAO_URL = 'https://github.com/carls-app/carls/issues/new'
 
 const styles = StyleSheet.create({
   list: {
