@@ -48,8 +48,14 @@ class BalancesView extends React.Component {
   }
 
   render() {
-    let {flex, ole, print, dailyMeals, weeklyMeals} = this.props
-    let {loading} = this.state
+    const {
+      schillers,
+      dining,
+      print,
+      dailyMeals,
+      weeklyMeals,
+      loading,
+    } = this.props
 
     return (
       <ScrollView
@@ -62,26 +68,26 @@ class BalancesView extends React.Component {
           <Section header="BALANCES">
             <View style={styles.balancesRow}>
               <FormattedValueCell
-                label="Flex"
-                value={flex}
+                label="Schillers"
+                value={schillers}
                 indeterminate={loading}
                 formatter={getFormattedCurrency}
               />
 
               <FormattedValueCell
-                label="Ole"
-                value={ole}
+                label="Dining"
+                value={dining}
                 indeterminate={loading}
                 formatter={getFormattedCurrency}
               />
 
-              <FormattedValueCell
+              {/*<FormattedValueCell
                 label="Copy/Print"
                 value={print}
                 indeterminate={loading}
                 formatter={getFormattedCurrency}
                 style={styles.finalCell}
-              />
+              />*/}
             </View>
           </Section>
 
@@ -128,12 +134,13 @@ class BalancesView extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    flex: state.sis.balances.flex,
-    ole: state.sis.balances.ole,
+    schillers: state.sis.balances.schillers,
+    dining: state.sis.balances.dining,
     print: state.sis.balances.print,
     weeklyMeals: state.sis.balances.weekly,
     dailyMeals: state.sis.balances.daily,
     message: state.sis.balances.message,
+    loading: state.sis.balances.loading,
 
     credentialsValid: state.settings.credentials.valid,
   }
