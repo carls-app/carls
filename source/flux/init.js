@@ -5,7 +5,7 @@
 
 import {NetInfo} from 'react-native'
 import {loadLoginCredentials} from '../lib/login'
-import {updateOnlineStatus} from './parts/app'
+import {updateOnlineStatus, tick} from './parts/app'
 import {loadHomescreenOrder} from './parts/homescreen'
 import {
   setLoginCredentials,
@@ -20,6 +20,10 @@ function homescreen(store) {
 
 function feedbackOptOutStatus(store) {
   store.dispatch(loadFeedbackStatus())
+}
+
+function tickTock(store) {
+  return setInterval(() => store.dispatch(tick()), 10000)
 }
 
 function loginCredentials(store) {
@@ -61,6 +65,7 @@ export async function init(store: {dispatch: any}) {
   homescreen(store)
   feedbackOptOutStatus(store)
   loginCredentials(store)
+  tickTock(store)
 
   // wait for our first connection check to happen
   await netInfoIsConnected(store)
