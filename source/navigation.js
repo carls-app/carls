@@ -34,7 +34,7 @@ import HelpView from './views/help'
 
 const styles = StyleSheet.create({
   header: {
-    backgroundColor: c.olevilleGold,
+    backgroundColor: c.carletonBlue,
   },
   card: {
     ...Platform.select({
