@@ -10,6 +10,7 @@ import reduxThunk from 'redux-thunk'
 import {init} from './init'
 
 import {app} from './parts/app'
+import {bus} from './parts/bus'
 import {homescreen} from './parts/homescreen'
 import {menus} from './parts/menus'
 import {settings} from './parts/settings'
@@ -18,6 +19,7 @@ import {sis} from './parts/sis'
 export function aao(state: Object = {}, action: Object) {
   return {
     app: app(state.app, action),
+    bus: bus(state.bus, action),
     homescreen: homescreen(state.homescreen, action),
     menus: menus(state.menus, action),
     settings: settings(state.settings, action),
