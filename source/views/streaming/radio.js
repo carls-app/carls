@@ -50,7 +50,6 @@ const Logo = () =>
 
 class PlayPauseButton extends React.PureComponent {
   props: {
-    paused: boolean,
     onPress: () => any,
   }
 
