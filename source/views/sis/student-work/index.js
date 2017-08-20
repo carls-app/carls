@@ -27,7 +27,8 @@ const styles = StyleSheet.create({
   },
 })
 
-const fetchJobs = (): Array<ThinJobType> => fetchXml(jobsUrl).then(resp => resp.rss.channel.item)
+const fetchJobs = (): Array<ThinJobType> =>
+  fetchXml(jobsUrl).then(resp => resp.rss.channel.item)
 
 export default class StudentWorkView extends React.PureComponent {
   static navigationOptions = {
@@ -103,9 +104,7 @@ export default class StudentWorkView extends React.PureComponent {
     return (
       <FlatList
         ItemSeparatorComponent={ListSeparator}
-        ListEmptyComponent={
-          <NoticeView text="There are no job postings." />
-        }
+        ListEmptyComponent={<NoticeView text="There are no job postings." />}
         keyExtractor={this.keyExtractor}
         style={styles.listContainer}
         data={this.state.jobs}

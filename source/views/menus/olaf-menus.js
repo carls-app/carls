@@ -63,7 +63,7 @@ OlafPauseMenuScreen.navigationOptions = {
   tabBarIcon: TabBarIcon('menu'),
 }
 
-type OleCafeShape = {id: string, title: string};
+type OleCafeShape = {id: string, title: string}
 const olafCafes = [
   {id: 'CarletonBurtonMenuView', title: 'Burton'},
   {id: 'CarletonLDCMenuView', title: 'LDC'},
