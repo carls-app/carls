@@ -1,0 +1,29 @@
+name: Burton
+image: burton
+category: Food
+
+schedule:
+  - title: Breakfast
+    hours:
+      - {days: [Mo, Tu, We, Th, Fr], from: '7:30am', to: '10:00am'}
+
+  - title: Brunch
+    hours:
+      - {days: [Sa, Su], from: '11:30am', to: '1:00pm'}
+
+  - title: Lunch
+    hours:
+      - {days: [Mo, Tu, We, Th, Fr], from: '11:30am', to: '1:30pm'}
+
+  - title: Dinner
+    hours:
+      - {days: [Mo, Tu, We, Th, Fr, Sa, Su], from: '5:45pm', to: '8:00pm'}
+
+breakSchedule:
+  fall: []
+  thanksgiving: []
+  winter: []
+  interim: []
+  spring: []
+  easter: []
+  summer: []

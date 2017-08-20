@@ -1,10 +1,11 @@
-name: Registrar
-category: Offices
+name: Gender and Sexuality Center
+image: gsc
+category: Student Life & Support
 
 schedule:
   - title: Hours
     hours:
-      - {days: [Mo, Tu, We, Th, Fr], from: '8:00am', to: '5:00pm'}
+      - {days: [Mo, Tu, We, Th, Fr], from: '9:00am', to: '5:00pm'}
 
 breakSchedule:
   fall: []

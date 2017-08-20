@@ -1,10 +1,11 @@
-name: Registrar
-category: Offices
+name: West Gym
+category: Gym
+image: west-gym
 
 schedule:
   - title: Hours
-    hours:
-      - {days: [Mo, Tu, We, Th, Fr], from: '8:00am', to: '5:00pm'}
+    notes: Closed for the summer.
+    hours: []
 
 breakSchedule:
   fall: []

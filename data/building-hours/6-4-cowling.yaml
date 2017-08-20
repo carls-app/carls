@@ -1,10 +1,12 @@
-name: Registrar
-category: Offices
+name: Cowling Gym
+subtitle: Potato Chip Gym
+category: Gym
+image: cowling
 
 schedule:
   - title: Hours
-    hours:
-      - {days: [Mo, Tu, We, Th, Fr], from: '8:00am', to: '5:00pm'}
+    notes: Closed for the summer.
+    hours: []
 
 breakSchedule:
   fall: []

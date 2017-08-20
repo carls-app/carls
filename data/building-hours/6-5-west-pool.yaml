@@ -1,10 +1,11 @@
-name: Registrar
-category: Offices
+name: West Pool
+category: Gym
+image: west-pool
 
 schedule:
   - title: Hours
-    hours:
-      - {days: [Mo, Tu, We, Th, Fr], from: '8:00am', to: '5:00pm'}
+    notes: Closed for the summer.
+    hours: []
 
 breakSchedule:
   fall: []

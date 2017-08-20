@@ -1,0 +1,31 @@
+name: Sayles Café
+image: sayles
+category: Food
+
+schedule:
+  - title: Hours
+    hours:
+      - {days: [Mo, Tu, We, Th], from: '8:00am', to: '8:00pm'}
+      - {days: [Fr], from: '8:00am', to: '8:00pm'}
+      - {days: [Sa], from: '9:00am', to: '8:00pm'}
+      - {days: [Su], from: '12:00pm', to: '8:00pm'}
+
+  - title: Late Night
+    hours:
+      - {days: [Mo, Tu, We, Th], from: '8:00pm', to: '12:00am'}
+      - {days: [Fr], from: '8:00pm', to: '1:00am'}
+      - {days: [Sa], from: '8:00pm', to: '1:00am'}
+      - {days: [Su], from: '8:00pm', to: '12:00am'}
+
+  - title: Tacqueria
+    hours:
+      - {days: [Mo, Tu, We, Th, Fr], from: '10:00am', to: '4:00pm'}
+
+breakSchedule:
+  fall: []
+  thanksgiving: []
+  winter: []
+  interim: []
+  spring: []
+  easter: []
+  summer: []

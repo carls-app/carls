@@ -1,10 +1,11 @@
-name: Registrar
-category: Offices
+name: Goodsell Observatory
+image: goodsell
+category: Academia
 
 schedule:
   - title: Hours
-    hours:
-      - {days: [Mo, Tu, We, Th, Fr], from: '8:00am', to: '5:00pm'}
+    notes: Unknown hours
+    hours: []
 
 breakSchedule:
   fall: []

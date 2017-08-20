@@ -1,0 +1,19 @@
+name: SHAC
+subtitle: Student Health and Counseling
+image: shac
+category: Student Life & Support
+
+schedule:
+  - title: Hours
+    hours:
+      - {days: [Mo], from: '9:00am', to: '8:00pm'}
+      - {days: [Tu, We, Th, Fr], from: '9:00am', to: '6:00pm'}
+
+breakSchedule:
+  fall: []
+  thanksgiving: []
+  winter: []
+  interim: []
+  spring: []
+  easter: []
+  summer: []

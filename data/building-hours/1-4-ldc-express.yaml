@@ -1,0 +1,18 @@
+name: LDC Express Lunch
+image: ldc-express
+category: Food
+
+schedule:
+  - title: Hours
+    hours:
+      - {days: [Mo, Tu, We, Th, Fr], from: '7:30am', to: '10:00am'}
+      - {days: [Mo, Tu, We, Th, Fr], from: '11:30am', to: '2:00pm'}
+
+breakSchedule:
+  fall: []
+  thanksgiving: []
+  winter: []
+  interim: []
+  spring: []
+  easter: []
+  summer: []

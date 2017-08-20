@@ -1,0 +1,17 @@
+name: PEPS
+subtitle: Presentation, Events, and Production Support
+category: Help and Support
+
+schedule:
+  - title: Hours
+    hours:
+      - {days: [Mo, Tu, We, Th, Fr], from: '8:00pm', to: '5:00pm'}
+
+breakSchedule:
+  fall: []
+  thanksgiving: []
+  winter: []
+  interim: []
+  spring: []
+  easter: []
+  summer: []

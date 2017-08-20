@@ -1,10 +1,11 @@
-name: Registrar
-category: Offices
+name: Weitz Café
+image: weitz
+category: Food
 
 schedule:
   - title: Hours
     hours:
-      - {days: [Mo, Tu, We, Th, Fr], from: '8:00am', to: '5:00pm'}
+      - {days: [Mo, Tu, We, Th, Fr], from: '8:00am', to: '7:00pm'}
 
 breakSchedule:
   fall: []

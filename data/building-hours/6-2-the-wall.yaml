@@ -1,10 +1,10 @@
-name: Registrar
-category: Offices
+name: The Wall
+category: Gym
 
 schedule:
   - title: Hours
-    hours:
-      - {days: [Mo, Tu, We, Th, Fr], from: '8:00am', to: '5:00pm'}
+    notes: Closed for the summer.
+    hours: []
 
 breakSchedule:
   fall: []

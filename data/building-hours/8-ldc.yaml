@@ -1,10 +1,12 @@
-name: Registrar
-category: Offices
+name: LDC
+subtitle: Language and Dining Center
+image: ldc
+category: Academia
 
 schedule:
   - title: Hours
-    hours:
-      - {days: [Mo, Tu, We, Th, Fr], from: '8:00am', to: '5:00pm'}
+    notes: Unknown hours
+    hours: []
 
 breakSchedule:
   fall: []

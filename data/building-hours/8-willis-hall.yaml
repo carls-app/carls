@@ -1,10 +1,11 @@
-name: Registrar
-category: Offices
+name: Willis Hall
+image: willis-hall
+category: Academia
 
 schedule:
   - title: Hours
-    hours:
-      - {days: [Mo, Tu, We, Th, Fr], from: '8:00am', to: '5:00pm'}
+    notes: Unknown hours
+    hours: []
 
 breakSchedule:
   fall: []
