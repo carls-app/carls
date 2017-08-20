@@ -50,7 +50,7 @@ export class BuildingHoursView extends React.Component {
   }
 
   componentWillMount() {
-    this.fetchData()
+    // this.fetchData()
 
     // This updates the screen every ten seconds, so that the building
     // info statuses are updated without needing to leave and come back.
@@ -101,8 +101,8 @@ export class BuildingHoursView extends React.Component {
         navigation={this.props.navigation}
         buildings={this.state.buildings}
         now={this.state.now}
-        onRefresh={this.fetchData}
-        loading={this.state.loading}
+        // onRefresh={this.fetchData}
+        // loading={this.state.loading}
       />
     )
   }
