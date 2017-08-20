@@ -6,5 +6,6 @@ properties:
   title: {type: string}
   phoneNumber: {$ref: '_defs.json#/definitions/phone'}
   buttonText: {type: string}
+  buttonLink: {type: string}
   image: {type: string}
   text: {type: string}

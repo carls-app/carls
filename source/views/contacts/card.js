@@ -9,6 +9,7 @@ import type {CardType} from './types'
 import {Markdown} from '../components/markdown'
 import glamorous from 'glamorous-native'
 import * as c from '../components/colors'
+import openUrl from '../components/open-url'
 
 const Title = glamorous.text({
   fontSize: 30,
@@ -38,9 +39,13 @@ export class ContactCard extends React.PureComponent {
   props: CardType
 
   onPress = () => {
-    const {title, phoneNumber, buttonText} = this.props
+    const {title, phoneNumber, buttonText, buttonLink} = this.props
     tracker.trackScreenView(`ImportantContacts_${title.replace(' ', '')}View`)
-    promptCall(buttonText, phoneNumber)
+    if (buttonLink) {
+      openUrl(buttonLink)
+    } else {
+      promptCall(buttonText, phoneNumber)
+    }
   }
 
   render() {
