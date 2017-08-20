@@ -126,7 +126,7 @@ class BalancesView extends React.Component {
                 {!this.props.credentialsValid
                   ? <Cell
                       cellStyle="Basic"
-                      title="Log in with St. Olaf"
+                      title="Log in with Carleton"
                       accessory="DisclosureIndicator"
                       onPress={this.openSettings}
                     />
