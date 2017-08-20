@@ -41,10 +41,7 @@ export default class ContactView extends React.PureComponent {
         ItemSeparatorComponent={ContactsSeparator}
         ListEmptyComponent={<ListEmpty mode="bug" />}
         ListFooterComponent={
-          <ListFooter
-            title="Collected by the humans of All About Olaf"
-            href={AAO_URL}
-          />
+          <ListFooter title="Collected by the humans of CARLS" href={AAO_URL} />
         }
         style={styles.list}
         data={data}
