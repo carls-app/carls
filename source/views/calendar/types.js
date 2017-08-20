@@ -12,7 +12,60 @@ export type GoogleEventType = {
   location?: string,
 }
 
-type EmbeddedEventDetailType = {type: 'google', data: GoogleEventType}
+type ReasonStringBoolean = '0' | '1'
+export type ReasonEventType = {
+  address: ?string,
+  author: string,
+  calendar_record: number,
+  contact_organization: string,
+  contact_username: string,
+  content: string,
+  created_by: string,
+  creation_date: string,
+  dates: string[],
+  datetime: string,
+  description: string,
+  end_date: string,
+  frequency: ?number,
+  friday: boolean,
+  geopoint: string,
+  hours: ?number,
+  id: number,
+  keywords: string,
+  language: ?string,
+  last_edited_by: string,
+  last_modified: string,
+  last_occurence: string,
+  latitude: ?string,
+  location: string,
+  longitude: ?string,
+  minutes: ?number,
+  monday: boolean,
+  month_day_of_week: ?string,
+  monthly_repeat: ?string,
+  name: string,
+  new: ReasonStringBoolean,
+  no_share: ReasonStringBoolean,
+  recurrence: string,
+  registration: string,
+  saturday: boolean,
+  show_hide: 'show' | 'hide',
+  sponsor: string,
+  state: string,
+  sunday: boolean,
+  term_only: boolean,
+  thursday: boolean,
+  tuesday: boolean,
+  type: string,
+  unique_name: string,
+  url: string,
+  wednesday: boolean,
+  week_of_month: ?string,
+}
+
+type EmbeddedEventDetailType =
+  | {type: 'google', data: GoogleEventType}
+  | {type: 'reason', data: ReasonEventType}
 
 export type EventType = {
   summary: string,
