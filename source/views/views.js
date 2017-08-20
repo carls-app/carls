@@ -81,7 +81,7 @@ export const allViews: ViewType[] = [
   },
   {
     type: 'url',
-    url: 'https://www.myatlascms.com/map/index.php?id=294',
+    url: 'https://apps.carleton.edu/map/',
     view: 'MapView',
     title: 'Campus Map',
     icon: 'map',
