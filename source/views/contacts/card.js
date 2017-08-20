@@ -13,6 +13,7 @@ import * as c from '../components/colors'
 const Title = glamorous.text({
   fontSize: 30,
   alignSelf: 'center',
+  textAlign: 'center',
   marginTop: 10,
 })
 
