@@ -31,9 +31,9 @@ export default class ContactView extends React.PureComponent {
     headerBackTitle: 'Contacts',
   }
 
-  keyExtractor = (item: CardType) => {
-    return item.title
-  }
+  keyExtractor = (item: CardType) => item.title
+
+  renderItem = ({item}: {item: CardType}) => <ContactCard {...item} />
 
   render() {
     return (
@@ -46,13 +46,7 @@ export default class ContactView extends React.PureComponent {
         style={styles.list}
         data={data}
         keyExtractor={this.keyExtractor}
-        renderItem={({item}: {item: CardType}) =>
-          <ContactCard
-            title={item.title}
-            text={item.text}
-            phoneNumber={item.phoneNumber}
-            buttonText={item.buttonText}
-          />}
+        renderItem={this.renderItem}
       />
     )
   }
