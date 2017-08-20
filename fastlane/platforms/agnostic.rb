@@ -1,6 +1,6 @@
 desc 'clone the match repo'
 private_lane :clone_match do
-  git_url = 'https://github.com/hawkrives/aao-keys'
+  git_url = 'https://github.com/hawkrives/carls-keys'
   dir = Dir.mktmpdir
   command = "git clone --depth 1 '#{git_url}' '#{dir}'"
 

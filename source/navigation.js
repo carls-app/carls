@@ -14,7 +14,7 @@ import {FilterView} from './views/components/filter'
 import NewsView from './views/news'
 import NewsItemView from './views/news/news-item'
 import SISView from './views/sis'
-import JobDetailView from './views/sis/student-work/detail'
+// import JobDetailView from './views/sis/student-work/detail'
 import {
   BuildingHoursView,
   BuildingHoursDetailView,
@@ -68,7 +68,7 @@ export const AppNavigator = StackNavigator(
     FaqView: {screen: FaqView},
     FilterView: {screen: FilterView},
     HelpView: {screen: HelpView},
-    JobDetailView: {screen: JobDetailView},
+    // JobDetailView: {screen: JobDetailView},
     LegalView: {screen: LegalView},
     MenusView: {screen: MenusView},
     NewsItemView: {screen: NewsItemView},

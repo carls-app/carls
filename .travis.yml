@@ -25,29 +25,29 @@ matrix:
       node_js: '8'
       env: [JS=yes, CAN_DEPLOY=yes]
 
-    - &android-base
-      os: linux
-      dist: precise
-      sudo: required
-      language: android
-      jdk: oraclejdk8
-      env: [ANDROID=yes, CAN_DEPLOY=yes]
-      android:
-        components:
-          - tools
-          - platform-tools
-          - build-tools-23.0.1
-          - build-tools-23.0.2
-          - build-tools-25.0.1
-          - build-tools-23.0.3
-          - build-tools-25.0.2
-          - build-tools-25.0.3
-          - build-tools-26.0.1
-          - android-23
-          - android-25
-          - android-26
-          - extra-android-m2repository
-          - extra-google-m2repository
+    # - &android-base
+    #   os: linux
+    #   dist: precise
+    #   sudo: required
+    #   language: android
+    #   jdk: oraclejdk8
+    #   env: [ANDROID=yes, CAN_DEPLOY=yes]
+    #   android:
+    #     components:
+    #       - tools
+    #       - platform-tools
+    #       - build-tools-23.0.1
+    #       - build-tools-23.0.2
+    #       - build-tools-25.0.1
+    #       - build-tools-23.0.3
+    #       - build-tools-25.0.2
+    #       - build-tools-25.0.3
+    #       - build-tools-26.0.1
+    #       - android-23
+    #       - android-25
+    #       - android-26
+    #       - extra-android-m2repository
+    #       - extra-google-m2repository
 
     # - <<: *android-base
     #   env: [ANDROID=yes, USE_EMULATOR=yes]

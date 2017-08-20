@@ -47,6 +47,7 @@ class BalancesView extends React.Component {
     const {
       schillers,
       dining,
+      // eslint-disable-next-line no-unused-vars
       print,
       dailyMeals,
       weeklyMeals,
