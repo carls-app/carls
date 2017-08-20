@@ -27,7 +27,7 @@ export default class KSTOView extends React.PureComponent {
     tabBarIcon: TabBarIcon('radio'),
   }
 
-  changeControl = () => {
+  openWebsite = () => {
     trackedOpenUrl({url: 'http://live.krlx.org', id: 'krlx-stream'})
   }
 
@@ -35,37 +35,27 @@ export default class KSTOView extends React.PureComponent {
     return (
       <ScrollView>
         <View style={styles.container}>
-          <Logo />
-          <PlayPauseButton onPress={this.changeControl} />
+          <View style={styles.wrapper}>
+            <Image source={image} style={styles.logo} />
+          </View>
+          <Touchable
+            style={buttonStyles.button}
+            hightlight={false}
+            onPress={this.openWebsite}
+          >
+            <View style={buttonStyles.buttonWrapper}>
+              <Icon style={buttonStyles.icon} name="ios-play" />
+              <Text style={buttonStyles.action}>Listen to KRLX</Text>
+            </View>
+          </Touchable>
+          <Text selectable={true} style={styles.subheading}>
+            88.1 KRLX-FM is the radio station at Carleton College.
+            Independent and completely student-run since its origin
+            in 1948, KRLX broadcasts 24 hours a day during the academic
+            year, with over 200 student participants each term.
+          </Text>
         </View>
       </ScrollView>
-    )
-  }
-}
-
-const Logo = () =>
-  <View style={styles.wrapper}>
-    <Image source={image} style={styles.logo} />
-  </View>
-
-class PlayPauseButton extends React.PureComponent {
-  props: {
-    onPress: () => any,
-  }
-
-  render() {
-    const {onPress} = this.props
-    return (
-      <Touchable
-        style={buttonStyles.button}
-        hightlight={false}
-        onPress={onPress}
-      >
-        <View style={buttonStyles.buttonWrapper}>
-          <Icon style={buttonStyles.icon} name="ios-play" />
-          <Text style={buttonStyles.action}>Listen</Text>
-        </View>
-      </Touchable>
     )
   }
 }
@@ -81,6 +71,9 @@ const styles = StyleSheet.create({
   logo: {
     maxWidth: viewport.width / 1.2,
     maxHeight: viewport.height / 2.0,
+  },
+  subheading: {
+    marginTop: 5,
   },
 })
 
