@@ -27,11 +27,19 @@ export function aao(state: Object = {}, action: Object) {
   }
 }
 
-const logger = createLogger({collapsed: () => true})
-const store = createStore(
-  aao,
-  applyMiddleware(reduxPromise, reduxThunk, logger),
-)
+let store
+if (process.env.NODE_ENV === 'production') {
+  store = createStore(aao, applyMiddleware(reduxPromise, reduxThunk))
+} else {
+  store = createStore(
+    aao,
+    applyMiddleware(
+      reduxPromise,
+      reduxThunk,
+      createLogger({collapsed: () => true}),
+    ),
+  )
+}
 
 init(store)
 
