@@ -9,11 +9,49 @@ import {TabNavigator} from '../components/tabbed-view'
 import {TabBarIcon} from '../components/tabbar-icon'
 
 import {GoogleCalendarView} from './calendar-google'
+import {ReasonCalendarView} from './calendar-reason'
 
 export {EventDetail} from './event-detail'
 
 export default TabNavigator(
   {
+    CarletonCalendarView: {
+      screen: ({navigation}) =>
+        <ReasonCalendarView
+          navigation={navigation}
+          calendarUrl="https://apps.carleton.edu/calendar/"
+        />,
+      navigationOptions: {
+        tabBarLabel: 'Carleton',
+        tabBarIcon: TabBarIcon('school'),
+      },
+    },
+
+    StudentsCalendarView: {
+      screen: ({navigation}) =>
+        <ReasonCalendarView
+          navigation={navigation}
+          calendarUrl="https://apps.carleton.edu/calendar/"
+          calendarProps={{audience: 256908}}
+        />,
+      navigationOptions: {
+        tabBarLabel: 'Students',
+        tabBarIcon: TabBarIcon('calendar'),
+      },
+    },
+
+    TheCaveCalendarView: {
+      screen: ({navigation}) =>
+        <ReasonCalendarView
+          navigation={navigation}
+          calendarUrl="https://apps.carleton.edu/student/orgs/cave/calendar/"
+        />,
+      navigationOptions: {
+        tabBarLabel: 'The Cave',
+        tabBarIcon: TabBarIcon('beer'),
+      },
+    },
+
     StOlafCalendarView: {
       screen: ({navigation}) =>
         <GoogleCalendarView
@@ -23,18 +61,6 @@ export default TabNavigator(
       navigationOptions: {
         tabBarLabel: 'St. Olaf',
         tabBarIcon: TabBarIcon('school'),
-      },
-    },
-
-    OlevilleCalendarView: {
-      screen: ({navigation}) =>
-        <GoogleCalendarView
-          navigation={navigation}
-          calendarId="stolaf.edu_fvulqo4larnslel75740vglvko@group.calendar.google.com"
-        />,
-      navigationOptions: {
-        tabBarLabel: 'Oleville',
-        tabBarIcon: TabBarIcon('happy'),
       },
     },
 
