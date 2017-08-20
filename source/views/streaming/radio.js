@@ -19,7 +19,7 @@ import {Touchable} from '../components/touchable'
 import {TabBarIcon} from '../components/tabbar-icon'
 import {trackedOpenUrl} from '../components/open-url'
 
-const image = require('../../../images/streaming/ksto/ksto-logo.png')
+const image = require('../../../images/streaming/krlx.png')
 
 export default class KSTOView extends React.PureComponent {
   static navigationOptions = {
