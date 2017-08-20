@@ -18,7 +18,7 @@ before_all do
   ENV['FL_GRADLE_PROJECT_DIR'] = './android'
 
   # set up other global shared values
-  lane_context[:PRETTY_APP_NAME] = 'All About Olaf'
+  lane_context[:PRETTY_APP_NAME] = 'CARLS'
 
   lane_context[:GRADLE_FILE] = "#{ENV['FL_GRADLE_PROJECT_DIR']}/app/build.gradle"
 
