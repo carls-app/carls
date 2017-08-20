@@ -1,4 +1,4 @@
-package com.allaboutolaf;
+package com.carls;
 
 import com.facebook.react.ReactActivity;
 import com.bugsnag.BugsnagReactNative;
