@@ -22,10 +22,11 @@ export class XyzBusList extends React.PureComponent {
     routes: Array<XyzBusLine>,
     loading: boolean,
     error: ?Error,
+    navigation: {navigate: any => any},
   }
 
   renderItem = ({item}: {item: XyzBusLine}) =>
-    <XyzBusListRow item={item} navigation={this.props.navigation} />
+    <XyzBusListRow item={item} navigate={this.props.navigation.navigate} />
 
   keyExtractor = (item: XyzBusLine) => item.name
 
@@ -42,12 +43,10 @@ export class XyzBusList extends React.PureComponent {
 }
 
 class XyzBusListRow extends React.PureComponent {
-  props: {item: XyzBusLine}
+  props: {item: XyzBusLine, navigate: any => any}
 
   onPress = () =>
-    this.props.navigation.navigate('XyzBusView', {
-      routeName: this.props.item.name,
-    })
+    this.props.navigate('XyzBusView', {routeName: this.props.item.name})
 
   render() {
     const {item} = this.props
