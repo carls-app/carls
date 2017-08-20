@@ -12,7 +12,6 @@ import {Cell, TableView, Section} from 'react-native-tableview-simple'
 
 import {updateBalances} from '../../flux/parts/sis'
 
-import delay from 'delay'
 import isNil from 'lodash/isNil'
 import * as c from '../components/colors'
 
@@ -40,21 +39,8 @@ class BalancesView extends React.Component {
     loading: false,
   }
 
-  refresh = async () => {
-    let start = Date.now()
-    this.setState({loading: true})
-
-    await this.fetchData()
-
-    // wait 0.5 seconds – if we let it go at normal speed, it feels broken.
-    let elapsed = start - Date.now()
-    await delay(500 - elapsed)
-
-    this.setState({loading: false})
-  }
-
-  fetchData = async () => {
-    await Promise.all([this.props.updateBalances(true)])
+  fetchData = () => {
+    return this.props.updateBalances(true)
   }
 
   openSettings = () => {
@@ -69,10 +55,7 @@ class BalancesView extends React.Component {
       <ScrollView
         contentContainerStyle={styles.stage}
         refreshControl={
-          <RefreshControl
-            refreshing={this.state.loading}
-            onRefresh={this.refresh}
-          />
+          <RefreshControl refreshing={loading} onRefresh={this.fetchData} />
         }
       >
         <TableView>
