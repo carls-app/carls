@@ -7,7 +7,7 @@ import {text} from '../../../docs/faqs.json'
 import {tracker} from '../../analytics'
 import bugsnag from '../../bugsnag'
 
-const faqsUrl = 'https://stodevx.github.io/AAO-React-Native/faqs.json'
+const faqsUrl = 'https://carls-app.github.io/carls/faqs.json'
 
 export class FaqView extends React.PureComponent {
   static navigationOptions = {

@@ -13,7 +13,7 @@ export function submitReport(current: BuildingType, suggestion: BuildingType) {
   const body = makeEmailBody(before, after, current.name)
 
   return email(
-    ['allaboutolaf@stolaf.edu'],
+    ['rives@stolaf.edu'],
     [],
     [],
     `[building] Suggestion for ${current.name}`,
@@ -64,7 +64,7 @@ function makeIssueLink(before: string, after: string, title: string): string {
     title: `Building hours update for ${title}`,
     body: makeMarkdownBody(before, after),
   })
-  return `https://github.com/StoDevX/AAO-React-Native/issues/new?${q}`
+  return `https://github.com/carls-app/carls/issues/new?${q}`
 }
 
 function stringifyBuilding(building: BuildingType): string {
