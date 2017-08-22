@@ -27,19 +27,6 @@ export default TabNavigator(
       },
     },
 
-    StudentsCalendarView: {
-      screen: ({navigation}) =>
-        <ReasonCalendarView
-          navigation={navigation}
-          calendarUrl="https://apps.carleton.edu/calendar/"
-          calendarProps={{audience: 256908}}
-        />,
-      navigationOptions: {
-        tabBarLabel: 'Students',
-        tabBarIcon: TabBarIcon('calendar'),
-      },
-    },
-
     TheCaveCalendarView: {
       screen: ({navigation}) =>
         <ReasonCalendarView
