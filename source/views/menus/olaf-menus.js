@@ -65,10 +65,9 @@ OlafPauseMenuScreen.navigationOptions = {
 
 type OleCafeShape = {id: string, title: string}
 const olafCafes = [
-  {id: 'CarletonBurtonMenuView', title: 'Burton'},
-  {id: 'CarletonLDCMenuView', title: 'LDC'},
-  {id: 'CarletonWeitzMenuView', title: 'Weitz Center'},
-  {id: 'CarletonSaylesMenuView', title: 'Sayles Hill'},
+  {id: 'OlafStavMenuView', title: 'Stav Hall'},
+  {id: 'OlafCageMenuView', title: 'The Cage'},
+  {id: 'OlafPauseMenuView', title: 'The Pause'},
 ]
 
 export class OlafCafeIndex extends React.Component {
