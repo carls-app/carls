@@ -5,4 +5,5 @@ export const newsImages = {
   oleville: require('./news/oleville.png'),
   politicole: require('./news/politicole.png'),
   stolaf: require('./news/stolaf.png'),
+  carleton: require('./news/carleton.png'),
 }
