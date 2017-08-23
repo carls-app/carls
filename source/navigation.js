@@ -34,6 +34,7 @@ import {StudentOrgsView, StudentOrgsDetailView} from './views/student-orgs'
 import {FaqView} from './views/faqs'
 // import {SnapshotsView} from './storybook'
 import HelpView from './views/help'
+import {ArchivedConvocationDetailView} from './views/streaming/convocations'
 
 const styles = StyleSheet.create({
   header: {
@@ -54,6 +55,7 @@ const styles = StyleSheet.create({
 export const AppNavigator = StackNavigator(
   {
     HomeView: {screen: HomeView},
+    ArchivedConvocationDetailView: {screen: ArchivedConvocationDetailView},
     BuildingHoursDetailView: {screen: BuildingHoursDetailView},
     BuildingHoursView: {screen: BuildingHoursView},
     BuildingHoursProblemReportView: {screen: BuildingHoursProblemReportView},
