@@ -7,4 +7,5 @@ export const newsImages = {
   stolaf: require('./news/stolaf.png'),
   carleton: require('./news/carleton.png'),
   carletonian: require('./news/carletonian.png'),
+  krlx: require('./streaming/krlx.png'),
 }
