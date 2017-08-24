@@ -2,7 +2,7 @@
 
 import React from 'react'
 import {TabBarIcon} from '../../components/tabbar-icon'
-import {StyleSheet, SectionList, ScrollView} from 'react-native'
+import {StyleSheet, SectionList} from 'react-native'
 import * as c from '../../components/colors'
 import toPairs from 'lodash/toPairs'
 import type {TopLevelViewPropsType} from '../../types'
@@ -15,7 +15,8 @@ import bugsnag from '../../../bugsnag'
 import {tracker} from '../../../analytics'
 import delay from 'delay'
 import LoadingView from '../../components/loading'
-import {ListRow, Detail, Title} from '../../components/list'
+import {ArchivedConvocationRow} from './archived-row'
+import type {RawPodcastEpisode, ParsedPodcastEpisode} from './types'
 
 export class ArchivedConvocationsView extends React.PureComponent {
   static navigationOptions = {
@@ -23,42 +24,7 @@ export class ArchivedConvocationsView extends React.PureComponent {
     tabBarIcon: TabBarIcon('recording'),
   }
 
-  render() {
-    return (
-      <ReasonCalendarView2
-        navigation={this.props.navigation}
-        calendarUrl="https://apps.carleton.edu/events/convocations/"
-      />
-    )
-  }
-}
-
-type PodcastEpisode = {
-  title: string,
-  description: string,
-  pubDate: string,
-  enclosure: {
-    $: {
-      url: string,
-      length: string,
-      type: string,
-    },
-  },
-}
-
-type ParsedPodcastEpisode = {
-  title: string,
-  description: string,
-  pubDate: moment,
-  enclosure: {
-    url: string,
-    length: string,
-    type: string,
-  },
-}
-
-export class ReasonCalendarView2 extends React.Component {
-  props: {calendarUrl: string, calendarProps?: any} & TopLevelViewPropsType
+  props: TopLevelViewPropsType
 
   state: {
     events: ParsedPodcastEpisode[],
@@ -76,17 +42,15 @@ export class ReasonCalendarView2 extends React.Component {
     this.refresh()
   }
 
-  convertEvents(data: PodcastEpisode[]): ParsedPodcastEpisode[] {
-    return data.map(event => {
-      return {
-        ...event,
-        pubDate: moment(event.pubDate),
-        enclosure: event.enclosure ? event.enclosure.$ : null,
-      }
-    })
+  convertEvents(data: RawPodcastEpisode[]): ParsedPodcastEpisode[] {
+    return data.map(event => ({
+      ...event,
+      pubDate: moment(event.pubDate),
+      enclosure: event.enclosure ? event.enclosure.$ : null,
+    }))
   }
 
-  fetch = (url): Array<PodcastEpisode> =>
+  fetch = (url): Array<RawPodcastEpisode> =>
     fetchXml(url).then(resp => resp.rss.channel.item)
 
   getEvents = async () => {
@@ -106,7 +70,9 @@ export class ReasonCalendarView2 extends React.Component {
 
     this.setState(() => ({
       loaded: true,
-      events: this.convertEvents(data),
+      events: this.convertEvents(data)
+        .filter(ep => ep.enclosure && ep.enclosure.type)
+        .filter(ep => ep.enclosure.type.startsWith('video/')),
     }))
   }
 
@@ -153,7 +119,7 @@ export class ReasonCalendarView2 extends React.Component {
     return (
       <SectionList
         ItemSeparatorComponent={ListSeparator}
-        ListEmptyComponent={<NoticeView text="No convocations." />}
+        ListEmptyComponent={<NoticeView text="No convocations found." />}
         style={styles.container}
         sections={this.groupEvents(this.state.events)}
         keyExtractor={this.keyExtractor}
@@ -171,74 +137,4 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: c.white,
   },
-  row: {
-    paddingTop: 5,
-    paddingBottom: 5,
-  },
-  '🎧': {
-    width: 200,
-    height: 100,
-  },
-  '📺': {
-    width: 200,
-    height: 100,
-  },
 })
-
-import Video from 'react-native-video'
-class ArchivedConvocationRow extends React.PureComponent {
-  props: {
-    event: ParsedPodcastEpisode,
-    onPress: ParsedPodcastEpisode => any,
-  }
-
-  _onPress = () => this.props.onPress(this.props.event)
-
-  render() {
-    const {event} = this.props
-
-    let annotation = event.enclosure.type.startsWith('audio/')
-      ? '🎧'
-      : event.enclosure.type.startsWith('video/') ? '📺' : ''
-
-    return (
-      <ListRow
-        contentContainerStyle={styles.row}
-        arrowPosition="center"
-        onPress={this._onPress}
-      >
-        <Title>{annotation} {event.title}</Title>
-        {/*<Detail>{event.pubDate.calendar()}</Detail>*/}
-        <Detail>{event.description}</Detail>
-      </ListRow>
-    )
-  }
-}
-
-export class ArchivedConvocationDetailView extends React.PureComponent {
-  props: {navigation: {state: {params: {event: ParsedPodcastEpisode}}}}
-
-  render() {
-    const {navigation: {state: {params: {event}}}} = this.props
-    const annotation = event.enclosure.type.startsWith('audio/')
-      ? '🎧'
-      : event.enclosure.type.startsWith('video/') ? '📺' : ''
-    const style = styles[annotation]
-    console.warn(event.enclosure.url)
-    return (
-      <ScrollView>
-        <Title>{event.title}</Title>
-
-        {event.enclosure
-          ? <Video
-              source={{uri: event.enclosure.url}}
-              style={style}
-              controls={true}
-              playInBackground={true}
-              playWhenInactive={true}
-            />
-          : ''}
-      </ScrollView>
-    )
-  }
-}
