@@ -40,9 +40,9 @@ export class ReasonCalendarView extends React.Component {
   buildCalendarUrl(calendarUrl: string, calendarProps: any, now: moment) {
     let params = {
       // eslint-disable-next-line camelcase
-      start_date: now.clone().format('yyyy-mm-dd'),
+      start_date: now.clone().format('YYYY-MM-DD'),
       // eslint-disable-next-line camelcase
-      end_date: now.clone().add(1, 'month').format('yyyy-mm-dd'),
+      end_date: now.clone().add(1, 'month').format('YYYY-MM-DD'),
       ...(calendarProps || {}),
       format: 'json',
     }
