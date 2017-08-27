@@ -122,6 +122,14 @@ export const allViews: ViewType[] = [
     tint: c.periwinkle,
     gradient: c.lightBlueToBlueDark,
   },
+  {
+    type: 'view',
+    view: 'ConvocationsView',
+    title: 'Convo',
+    icon: 'globe',
+    tint: c.periwinkle,
+    gradient: c.lightBlueToBlueDark,
+  },
   //   {
   //     type: 'view',
   //     view: 'HelpView',
