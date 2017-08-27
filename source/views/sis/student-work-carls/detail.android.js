@@ -88,8 +88,7 @@ function Description({job}: {job: JobType}) {
     : null
 }
 
-function Links({job}: {job: JobType}) {
-  const links = [...getUrls(job.description)]
+function Links({links}: {links: string}) {
   return links.length
     ? <Card header="LINKS" style={styles.card}>
         {links.map(url =>
@@ -114,7 +113,7 @@ export class JobDetailView extends React.PureComponent {
         <Title job={job} />
         <Information job={job} />
         <Description job={job} />
-        <Links job={job} />
+        <Links links={job.links} />
       </ScrollView>
     )
   }

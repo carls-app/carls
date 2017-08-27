@@ -4,7 +4,6 @@ import {ScrollView} from 'react-native'
 import {Cell, Section, TableView} from 'react-native-tableview-simple'
 import openUrl from '../../components/open-url'
 import type {FullJobType} from './types'
-import getUrls from 'get-urls'
 import {SelectableCell} from './selectable'
 
 function Title({job}: {job: FullJobType}) {
@@ -58,11 +57,10 @@ function Description({text}: {text: string}) {
   )
 }
 
-function Links({text}: {text: string}) {
-  const links = getUrls(text)
-  return links.size()
+function Links({links}: {links: string}) {
+  return links.length
     ? <Section header="LINKS">
-        {Array.from(links).map(url =>
+        {links.map(url =>
           <Cell
             key={url}
             title={url}
@@ -88,7 +86,7 @@ export class JobDetailView extends React.PureComponent {
           <Title job={job} />
           <Information job={job} />
           <Description text={job.description} />
-          <Links text={job.description} />
+          <Links links={job.links} />
         </TableView>
       </ScrollView>
     )
