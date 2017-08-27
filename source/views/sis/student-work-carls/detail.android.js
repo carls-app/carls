@@ -39,10 +39,12 @@ const styles = StyleSheet.create({
 })
 
 function Title({job}: {job: JobType}) {
-  return <View>
-        <Text style={styles.name}>{job.title}</Text>
-        <Text style={styles.subtitle}>{job.offCampus ? 'Off-Campus' : ''}</Text>
-      </View>
+  return (
+    <View>
+      <Text style={styles.name}>{job.title}</Text>
+      <Text style={styles.subtitle}>{job.offCampus ? 'Off-Campus' : ''}</Text>
+    </View>
+  )
 }
 
 function Information({job}: {job: FullJobType}) {
