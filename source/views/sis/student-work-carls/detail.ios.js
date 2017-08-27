@@ -59,7 +59,7 @@ function Description({job}: {job: FullJobType}) {
 }
 
 function Links({job}: {job: FullJobType}) {
-  const links = Array.from(getUrls(job))
+  const links = Array.from(getUrls(job).values())
   return links.length
     ? <Section header="LINKS">
         {links.map(url =>
