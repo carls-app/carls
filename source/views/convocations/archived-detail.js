@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react'
-import Video from 'react-native-video'
+// import Video from 'react-native-video'
 import {StyleSheet, WebView, ScrollView} from 'react-native'
 // import * as c from '../components/colors'
 import {Title} from '../components/list'
