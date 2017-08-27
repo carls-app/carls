@@ -21,7 +21,7 @@ export default TabNavigator(
           mode="rss"
           url="https://apps.carleton.edu/media_relations/feeds/blogs/news"
           name="Carleton"
-          thumbnail={newsImages.stolaf}
+          thumbnail={newsImages.carleton}
         />,
       navigationOptions: {
         tabBarLabel: 'Carleton',
@@ -37,7 +37,7 @@ export default TabNavigator(
           url="https://apps.carleton.edu/carletonian/feeds/blogs/tonian"
           embedFeaturedImage={true}
           name="The Carletonian"
-          thumbnail={newsImages.oleville}
+          thumbnail={newsImages.carletonian}
         />,
       navigationOptions: {
         tabBarLabel: 'Carletonian',
@@ -53,7 +53,7 @@ export default TabNavigator(
           url="https://www.krlx.org/wp-json/wp/v2/posts/"
           query={{per_page: 10, _embed: true}}
           name="KRLX"
-          thumbnail={newsImages.mess}
+          thumbnail={newsImages.krlx}
         />,
       navigationOptions: {
         tabBarLabel: 'KRLX',

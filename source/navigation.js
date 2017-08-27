@@ -5,7 +5,7 @@ import {StackNavigator} from 'react-navigation'
 import * as c from './views/components/colors'
 
 import CalendarView, {EventDetail as EventDetailView} from './views/calendar'
-import {ContactsView} from './views/contacts'
+import {ContactsView, ContactsDetailView} from './views/contacts'
 import {DictionaryView, DictionaryDetailView} from './views/dictionary'
 import {HomeView, EditHomeView} from './views/home'
 import StreamingView from './views/streaming'
@@ -66,6 +66,7 @@ export const AppNavigator = StackNavigator(
     CalendarView: {screen: CalendarView},
     ContactsView: {screen: ContactsView},
     ConvocationsView: {screen: ConvocationsView},
+    ContactsDetailView: {screen: ContactsDetailView},
     CreditsView: {screen: CreditsView},
     DictionaryDetailView: {screen: DictionaryDetailView},
     DictionaryView: {screen: DictionaryView},
