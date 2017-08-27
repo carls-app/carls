@@ -15,6 +15,7 @@ const booleanKeys = [
 const paragraphicalKeys = ['Description']
 
 export async function fetchJob(url: string): Promise<FullJobType> {
+  url = url.replace(/^http:/, 'https:')
   const page = await fetch(url).then(r => r.text())
   const dom = parseHtml(page)
 
