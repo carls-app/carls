@@ -7,7 +7,7 @@ import type {TopLevelViewPropsType} from '../types'
 
 export class NextConvocationView extends React.PureComponent {
   static navigationOptions = {
-    tabBarLabel: 'Convo',
+    tabBarLabel: 'Next Up',
     tabBarIcon: TabBarIcon('barcode'),
   }
 

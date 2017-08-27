@@ -19,7 +19,7 @@ import type {RawPodcastEpisode, ParsedPodcastEpisode} from './types'
 
 export class ArchivedConvocationsView extends React.PureComponent {
   static navigationOptions = {
-    tabBarLabel: 'Past Convos',
+    tabBarLabel: 'Archives',
     tabBarIcon: TabBarIcon('recording'),
   }
 
