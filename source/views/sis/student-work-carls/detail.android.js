@@ -88,7 +88,7 @@ function Description({job}: {job: JobType}) {
     : null
 }
 
-function Links({links}: {links: string}) {
+function Links({links}: {links: Array<string>}) {
   return links.length
     ? <Card header="LINKS" style={styles.card}>
         {links.map(url =>

@@ -57,7 +57,7 @@ function Description({text}: {text: string}) {
   )
 }
 
-function Links({links}: {links: string}) {
+function Links({links}: {links: Array<string>}) {
   return links.length
     ? <Section header="LINKS">
         {links.map(url =>
