@@ -8,6 +8,7 @@ export type FullJobType = {
   duringTerm: boolean,
   duringBreak: boolean,
   description: string,
+  links: Array<string>,
 }
 
 export type ThinJobType = {

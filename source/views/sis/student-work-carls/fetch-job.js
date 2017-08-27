@@ -1,5 +1,6 @@
 // @flow
 
+import getUrls from 'get-urls'
 import {
   parseHtml,
   cssSelect,
@@ -46,6 +47,9 @@ export async function fetchJob(url: string): Promise<FullJobType> {
     return coll
   }, new Map())
 
+  const description = detailMap.get('Description') || ''
+  const links = Array.from(getUrls(description))
+
   return {
     title: titleText,
     offCampus: offCampus,
@@ -54,5 +58,6 @@ export async function fetchJob(url: string): Promise<FullJobType> {
     duringTerm: Boolean(detailMap.get('Position available during term')),
     duringBreak: Boolean(detailMap.get('Position available during break')),
     description: detailMap.get('Description') || '',
+    links: links,
   }
 }
