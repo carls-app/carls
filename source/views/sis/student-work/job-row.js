@@ -2,32 +2,25 @@
 
 import React from 'react'
 import {Column, Row} from '../../components/layout'
-import {ListRow, Detail, Title} from '../../components/list'
-import {fastGetTrimmedText} from '../../../lib/html'
-import type {JobType} from './types'
+import {ListRow, Title} from '../../components/list'
+import type {ThinJobType} from './types'
 
 export class JobRow extends React.PureComponent {
   props: {
-    onPress: JobType => any,
-    job: JobType,
+    onPress: ThinJobType => any,
+    job: ThinJobType,
   }
 
   _onPress = () => this.props.onPress(this.props.job)
 
   render() {
     const {job} = this.props
-    const title = fastGetTrimmedText(job.title)
-    const office = fastGetTrimmedText(job.office)
-    const hours = fastGetTrimmedText(job.hoursPerWeek)
-    const ending = hours == 'Full-time' ? '' : 'hrs/week'
 
     return (
-      <ListRow onPress={this._onPress} arrowPosition="top">
+      <ListRow arrowPosition="top">
         <Row alignItems="center">
           <Column flex={1}>
-            <Title lines={1}>{title}</Title>
-            <Detail lines={1}>{office}</Detail>
-            <Detail lines={1}>{hours} {ending}</Detail>
+            <Title lines={1}>{job.title}</Title>
           </Column>
         </Row>
       </ListRow>
