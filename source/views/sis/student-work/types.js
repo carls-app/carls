@@ -1,18 +1,18 @@
 // @flow
 
-import type moment from 'moment'
-
-export type FullJobType = {
-  title: string,
-  department?: string,
-  dateOpen: moment,
-  duringTerm: boolean,
-  duringBreak: boolean,
+export type JobType = {
+  id: number,
+  comments: string,
+  contactEmail: string,
+  contactFirstName: string,
+  contactLastName: string,
+  contactPhone: number,
   description: string,
-}
-
-export type ThinJobType = {
+  hoursPerWeek: string,
+  lastModified: string,
+  office: string,
+  skills: string,
+  timeOfHours: string | number,
   title: string,
-  pubDate: string, // sadly, this is just the date published
-  link: string,
+  type: string,
 }
