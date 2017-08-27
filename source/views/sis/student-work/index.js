@@ -40,7 +40,7 @@ export default class StudentWorkView extends React.PureComponent {
   props: TopLevelViewPropsType
 
   state: {
-    jobs: Array<ThinJobType>,
+    jobs: Array<JobType>,
     loaded: boolean,
     refreshing: boolean,
     error: boolean,
