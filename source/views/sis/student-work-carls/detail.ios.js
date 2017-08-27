@@ -50,19 +50,19 @@ function Information({job}: {job: FullJobType}) {
   )
 }
 
-function Description({job}: {job: FullJobType}) {
+function Description({text}: {text: string}) {
   return (
     <Section header="DESCRIPTION">
-      <SelectableCell text={job.description} />
+      <SelectableCell text={text} />
     </Section>
   )
 }
 
-function Links({job}: {job: FullJobType}) {
-  const links = [...getUrls(job.description)]
-  return links.length
+function Links({text}: {text: string}) {
+  const links = getUrls(text)
+  return links.size()
     ? <Section header="LINKS">
-        {links.map(url =>
+        {Array.from(links).map(url =>
           <Cell
             key={url}
             title={url}
@@ -87,8 +87,8 @@ export class JobDetailView extends React.PureComponent {
         <TableView>
           <Title job={job} />
           <Information job={job} />
-          <Description job={job} />
-          <Links job={job} />
+          <Description text={job.description} />
+          <Links text={job.description} />
         </TableView>
       </ScrollView>
     )
