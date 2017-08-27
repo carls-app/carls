@@ -13,7 +13,7 @@ function Title({job}: {job: FullJobType}) {
       <Cell
         cellStyle="Subtitle"
         title={job.title}
-        detail={job.offCampus ? 'Off-Campus' : ''}
+        detail={job.offCampus ? 'Off-Campus' : 'On-Campus'}
       />
     </Section>
   )
