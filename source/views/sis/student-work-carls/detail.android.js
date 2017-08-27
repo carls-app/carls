@@ -89,7 +89,7 @@ function Description({job}: {job: JobType}) {
 }
 
 function Links({job}: {job: JobType}) {
-  const links = [...getUrls(job)]
+  const links = [...getUrls(job.description)]
   return links.length
     ? <Card header="LINKS" style={styles.card}>
         {links.map(url =>
