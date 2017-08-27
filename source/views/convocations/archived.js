@@ -1,20 +1,19 @@
 // @flow
 
 import React from 'react'
-import {TabBarIcon} from '../../components/tabbar-icon'
+import {TabBarIcon} from '../components/tabbar-icon'
 import {StyleSheet, SectionList} from 'react-native'
-import * as c from '../../components/colors'
+import * as c from '../components/colors'
 import toPairs from 'lodash/toPairs'
-import type {TopLevelViewPropsType} from '../../types'
-import type {EventType} from '../calendar/types'
+import type {TopLevelViewPropsType} from '../types'
 import groupBy from 'lodash/groupBy'
 import moment from 'moment-timezone'
-import {ListSeparator, ListSectionHeader} from '../../components/list'
-import {NoticeView} from '../../components/notice'
-import bugsnag from '../../../bugsnag'
-import {tracker} from '../../../analytics'
+import {ListSeparator, ListSectionHeader} from '../components/list'
+import {NoticeView} from '../components/notice'
+import bugsnag from '../../bugsnag'
+import {tracker} from '../../analytics'
 import delay from 'delay'
-import LoadingView from '../../components/loading'
+import LoadingView from '../components/loading'
 import {ArchivedConvocationRow} from './archived-row'
 import type {RawPodcastEpisode, ParsedPodcastEpisode} from './types'
 
@@ -44,13 +43,14 @@ export class ArchivedConvocationsView extends React.PureComponent {
 
   convertEvents(data: RawPodcastEpisode[]): ParsedPodcastEpisode[] {
     return data.map(event => ({
-      ...event,
+      title: event.title,
+      description: event.description,
       pubDate: moment(event.pubDate),
       enclosure: event.enclosure ? event.enclosure.$ : null,
     }))
   }
 
-  fetch = (url): Array<RawPodcastEpisode> =>
+  fetch = (url: string): Array<RawPodcastEpisode> =>
     fetchXml(url).then(resp => resp.rss.channel.item)
 
   getEvents = async () => {
@@ -70,9 +70,12 @@ export class ArchivedConvocationsView extends React.PureComponent {
 
     this.setState(() => ({
       loaded: true,
-      events: this.convertEvents(data)
-        .filter(ep => ep.enclosure && ep.enclosure.type)
-        .filter(ep => ep.enclosure.type.startsWith('video/')),
+      events: this.convertEvents(data).filter(
+        ep =>
+          ep.enclosure &&
+          ep.enclosure.type &&
+          ep.enclosure.type.startsWith('video/'),
+      ),
     }))
   }
 
@@ -91,7 +94,7 @@ export class ArchivedConvocationsView extends React.PureComponent {
     this.setState({refreshing: false})
   }
 
-  groupEvents = (events: EventType[]): any => {
+  groupEvents = (events: ParsedPodcastEpisode[]): any => {
     const grouped = groupBy(events, event =>
       event.pubDate.format('MMMM Do, YYYY'),
     )
@@ -124,7 +127,7 @@ export class ArchivedConvocationsView extends React.PureComponent {
         sections={this.groupEvents(this.state.events)}
         keyExtractor={this.keyExtractor}
         refreshing={this.state.refreshing}
-        onRefresh={this.state.onRefresh}
+        onRefresh={this.refresh}
         renderSectionHeader={this.renderSectionHeader}
         renderItem={this.renderItem}
       />

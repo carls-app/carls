@@ -34,7 +34,10 @@ import {StudentOrgsView, StudentOrgsDetailView} from './views/student-orgs'
 import {FaqView} from './views/faqs'
 // import {SnapshotsView} from './storybook'
 import HelpView from './views/help'
-import {ArchivedConvocationDetailView} from './views/streaming/convocations'
+import {
+  ConvocationsView,
+  ArchivedConvocationDetailView,
+} from './views/convocations'
 
 const styles = StyleSheet.create({
   header: {
@@ -62,6 +65,7 @@ export const AppNavigator = StackNavigator(
     BuildingHoursScheduleEditorView: {screen: BuildingHoursScheduleEditorView},
     CalendarView: {screen: CalendarView},
     ContactsView: {screen: ContactsView},
+    ConvocationsView: {screen: ConvocationsView},
     CreditsView: {screen: CreditsView},
     DictionaryDetailView: {screen: DictionaryDetailView},
     DictionaryView: {screen: DictionaryView},

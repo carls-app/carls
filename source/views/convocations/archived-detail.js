@@ -2,9 +2,10 @@
 
 import React from 'react'
 import Video from 'react-native-video'
-import {StyleSheet, WebView, ScrollView, Text} from 'react-native'
-// import * as c from '../../components/colors'
-import {Title} from '../../components/list'
+import {StyleSheet, WebView, ScrollView} from 'react-native'
+// import * as c from '../components/colors'
+import {Title} from '../components/list'
+import type {ParsedPodcastEpisode} from './types'
 
 const styles = StyleSheet.create({
   '🎧': {
@@ -40,12 +41,10 @@ export class ArchivedConvocationDetailView extends React.PureComponent {
     const {navigation: {state: {params: {event}}}} = this.props
 
     let style = null
-    if (event.enclosure && event.enclosure.type) {
-      if (event.enclosure.type.startsWith('audio/')) {
-        style = styles['🎧']
-      } else if (event.enclosure.type.startsWith('video/')) {
-        style = styles['📺']
-      }
+    if (event.enclosure && event.enclosure.type.startsWith('audio/')) {
+      style = styles['🎧']
+    } else if (event.enclosure && event.enclosure.type.startsWith('video/')) {
+      style = styles['📺']
     }
 
     return (
@@ -61,12 +60,10 @@ export class ArchivedConvocationDetailView extends React.PureComponent {
               playWhenInactive={true}
             />*/
             <WebView
-              source={{ html: htmlVideo(event.enclosure.url) }}
+              source={{html: htmlVideo(event.enclosure.url)}}
               style={style}
             />
           : ''}
-
-        <Text selectable={true}>{event.enclosure.url}</Text>
       </ScrollView>
     )
   }

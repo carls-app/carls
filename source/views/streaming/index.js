@@ -10,11 +10,6 @@ import {TabBarIcon} from '../components/tabbar-icon'
 import {ReasonCalendarView} from '../calendar/calendar-reason'
 
 import KSTOView from './radio'
-import {
-  NextConvocationView,
-  UpcomingConvocationsView,
-  ArchivedConvocationsView,
-} from './convocations'
 // import WeeklyMovieView from './movie'
 // import WebcamsView from './webcams'
 
@@ -32,9 +27,6 @@ export default TabNavigator(
         tabBarIcon: TabBarIcon('film'),
       },
     },
-    NextConvocationView: {screen: NextConvocationView},
-    UpcomingConvocationsView: {screen: UpcomingConvocationsView},
-    ArchivedConvocationsView: {screen: ArchivedConvocationsView},
     //LiveWebcamsView: {screen: WebcamsView},
   },
   {

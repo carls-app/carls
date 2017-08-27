@@ -1,8 +1,9 @@
 // @flow
 
 import React from 'react'
-import {ReasonCalendarView} from '../../calendar/calendar-reason'
-import {TabBarIcon} from '../../components/tabbar-icon'
+import {ReasonCalendarView} from '../calendar/calendar-reason'
+import {TabBarIcon} from '../components/tabbar-icon'
+import type {TopLevelViewPropsType} from '../types'
 
 export class NextConvocationView extends React.PureComponent {
   static navigationOptions = {
@@ -10,7 +11,7 @@ export class NextConvocationView extends React.PureComponent {
     tabBarIcon: TabBarIcon('barcode'),
   }
 
-  props: TopLevel
+  props: TopLevelViewPropsType
 
   render() {
     return (
