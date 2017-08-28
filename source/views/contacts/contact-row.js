@@ -22,7 +22,12 @@ export class ContactRow extends React.PureComponent {
         <Row alignItems="center">
           <Column flex={1}>
             <Title lines={1}>{contact.title}</Title>
-            <Detail lines={1}>{formatNumber(contact.phoneNumber)}</Detail>
+            <Detail lines={1}>
+              {contact.phoneNumber
+                ? formatNumber(contact.phoneNumber) + ' • '
+                : ''}
+              {contact.synopsis}
+            </Detail>
           </Column>
         </Row>
       </ListRow>

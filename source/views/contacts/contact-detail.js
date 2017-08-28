@@ -7,6 +7,7 @@ import {phonecall} from 'react-native-communications'
 import {tracker} from '../../analytics'
 import {Button} from '../components/button'
 import {formatNumber} from './contact-helper'
+import openUrl from '../components/open-url'
 import type {ContactType} from './types'
 
 const Title = glamorous.text({
@@ -41,14 +42,17 @@ export class ContactsDetailView extends React.PureComponent {
     }
   }
 
-  navigation: {state: {params: {contact: ContactType}}}
+  props: {navigation: {state: {params: {contact: ContactType}}}}
 
   onPress = () => {
     const item = this.props.navigation.state.params.contact
-    tracker.trackScreenView(
-      `ImportantContacts_${item.title.replace(' ', '')}View`,
-    )
-    promptCall(item.buttonText, item.phoneNumber)
+    const {title, phoneNumber, buttonText, buttonLink} = item
+    tracker.trackScreenView(`ImportantContacts_${title.replace(' ', '')}View`)
+    if (buttonLink) {
+      openUrl(buttonLink)
+    } else if (phoneNumber) {
+      promptCall(buttonText, phoneNumber)
+    }
   }
 
   render() {
