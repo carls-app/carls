@@ -3,7 +3,7 @@ image: sayles
 category: Food
 
 schedule:
-  - title: Hours
+  - title: Café
     hours:
       - {days: [Mo, Tu, We, Th], from: '8:00am', to: '8:00pm'}
       - {days: [Fr], from: '8:00am', to: '8:00pm'}
