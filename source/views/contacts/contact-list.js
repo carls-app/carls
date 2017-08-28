@@ -28,13 +28,6 @@ const styles = StyleSheet.create({
   },
 })
 
-const listFooter = (
-  <ListFooter
-    title="Collected by the humans of All About Olaf"
-    href={AAO_URL}
-  />
-)
-
 export default class ContactsListView extends React.PureComponent {
   static navigationOptions = {
     title: 'Important Contacts',
@@ -63,7 +56,12 @@ export default class ContactsListView extends React.PureComponent {
       <SectionList
         ItemSeparatorComponent={ListSeparator}
         ListEmptyComponent={<ListEmpty mode="bug" />}
-        ListFooterComponent={listFooter}
+        ListFooterComponent={
+          <ListFooter
+            title="Collected by the humans of All About Olaf"
+            href={AAO_URL}
+          />
+        }
         style={styles.listContainer}
         data={groupedData}
         sections={groupedData}
