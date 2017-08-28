@@ -47,8 +47,6 @@ export default class ContactsListView extends React.PureComponent {
     })
   }
 
-  renderSeparator = () => <ListSeparator />
-
   renderSectionHeader = ({section: {title}}: any) =>
     <ListSectionHeader title={title} spacing={{left: 10}} />
 
@@ -63,7 +61,7 @@ export default class ContactsListView extends React.PureComponent {
     const groupedData = groupContacts(data)
     return (
       <SectionList
-        ItemSeparatorComponent={this.renderSeparator}
+        ItemSeparatorComponent={ListSeparator}
         ListEmptyComponent={<ListEmpty mode="bug" />}
         ListFooterComponent={listFooter}
         style={styles.listContainer}
