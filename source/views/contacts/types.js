@@ -7,4 +7,5 @@ export type ContactType = {
   category: string,
   image?: string,
   text: string,
+  synopsis: string,
 }
