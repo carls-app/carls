@@ -5,7 +5,6 @@ import {Card} from '../../components/card'
 import openUrl from '../../components/open-url'
 import * as c from '../../components/colors'
 import type {JobType} from './types'
-import getUrls from 'get-urls'
 
 const styles = StyleSheet.create({
   name: {
