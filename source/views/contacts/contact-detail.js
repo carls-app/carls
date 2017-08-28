@@ -41,7 +41,7 @@ export class ContactsDetailView extends React.PureComponent {
     }
   }
 
-  navigation: {state: {params: {contact: ContactType}}}
+  props: {navigation: {state: {params: {contact: ContactType}}}}
 
   onPress = () => {
     const item = this.props.navigation.state.params.contact
