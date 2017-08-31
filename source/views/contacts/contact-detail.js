@@ -6,7 +6,6 @@ import glamorous from 'glamorous-native'
 import {phonecall} from 'react-native-communications'
 import {tracker} from '../../analytics'
 import {Button} from '../components/button'
-import {formatNumber} from './contact-helper'
 import openUrl from '../components/open-url'
 import type {ContactType} from './types'
 
@@ -27,6 +26,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 })
+
+function formatNumber(phoneNumber: string) {
+  const re = /(\d{3})-?(\d{3})-?(\d{4})/g
+  return phoneNumber.replace(re, '($1) $2-$3')
+}
 
 function promptCall(buttonText: string, phoneNumber: string) {
   Alert.alert(buttonText, formatNumber(phoneNumber), [
