@@ -17,8 +17,8 @@ export class JobRow extends React.PureComponent {
     const {job} = this.props
 
     return (
-      <ListRow arrowPosition="top" onPress={this._onPress}>
-        <Row alignItems="center">
+      <ListRow arrowPosition="center" onPress={this._onPress}>
+        <Row minHeight={36} alignItems="center">
           <Column flex={1}>
             <Title lines={1}>{job.title}</Title>
           </Column>
