@@ -12,6 +12,7 @@ import {ReasonCalendarView} from '../calendar/calendar-reason'
 import KSTOView from './radio'
 // import WeeklyMovieView from './movie'
 // import WebcamsView from './webcams'
+// import {StreamListView} from './streams'
 
 export default TabNavigator(
   {
@@ -27,7 +28,8 @@ export default TabNavigator(
         tabBarIcon: TabBarIcon('film'),
       },
     },
-    //LiveWebcamsView: {screen: WebcamsView},
+    // LiveWebcamsView: {screen: WebcamsView},
+    // StreamingView: {screen: StreamListView},
   },
   {
     navigationOptions: {
