@@ -3,7 +3,7 @@ import * as Keychain from 'react-native-keychain'
 
 import * as storage from './storage'
 import buildFormData from './formdata'
-import {OLECARD_AUTH_URL} from './financials/urls'
+import {CARLETON_LOGIN} from './financials/urls'
 
 const SIS_LOGIN_CREDENTIAL_KEY = 'stolaf.edu'
 
@@ -44,14 +44,21 @@ export async function performLogin(
     return false
   }
 
+  // we have to fetch the page once so that we get the random cookie that
+  // carleton uses to make sure cookies are enabled.
+  // we don't need to _do_ anything with it, since fetch() handles
+  // re-sending it to the server for us.
+  await fetch(CARLETON_LOGIN, {method: 'GET', credentials: 'include'})
+
   const form = buildFormData({username, password})
-  const loginResult = await fetch(OLECARD_AUTH_URL, {
+  const loginResult = await fetch(CARLETON_LOGIN, {
     method: 'POST',
     body: form,
+    credentials: 'include',
   })
   const page = await loginResult.text()
 
-  if (page.includes('Password')) {
+  if (page.includes('Please Sign In')) {
     await storage.setCredentialsValid(false)
     return false
   }

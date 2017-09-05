@@ -10,37 +10,42 @@ import {TabNavigator} from '../components/tabbed-view'
 import {TabBarIcon} from '../components/tabbar-icon'
 
 import OtherModesView from './other-modes'
-import BusView from './bus'
+import {ConnectedXyzBusView, ConnectedXyzBusList} from './xyz'
 
 export {BusMapView} from './bus/map'
+export {ConnectedXyzBusView} from './xyz/view'
 
 export default TabNavigator(
   {
     ExpressLineBusView: {
       screen: ({navigation}) =>
-        <BusView line="Express Bus" navigation={navigation} />,
+        <ConnectedXyzBusView routeName="Express Bus" navigation={navigation} />,
       navigationOptions: {
         tabBarLabel: 'Express Bus',
-        tabBarIcon: TabBarIcon('bus'),
+        tabBarIcon: TabBarIcon('subway'),
       },
     },
 
-    RedLineBusView: {
+    CarlsGoBusView: {
       screen: ({navigation}) =>
-        <BusView line="Red Line" navigation={navigation} />,
+        <ConnectedXyzBusView routeName={/Carls-Go/} navigation={navigation} />,
       navigationOptions: {
-        tabBarLabel: 'Red Line',
-        tabBarIcon: TabBarIcon('bus'),
+        tabBarLabel: 'CarlsGO',
+        tabBarIcon: TabBarIcon('car'),
       },
     },
 
     BlueLineBusView: {
       screen: ({navigation}) =>
-        <BusView line="Blue Line" navigation={navigation} />,
+        <ConnectedXyzBusView routeName="Blue Line" navigation={navigation} />,
       navigationOptions: {
         tabBarLabel: 'Blue Line',
         tabBarIcon: TabBarIcon('bus'),
       },
+    },
+
+    TransportationOtherBusView: {
+      screen: ConnectedXyzBusList,
     },
 
     TransportationOtherModesListView: {

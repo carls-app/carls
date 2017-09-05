@@ -1,7 +1,7 @@
 // @flow
 export type BalancesShapeType = {
-  flex: ?number,
-  ole: ?number,
+  schillers: ?number,
+  dining: ?number,
   print: ?number,
   weekly: ?string,
   daily: ?string,

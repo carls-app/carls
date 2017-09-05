@@ -12,7 +12,6 @@ import {Cell, TableView, Section} from 'react-native-tableview-simple'
 
 import {updateBalances} from '../../flux/parts/sis'
 
-import delay from 'delay'
 import isNil from 'lodash/isNil'
 import * as c from '../components/colors'
 
@@ -25,36 +24,19 @@ class BalancesView extends React.Component {
   }
 
   props: TopLevelViewPropsType & {
-    flex: ?number,
-    ole: ?number,
+    schillers: ?number,
+    dining: ?number,
     print: ?number,
     weeklyMeals: ?number,
     dailyMeals: ?number,
     credentialsValid: boolean,
     message: ?string,
-
+    loading: boolean,
     updateBalances: boolean => any,
   }
 
-  state = {
-    loading: false,
-  }
-
-  refresh = async () => {
-    let start = Date.now()
-    this.setState({loading: true})
-
-    await this.fetchData()
-
-    // wait 0.5 seconds – if we let it go at normal speed, it feels broken.
-    let elapsed = start - Date.now()
-    await delay(500 - elapsed)
-
-    this.setState({loading: false})
-  }
-
-  fetchData = async () => {
-    await Promise.all([this.props.updateBalances(true)])
+  fetchData = () => {
+    return this.props.updateBalances(true)
   }
 
   openSettings = () => {
@@ -62,43 +44,47 @@ class BalancesView extends React.Component {
   }
 
   render() {
-    let {flex, ole, print, dailyMeals, weeklyMeals} = this.props
-    let {loading} = this.state
+    const {
+      schillers,
+      dining,
+      // eslint-disable-next-line no-unused-vars
+      print,
+      dailyMeals,
+      weeklyMeals,
+      loading,
+    } = this.props
 
     return (
       <ScrollView
         contentContainerStyle={styles.stage}
         refreshControl={
-          <RefreshControl
-            refreshing={this.state.loading}
-            onRefresh={this.refresh}
-          />
+          <RefreshControl refreshing={loading} onRefresh={this.fetchData} />
         }
       >
         <TableView>
           <Section header="BALANCES">
             <View style={styles.balancesRow}>
               <FormattedValueCell
-                label="Flex"
-                value={flex}
+                label="Schillers"
+                value={schillers}
                 indeterminate={loading}
                 formatter={getFormattedCurrency}
               />
 
               <FormattedValueCell
-                label="Ole"
-                value={ole}
+                label="Dining"
+                value={dining}
                 indeterminate={loading}
                 formatter={getFormattedCurrency}
               />
 
-              <FormattedValueCell
+              {/*<FormattedValueCell
                 label="Copy/Print"
                 value={print}
                 indeterminate={loading}
                 formatter={getFormattedCurrency}
                 style={styles.finalCell}
-              />
+              />*/}
             </View>
           </Section>
 
@@ -126,7 +112,7 @@ class BalancesView extends React.Component {
                 {!this.props.credentialsValid
                   ? <Cell
                       cellStyle="Basic"
-                      title="Log in with St. Olaf"
+                      title="Log in with Carleton"
                       accessory="DisclosureIndicator"
                       onPress={this.openSettings}
                     />
@@ -145,12 +131,13 @@ class BalancesView extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    flex: state.sis.balances.flex,
-    ole: state.sis.balances.ole,
+    schillers: state.sis.balances.schillers,
+    dining: state.sis.balances.dining,
     print: state.sis.balances.print,
     weeklyMeals: state.sis.balances.weekly,
     dailyMeals: state.sis.balances.daily,
     message: state.sis.balances.message,
+    loading: state.sis.balances.loading,
 
     credentialsValid: state.settings.credentials.valid,
   }

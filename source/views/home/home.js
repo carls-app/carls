@@ -32,7 +32,7 @@ function HomePage({
       showsVerticalScrollIndicator={false}
       contentContainerStyle={styles.cells}
     >
-      <StatusBar barStyle="light-content" backgroundColor={c.gold} />
+      <StatusBar barStyle="light-content" backgroundColor={c.carletonBlue} />
 
       {sortedViews.map(view =>
         <HomeScreenButton
@@ -52,7 +52,7 @@ function HomePage({
 }
 HomePage.navigationOptions = ({navigation}) => {
   return {
-    title: 'All About Olaf',
+    title: 'CARLS',
     headerBackTitle: 'Home',
     headerLeft: <OpenSettingsButton navigation={navigation} />,
     headerRight: <EditHomeButton navigation={navigation} />,

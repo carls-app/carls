@@ -1,0 +1,16 @@
+name: Writing Center
+image: writing-center
+category: Student Life & Support
+
+schedule:
+  - title: Hours
+    hours: []
+
+breakSchedule:
+  fall: []
+  thanksgiving: []
+  winter: []
+  interim: []
+  spring: []
+  easter: []
+  summer: []

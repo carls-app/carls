@@ -1,5 +1,5 @@
 # The bundle identifier of your app
-app_identifier 'NFMTHAZVS9.com.drewvolz.stolaf'
+app_identifier 'com.rives.carls'
 
 # Your Apple email address
 apple_id 'hawkrives@gmail.com'
@@ -11,4 +11,4 @@ itc_team_id '118781268'
 # This is a private key. It is not included in the repository.
 # Contact odt@stolaf.edu or another admin if you need access.
 json_key_file 'fastlane/play-private-key.json'
-package_name 'com.allaboutolaf'
+package_name 'com.carls'

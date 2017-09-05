@@ -7,7 +7,7 @@
 import {TabNavigator} from '../components/tabbed-view'
 
 import BalancesView from './balances'
-import StudentWorkView from './student-work'
+import {StudentWorkView} from './student-work-carls'
 // import CoursesView from './courses'
 // import SearchView from './search'
 
@@ -20,7 +20,7 @@ export default TabNavigator(
   },
   {
     navigationOptions: {
-      title: 'SIS',
+      title: 'The Hub',
     },
   },
 )

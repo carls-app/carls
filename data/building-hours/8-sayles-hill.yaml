@@ -1,0 +1,17 @@
+name: Sayles-Hill Campus Center
+image: sayles-hill
+category: Academia
+
+schedule:
+  - title: Hours
+    notes: Unknown hours
+    hours: []
+
+breakSchedule:
+  fall: []
+  thanksgiving: []
+  winter: []
+  interim: []
+  spring: []
+  easter: []
+  summer: []

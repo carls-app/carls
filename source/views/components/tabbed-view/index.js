@@ -26,7 +26,7 @@ export const TabNavigator: ComponentType = (screens, options) =>
           inactiveTintColor: 'rgba(255, 255, 255, 0.7)',
         },
         ios: {
-          activeTintColor: c.mandarin,
+          activeTintColor: c.carletonBlue,
         },
       }),
       scrollEnabled: Platform.OS == 'ios',
@@ -34,7 +34,7 @@ export const TabNavigator: ComponentType = (screens, options) =>
       style: {
         ...Platform.select({
           android: {
-            backgroundColor: c.mandarin,
+            backgroundColor: c.carletonBlue,
             height: 48,
           },
         }),

@@ -19,7 +19,7 @@ import toPairs from 'lodash/toPairs'
 import groupBy from 'lodash/groupBy'
 
 import {CENTRAL_TZ} from './lib'
-const githubBaseUrl = 'https://stodevx.github.io/AAO-React-Native'
+const githubBaseUrl = 'https://carls-app.github.io/carls'
 
 const groupBuildings = (buildings: BuildingType[]) => {
   const grouped = groupBy(buildings, b => b.category || 'Other')

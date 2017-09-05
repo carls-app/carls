@@ -14,14 +14,17 @@ import {FilterView} from './views/components/filter'
 import NewsView from './views/news'
 import NewsItemView from './views/news/news-item'
 import SISView from './views/sis'
-import JobDetailView from './views/sis/student-work/detail'
+import {StudentWorkDetailView} from './views/sis/student-work-carls'
 import {
   BuildingHoursView,
   BuildingHoursDetailView,
   BuildingHoursProblemReportView,
   BuildingHoursScheduleEditorView,
 } from './views/building-hours'
-import TransportationView, {BusMapView} from './views/transportation'
+import TransportationView, {
+  BusMapView,
+  ConnectedXyzBusView,
+} from './views/transportation'
 import SettingsView from './views/settings'
 import SISLoginView from './views/settings/login'
 import CreditsView from './views/settings/credits'
@@ -34,7 +37,7 @@ import HelpView from './views/help'
 
 const styles = StyleSheet.create({
   header: {
-    backgroundColor: c.olevilleGold,
+    backgroundColor: c.carletonBlue,
   },
   card: {
     ...Platform.select({
@@ -66,7 +69,6 @@ export const AppNavigator = StackNavigator(
     FaqView: {screen: FaqView},
     FilterView: {screen: FilterView},
     HelpView: {screen: HelpView},
-    JobDetailView: {screen: JobDetailView},
     LegalView: {screen: LegalView},
     MenusView: {screen: MenusView},
     NewsItemView: {screen: NewsItemView},
@@ -79,8 +81,10 @@ export const AppNavigator = StackNavigator(
     StreamingView: {screen: StreamingView},
     StudentOrgsDetailView: {screen: StudentOrgsDetailView},
     StudentOrgsView: {screen: StudentOrgsView},
+    StudentWorkDetailView: {screen: StudentWorkDetailView},
     TransportationView: {screen: TransportationView},
     BusMapView: {screen: BusMapView},
+    XyzBusView: {screen: ConnectedXyzBusView},
   },
   {
     navigationOptions: {

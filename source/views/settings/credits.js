@@ -3,7 +3,7 @@ import React from 'react'
 import {Text, ScrollView, Image, StyleSheet} from 'react-native'
 import {data as credits} from '../../../docs/credits.json'
 
-const image = require('../../../images/about/IconTrans.png')
+const image = require('../../../images/about/CarlsTrans.png')
 
 const styles = StyleSheet.create({
   container: {

@@ -1,0 +1,17 @@
+name: Music & Drama Center
+image: music-drama-center
+category: Academia
+
+schedule:
+  - title: Hours
+    notes: Unknown hours
+    hours: []
+
+breakSchedule:
+  fall: []
+  thanksgiving: []
+  winter: []
+  interim: []
+  spring: []
+  easter: []
+  summer: []

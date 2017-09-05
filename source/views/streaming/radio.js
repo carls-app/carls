@@ -15,123 +15,52 @@ import {
 } from 'react-native'
 import * as c from '../components/colors'
 import Icon from 'react-native-vector-icons/Ionicons'
-import Video from 'react-native-video'
 import {Touchable} from '../components/touchable'
 import {TabBarIcon} from '../components/tabbar-icon'
+import {trackedOpenUrl} from '../components/open-url'
 
-const kstoStream = 'https://cdn.stobcm.com/radio/ksto1.stream/master.m3u8'
-const image = require('../../../images/streaming/ksto/ksto-logo.png')
+const image = require('../../../images/streaming/krlx.png')
 
 export default class KSTOView extends React.PureComponent {
   static navigationOptions = {
-    tabBarLabel: 'KSTO',
+    tabBarLabel: 'KRLX',
     tabBarIcon: TabBarIcon('radio'),
   }
 
-  player: Video
-
-  state: {
-    refreshing: boolean,
-    paused: boolean,
-    streamError: ?Object,
-    metadata: Object[],
-  } = {
-    refreshing: false,
-    paused: true,
-    streamError: null,
-    metadata: [],
-  }
-
-  changeControl = () => {
-    this.setState(state => ({paused: !state.paused}))
-  }
-
-  // callback when HLS ID3 tags change
-  onTimedMetadata = (data: any) => {
-    this.setState(() => ({metadata: data}))
-    console.log(data)
-  }
-
-  // error from react-native-video
-  onError = (e: any) => {
-    this.setState(() => ({streamError: e, paused: true}))
-    console.log(e)
+  openWebsite = () => {
+    trackedOpenUrl({url: 'http://live.krlx.org', id: 'krlx-stream'})
   }
 
   render() {
     return (
       <ScrollView>
         <View style={styles.container}>
-          <Logo />
-          <PlayPauseButton
-            onPress={this.changeControl}
-            paused={this.state.paused}
-          />
-          {/*<Song />*/}
-          <Title />
-
-          {!this.state.paused
-            ? <Video
-                ref={ref => (this.player = ref)}
-                source={{uri: kstoStream}}
-                playInBackground={true}
-                playWhenInactive={true}
-                paused={this.state.paused}
-                onTimedMetadata={this.onTimedMetadata}
-                onError={this.onError}
-              />
-            : null}
+          <View style={styles.wrapper}>
+            <Image source={image} style={styles.logo} />
+          </View>
+          <Touchable
+            style={buttonStyles.button}
+            hightlight={false}
+            onPress={this.openWebsite}
+          >
+            <View style={buttonStyles.buttonWrapper}>
+              <Icon style={buttonStyles.icon} name="ios-play" />
+              <Text style={buttonStyles.action}>Listen to KRLX</Text>
+            </View>
+          </Touchable>
+          <Text selectable={true} style={styles.subheading}>
+            88.1 KRLX-FM is the radio station at Carleton College.
+            Independent and completely student-run since its origin
+            in 1948, KRLX broadcasts 24 hours a day during the academic
+            year, with over 200 student participants each term.
+          </Text>
         </View>
       </ScrollView>
     )
   }
 }
 
-const Logo = () =>
-  <View style={styles.wrapper}>
-    <Image source={image} style={styles.logo} />
-  </View>
-
-const Title = () =>
-  <View style={styles.container}>
-    <Text selectable={true} style={styles.heading}>
-      St. Olaf College Radio
-    </Text>
-    <Text selectable={true} style={styles.subHeading}>KSTO 93.1 FM</Text>
-  </View>
-
-// const song = this.state.metadata.length
-//     ? <Metadata song={this.state.metadata.CHANGEME} />
-//     : null
-
-class PlayPauseButton extends React.PureComponent {
-  props: {
-    paused: boolean,
-    onPress: () => any,
-  }
-
-  render() {
-    const {paused, onPress} = this.props
-    return (
-      <Touchable
-        style={buttonStyles.button}
-        hightlight={false}
-        onPress={onPress}
-      >
-        <View style={buttonStyles.buttonWrapper}>
-          <Icon
-            style={buttonStyles.icon}
-            name={paused ? 'ios-play' : 'ios-pause'}
-          />
-          <Text style={buttonStyles.action}>
-            {paused ? 'Listen' : 'Pause'}
-          </Text>
-        </View>
-      </Touchable>
-    )
-  }
-}
-
+const viewport = Dimensions.get('window')
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
@@ -139,35 +68,12 @@ const styles = StyleSheet.create({
   wrapper: {
     padding: 10,
   },
-  heading: {
-    marginTop: 10,
-    color: c.kstoPrimaryDark,
-    fontWeight: '500',
-    fontSize: Dimensions.get('window').height / 30,
-  },
-  subHeading: {
-    marginTop: 5,
-    marginBottom: 10,
-    color: c.kstoPrimaryDark,
-    fontWeight: '300',
-    fontSize: Dimensions.get('window').height / 30,
-  },
-  // nowPlaying: {
-  //   paddingTop: 10,
-  //   fontSize: Dimensions.get('window').height / 40,
-  //   fontWeight: '500',
-  //   color: c.red,
-  // },
-  // metadata: {
-  //   fontSize: Dimensions.get('window').height / 40,
-  //   paddingHorizontal: 13,
-  //   paddingTop: 5,
-  //   color: c.red,
-  // },
-
   logo: {
-    maxWidth: Dimensions.get('window').width / 1.2,
-    maxHeight: Dimensions.get('window').height / 2.0,
+    maxWidth: viewport.width / 1.2,
+    maxHeight: viewport.height / 2.0,
+  },
+  subheading: {
+    marginTop: 5,
   },
 })
 

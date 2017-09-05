@@ -55,8 +55,8 @@ class CredentialsLoginSection extends React.Component {
 
     return (
       <Section
-        header="ST. OLAF LOGIN"
-        footer="St. Olaf login enables the &quot;meals remaining&quot; feature."
+        header="CARLETON LOGIN"
+        footer="Carleton login enables the &quot;meals remaining&quot; feature."
       >
         <CellTextField
           label="Username"
@@ -89,7 +89,7 @@ class CredentialsLoginSection extends React.Component {
           loading={loading}
           disabled={loading || (!username || !password)}
           onPress={loggedIn ? this.logOut : this.logIn}
-          label="St. Olaf"
+          label="Carleton"
         />
       </Section>
     )

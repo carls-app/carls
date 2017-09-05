@@ -9,16 +9,16 @@ before_all do
   ENV['FL_HOCKEY_COMMIT_SHA'] = ENV['TRAVIS_COMMIT']
 
   # set up global info for `gym`
-  ENV['GYM_PROJECT'] = './ios/AllAboutOlaf.xcodeproj'
-  ENV['GYM_SCHEME'] = 'AllAboutOlaf'
+  ENV['GYM_PROJECT'] = './ios/CARLS.xcodeproj'
+  ENV['GYM_SCHEME'] = 'CARLS'
   ENV['GYM_OUTPUT_DIRECTORY'] = './ios/build'
-  ENV['GYM_OUTPUT_NAME'] = 'AllAboutOlaf'
+  ENV['GYM_OUTPUT_NAME'] = 'CARLS'
 
   # set up global info for `gradle`
   ENV['FL_GRADLE_PROJECT_DIR'] = './android'
 
   # set up other global shared values
-  lane_context[:PRETTY_APP_NAME] = 'All About Olaf'
+  lane_context[:PRETTY_APP_NAME] = 'CARLS'
 
   lane_context[:GRADLE_FILE] = "#{ENV['FL_GRADLE_PROJECT_DIR']}/app/build.gradle"
 
