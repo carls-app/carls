@@ -11,7 +11,6 @@ import {ReasonCalendarView} from '../calendar/calendar-reason'
 
 import KSTOView from './radio'
 // import WeeklyMovieView from './movie'
-// import WebcamsView from './webcams'
 
 export default TabNavigator(
   {
@@ -27,7 +26,6 @@ export default TabNavigator(
         tabBarIcon: TabBarIcon('film'),
       },
     },
-    //LiveWebcamsView: {screen: WebcamsView},
   },
   {
     navigationOptions: {
