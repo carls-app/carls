@@ -7,13 +7,11 @@ import get from 'lodash/get'
 import zip from 'lodash/zip'
 import head from 'lodash/head'
 import last from 'lodash/last'
-import Icon from 'react-native-vector-icons/Ionicons'
 import moment from 'moment-timezone'
 import * as c from '../../components/colors'
 import {Separator} from '../../components/separator'
 import {BusStopRow} from './bus-stop-row'
-import {ListRow, ListSectionHeader, Title, Detail} from '../../components/list'
-import {Row, Column} from '../../components/layout'
+import {ListRow, ListSectionHeader, Title} from '../../components/list'
 
 const TIME_FORMAT = 'h:mma'
 const TIMEZONE = 'America/Winnipeg'
@@ -125,11 +123,13 @@ export class BusLine extends React.PureComponent {
               isFirstRow={i === 0}
               isLastRow={i === list.length - 1}
             />
-            <Separator style={styles.separator} />
+            {i < list.length - 1
+              ? <Separator style={styles.separator} />
+              : null}
           </View>,
         )}
 
-        <ListRow
+        {/*<ListRow
           onPress={this.props.openMap}
           fullWidth={true}
           spacing={{left: 45}}
@@ -155,7 +155,7 @@ export class BusLine extends React.PureComponent {
               </Detail>
             </Column>
           </Row>
-        </ListRow>
+        </ListRow>*/}
       </View>
     )
   }
