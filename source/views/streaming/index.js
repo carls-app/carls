@@ -14,7 +14,6 @@ import KSTOView from './radio'
 
 export default TabNavigator(
   {
-    KSTORadioView: {screen: KSTOView},
     WeeklyMovieView: {
       screen: ({navigation}) =>
         <ReasonCalendarView
@@ -26,6 +25,7 @@ export default TabNavigator(
         tabBarIcon: TabBarIcon('film'),
       },
     },
+    KSTORadioView: {screen: KSTOView},
   },
   {
     navigationOptions: {
