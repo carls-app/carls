@@ -5,7 +5,6 @@ category: Mail and Packages
 
 schedule:
   - title: Hours
-    closedForChapelTime: true
     hours:
       - {days: [Mo, Tu, We, Th, Fr], from: '9:00am', to: '5:00pm'}
 
