@@ -15,7 +15,7 @@ import toPairs from 'lodash/toPairs'
 import * as c from '../components/colors'
 import type {ContactType} from './types'
 
-const AAO_URL = 'https://github.com/StoDevX/AAO-React-Native/issues/new'
+const AAO_URL = 'https://github.com/carls-app/carls/issues/new'
 
 const groupContacts = (contacts: ContactType[]) => {
   const grouped = groupBy(contacts, c => c.category)
