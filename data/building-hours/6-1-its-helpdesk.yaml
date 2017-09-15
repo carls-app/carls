@@ -1,4 +1,5 @@
 name: ITS Helpdesk
+image: its-helpdesk
 category: Help and Support
 
 schedule:
