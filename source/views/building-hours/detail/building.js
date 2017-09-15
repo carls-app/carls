@@ -79,7 +79,7 @@ export class BuildingDetail extends React.Component<void, Props, void> {
 
         <ListFooter
           title={
-            'Building hours subject to change without notice\n\nData collected by the humans of All About Olaf'
+            'Building hours subject to change without notice\n\nData collected from SaylesHill.xyz'
           }
         />
       </ScrollView>

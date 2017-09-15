@@ -200,7 +200,7 @@ export class BusLine extends React.Component<void, Props, void> {
 
         <ListFooter
           title={
-            'Bus routes and times subject to change without notice\n\nData collected by the humans of All About Olaf'
+            'Bus routes and times subject to change without notice\n\nData collected by the humans of CARLS'
           }
         />
       </View>

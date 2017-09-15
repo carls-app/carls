@@ -50,7 +50,7 @@ export class BuildingHoursList extends React.PureComponent {
         ListFooterComponent={
           <ListFooter
             title={
-              'Building hours subject to change without notice\n\nData collected by the humans of All About Olaf'
+              'Building hours subject to change without notice\n\nData collected from SaylesHill.xyz'
             }
           />
         }
