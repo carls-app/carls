@@ -33,8 +33,8 @@ export const allViews: ViewType[] = [
   {
     type: 'view',
     view: 'SISView',
-    title: 'The Hub',
-    icon: 'fingerprint',
+    title: 'OneCard',
+    icon: 'card',
     tint: c.goldenrod,
     gradient: c.yellowToGoldDark,
   },
