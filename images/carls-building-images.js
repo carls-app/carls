@@ -25,7 +25,7 @@ export const buildingImages = {
   'leighton': require('./carls-buildinghours/leighton.jpg'),
   'mudd': require('./carls-buildinghours/mudd.jpg'),
   'olin': require('./carls-buildinghours/olin.jpg'),
-  'peps': require('./carls-buildinghours/peps.jpeg'),
+  'peps': require('./carls-buildinghours/peps.jpg'),
   'perlman': require('./carls-buildinghours/perlman.jpg'),
   'post-office': require('./carls-buildinghours/post-office.jpg'),
   'rec-center': require('./carls-buildinghours/rec-center.jpg'),
