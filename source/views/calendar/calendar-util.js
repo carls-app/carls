@@ -48,7 +48,7 @@ function promptSettings(): any {
   if (Platform.OS === 'ios') {
     // Note: remember to change this text in the iOS plist, too.
     return Alert.alert(
-      '"All About Olaf" Would Like to Access Your Calendar',
+      '"CARLS" Would Like to Access Your Calendar',
       `We use your calendar to add events to your calendar so that you remember
        what you wanted to attend.`,
       [
