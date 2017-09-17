@@ -22,7 +22,7 @@ type Props = {}
 
 type State = {
   viewport: Viewport,
-};[]
+}
 
 export class KRLXView extends React.PureComponent<void, Props, State> {
   static navigationOptions = {

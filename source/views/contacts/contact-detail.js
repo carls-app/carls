@@ -79,10 +79,7 @@ export class ContactsDetailView extends React.PureComponent {
 
         <Button onPress={this.onPress} title={contact.buttonText} />
 
-        <ListFooter
-          title="Collected by the humans of CARLS"
-          href={AAO_URL}
-        />
+        <ListFooter title="Collected by the humans of CARLS" href={AAO_URL} />
       </Container>
     )
   }
