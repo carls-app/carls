@@ -27,8 +27,7 @@ const Container = glamorous.view({
   borderColor: c.iosLightBackground,
 })
 
-const GITHUB_URL =
-  'https://stodevx.github.io/AAO-React-Native/transportation.json'
+const GITHUB_URL = 'https://carls-app.github.io/carls/transportation.json'
 
 class OtherModeCard extends React.PureComponent {
   props: {

@@ -27,7 +27,7 @@ import {Column} from '../components/layout'
 import {partitionByIndex} from '../../lib/partition-by-index'
 
 const transparentPixel = require('../../../images/transparent.png')
-const GITHUB_URL = 'https://stodevx.github.io/AAO-React-Native/webcams.json'
+const GITHUB_URL = 'https://carls-app.github.io/carls/webcams.json'
 
 type WebcamType = {
   streamUrl: string,

@@ -30,7 +30,7 @@ import isString from 'lodash/isString'
 import * as defaultData from '../../../docs/dictionary.json'
 import {SearchBar} from '../components/searchbar'
 
-const GITHUB_URL = 'https://stodevx.github.io/AAO-React-Native/dictionary.json'
+const GITHUB_URL = 'https://carls-app.github.io/carls/dictionary.json'
 const rowHeight = Platform.OS === 'ios' ? 76 : 89
 const headerHeight = Platform.OS === 'ios' ? 33 : 41
 

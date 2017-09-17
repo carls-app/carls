@@ -18,8 +18,7 @@ import * as c from '../components/colors'
 import type {ContactType} from './types'
 import type {TopLevelViewPropsType} from '../types'
 
-const GITHUB_URL =
-  'https://stodevx.github.io/AAO-React-Native/contact-info.json'
+const GITHUB_URL = 'https://carls-app.github.io/carls/contact-info.json'
 
 const groupContacts = (contacts: ContactType[]) => {
   const grouped = groupBy(contacts, c => c.category)

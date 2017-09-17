@@ -14,7 +14,7 @@ import * as defaultData from '../../../../docs/bus-times.json'
 
 const TIMEZONE = 'America/Winnipeg'
 
-const GITHUB_URL = 'https://stodevx.github.io/AAO-React-Native/bus-times.json'
+const GITHUB_URL = 'https://carls-app.github.io/carls/bus-times.json'
 
 export class BusView extends React.PureComponent {
   props: TopLevelViewPropsType & {

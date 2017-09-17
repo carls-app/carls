@@ -8,7 +8,7 @@ import type {WordType} from './types'
 
 // TODO: This doesn't point at the SA dictionary because they don't have an
 // overview page.
-const STO_SA_DICT_URL = 'https://github.com/StoDevX/AAO-React-Native/issues/new'
+const STO_SA_DICT_URL = 'https://github.com/carls-app/carls/issues/new'
 
 const Term = glamorous.text({
   fontSize: 36,
@@ -50,9 +50,7 @@ export class DictionaryDetailView extends React.PureComponent {
         />
 
         <ListFooter
-          title={
-            'Collected by the humans of All About Olaf,\nfrom the Student Activities dictionary'
-          }
+          title="Collected by the humans of CARLS"
           href={STO_SA_DICT_URL}
         />
       </Container>
