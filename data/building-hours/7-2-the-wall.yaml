@@ -1,0 +1,17 @@
+name: The Wall
+image: rec-wall
+category: Gym
+
+schedule:
+  - title: Hours
+    notes: Closed for the summer.
+    hours: []
+
+breakSchedule:
+  fall: []
+  thanksgiving: []
+  winter: []
+  interim: []
+  spring: []
+  easter: []
+  summer: []

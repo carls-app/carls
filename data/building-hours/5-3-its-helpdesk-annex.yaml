@@ -1,0 +1,20 @@
+name: ITS Helpdesk Annex
+image: its-annex
+category: Libraries
+
+schedule:
+  - title: Hours
+    hours:
+      - {days: [Mo, Tu, We, Th], from: '8:30am', to: '1:00am'}
+      - {days: [Fr], from: '8:30am', to: '9:00pm'}
+      - {days: [Sa], from: '10:00am', to: '9:00pm'}
+      - {days: [Su], from: '10:00am', to: '1:00am'}
+
+breakSchedule:
+  fall: []
+  thanksgiving: []
+  winter: []
+  interim: []
+  spring: []
+  easter: []
+  summer: []

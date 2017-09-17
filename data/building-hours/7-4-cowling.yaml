@@ -1,0 +1,17 @@
+name: Cowling Gym
+category: Gym
+image: cowling-gym
+
+schedule:
+  - title: Hours
+    notes: Closed for the summer.
+    hours: []
+
+breakSchedule:
+  fall: []
+  thanksgiving: []
+  winter: []
+  interim: []
+  spring: []
+  easter: []
+  summer: []

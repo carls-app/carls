@@ -1,0 +1,20 @@
+name: Boliou Hall
+image: boliou
+category: Academia
+
+schedule:
+  - title: Hours
+    hours:
+      - {days: [Mo, Tu, We, Th], from: '7:00am', to: '10:00pm'}
+      - {days: [Fr], from: '7:00am', to: '6:00pm'}
+      - {days: [Sa], from: '10:00am', to: '6:00pm'}
+      - {days: [Su], from: '10:00am', to: '11:00pm'}
+
+breakSchedule:
+  fall: []
+  thanksgiving: []
+  winter: []
+  interim: []
+  spring: []
+  easter: []
+  summer: []

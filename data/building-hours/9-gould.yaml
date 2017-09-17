@@ -1,0 +1,19 @@
+name: Gould Library
+category: Academia
+image: gould
+
+schedule:
+  - title: Hours
+    hours:
+      - {days: [Mo, Tu, We, Th, Fr], from: '8:00am', to: '1:00am'}
+      - {days: [Sa], from: '9:00am', to: '12:00am'}
+      - {days: [Su], from: '9:00am', to: '1:00am'}
+
+breakSchedule:
+  fall: []
+  thanksgiving: []
+  winter: []
+  interim: []
+  spring: []
+  easter: []
+  summer: []

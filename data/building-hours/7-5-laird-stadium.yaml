@@ -1,0 +1,17 @@
+name: Laird Stadium
+category: Gym
+image: laird-stadium
+
+schedule:
+  - title: Hours
+    notes: Closed for the summer.
+    hours: []
+
+breakSchedule:
+  fall: []
+  thanksgiving: []
+  winter: []
+  interim: []
+  spring: []
+  easter: []
+  summer: []

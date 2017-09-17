@@ -14,7 +14,6 @@ import {KRLXView} from './krlx'
 
 export default TabNavigator(
   {
-    KRLXRadioView: {screen: KRLXView},
     WeeklyMovieView: {
       screen: ({navigation}) =>
         <ReasonCalendarView
@@ -26,6 +25,7 @@ export default TabNavigator(
         tabBarIcon: TabBarIcon('film'),
       },
     },
+    KRLXRadioView: {screen: KRLXView},
   },
   {
     navigationOptions: {

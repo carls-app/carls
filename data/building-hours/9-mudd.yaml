@@ -1,0 +1,17 @@
+name: Mudd Hall
+image: mudd
+category: Academia
+
+schedule:
+  - title: Hours
+    notes: Unknown hours
+    hours: []
+
+breakSchedule:
+  fall: []
+  thanksgiving: []
+  winter: []
+  interim: []
+  spring: []
+  easter: []
+  summer: []
