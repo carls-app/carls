@@ -15,65 +15,253 @@ import {
 } from 'react-native'
 import * as c from '../components/colors'
 import Icon from 'react-native-vector-icons/Ionicons'
+import Video from 'react-native-video'
 import {Touchable} from '../components/touchable'
 import {TabBarIcon} from '../components/tabbar-icon'
-import {trackedOpenUrl} from '../components/open-url'
+import {promiseTimeout} from '../../lib/promise-timeout'
 
-const image = require('../../../images/streaming/krlx.png')
+const kstoStream = 'https://cdn.stobcm.com/radio/ksto1.stream/master.m3u8'
+const kstoStatus = 'https://cdn.stobcm.com/radio/ksto1.stream/chunklist.3mu8'
+const image = require('../../../images/streaming/ksto/ksto-logo.png')
 
-export default class KSTOView extends React.PureComponent {
+type Viewport = {
+  width: number,
+  height: number,
+}
+
+type PlayState = 'paused' | 'playing' | 'checking'
+
+type Props = {}
+
+type State = {
+  playState: PlayState,
+  streamError: ?Object,
+  uplinkError: ?string,
+  viewport: Viewport,
+}
+
+export default class KSTOView extends React.PureComponent<void, Props, State> {
   static navigationOptions = {
-    tabBarLabel: 'KRLX',
+    tabBarLabel: 'KSTO',
     tabBarIcon: TabBarIcon('radio'),
   }
 
-  openWebsite = () => {
-    trackedOpenUrl({url: 'http://live.krlx.org', id: 'krlx-stream'})
+  state = {
+    playState: 'paused',
+    streamError: null,
+    uplinkError: null,
+    viewport: Dimensions.get('window'),
+  }
+
+  componentWillMount() {
+    Dimensions.addEventListener('change', this.handleResizeEvent)
+  }
+
+  componentWillUnmount() {
+    Dimensions.removeEventListener('change', this.handleResizeEvent)
+  }
+
+  handleResizeEvent = (event: {window: {width: number}}) => {
+    this.setState(() => ({viewport: event.window}))
+  }
+
+  // check the stream uplink status
+  isUplinkUp = async () => {
+    try {
+      await promiseTimeout(6000, fetch(kstoStatus))
+      return true
+    } catch (err) {
+      return false
+    }
+  }
+
+  onPlay = async () => {
+    this.setState(() => ({playState: 'checking'}))
+
+    const uplinkStatus = await this.isUplinkUp()
+
+    if (uplinkStatus) {
+      this.setState(() => ({playState: 'playing'}))
+    } else {
+      this.setState(() => ({
+        playState: 'paused',
+        uplinkError: 'The KSTO stream is down. Sorry!',
+      }))
+    }
+  }
+
+  onPause = () => {
+    this.setState(() => ({
+      playState: 'paused',
+      uplinkError: null,
+    }))
+  }
+
+  // error from react-native-video
+  onError = (e: any) => {
+    this.setState(() => ({streamError: e, playState: 'paused'}))
+  }
+
+  renderButton = (state: PlayState) => {
+    switch (state) {
+      case 'paused':
+        return (
+          <ActionButton icon="ios-play" text="Listen" onPress={this.onPlay} />
+        )
+
+      case 'checking':
+        return (
+          <ActionButton
+            icon="ios-more"
+            text="Starting"
+            onPress={this.onPause}
+          />
+        )
+
+      case 'playing':
+        return (
+          <ActionButton icon="ios-pause" text="Pause" onPress={this.onPause} />
+        )
+
+      default:
+        return <ActionButton icon="ios-bug" text="Error" onPress={() => {}} />
+    }
   }
 
   render() {
+    const sideways = this.state.viewport.width > this.state.viewport.height
+
+    const logoWidth = Math.min(
+      this.state.viewport.width / 1.5,
+      this.state.viewport.height / 1.75,
+    )
+
+    const logoSize = {
+      width: logoWidth,
+      height: logoWidth,
+    }
+
+    const error = this.state.uplinkError
+      ? <Text style={styles.status}>{this.state.uplinkError}</Text>
+      : null
+
+    const button = this.renderButton(this.state.playState)
+
     return (
-      <ScrollView>
+      <ScrollView
+        contentContainerStyle={[styles.root, sideways && landscape.root]}
+      >
+        <View style={[styles.logoWrapper, sideways && landscape.logoWrapper]}>
+          <Image
+            source={image}
+            style={[styles.logo, logoSize]}
+            resizeMode="contain"
+          />
+        </View>
+
         <View style={styles.container}>
-          <View style={styles.wrapper}>
-            <Image source={image} style={styles.logo} />
+          <View style={styles.titleWrapper}>
+            <Text selectable={true} style={styles.heading}>
+              St. Olaf College Radio
+            </Text>
+            <Text selectable={true} style={styles.subHeading}>
+              KSTO 93.1 FM
+            </Text>
+
+            {error}
           </View>
-          <Touchable
-            style={buttonStyles.button}
-            hightlight={false}
-            onPress={this.openWebsite}
-          >
-            <View style={buttonStyles.buttonWrapper}>
-              <Icon style={buttonStyles.icon} name="ios-play" />
-              <Text style={buttonStyles.action}>Listen to KRLX</Text>
-            </View>
-          </Touchable>
-          <Text selectable={true} style={styles.subheading}>
-            88.1 KRLX-FM is the radio station at Carleton College.
-            Independent and completely student-run since its origin
-            in 1948, KRLX broadcasts 24 hours a day during the academic
-            year, with over 200 student participants each term.
-          </Text>
+
+          {button}
+
+          {this.state.playState === 'playing'
+            ? <Video
+                source={{uri: kstoStream}}
+                playInBackground={true}
+                playWhenInactive={true}
+                paused={this.state.playState !== 'playing'}
+                onError={this.onError}
+              />
+            : null}
         </View>
       </ScrollView>
     )
   }
 }
 
-const viewport = Dimensions.get('window')
+type ActionButtonProps = {
+  icon: string,
+  text: string,
+  onPress: () => any,
+}
+export const ActionButton = ({icon, text, onPress}: ActionButtonProps) =>
+  <Touchable style={buttonStyles.button} hightlight={false} onPress={onPress}>
+    <View style={buttonStyles.buttonWrapper}>
+      <Icon style={buttonStyles.icon} name={icon} />
+      <Text style={buttonStyles.action}>
+        {text}
+      </Text>
+    </View>
+  </Touchable>
+
 const styles = StyleSheet.create({
+  root: {
+    flexDirection: 'column',
+    alignItems: 'stretch',
+    justifyContent: 'space-between',
+    padding: 20,
+  },
   container: {
     alignItems: 'center',
+    flex: 1,
+    marginTop: 20,
+    marginBottom: 20,
   },
-  wrapper: {
-    padding: 10,
+  logoWrapper: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 1,
   },
   logo: {
-    maxWidth: viewport.width / 1.2,
-    maxHeight: viewport.height / 2.0,
+    borderRadius: 6,
+    borderColor: c.kstoSecondaryDark,
+    borderWidth: 3,
   },
-  subheading: {
+  titleWrapper: {
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  heading: {
+    color: c.kstoPrimaryDark,
+    fontWeight: '600',
+    fontSize: 28,
+    textAlign: 'center',
+  },
+  subHeading: {
     marginTop: 5,
+    color: c.kstoPrimaryDark,
+    fontWeight: '300',
+    fontSize: 28,
+    textAlign: 'center',
+  },
+  status: {
+    fontWeight: '400',
+    fontSize: 18,
+    textAlign: 'center',
+    color: c.grapefruit,
+    marginTop: 15,
+    marginBottom: 5,
+  },
+})
+
+const landscape = StyleSheet.create({
+  root: {
+    flex: 1,
+    padding: 20,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  logoWrapper: {
+    flex: 0,
   },
 })
 

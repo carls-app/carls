@@ -9,12 +9,12 @@ import {TabNavigator} from '../components/tabbed-view'
 import {TabBarIcon} from '../components/tabbar-icon'
 import {ReasonCalendarView} from '../calendar/calendar-reason'
 
-import KSTOView from './radio'
+import {KRLXView} from './krlx'
 // import WeeklyMovieView from './movie'
 
 export default TabNavigator(
   {
-    KSTORadioView: {screen: KSTOView},
+    KRLXRadioView: {screen: KRLXView},
     WeeklyMovieView: {
       screen: ({navigation}) =>
         <ReasonCalendarView
