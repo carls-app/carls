@@ -24,7 +24,7 @@ type State = {
   viewport: Viewport,
 }
 
-export class KRLXView extends React.PureComponent<void, Props, State> {
+export class KRLXView extends React.PureComponent<Props, State> {
   static navigationOptions = {
     tabBarLabel: 'KRLX',
     tabBarIcon: TabBarIcon('radio'),
@@ -82,10 +82,10 @@ export class KRLXView extends React.PureComponent<void, Props, State> {
             </Text>
 
             <Text selectable={true} style={styles.subheading}>
-              88.1 KRLX-FM is the radio station at Carleton College.
-              Independent and completely student-run since its origin
-              in 1948, KRLX broadcasts 24 hours a day during the academic
-              year, with over 200 student participants each term.
+              88.1 KRLX-FM is the radio station at Carleton College. Independent
+              and completely student-run since its origin in 1948, KRLX
+              broadcasts 24 hours a day during the academic year, with over 200
+              student participants each term.
             </Text>
           </View>
 

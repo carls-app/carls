@@ -42,7 +42,10 @@ export class ReasonCalendarView extends React.Component {
       // eslint-disable-next-line camelcase
       start_date: now.clone().format('YYYY-MM-DD'),
       // eslint-disable-next-line camelcase
-      end_date: now.clone().add(1, 'month').format('YYYY-MM-DD'),
+      end_date: now
+        .clone()
+        .add(1, 'month')
+        .format('YYYY-MM-DD'),
       ...(calendarProps || {}),
       format: 'json',
     }

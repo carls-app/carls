@@ -69,7 +69,7 @@ export class StudentWorkView extends React.PureComponent {
     this.setState(() => ({loaded: true}))
   }
 
-  refresh = async () => {
+  refresh = async (): any => {
     const start = Date.now()
     this.setState(() => ({refreshing: true}))
 
@@ -89,8 +89,9 @@ export class StudentWorkView extends React.PureComponent {
 
   keyExtractor = (item: ThinJobType, index: number) => index.toString()
 
-  renderItem = ({item}: {item: ThinJobType}) =>
+  renderItem = ({item}: {item: ThinJobType}) => (
     <JobRow job={item} onPress={this.onPressJob} />
+  )
 
   render() {
     if (this.state.error) {

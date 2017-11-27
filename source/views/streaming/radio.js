@@ -357,13 +357,14 @@ type ActionButtonProps = {
   text: string,
   onPress: () => any,
 }
-export const ActionButton = ({icon, text, onPress}: ActionButtonProps) =>
+export const ActionButton = ({icon, text, onPress}: ActionButtonProps) => (
   <Touchable style={buttonStyles.button} hightlight={false} onPress={onPress}>
     <View style={buttonStyles.buttonWrapper}>
       <Icon style={buttonStyles.icon} name={icon} />
       <Text style={buttonStyles.action}>{text}</Text>
     </View>
   </Touchable>
+)
 
 const styles = StyleSheet.create({
   root: {

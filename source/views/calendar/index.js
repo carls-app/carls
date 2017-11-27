@@ -12,11 +12,12 @@ export {EventDetail} from './event-detail'
 export default TabNavigator(
   {
     CarletonCalendarView: {
-      screen: ({navigation}) =>
+      screen: ({navigation}) => (
         <ReasonCalendarView
           navigation={navigation}
           calendarUrl="https://apps.carleton.edu/calendar/"
-        />,
+        />
+      ),
       navigationOptions: {
         tabBarLabel: 'Carleton',
         tabBarIcon: TabBarIcon('school'),
@@ -24,11 +25,12 @@ export default TabNavigator(
     },
 
     TheCaveCalendarView: {
-      screen: ({navigation}) =>
+      screen: ({navigation}) => (
         <ReasonCalendarView
           navigation={navigation}
           calendarUrl="https://apps.carleton.edu/student/orgs/cave/calendar/"
-        />,
+        />
+      ),
       navigationOptions: {
         tabBarLabel: 'The Cave',
         tabBarIcon: TabBarIcon('beer'),
@@ -36,11 +38,12 @@ export default TabNavigator(
     },
 
     StOlafCalendarView: {
-      screen: ({navigation}) =>
+      screen: ({navigation}) => (
         <GoogleCalendarView
           navigation={navigation}
           calendarId="le6tdd9i38vgb7fcmha0hu66u9gjus2e@import.calendar.google.com"
-        />,
+        />
+      ),
       navigationOptions: {
         tabBarLabel: 'St. Olaf',
         tabBarIcon: TabBarIcon('school'),

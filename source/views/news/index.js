@@ -11,14 +11,15 @@ import NewsContainer from './news-container'
 export default TabNavigator(
   {
     CarletonNewsView: {
-      screen: ({navigation}) =>
+      screen: ({navigation}) => (
         <NewsContainer
           navigation={navigation}
           mode="rss"
           url="https://apps.carleton.edu/media_relations/feeds/blogs/news"
           name="Carleton"
           thumbnail={newsImages.carleton}
-        />,
+        />
+      ),
       navigationOptions: {
         tabBarLabel: 'Carleton',
         tabBarIcon: TabBarIcon('school'),
@@ -26,7 +27,7 @@ export default TabNavigator(
     },
 
     CarletonianNewsView: {
-      screen: ({navigation}) =>
+      screen: ({navigation}) => (
         <NewsContainer
           navigation={navigation}
           mode="rss"
@@ -34,7 +35,8 @@ export default TabNavigator(
           embedFeaturedImage={true}
           name="The Carletonian"
           thumbnail={newsImages.carletonian}
-        />,
+        />
+      ),
       navigationOptions: {
         tabBarLabel: 'Carletonian',
         tabBarIcon: TabBarIcon('paper'),
@@ -42,7 +44,7 @@ export default TabNavigator(
     },
 
     KrlxNewsView: {
-      screen: ({navigation}) =>
+      screen: ({navigation}) => (
         <NewsContainer
           navigation={navigation}
           mode="wp-json"
@@ -50,7 +52,8 @@ export default TabNavigator(
           query={{per_page: 10, _embed: true}}
           name="KRLX"
           thumbnail={newsImages.krlx}
-        />,
+        />
+      ),
       navigationOptions: {
         tabBarLabel: 'KRLX',
         tabBarIcon: TabBarIcon('radio'),

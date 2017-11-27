@@ -11,11 +11,12 @@ import {KRLXView} from './krlx'
 export default TabNavigator(
   {
     WeeklyMovieView: {
-      screen: ({navigation}) =>
+      screen: ({navigation}) => (
         <ReasonCalendarView
           navigation={navigation}
           calendarUrl="https://apps.carleton.edu/student/orgs/sumo/"
-        />,
+        />
+      ),
       navigationOptions: {
         tabBarLabel: 'SUMO',
         tabBarIcon: TabBarIcon('film'),

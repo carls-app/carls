@@ -11,22 +11,23 @@ import {TabBarIcon} from '../../components/tabbar-icon'
 
 const blacklist = [/Red Line/, /Blue Line/, /Northfield Express/, /Carls-Go/]
 
-export class XyzBusList extends React.PureComponent {
+type Props = {
+  blacklist: Array<RegExp>,
+  routes: Array<XyzBusLine>,
+  loading: boolean,
+  error: ?Error,
+  navigation: {navigate: any => any},
+}
+
+export class XyzBusList extends React.PureComponent<Props> {
   static navigationOptions = {
     tabBarLabel: 'Other Buses',
     tabBarIcon: TabBarIcon('bus'),
   }
 
-  props: {
-    blacklist: Array<string>,
-    routes: Array<XyzBusLine>,
-    loading: boolean,
-    error: ?Error,
-    navigation: {navigate: any => any},
-  }
-
-  renderItem = ({item}: {item: XyzBusLine}) =>
+  renderItem = ({item}: {item: XyzBusLine}) => (
     <XyzBusListRow item={item} navigate={this.props.navigation.navigate} />
+  )
 
   keyExtractor = (item: XyzBusLine) => item.name
 
@@ -42,9 +43,9 @@ export class XyzBusList extends React.PureComponent {
   }
 }
 
-class XyzBusListRow extends React.PureComponent {
-  props: {item: XyzBusLine, navigate: any => any}
+type RowProps = {item: XyzBusLine, navigate: (...mixed[]) => mixed}
 
+class XyzBusListRow extends React.PureComponent<RowProps> {
   onPress = () =>
     this.props.navigate('XyzBusView', {routeName: this.props.item.name})
 

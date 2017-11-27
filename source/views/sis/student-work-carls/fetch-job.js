@@ -37,7 +37,10 @@ export async function fetchJob(url: string): Promise<FullJobType> {
     if (booleanKeys.includes(key)) {
       value = true
     } else if (paragraphicalKeys.includes(key)) {
-      value = cssSelect('p', listEl).map(getText).join('\n\n').trim()
+      value = cssSelect('p', listEl)
+        .map(getText)
+        .join('\n\n')
+        .trim()
     } else {
       value = getText(value).trim()
     }

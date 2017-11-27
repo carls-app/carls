@@ -47,25 +47,19 @@ function Title({job}: {job: JobType}) {
 }
 
 function Information({job}: {job: FullJobType}) {
-  const department = job.department
-    ? <Text style={styles.cardBody}>
-        Department: {job.department}
-      </Text>
-    : null
+  const department = job.department ? (
+    <Text style={styles.cardBody}>Department: {job.department}</Text>
+  ) : null
 
-  const opens = (
-    <Text style={styles.cardBody}>
-      Date Open: {job.dateOpen}
-    </Text>
-  )
+  const opens = <Text style={styles.cardBody}>Date Open: {job.dateOpen}</Text>
 
-  const term = job.duringTerm
-    ? <Text style={styles.cardBody}>Position Available During Term</Text>
-    : null
+  const term = job.duringTerm ? (
+    <Text style={styles.cardBody}>Position Available During Term</Text>
+  ) : null
 
-  const brk = job.duringBreak
-    ? <Text style={styles.cardBody}>Position Available During Break</Text>
-    : null
+  const brk = job.duringBreak ? (
+    <Text style={styles.cardBody}>Position Available During Break</Text>
+  ) : null
 
   return (
     <Card header="Information" style={styles.card}>
@@ -78,25 +72,23 @@ function Information({job}: {job: FullJobType}) {
 }
 
 function Description({job}: {job: JobType}) {
-  return job.description
-    ? <Card header="Description" style={styles.card}>
-        <Text style={styles.cardBody}>
-          {job.description}
-        </Text>
-      </Card>
-    : null
+  return job.description ? (
+    <Card header="Description" style={styles.card}>
+      <Text style={styles.cardBody}>{job.description}</Text>
+    </Card>
+  ) : null
 }
 
 function Links({links}: {links: Array<string>}) {
-  return links.length
-    ? <Card header="LINKS" style={styles.card}>
-        {links.map(url =>
-          <Text key={url} style={styles.cardBody} onPress={() => openUrl(url)}>
-            {url}
-          </Text>,
-        )}
-      </Card>
-    : null
+  return links.length ? (
+    <Card header="LINKS" style={styles.card}>
+      {links.map(url => (
+        <Text key={url} style={styles.cardBody} onPress={() => openUrl(url)}>
+          {url}
+        </Text>
+      ))}
+    </Card>
+  ) : null
 }
 
 export class JobDetailView extends React.PureComponent {
