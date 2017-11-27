@@ -198,7 +198,7 @@ const mapStateToProps = (state, {routeName, navigation}) => {
       ({name}) =>
         routeName && routeName.test ? routeName.test(name) : routeName === name,
     ),
-    now: state.app.now,
+    now: moment(state.app.now),
   }
 }
 

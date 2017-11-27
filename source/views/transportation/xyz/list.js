@@ -3,6 +3,7 @@
 import React from 'react'
 import {FlatList} from 'react-native'
 import {connect} from 'react-redux'
+import moment from 'moment'
 
 import {updateBusList} from '../../../flux/parts/bus'
 import {ListRow, Detail, Title, ListSeparator} from '../../components/list'
@@ -64,7 +65,7 @@ class XyzBusListRow extends React.PureComponent<RowProps> {
 }
 
 const mapStateToProps = state => {
-  const today = state.app.now.format('YYYY-MM-DD')
+  const today = moment(state.app.now).format('YYYY-MM-DD')
 
   return {
     ...state.bus,
