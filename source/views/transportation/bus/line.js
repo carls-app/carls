@@ -31,7 +31,7 @@ const EMPTY_SCHEDULE_MESSAGE = (
   </ListRow>
 )
 const FOOTER_MSG =
-  'Bus routes and times subject to change without notice\n\nData collected by the humans of All About Olaf'
+  'Bus routes and times subject to change without notice\n\nData collected by the humans of CARLS'
 const FOOTER_EL = <ListFooter title={FOOTER_MSG} />
 
 type Props = {
