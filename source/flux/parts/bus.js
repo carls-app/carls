@@ -60,7 +60,12 @@ export function bus(state: State = initialState, action: Action) {
       return {...state, loading: true}
     }
     case UPDATE_BUS_LIST_SUCCESS: {
-      return {...state, loading: false, routes: values(action.payload), error: null}
+      return {
+        ...state,
+        loading: false,
+        routes: values(action.payload),
+        error: null,
+      }
     }
     case UPDATE_BUS_LIST_ERROR: {
       return {...state, loading: false, error: action.payload}
