@@ -1,9 +1,6 @@
 // @flow
-/**
- * All About Olaf
- * Building Hours list element
- */
-import React from 'react'
+
+import * as React from 'react'
 import {View, Text, StyleSheet} from 'react-native'
 import {Badge} from '../components/badge'
 import isEqual from 'lodash/isEqual'
@@ -15,9 +12,6 @@ import {ListRow, Detail, Title} from '../components/list'
 import {getDetailedBuildingStatus, getShortBuildingStatus} from './lib'
 
 const styles = StyleSheet.create({
-  row: {
-    backgroundColor: c.white,
-  },
   title: {
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -61,13 +55,14 @@ type Props = {
 }
 
 type State = {
+  firstUpdate: boolean,
   openStatus: string,
   hours: Array<any>,
   accentBg: string,
   accentText: string,
 }
 
-export class BuildingRow extends React.Component<void, Props, State> {
+export class BuildingRow extends React.Component<Props, State> {
   state = {
     openStatus: 'Unknown',
     hours: [],
@@ -136,14 +131,14 @@ export class BuildingRow extends React.Component<void, Props, State> {
     const {openStatus, hours, accentBg, accentText} = this.state
 
     return (
-      <ListRow onPress={this.onPress} arrowPosition="center" style={styles.row}>
+      <ListRow onPress={this.onPress} arrowPosition="center">
         <Row style={styles.title}>
           <Title lines={1} style={styles.titleText}>
             <Text>{name}</Text>
             {info.abbreviation ? <Text> ({info.abbreviation})</Text> : null}
-            {info.subtitle
-              ? <Text style={styles.subtitleText}> {info.subtitle}</Text>
-              : null}
+            {info.subtitle ? (
+              <Text style={styles.subtitleText}> {info.subtitle}</Text>
+            ) : null}
           </Title>
 
           <Badge
@@ -155,15 +150,15 @@ export class BuildingRow extends React.Component<void, Props, State> {
         </Row>
 
         <View style={styles.detailWrapper}>
-          {hours.map(({isActive, label, status}, i) =>
+          {hours.map(({isActive, label, status}, i) => (
             <Detail key={i} style={styles.detailRow}>
               <BuildingTimeSlot
                 highlight={hours.length > 1 && isActive}
                 label={label}
                 status={status}
               />
-            </Detail>,
-          )}
+            </Detail>
+          ))}
         </View>
       </ListRow>
     )
@@ -184,9 +179,9 @@ const BuildingTimeSlot = ({
 
   return (
     <Text>
-      {showLabel
-        ? <Text style={highlight && styles.bold}>{label}: </Text>
-        : null}
+      {showLabel ? (
+        <Text style={highlight && styles.bold}>{label}: </Text>
+      ) : null}
       <Text style={highlight && styles.bold}>{status}</Text>
     </Text>
   )

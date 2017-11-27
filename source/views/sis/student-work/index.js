@@ -1,12 +1,7 @@
-/**
- * @flow
- *
- * All About Olaf
- * Student Work page
- */
+// @flow
 
-import React from 'react'
-import {StyleSheet, Text, SectionList} from 'react-native'
+import * as React from 'react'
+import {StyleSheet, SectionList} from 'react-native'
 import {TabBarIcon} from '../../components/tabbar-icon'
 import type {TopLevelViewPropsType} from '../../types'
 import * as c from '../../components/colors'
@@ -32,29 +27,33 @@ const styles = StyleSheet.create({
   },
 })
 
-export default class StudentWorkView extends React.PureComponent {
+type Props = TopLevelViewPropsType
+
+type State = {
+  jobs: Array<{title: string, data: Array<JobType>}>,
+  loading: boolean,
+  refreshing: boolean,
+  error: boolean,
+}
+
+export default class StudentWorkView extends React.PureComponent<Props, State> {
   static navigationOptions = {
     headerBackTitle: 'Open Jobs',
     tabBarLabel: 'Open Jobs',
     tabBarIcon: TabBarIcon('briefcase'),
   }
 
-  props: TopLevelViewPropsType
-
-  state: {
-    jobs: Array<{title: string, data: Array<JobType>}>,
-    loaded: boolean,
-    refreshing: boolean,
-    error: boolean,
-  } = {
+  state = {
     jobs: [],
-    loaded: false,
+    loading: true,
     refreshing: false,
     error: false,
   }
 
   componentWillMount() {
-    this.fetchData()
+    this.fetchData().then(() => {
+      this.setState(() => ({loading: false}))
+    })
   }
 
   fetchData = async () => {
@@ -87,11 +86,9 @@ export default class StudentWorkView extends React.PureComponent {
       this.setState(() => ({error: true}))
       console.error(err)
     }
-
-    this.setState(() => ({loaded: true}))
   }
 
-  refresh = async () => {
+  refresh = async (): any => {
     const start = Date.now()
     this.setState(() => ({refreshing: true}))
 
@@ -111,18 +108,20 @@ export default class StudentWorkView extends React.PureComponent {
 
   keyExtractor = (item: JobType, index: number) => index.toString()
 
-  renderSectionHeader = ({section: {title}}: any) =>
+  renderSectionHeader = ({section: {title}}: any) => (
     <ListSectionHeader title={title} />
+  )
 
-  renderItem = ({item}: {item: JobType}) =>
+  renderItem = ({item}: {item: JobType}) => (
     <JobRow job={item} onPress={this.onPressJob} />
+  )
 
   render() {
     if (this.state.error) {
-      return <Text selectable={true}>{this.state.error}</Text>
+      return <NoticeView text="Could not get open jobs." />
     }
 
-    if (!this.state.loaded) {
+    if (this.state.loading) {
       return <LoadingView />
     }
 

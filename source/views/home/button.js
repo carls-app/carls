@@ -1,19 +1,18 @@
 // @flow
 
-import React from 'react'
+import * as React from 'react'
 import {Text, StyleSheet, Platform} from 'react-native'
 import Icon from 'react-native-vector-icons/Entypo'
 import type {ViewType} from '../views'
 import {Touchable} from '../components/touchable'
 import * as c from '../components/colors'
 
-export function HomeScreenButton({
-  view,
-  onPress,
-}: {
+type Props = {
   view: ViewType,
   onPress: () => any,
-}) {
+}
+
+export function HomeScreenButton({view, onPress}: Props) {
   const style = {backgroundColor: view.tint}
 
   return (
@@ -21,11 +20,12 @@ export function HomeScreenButton({
       highlight={false}
       onPress={onPress}
       style={[styles.rectangle, style]}
+      accessibilityLabel={view.title}
+      accessibilityTraits="button"
+      accessibilityComponentType="button"
     >
       <Icon name={view.icon} size={32} style={styles.rectangleButtonIcon} />
-      <Text style={styles.rectangleButtonText}>
-        {view.title}
-      </Text>
+      <Text style={styles.rectangleButtonText}>{view.title}</Text>
     </Touchable>
   )
 }
@@ -37,8 +37,6 @@ const cellHorizontalPadding = 4
 const styles = StyleSheet.create({
   // Main buttons for actions on home screen
   rectangle: {
-    flex: 1,
-
     alignItems: 'center',
     justifyContent: 'center',
 

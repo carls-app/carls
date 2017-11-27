@@ -1,5 +1,5 @@
 // @flow
-import React from 'react'
+import * as React from 'react'
 import {ScrollView, Text, View, StyleSheet} from 'react-native'
 import moment from 'moment'
 import {Card} from '../components/card'
@@ -54,16 +54,16 @@ const styles = StyleSheet.create({
   },
 })
 
-export class StudentOrgsDetailView extends React.Component {
+type Props = TopLevelViewPropsType & {
+  navigation: {state: {params: {org: StudentOrgType}}},
+}
+
+export class StudentOrgsDetailView extends React.PureComponent<Props> {
   static navigationOptions = ({navigation}) => {
     const {org} = navigation.state.params
     return {
       title: org.name,
     }
-  }
-
-  props: TopLevelViewPropsType & {
-    navigation: {state: {params: {org: StudentOrgType}}},
   }
 
   // Using the Communications library because `mailTo` complains about
@@ -88,71 +88,70 @@ export class StudentOrgsDetailView extends React.Component {
       <ScrollView>
         <Text style={styles.name}>{orgName}</Text>
 
-        {category
-          ? <Card header="Category" style={styles.card}>
-              <Text style={styles.cardBody}>{category}</Text>
-            </Card>
-          : null}
+        {category ? (
+          <Card header="Category" style={styles.card}>
+            <Text style={styles.cardBody}>{category}</Text>
+          </Card>
+        ) : null}
 
-        {meetings
-          ? <Card header="Meetings" style={styles.card}>
-              <Text style={styles.cardBody}>{meetings}</Text>
-            </Card>
-          : null}
+        {meetings ? (
+          <Card header="Meetings" style={styles.card}>
+            <Text style={styles.cardBody}>{meetings}</Text>
+          </Card>
+        ) : null}
 
-        {website
-          ? <Card header="Website" style={styles.card}>
-              <Text onPress={() => openUrl(website)} style={styles.cardBody}>
-                {website}
+        {website ? (
+          <Card header="Website" style={styles.card}>
+            <Text onPress={() => openUrl(website)} style={styles.cardBody}>
+              {website}
+            </Text>
+          </Card>
+        ) : null}
+
+        {contacts.length ? (
+          <Card header="Contact" style={styles.card}>
+            {contacts.map((c, i) => (
+              <Text
+                key={i}
+                selectable={true}
+                style={styles.cardBody}
+                onPress={() => this.openEmail(c.email, orgName)}
+              >
+                {c.title ? c.title + ': ' : ''}
+                {showNameOrEmail(c)}
               </Text>
-            </Card>
-          : null}
+            ))}
+          </Card>
+        ) : null}
 
-        {contacts.length
-          ? <Card header="Contact" style={styles.card}>
-              {contacts.map((c, i) =>
-                <Text
-                  key={i}
-                  selectable={true}
-                  style={styles.cardBody}
-                  onPress={() => this.openEmail(c.email, orgName)}
-                >
-                  {c.title ? c.title + ': ' : ''}
-                  {showNameOrEmail(c)}
-                </Text>,
-              )}
-            </Card>
-          : null}
+        {advisors.length ? (
+          <Card
+            header={advisors.length === 1 ? 'Advisor' : 'Advisors'}
+            style={styles.card}
+          >
+            {advisors.map((c, i) => (
+              <Text
+                key={i}
+                selectable={true}
+                style={styles.cardBody}
+                onPress={() => this.openEmail(c.email, orgName)}
+              >
+                {c.name} ({c.email})
+              </Text>
+            ))}
+          </Card>
+        ) : null}
 
-        {advisors.length
-          ? <Card
-              header={advisors.length === 1 ? 'Advisor' : 'Advisors'}
-              style={styles.card}
-            >
-              {advisors.map((c, i) =>
-                <Text
-                  key={i}
-                  selectable={true}
-                  style={styles.cardBody}
-                  onPress={() => this.openEmail(c.email, orgName)}
-                >
-                  {c.name} ({c.email})
-                </Text>,
-              )}
-            </Card>
-          : null}
-
-        {description
-          ? <Card header="Description" style={styles.card}>
-              <View style={styles.description}>
-                <Text style={styles.descriptionText}>{description}</Text>
-              </View>
-            </Card>
-          : null}
+        {description ? (
+          <Card header="Description" style={styles.card}>
+            <View style={styles.description}>
+              <Text style={styles.descriptionText}>{description}</Text>
+            </View>
+          </Card>
+        ) : null}
 
         <Text selectable={true} style={[styles.footer, styles.lastUpdated]}>
-          Last updated:
-          {' '}
+          Last updated:{' '}
           {moment(orgLastUpdated, 'MMMM, DD YYYY HH:mm:ss').calendar()}
         </Text>
 

@@ -1,19 +1,17 @@
 // @flow
-import React from 'react'
-import {Text, ScrollView, StyleSheet, Share} from 'react-native'
-import type {CleanedEventType} from './types'
+import * as React from 'react'
+import {Text, ScrollView, StyleSheet} from 'react-native'
+import type {CleanedEventType, PoweredBy} from './types'
 import type {TopLevelViewPropsType} from '../types'
 import {ShareButton} from '../components/nav-buttons'
 import openUrl from '../components/open-url'
 import {Card} from '../components/card'
-import {getTimes, getLinksFromEvent} from './clean-event'
+import {getLinksFromEvent} from './clean-event'
 import * as c from '../components/colors'
 import {ButtonCell} from '../components/cells/button'
-import {addToCalendar} from './calendar-util'
+import {addToCalendar, shareEvent} from './calendar-util'
 import delay from 'delay'
 import {ListFooter} from '../components/list'
-
-const STO_CALENDAR_URL = 'https://www.stolaf.edu/calendar'
 
 const styles = StyleSheet.create({
   name: {
@@ -43,46 +41,40 @@ function Title({event}: {event: CleanedEventType}) {
 }
 
 function Description({event}: {event: CleanedEventType}) {
-  return event.rawSummary
-    ? <Card header="Description" style={styles.card}>
-        <Text style={styles.cardBody}>
-          {event.rawSummary}
-        </Text>
-      </Card>
-    : null
+  return event.rawSummary ? (
+    <Card header="Description" style={styles.card}>
+      <Text style={styles.cardBody}>{event.rawSummary}</Text>
+    </Card>
+  ) : null
 }
 
 function When({event}: {event: CleanedEventType}) {
-  return event.times
-    ? <Card header="When" style={styles.card}>
-        <Text style={styles.cardBody}>
-          {event.times}
-        </Text>
-      </Card>
-    : null
+  return event.times ? (
+    <Card header="When" style={styles.card}>
+      <Text style={styles.cardBody}>{event.times}</Text>
+    </Card>
+  ) : null
 }
 
 function Location({event}: {event: CleanedEventType}) {
-  return event.location
-    ? <Card header="Location" style={styles.card}>
-        <Text style={styles.cardBody}>
-          {event.location}
-        </Text>
-      </Card>
-    : null
+  return event.location ? (
+    <Card header="Location" style={styles.card}>
+      <Text style={styles.cardBody}>{event.location}</Text>
+    </Card>
+  ) : null
 }
 
 function Links({event}: {event: CleanedEventType}) {
   const links = getLinksFromEvent(event)
-  return links.length
-    ? <Card header="Links" style={styles.card}>
-        {links.map(url =>
-          <Text key={url} style={styles.cardBody} onPress={() => openUrl(url)}>
-            {url}
-          </Text>,
-        )}
-      </Card>
-    : null
+  return links.length ? (
+    <Card header="Links" style={styles.card}>
+      {links.map(url => (
+        <Text key={url} style={styles.cardBody} onPress={() => openUrl(url)}>
+          {url}
+        </Text>
+      ))}
+    </Card>
+  ) : null
 }
 
 const CalendarButton = ({message, disabled, onPress}) => {
@@ -97,31 +89,27 @@ const CalendarButton = ({message, disabled, onPress}) => {
   )
 }
 
-const shareItem = (event: CleanedEventType) => {
-  const times = getTimes(event)
-  const message = `${event.summary}\n\n${times}\n\n${event.location}`
-  Share.share({message})
-    .then(result => console.log(result))
-    .catch(error => console.log(error.message))
+type Props = TopLevelViewPropsType & {
+  navigation: {
+    state: {params: {event: CleanedEventType, poweredBy: ?PoweredBy}},
+  },
 }
 
-export class EventDetail extends React.PureComponent {
+type State = {
+  message: string,
+  disabled: boolean,
+}
+
+export class EventDetail extends React.PureComponent<Props, State> {
   static navigationOptions = ({navigation}) => {
     const {event} = navigation.state.params
     return {
       title: event.title,
-      headerRight: <ShareButton onPress={() => shareItem(event)} />,
+      headerRight: <ShareButton onPress={() => shareEvent(event)} />,
     }
   }
 
-  props: TopLevelViewPropsType & {
-    navigation: {state: {params: {event: CleanedEventType}}},
-  }
-
-  state: {
-    message: string,
-    disabled: boolean,
-  } = {
+  state = {
     message: '',
     disabled: false,
   }
@@ -136,25 +124,25 @@ export class EventDetail extends React.PureComponent {
       await delay(500 - elapsed)
     }
 
-    await addToCalendar(event).then(result => {
-      if (result) {
-        this.setState({
-          message: 'Event has been added to your calendar',
-          disabled: true,
-        })
-      } else {
-        this.setState({
-          message: 'Could not add event to your calendar',
-          disabled: false,
-        })
-      }
-    })
+    const result = await addToCalendar(event)
+
+    if (result) {
+      this.setState(() => ({
+        message: 'Event has been added to your calendar',
+        disabled: true,
+      }))
+    } else {
+      this.setState(() => ({
+        message: 'Could not add event to your calendar',
+        disabled: false,
+      }))
+    }
   }
 
   onPressButton = () => this.addEvent(this.props.navigation.state.params.event)
 
   render() {
-    const event = this.props.navigation.state.params.event
+    const {event, poweredBy} = this.props.navigation.state.params
 
     return (
       <ScrollView>
@@ -169,10 +157,9 @@ export class EventDetail extends React.PureComponent {
           disabled={this.state.disabled}
         />
 
-        <ListFooter
-          title="Powered by the St. Olaf Calendar"
-          href={STO_CALENDAR_URL}
-        />
+        {poweredBy.title ? (
+          <ListFooter title={poweredBy.title} href={poweredBy.href} />
+        ) : null}
       </ScrollView>
     )
   }

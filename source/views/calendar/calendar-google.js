@@ -1,15 +1,11 @@
 // @flow
-/**
- * All About Olaf
- * Calendar page
- */
 
-import React from 'react'
+import * as React from 'react'
 import {EventList} from './event-list'
 import bugsnag from '../../bugsnag'
 import {tracker} from '../../analytics'
 import type {TopLevelViewPropsType} from '../types'
-import type {EventType, GoogleEventType} from './types'
+import type {EventType, GoogleEventType, PoweredBy} from './types'
 import moment from 'moment-timezone'
 import delay from 'delay'
 import LoadingView from '../components/loading'
@@ -17,29 +13,35 @@ import qs from 'querystring'
 import {GOOGLE_CALENDAR_API_KEY} from '../../lib/config'
 const TIMEZONE = 'America/Winnipeg'
 
-export class GoogleCalendarView extends React.Component {
-  props: {calendarId: string} & TopLevelViewPropsType
+type Props = TopLevelViewPropsType & {calendarId: string, poweredBy: ?PoweredBy}
 
-  state: {
-    events: EventType[],
-    loaded: boolean,
-    refreshing: boolean,
-    error: ?Error,
-    now: moment,
-  } = {
+type State = {
+  events: EventType[],
+  loading: boolean,
+  refreshing: boolean,
+  error: ?Error,
+  now: moment,
+}
+
+export class GoogleCalendarView extends React.Component<Props, State> {
+  state = {
     events: [],
-    loaded: false,
+    loading: true,
     refreshing: false,
     error: null,
     now: moment.tz(TIMEZONE),
   }
 
   componentWillMount() {
-    this.getEvents()
+    this.getEvents().then(() => {
+      this.setState(() => ({loading: false}))
+    })
   }
 
   buildCalendarUrl(calendarId: string) {
-    let calendarUrl = `https://www.googleapis.com/calendar/v3/calendars/${calendarId}/events`
+    let calendarUrl = `https://www.googleapis.com/calendar/v3/calendars/${
+      calendarId
+    }/events`
     let params = {
       maxResults: 50,
       orderBy: 'startTime',
@@ -87,11 +89,7 @@ export class GoogleCalendarView extends React.Component {
       console.warn(err)
     }
 
-    this.setState({
-      now,
-      loaded: true,
-      events: this.convertEvents(data, now),
-    })
+    this.setState({now, events: this.convertEvents(data, now)})
   }
 
   refresh = async () => {
@@ -110,7 +108,7 @@ export class GoogleCalendarView extends React.Component {
   }
 
   render() {
-    if (!this.state.loaded) {
+    if (this.state.loading) {
       return <LoadingView />
     }
 
@@ -122,6 +120,7 @@ export class GoogleCalendarView extends React.Component {
         onRefresh={this.refresh}
         now={this.state.now}
         message={this.state.error ? this.state.error.message : null}
+        poweredBy={this.props.poweredBy}
       />
     )
   }

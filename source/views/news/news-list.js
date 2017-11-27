@@ -1,5 +1,5 @@
 // @flow
-import React from 'react'
+import * as React from 'react'
 import {StyleSheet, FlatList} from 'react-native'
 import * as c from '../components/colors'
 import type {StoryType} from './types'
@@ -14,16 +14,16 @@ const styles = StyleSheet.create({
   },
 })
 
-export class NewsList extends React.Component {
-  props: TopLevelViewPropsType & {
-    name: string,
-    onRefresh: () => any,
-    entries: StoryType[],
-    loading: boolean,
-    embedFeaturedImage: ?boolean,
-    thumbnail: number,
-  }
+type Props = TopLevelViewPropsType & {
+  name: string,
+  onRefresh: () => any,
+  entries: StoryType[],
+  loading: boolean,
+  embedFeaturedImage: ?boolean,
+  thumbnail: number,
+}
 
+export class NewsList extends React.PureComponent<Props> {
   onPressNews = (story: StoryType) => {
     this.props.navigation.navigate('NewsItemView', {
       story,
@@ -33,12 +33,13 @@ export class NewsList extends React.Component {
 
   renderSeparator = () => <ListSeparator spacing={{left: 101}} />
 
-  renderItem = ({item}: {item: StoryType}) =>
+  renderItem = ({item}: {item: StoryType}) => (
     <NewsRow
       onPress={this.onPressNews}
       story={item}
       thumbnail={this.props.thumbnail}
     />
+  )
 
   keyExtractor = (item: StoryType) => item.title
 

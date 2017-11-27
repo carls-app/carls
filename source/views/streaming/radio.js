@@ -1,10 +1,6 @@
 // @flow
-/**
- * All About Olaf
- * KSTO page
- */
 
-import React from 'react'
+import * as React from 'react'
 import {
   Dimensions,
   Image,
@@ -37,7 +33,7 @@ type State = {
   viewport: Viewport,
 }
 
-export default class KSTOView extends React.PureComponent<void, Props, State> {
+export default class KSTOView extends React.PureComponent<Props, State> {
   static navigationOptions = {
     tabBarLabel: 'KSTO',
     tabBarIcon: TabBarIcon('radio'),
@@ -58,7 +54,7 @@ export default class KSTOView extends React.PureComponent<void, Props, State> {
     Dimensions.removeEventListener('change', this.handleResizeEvent)
   }
 
-  handleResizeEvent = (event: {window: {width: number}}) => {
+  handleResizeEvent = (event: {window: {width: number, height: number}}) => {
     this.setState(() => ({viewport: event.window}))
   }
 
@@ -121,14 +117,14 @@ export default class KSTOView extends React.PureComponent<void, Props, State> {
       height: logoWidth,
     }
 
-    const error = this.state.uplinkError
-      ? <Text style={styles.status}>{this.state.uplinkError}</Text>
-      : this.state.streamError
-        ? <Text style={styles.status}>
-            Error Code {this.state.streamError.code}:{' '}
-            {this.state.streamError.message}
-          </Text>
-        : null
+    const error = this.state.uplinkError ? (
+      <Text style={styles.status}>{this.state.uplinkError}</Text>
+    ) : this.state.streamError ? (
+      <Text style={styles.status}>
+        Error Code {this.state.streamError.code}:{' '}
+        {this.state.streamError.message}
+      </Text>
+    ) : null
 
     const button = this.renderButton(this.state.playState)
 
@@ -194,7 +190,7 @@ type HtmlAudioEvent =
   | {type: HtmlAudioState}
   | {type: 'error', error: HtmlAudioError}
 
-class StreamPlayer extends React.PureComponent<void, StreamPlayerProps, void> {
+class StreamPlayer extends React.PureComponent<StreamPlayerProps> {
   _webview: WebView
 
   componentWillReceiveProps(nextProps: StreamPlayerProps) {
@@ -269,7 +265,7 @@ class StreamPlayer extends React.PureComponent<void, StreamPlayerProps, void> {
 
     <title>KSTO Stream</title>
 
-    <audio id="player" webkit-playsinline>
+    <audio id="player" webkit-playsinline playsinline>
       <source src="${url}" />
     </audio>
 
@@ -340,11 +336,6 @@ class StreamPlayer extends React.PureComponent<void, StreamPlayerProps, void> {
 
       // "error" is fired when an error occurs.
       player.addEventListener('error', error)
-
-      /////
-      /////
-
-      player.play()
     </script>`
 
   render() {
@@ -370,9 +361,7 @@ export const ActionButton = ({icon, text, onPress}: ActionButtonProps) =>
   <Touchable style={buttonStyles.button} hightlight={false} onPress={onPress}>
     <View style={buttonStyles.buttonWrapper}>
       <Icon style={buttonStyles.icon} name={icon} />
-      <Text style={buttonStyles.action}>
-        {text}
-      </Text>
+      <Text style={buttonStyles.action}>{text}</Text>
     </View>
   </Touchable>
 

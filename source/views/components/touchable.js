@@ -1,5 +1,5 @@
 // @flow
-import React from 'react'
+import * as React from 'react'
 import {
   TouchableOpacity,
   TouchableHighlight,
@@ -48,9 +48,10 @@ export const Touchable = ({
     }
     case 'android': {
       const canBorderless = Platform.Version >= 21
-      const background = borderless && canBorderless
-        ? TouchableNativeFeedback.SelectableBackgroundBorderless()
-        : TouchableNativeFeedback.SelectableBackground()
+      const background =
+        borderless && canBorderless
+          ? TouchableNativeFeedback.SelectableBackgroundBorderless()
+          : TouchableNativeFeedback.SelectableBackground()
       return (
         <TouchableNativeFeedback
           onPress={onPress}

@@ -1,25 +1,23 @@
 // @flow
-/**
- * All About Olaf
- * Transportation page
- */
 
-import React from 'react'
+import * as React from 'react'
 
 import {TabNavigator} from '../components/tabbed-view'
 import {TabBarIcon} from '../components/tabbar-icon'
 
-import OtherModesView from './other-modes'
+import {OtherModesView} from './other-modes'
 import {ConnectedXyzBusView, ConnectedXyzBusList} from './xyz'
 
-export {BusMapView} from './bus/map'
 export {ConnectedXyzBusView} from './xyz/view'
+export {OtherModesDetailView} from './other-modes'
+export {BusMap} from './bus'
 
 export default TabNavigator(
   {
     ExpressLineBusView: {
-      screen: ({navigation}) =>
-        <ConnectedXyzBusView routeName="Express Bus" navigation={navigation} />,
+      screen: ({navigation}) => (
+        <ConnectedXyzBusView routeName="Express Bus" navigation={navigation} />
+      ),
       navigationOptions: {
         tabBarLabel: 'Express Bus',
         tabBarIcon: TabBarIcon('subway'),

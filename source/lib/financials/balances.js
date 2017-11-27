@@ -5,7 +5,6 @@ import {parseHtml, cssSelect, getTrimmedTextWithSpaces} from '../html'
 import {ONECARD_DASHBOARD} from './urls'
 import type {BalancesShapeType} from './types'
 import fromPairs from 'lodash/fromPairs'
-import isNil from 'lodash/isNil'
 import * as cache from '../cache'
 
 type BalancesOrErrorType =
@@ -22,6 +21,7 @@ export async function getBalances(
     print,
     daily,
     weekly,
+    plan,
     _isExpired,
     _isCached,
   } = await cache.getBalances()
@@ -46,6 +46,7 @@ export async function getBalances(
       print: print.value,
       daily: daily.value,
       weekly: weekly.value,
+      plan: plan.value,
     },
   }
 }
@@ -76,20 +77,20 @@ function parseBalancesFromDom(dom: mixed): BalancesOrErrorType {
     .filter(Boolean)
 
   const namedValues = fromPairs(elements)
+  const schillers = namedValues.schillers
 
-  const schillers = dollarAmountToInteger(namedValues.schillers)
-  const dining = dollarAmountToInteger(namedValues.dining)
+  const dining = namedValues.dining
   const daily = namedValues.daily
   const weekly = namedValues.weekly
 
   return {
     error: false,
     value: {
-      schillers: isNil(schillers) ? null : schillers,
-      dining: isNil(dining) ? null : dining,
+      schillers: !schillers ? null : schillers,
+      dining: !dining ? null : dining,
       print: null,
-      daily: isNil(daily) ? null : daily,
-      weekly: isNil(weekly) ? null : weekly,
+      daily: !daily ? null : daily,
+      weekly: !weekly ? null : weekly,
     },
   }
 }
@@ -113,15 +114,4 @@ function rowIntoNamedAmount(row: string): ?[string, string] {
       return [key, amount]
     }
   }
-}
-
-function dollarAmountToInteger(amount: ?string): ?number {
-  const amountString = amount || ''
-  // remove the /[$.]/, and put the numbers into big strings (eg, $3.14 -> '314')
-  const nonDenominationalAmount = amountString
-    .replace('$', '')
-    .split('.')
-    .join('')
-  const num = parseInt(nonDenominationalAmount, 10)
-  return Number.isNaN(num) ? null : num
 }

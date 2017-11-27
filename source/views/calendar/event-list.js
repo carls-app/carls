@@ -1,15 +1,11 @@
 // @flow
-/**
- * All About Olaf
- * List of calendar events
- */
 
-import React from 'react'
+import * as React from 'react'
 import {StyleSheet, SectionList} from 'react-native'
 import * as c from '../components/colors'
 import toPairs from 'lodash/toPairs'
 import type {TopLevelViewPropsType} from '../types'
-import type {EventType} from './types'
+import type {EventType, PoweredBy} from './types'
 import groupBy from 'lodash/groupBy'
 import moment from 'moment-timezone'
 import {ListSeparator, ListSectionHeader} from '../components/list'
@@ -17,18 +13,20 @@ import {NoticeView} from '../components/notice'
 import EventRow from './event-row'
 import {cleanEvent} from './clean-event'
 
-const FullWidthSeparator = props =>
+const FullWidthSeparator = props => (
   <ListSeparator fullWidth={true} {...props} />
+)
 
-export class EventList extends React.PureComponent {
-  props: TopLevelViewPropsType & {
-    events: EventType[],
-    message: ?string,
-    refreshing: boolean,
-    onRefresh: () => any,
-    now: moment,
-  }
+type Props = TopLevelViewPropsType & {
+  events: EventType[],
+  message: ?string,
+  refreshing: boolean,
+  onRefresh: () => any,
+  now: moment,
+  poweredBy: ?PoweredBy,
+}
 
+export class EventList extends React.PureComponent<Props> {
   groupEvents = (events: EventType[], now: moment): any => {
     // the proper return type is $ReadOnlyArray<{title: string, data: $ReadOnlyArray<EventType>}>
     const grouped = groupBy(events, event => {
@@ -49,15 +47,20 @@ export class EventList extends React.PureComponent {
 
   onPressEvent = (event: EventType) => {
     event = cleanEvent(event)
-    this.props.navigation.navigate('EventDetailView', {event})
+    this.props.navigation.navigate('EventDetailView', {
+      event,
+      poweredBy: this.props.poweredBy,
+    })
   }
 
-  renderSectionHeader = ({section: {title}}: any) =>
+  renderSectionHeader = ({section: {title}}: any) => (
     // the proper type is ({section: {title}}: {section: {title: string}})
     <ListSectionHeader title={title} spacing={{left: 10}} />
+  )
 
-  renderItem = ({item}: {item: EventType}) =>
+  renderItem = ({item}: {item: EventType}) => (
     <EventRow onPress={this.onPressEvent} event={item} />
+  )
 
   keyExtractor = (item: EventType, index: number) => index.toString()
 
