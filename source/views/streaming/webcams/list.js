@@ -11,7 +11,7 @@ import {partitionByIndex} from '../../../lib/partition-by-index'
 import type {Webcam} from './types'
 import {StreamThumbnail} from './thumbnail'
 
-const GITHUB_URL = 'https://stodevx.github.io/AAO-React-Native/webcams.json'
+const GITHUB_URL = 'https://carls-app.github.io/carls/webcams.json'
 
 type Props = {}
 

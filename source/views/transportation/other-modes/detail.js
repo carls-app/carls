@@ -9,7 +9,7 @@ import {Button} from '../../components/button'
 import openUrl from '../../components/open-url'
 import type {OtherModeType} from '../types'
 
-const AAO_URL = 'https://github.com/StoDevX/AAO-React-Native/issues/new'
+const AAO_URL = 'https://github.com/carls-app/carls/issues/new'
 
 const Title = glamorous.text({
   fontSize: 36,

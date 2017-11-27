@@ -22,7 +22,7 @@ import {tracker} from '../../analytics'
 import bugsnag from '../../bugsnag'
 const CENTRAL_TZ = 'America/Winnipeg'
 
-const githubMenuBaseUrl = 'https://stodevx.github.io/AAO-React-Native'
+const githubMenuBaseUrl = 'https://carls-app.github.io/carls'
 
 type Props = TopLevelViewPropsType & {
   name: string,
