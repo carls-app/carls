@@ -21,7 +21,6 @@ export async function getBalances(
     print,
     daily,
     weekly,
-    plan,
     _isExpired,
     _isCached,
   } = await cache.getBalances()
@@ -30,7 +29,7 @@ export async function getBalances(
     const balances = await fetchBalancesFromServer()
 
     // we don't want to cache error responses
-    if (balances.error) {
+    if (balances.error === true) {
       return balances
     }
 
@@ -46,7 +45,7 @@ export async function getBalances(
       print: print.value,
       daily: daily.value,
       weekly: weekly.value,
-      plan: plan.value,
+      plan: '',
     },
   }
 }
@@ -91,6 +90,7 @@ function parseBalancesFromDom(dom: mixed): BalancesOrErrorType {
       print: null,
       daily: !daily ? null : daily,
       weekly: !weekly ? null : weekly,
+      plan: '',
     },
   }
 }

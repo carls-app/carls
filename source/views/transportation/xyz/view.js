@@ -172,16 +172,14 @@ export class XyzBusView extends React.PureComponent<Props> {
         keyExtractor={this.keyExtractor}
         renderItem={({item}) => (
           <BusStopRow
-            times={[]}
-            place={item.format('h:mma')}
+            stop={{name: item.format('h:mma'), departures: []}}
+            departureIndex={0}
             now={now}
-            time={item}
             barColor={c.steelBlue}
             currentStopColor={c.midnightBlue}
             isFirstRow={false}
             isLastRow={false}
-            //isFirstRow={i === 0}
-            //isLastRow={i === list.length - 1}
+            status="running"
           />
         )}
       />

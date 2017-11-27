@@ -16,16 +16,22 @@ import LoadingView from '../components/loading'
 import qs from 'querystring'
 const TIMEZONE = 'America/Winnipeg'
 
-export class ReasonCalendarView extends React.Component {
-  props: {calendarUrl: string, calendarProps?: any} & TopLevelViewPropsType
+type State = {
+  events: EventType[],
+  loaded: boolean,
+  refreshing: boolean,
+  error: ?Error,
+  now: moment,
+}
 
-  state: {
-    events: EventType[],
-    loaded: boolean,
-    refreshing: boolean,
-    error: ?Error,
-    now: moment,
-  } = {
+type Props = TopLevelViewPropsType & {
+  calendarUrl: string,
+  calendarProps?: any,
+  poweredBy: {title: string, href: string},
+}
+
+export class ReasonCalendarView extends React.Component<Props, State> {
+  state = {
     events: [],
     loaded: false,
     refreshing: true,
@@ -122,6 +128,7 @@ export class ReasonCalendarView extends React.Component {
         onRefresh={this.refresh}
         now={this.state.now}
         message={this.state.error ? this.state.error.message : null}
+        poweredBy={this.props.poweredBy}
       />
     )
   }

@@ -191,6 +191,7 @@ function mapState(state: ReduxState): ReduxStateProps {
     weeklyMeals: state.sis ? state.sis.mealsRemainingThisWeek : null,
     dailyMeals: state.sis ? state.sis.mealsRemainingToday : null,
     message: state.sis ? state.sis.balancesErrorMessage : null,
+    mealPlan: state.sis ? state.sis.mealPlanDescription : null,
     alertSeen: state.settings ? state.settings.unofficiallyAcknowledged : false,
 
     loginState: state.settings ? state.settings.loginState : 'logged-out',

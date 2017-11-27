@@ -91,11 +91,11 @@ function Links({links}: {links: Array<string>}) {
   ) : null
 }
 
-export class JobDetailView extends React.PureComponent {
-  props: {
-    job: JobType,
-  }
+type Props = {
+  job: FullJobType,
+}
 
+export class JobDetailView extends React.PureComponent<Props> {
   render() {
     const {job} = this.props
 

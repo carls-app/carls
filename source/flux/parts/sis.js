@@ -3,8 +3,8 @@
 import {type ReduxState} from '../index'
 import {getBalances, type BalancesShapeType} from '../../lib/financials'
 
-const UPDATE_OLE_DOLLARS = 'sis/UPDATE_OLE_DOLLARS'
-const UPDATE_FLEX_DOLLARS = 'sis/UPDATE_FLEX_DOLLARS'
+const UPDATE_SCHILLERS = 'sis/UPDATE_SCHILLERS'
+const UPDATE_DINING_DOLLARS = 'sis/UPDATE_DINING_DOLLARS'
 const UPDATE_PRINT_DOLLARS = 'sis/UPDATE_PRINT_DOLLARS'
 const UPDATE_BALANCES_SUCCESS = 'sis/UPDATE_BALANCES_SUCCESS'
 const UPDATE_BALANCES_FAILURE = 'sis/UPDATE_BALANCES_FAILURE'
@@ -49,8 +49,8 @@ type Action = UpdateBalancesActions
 
 export type State = {|
   balancesErrorMessage: ?string,
-  flexBalance: ?string,
-  oleBalance: ?string,
+  schillersBalance: ?string,
+  diningBalance: ?string,
   printBalance: ?string,
   mealsRemainingToday: ?string,
   mealsRemainingThisWeek: ?string,
@@ -58,8 +58,8 @@ export type State = {|
 |}
 const initialState = {
   balancesErrorMessage: null,
-  flexBalance: null,
-  oleBalance: null,
+  schillersBalance: null,
+  diningBalance: null,
   printBalance: null,
   mealsRemainingToday: null,
   mealsRemainingThisWeek: null,
@@ -67,10 +67,10 @@ const initialState = {
 }
 export function sis(state: State = initialState, action: Action) {
   switch (action.type) {
-    case UPDATE_OLE_DOLLARS:
-      return {...state, oleBalance: action.payload.balance}
-    case UPDATE_FLEX_DOLLARS:
-      return {...state, flexBalance: action.payload.balance}
+    case UPDATE_DINING_DOLLARS:
+      return {...state, diningBalance: action.payload.balance}
+    case UPDATE_SCHILLERS:
+      return {...state, schillersBalance: action.payload.balance}
     case UPDATE_PRINT_DOLLARS:
       return {...state, printBalance: action.payload.balance}
     case UPDATE_MEALS_DAILY:
@@ -86,8 +86,8 @@ export function sis(state: State = initialState, action: Action) {
       const p = action.payload
       return {
         ...state,
-        oleBalance: p.ole,
-        flexBalance: p.flex,
+        schillersBalance: p.schillers,
+        diningBalance: p.dining,
         printBalance: p.print,
         mealsRemainingThisWeek: p.weekly,
         mealsRemainingToday: p.daily,

@@ -30,21 +30,23 @@ const styles = StyleSheet.create({
 const fetchJobs = (): Array<ThinJobType> =>
   fetchXml(jobsUrl).then(resp => resp.rss.channel.item)
 
-export class StudentWorkView extends React.PureComponent {
+type State = {
+  jobs: Array<ThinJobType>,
+  loaded: boolean,
+  refreshing: boolean,
+  error: boolean,
+}
+
+type Props = TopLevelViewPropsType & {}
+
+export class StudentWorkView extends React.PureComponent<Props, State> {
   static navigationOptions = {
     headerBackTitle: 'Job Postings',
     tabBarLabel: 'Job Postings',
     tabBarIcon: TabBarIcon('briefcase'),
   }
 
-  props: TopLevelViewPropsType
-
-  state: {
-    jobs: Array<ThinJobType>,
-    loaded: boolean,
-    refreshing: boolean,
-    error: boolean,
-  } = {
+  state = {
     jobs: [],
     loaded: false,
     refreshing: false,

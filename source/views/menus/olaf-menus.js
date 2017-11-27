@@ -73,9 +73,9 @@ const olafCafes = [
   {id: 'OlafPauseMenuView', title: 'The Pause'},
 ]
 
-export class OlafCafeIndex extends React.Component {
-  props: TopLevelViewPropsType
+type Props = TopLevelViewPropsType & {}
 
+export class OlafCafeIndex extends React.Component<Props> {
   renderItem = ({item}: {item: OleCafeShape}) => (
     <OleCafeRow
       id={item.id}
@@ -100,13 +100,13 @@ export class OlafCafeIndex extends React.Component {
   }
 }
 
-class OleCafeRow extends React.PureComponent {
-  props: {
-    id: string,
-    title: string,
-    onPress: string => any,
-  }
+type RowProps = {
+  id: string,
+  title: string,
+  onPress: string => any,
+}
 
+class OleCafeRow extends React.PureComponent<RowProps> {
   onPress = () => this.props.onPress(this.props.id)
 
   render() {

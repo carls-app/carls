@@ -16,6 +16,10 @@ export default TabNavigator(
         <ReasonCalendarView
           navigation={navigation}
           calendarUrl="https://apps.carleton.edu/calendar/"
+          poweredBy={{
+            title: 'Powered by the Carleton Calendar',
+            href: 'https://carleton.edu/calendar',
+          }}
         />
       ),
       navigationOptions: {
@@ -29,6 +33,10 @@ export default TabNavigator(
         <ReasonCalendarView
           navigation={navigation}
           calendarUrl="https://apps.carleton.edu/student/orgs/cave/calendar/"
+          poweredBy={{
+            title: 'Powered by the Carleton Calendar',
+            href: 'https://carleton.edu/calendar',
+          }}
         />
       ),
       navigationOptions: {
@@ -42,6 +50,10 @@ export default TabNavigator(
         <GoogleCalendarView
           navigation={navigation}
           calendarId="le6tdd9i38vgb7fcmha0hu66u9gjus2e@import.calendar.google.com"
+          poweredBy={{
+            title: 'Powered by the St. Olaf Calendar',
+            href: 'https://wp.stolaf.edu/calendar/',
+          }}
         />
       ),
       navigationOptions: {

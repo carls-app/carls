@@ -97,19 +97,19 @@ export function getOleBalance(): CacheResultType<?string> {
 
 const schillersBalanceKey = 'financials:schillers'
 const schillersBalanceCacheTime = [5, 'minutes']
-export function setSchillersBalance(balance: ?number) {
+export function setSchillersBalance(balance: ?string) {
   return setItem(schillersBalanceKey, balance, schillersBalanceCacheTime)
 }
-export function getSchillersBalance(): CacheResultType<?number> {
+export function getSchillersBalance(): CacheResultType<?string> {
   return getItem(schillersBalanceKey)
 }
 
 const diningBalanceKey = 'financials:diningdollars'
 const diningBalanceCacheTime = [5, 'minutes']
-export function setDiningBalance(balance: ?number) {
+export function setDiningBalance(balance: ?string) {
   return setItem(diningBalanceKey, balance, diningBalanceCacheTime)
 }
-export function getDiningBalance(): CacheResultType<?number> {
+export function getDiningBalance(): CacheResultType<?string> {
   return getItem(diningBalanceKey)
 }
 

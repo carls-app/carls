@@ -15,6 +15,10 @@ export default TabNavigator(
         <ReasonCalendarView
           navigation={navigation}
           calendarUrl="https://apps.carleton.edu/student/orgs/sumo/"
+          poweredBy={{
+            title: 'Powered by SUMO',
+            href: 'https://apps.carleton.edu/student/orgs/sumo/',
+          }}
         />
       ),
       navigationOptions: {
