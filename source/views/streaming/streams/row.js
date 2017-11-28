@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react'
+import * as React from 'react'
 import {StyleSheet, Image} from 'react-native'
 
 import {ListRow, Detail, Title} from '../../components/list'
@@ -31,20 +31,20 @@ function Info({item}: {item: StreamType}) {
 
 function Time({item}: {item: StreamType}) {
   const showTime = item.status != 'archived'
-  return showTime
-    ? <Detail>{item.date.format('h:mm A – ddd, MMM. Do, YYYY')}</Detail>
-    : null
+  return showTime ? (
+    <Detail>{item.date.format('h:mm A – ddd, MMM. Do, YYYY')}</Detail>
+  ) : null
 }
 
 function Thumbnail({item}: {item: StreamType}) {
-  return item.thumb
-    ? <Image source={{uri: item.thumb}} style={styles.image} />
-    : null
+  return item.thumb ? (
+    <Image source={{uri: item.thumb}} style={styles.image} />
+  ) : null
 }
 
-export class StreamRow extends React.PureComponent {
-  props: {stream: StreamType}
+type Props = {stream: StreamType}
 
+export class StreamRow extends React.PureComponent<Props> {
   onPressStream = () => {
     const {stream} = this.props
     trackedOpenUrl({url: stream.player, id: 'StreamingMedia_StreamView'})

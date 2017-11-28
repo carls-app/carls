@@ -1,5 +1,5 @@
 // @flow
-import React from 'react'
+import * as React from 'react'
 import {Cell} from 'react-native-tableview-simple'
 
 export const PushButtonCell = ({
@@ -8,10 +8,11 @@ export const PushButtonCell = ({
 }: {
   title: string,
   onPress: () => any,
-}) =>
+}) => (
   <Cell
     cellStyle="Basic"
     title={title}
     accessory="DisclosureIndicator"
     onPress={onPress}
   />
+)

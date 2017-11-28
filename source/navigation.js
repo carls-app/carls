@@ -22,8 +22,9 @@ import {
   BuildingHoursScheduleEditorView,
 } from './views/building-hours'
 import TransportationView, {
-  BusMapView,
+  BusMap as BusMapView,
   ConnectedXyzBusView,
+  OtherModesDetailView,
 } from './views/transportation'
 import SettingsView from './views/settings'
 import CreditsView from './views/settings/credits'
@@ -31,7 +32,6 @@ import PrivacyView from './views/settings/privacy'
 import LegalView from './views/settings/legal'
 import {StudentOrgsView, StudentOrgsDetailView} from './views/student-orgs'
 import {FaqView} from './views/faqs'
-// import {SnapshotsView} from './storybook'
 import HelpView from './views/help'
 
 const styles = StyleSheet.create({
@@ -75,12 +75,12 @@ export const AppNavigator = StackNavigator(
     PrivacyView: {screen: PrivacyView},
     SettingsView: {screen: SettingsView},
     SISView: {screen: SISView},
-    // SnapshotsView: {screen: SnapshotsView},
     StreamingView: {screen: StreamingView},
     StudentOrgsDetailView: {screen: StudentOrgsDetailView},
     StudentOrgsView: {screen: StudentOrgsView},
     StudentWorkDetailView: {screen: StudentWorkDetailView},
     TransportationView: {screen: TransportationView},
+    OtherModesDetailView: {screen: OtherModesDetailView},
     BusMapView: {screen: BusMapView},
     XyzBusView: {screen: ConnectedXyzBusView},
   },

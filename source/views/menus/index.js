@@ -1,10 +1,6 @@
 // @flow
-/**
- * All About Olaf
- * Menus page
- */
 
-import React from 'react'
+import * as React from 'react'
 import {StackNavigator} from 'react-navigation'
 import {TabNavigator} from '../components/tabbed-view'
 import {TabBarIcon} from '../components/tabbar-icon'
@@ -33,13 +29,14 @@ const OlafMenuPicker = StackNavigator(
 export const MenusView = TabNavigator(
   {
     BurtonMenuScreen: {
-      screen: ({navigation}: TopLevelViewPropsType) =>
+      screen: ({navigation}: TopLevelViewPropsType) => (
         <BonAppHostedMenu
           navigation={navigation}
           name="burton"
           cafeId="35"
           loadingMessage={['Searching for Schiller…']}
-        />,
+        />
+      ),
       navigationOptions: {
         title: 'Burton',
         tabBarIcon: TabBarIcon('ice-cream'),
@@ -47,13 +44,14 @@ export const MenusView = TabNavigator(
     },
 
     LDCMenuScreen: {
-      screen: ({navigation}: TopLevelViewPropsType) =>
+      screen: ({navigation}: TopLevelViewPropsType) => (
         <BonAppHostedMenu
           navigation={navigation}
           name="ldc"
           cafeId="36"
           loadingMessage={['Tracking down empty seats…']}
-        />,
+        />
+      ),
       navigationOptions: {
         title: 'LDC',
         tabBarIcon: TabBarIcon('nutrition'),
@@ -61,7 +59,7 @@ export const MenusView = TabNavigator(
     },
 
     SaylesMenuScreen: {
-      screen: ({navigation}: TopLevelViewPropsType) =>
+      screen: ({navigation}: TopLevelViewPropsType) => (
         <BonAppHostedMenu
           navigation={navigation}
           name="sayles"
@@ -70,7 +68,8 @@ export const MenusView = TabNavigator(
             'Engaging in people-watching…',
             'Checking the mail…',
           ]}
-        />,
+        />
+      ),
       navigationOptions: {
         title: 'Sayles Hill',
         tabBarIcon: TabBarIcon('cafe'),
@@ -78,7 +77,7 @@ export const MenusView = TabNavigator(
     },
 
     WeitzMenuScreen: {
-      screen: ({navigation}: TopLevelViewPropsType) =>
+      screen: ({navigation}: TopLevelViewPropsType) => (
         <BonAppHostedMenu
           navigation={navigation}
           name="weitz"
@@ -87,7 +86,8 @@ export const MenusView = TabNavigator(
             'Observing the artwork…',
             'Previewing performances…',
           ]}
-        />,
+        />
+      ),
       navigationOptions: {
         title: 'Weitz Center',
         tabBarIcon: TabBarIcon('wine'),

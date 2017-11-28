@@ -1,15 +1,15 @@
 // @flow
-import React from 'react'
-import {Text, ScrollView, StyleSheet, Share} from 'react-native'
+import * as React from 'react'
+import {Text, ScrollView, StyleSheet} from 'react-native'
 import {Cell, Section, TableView} from 'react-native-tableview-simple'
-import type {CleanedEventType} from './types'
+import type {CleanedEventType, PoweredBy} from './types'
 import type {TopLevelViewPropsType} from '../types'
 import {ShareButton} from '../components/nav-buttons'
 import openUrl from '../components/open-url'
 import {ListFooter} from '../components/list'
-import {getTimes, getLinksFromEvent} from './clean-event'
+import {getLinksFromEvent} from './clean-event'
 import {ButtonCell} from '../components/cells/button'
-import {addToCalendar} from './calendar-util'
+import {addToCalendar, shareEvent} from './calendar-util'
 import delay from 'delay'
 
 const styles = StyleSheet.create({
@@ -18,47 +18,35 @@ const styles = StyleSheet.create({
   },
 })
 
-const STO_CALENDAR_URL = 'https://www.stolaf.edu/calendar'
-
-const shareItem = (event: CleanedEventType) => {
-  const summary = event.summary ? event.summary : ''
-  const times = getTimes(event) ? getTimes(event) : ''
-  const location = event.location ? event.location : ''
-  const message = `${summary}\n\n${times}\n\n${location}`
-  Share.share({message})
-    .then(result => console.log(result))
-    .catch(error => console.log(error.message))
-}
-
 function MaybeSection({header, content}: {header: string, content: string}) {
-  return content.trim()
-    ? <Section header={header}>
-        <Cell
-          cellContentView={
-            <Text selectable={true} style={styles.chunk}>
-              {content}
-            </Text>
-          }
-        />
-      </Section>
-    : null
+  return content.trim() ? (
+    <Section header={header}>
+      <Cell
+        cellContentView={
+          <Text selectable={true} style={styles.chunk}>
+            {content}
+          </Text>
+        }
+      />
+    </Section>
+  ) : null
 }
 
 function Links({header, event}: {header: string, event: CleanedEventType}) {
   const links = getLinksFromEvent(event)
 
-  return links.length
-    ? <Section header={header}>
-        {links.map(url =>
-          <Cell
-            key={url}
-            title={url}
-            accessory="DisclosureIndicator"
-            onPress={() => openUrl(url)}
-          />,
-        )}
-      </Section>
-    : null
+  return links.length ? (
+    <Section header={header}>
+      {links.map(url => (
+        <Cell
+          key={url}
+          title={url}
+          accessory="DisclosureIndicator"
+          onPress={() => openUrl(url)}
+        />
+      ))}
+    </Section>
+  ) : null
 }
 
 const CalendarButton = ({message, disabled, onPress}) => {
@@ -73,23 +61,27 @@ const CalendarButton = ({message, disabled, onPress}) => {
   )
 }
 
-export class EventDetail extends React.PureComponent {
+type Props = TopLevelViewPropsType & {
+  navigation: {
+    state: {params: {event: CleanedEventType, poweredBy: ?PoweredBy}},
+  },
+}
+
+type State = {
+  message: string,
+  disabled: boolean,
+}
+
+export class EventDetail extends React.PureComponent<Props, State> {
   static navigationOptions = ({navigation}) => {
     const {event} = navigation.state.params
     return {
       title: event.title,
-      headerRight: <ShareButton onPress={() => shareItem(event)} />,
+      headerRight: <ShareButton onPress={() => shareEvent(event)} />,
     }
   }
 
-  props: TopLevelViewPropsType & {
-    navigation: {state: {params: {event: CleanedEventType}}},
-  }
-
-  state: {
-    message: string,
-    disabled: boolean,
-  } = {
+  state = {
     message: '',
     disabled: false,
   }
@@ -104,25 +96,25 @@ export class EventDetail extends React.PureComponent {
       await delay(500 - elapsed)
     }
 
-    await addToCalendar(event).then(result => {
-      if (result) {
-        this.setState({
-          message: 'Event has been added to your calendar',
-          disabled: true,
-        })
-      } else {
-        this.setState({
-          message: 'Could not add event to your calendar',
-          disabled: false,
-        })
-      }
-    })
+    const result = await addToCalendar(event)
+
+    if (result) {
+      this.setState(() => ({
+        message: 'Event has been added to your calendar',
+        disabled: true,
+      }))
+    } else {
+      this.setState(() => ({
+        message: 'Could not add event to your calendar',
+        disabled: false,
+      }))
+    }
   }
 
   onPressButton = () => this.addEvent(this.props.navigation.state.params.event)
 
   render() {
-    const event = this.props.navigation.state.params.event
+    const {event, poweredBy} = this.props.navigation.state.params
 
     return (
       <ScrollView>
@@ -138,10 +130,9 @@ export class EventDetail extends React.PureComponent {
             disabled={this.state.disabled}
           />
 
-          <ListFooter
-            title="Powered by the St. Olaf Calendar"
-            href={STO_CALENDAR_URL}
-          />
+          {poweredBy.title ? (
+            <ListFooter title={poweredBy.title} href={poweredBy.href} />
+          ) : null}
         </TableView>
       </ScrollView>
     )

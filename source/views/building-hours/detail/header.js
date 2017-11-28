@@ -5,26 +5,26 @@
  * subtitle.
  */
 
-import React from 'react'
+import * as React from 'react'
 import {View, Text, StyleSheet} from 'react-native'
 import type {BuildingType} from '../types'
 import * as c from '../../components/colors'
 
-export class Header extends React.PureComponent {
-  props: {building: BuildingType}
+type Props = {building: BuildingType}
 
+export class Header extends React.PureComponent<Props> {
   render() {
     const {building} = this.props
 
     const abbr = building.abbreviation ? ` (${building.abbreviation})` : ''
 
-    const subtitle = building.subtitle
-      ? <View style={styles.subtitle}>
-          <Text selectable={true} style={[styles.name, styles.subtitleText]}>
-            {building.subtitle}
-          </Text>
-        </View>
-      : null
+    const subtitle = building.subtitle ? (
+      <View style={styles.subtitle}>
+        <Text selectable={true} style={[styles.name, styles.subtitleText]}>
+          {building.subtitle}
+        </Text>
+      </View>
+    ) : null
 
     return (
       <View>

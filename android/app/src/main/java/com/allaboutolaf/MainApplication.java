@@ -8,7 +8,6 @@ import android.util.Log;
 // keep these sorted alphabetically
 import com.airbnb.android.react.maps.MapsPackage;
 import com.avishayil.rnrestart.ReactNativeRestartPackage;
-import com.brentvatne.react.ReactVideoPackage;
 import com.bugsnag.BugsnagReactNative;
 import com.BV.LinearGradient.LinearGradientPackage;
 import com.calendarevents.CalendarEventsPackage;
@@ -25,7 +24,6 @@ import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.oblador.keychain.KeychainPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.pusherman.networkinfo.RNNetworkInfoPackage;
-import fr.greweb.reactnativeviewshot.RNViewShotPackage;
 
 import java.io.File;
 import java.io.IOException;
@@ -54,12 +52,15 @@ public class MainApplication extends Application implements ReactApplication {
         new MapsPackage(),
         // new ReactNativeOneSignalPackage(),
         new ReactNativeRestartPackage(),
-        new ReactVideoPackage(),
         new RNDeviceInfo(),
         new RNNetworkInfoPackage(),
-        new RNViewShotPackage(),
         new VectorIconsPackage()
       );
+    }
+
+    @Override
+    protected String getJSMainModuleName() {
+      return "index";
     }
   };
 

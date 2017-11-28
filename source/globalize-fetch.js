@@ -3,6 +3,7 @@
 import {parseString as parseXmlCb} from 'xml2js'
 import promisify from 'pify'
 const parseXml = promisify(parseXmlCb)
+import {AAO_USER_AGENT} from './user-agent'
 
 global.rawFetch = global.fetch
 
@@ -26,7 +27,17 @@ async function xml(response) {
 }
 
 // make fetch() calls throw if the server returns a non-200 status code
-global.fetch = (...args: any[]) => global.rawFetch(...args).then(status)
+global.fetch = function(input, opts: {[key: string]: any} = {}) {
+  if (opts) {
+    opts.headers = opts.headers || new Headers({})
+
+    if (!opts.headers.has('User-Agent')) {
+      opts.headers.set('User-Agent', AAO_USER_AGENT)
+    }
+  }
+
+  return global.rawFetch(input, opts).then(status)
+}
 
 // add a global fetchJson wrapper
 global.fetchJson = (...args: any[]) => fetch(...args).then(json)

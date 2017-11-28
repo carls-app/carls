@@ -4,33 +4,33 @@
  * <ScheduleTable/> renders the table of schedules.
  */
 
-import React from 'react'
+import * as React from 'react'
 import {TableView, Section, Cell} from 'react-native-tableview-simple'
 import moment from 'moment-timezone'
 import type {NamedBuildingScheduleType} from '../types'
 import {isScheduleOpenAtMoment, getDayOfWeek} from '../lib'
 import {ScheduleRow} from './schedule-row'
 
-export class ScheduleTable extends React.PureComponent {
-  props: {
-    now: moment,
-    schedules: NamedBuildingScheduleType[],
-    onProblemReport: () => any,
-  }
+type Props = {
+  now: moment,
+  schedules: NamedBuildingScheduleType[],
+  onProblemReport: () => any,
+}
 
+export class ScheduleTable extends React.PureComponent<Props> {
   render() {
     const {now, schedules, onProblemReport} = this.props
     const dayOfWeek = getDayOfWeek(now)
 
     return (
       <TableView>
-        {schedules.map(schedule =>
+        {schedules.map(schedule => (
           <Section
             key={schedule.title}
             header={schedule.title.toUpperCase()}
             footer={schedule.notes}
           >
-            {schedule.hours.map((set, i) =>
+            {schedule.hours.map((set, i) => (
               <ScheduleRow
                 key={i}
                 now={now}
@@ -40,10 +40,10 @@ export class ScheduleTable extends React.PureComponent {
                   set.days.includes(dayOfWeek) &&
                   isScheduleOpenAtMoment(set, now)
                 }
-              />,
-            )}
-          </Section>,
-        )}
+              />
+            ))}
+          </Section>
+        ))}
 
         <Section>
           <Cell

@@ -4,7 +4,7 @@
  * Building Hours "report a problem" screen.
  */
 
-import React from 'react'
+import * as React from 'react'
 import {ScrollView, View, StyleSheet, Text} from 'react-native'
 import moment from 'moment-timezone'
 import {CellTextField} from '../../components/cells/textfield'
@@ -44,18 +44,23 @@ const styles = StyleSheet.create({
   },
 })
 
-export class BuildingHoursProblemReportView extends React.PureComponent {
+type Props = TopLevelViewPropsType & {
+  navigation: {state: {params: {initialBuilding: BuildingType}}},
+}
+
+type State = {
+  building: BuildingType,
+}
+
+export class BuildingHoursProblemReportView extends React.PureComponent<
+  Props,
+  State,
+> {
   static navigationOptions = {
     title: 'Report a Problem',
   }
 
-  props: TopLevelViewPropsType & {
-    navigation: {state: {params: {initialBuilding: BuildingType}}},
-  }
-
-  state: {
-    building: BuildingType,
-  } = {
+  state = {
     building: this.props.navigation.state.params.initialBuilding,
   }
 
@@ -203,7 +208,7 @@ export class BuildingHoursProblemReportView extends React.PureComponent {
         </View>
 
         <TableView>
-          {schedules.map((s, i) =>
+          {schedules.map((s, i) => (
             <EditableSchedule
               key={i}
               schedule={s}
@@ -212,8 +217,8 @@ export class BuildingHoursProblemReportView extends React.PureComponent {
               editRow={this.openEditor}
               onEditSchedule={this.editSchedule}
               onDelete={this.deleteSchedule}
-            />,
-          )}
+            />
+          ))}
 
           <Section>
             <Cell
@@ -232,20 +237,20 @@ export class BuildingHoursProblemReportView extends React.PureComponent {
   }
 }
 
-class EditableSchedule extends React.PureComponent {
-  props: {
-    schedule: NamedBuildingScheduleType,
-    scheduleIndex: number,
-    addRow: (idx: number) => any,
-    editRow: (
-      schedIdx: number,
-      setIdx: number,
-      set: SingleBuildingScheduleType,
-    ) => any,
-    onEditSchedule: (idx: number, set: NamedBuildingScheduleType) => any,
-    onDelete: (idx: number) => any,
-  }
+type EditableScheduleProps = {
+  schedule: NamedBuildingScheduleType,
+  scheduleIndex: number,
+  addRow: (idx: number) => any,
+  editRow: (
+    schedIdx: number,
+    setIdx: number,
+    set: SingleBuildingScheduleType,
+  ) => any,
+  onEditSchedule: (idx: number, set: NamedBuildingScheduleType) => any,
+  onDelete: (idx: number) => any,
+}
 
+class EditableSchedule extends React.PureComponent<EditableScheduleProps> {
   onEdit = data => {
     const idx = this.props.scheduleIndex
     this.props.onEditSchedule(idx, {
@@ -285,8 +290,8 @@ class EditableSchedule extends React.PureComponent {
     return (
       <View>
         <Section header="INFORMATION">
-          <TitleCell text={schedule.title} onChange={this.editTitle} />
-          <NotesCell text={schedule.notes} onChange={this.editNotes} />
+          <TitleCell text={schedule.title || ''} onChange={this.editTitle} />
+          <NotesCell text={schedule.notes || ''} onChange={this.editNotes} />
 
           <CellToggle
             label="Closes for Chapel"
@@ -294,15 +299,15 @@ class EditableSchedule extends React.PureComponent {
             onChange={this.toggleChapel}
           />
 
-          {schedule.hours.map((set, i) =>
+          {schedule.hours.map((set, i) => (
             <TimesCell
               key={i}
               set={set}
               setIndex={i}
               onPress={this.openEditor}
               now={now}
-            />,
-          )}
+            />
+          ))}
 
           <Cell
             title="Add More Hours"
@@ -317,8 +322,9 @@ class EditableSchedule extends React.PureComponent {
   }
 }
 
+type TextFieldProps = {text: string, onChange: string => any}
 // "Title" will become a textfield like the login form
-const TitleCell = ({text, onChange = () => {}}) =>
+const TitleCell = ({text, onChange = () => {}}: TextFieldProps) => (
   <CellTextField
     hideLabel={true}
     autoCapitalize="words"
@@ -328,9 +334,10 @@ const TitleCell = ({text, onChange = () => {}}) =>
     onChangeText={onChange}
     onSubmitEditing={onChange}
   />
+)
 
 // "Notes" will become a big textarea
-const NotesCell = ({text, onChange}) =>
+const NotesCell = ({text, onChange}: TextFieldProps) => (
   <CellTextField
     hideLabel={true}
     autoCapitalize="sentences"
@@ -340,15 +347,16 @@ const NotesCell = ({text, onChange}) =>
     onChangeText={onChange}
     onSubmitEditing={onChange}
   />
+)
 
-class TimesCell extends React.PureComponent {
-  props: {
-    set: SingleBuildingScheduleType,
-    setIndex: number,
-    onPress: (setIdx: number, set: SingleBuildingScheduleType) => any,
-    now: moment,
-  }
+type TimesCellProps = {
+  set: SingleBuildingScheduleType,
+  setIndex: number,
+  onPress: (setIdx: number, set: SingleBuildingScheduleType) => any,
+  now: moment,
+}
 
+class TimesCell extends React.PureComponent<TimesCellProps> {
   onPress = () => {
     this.props.onPress(this.props.setIndex, this.props.set)
   }

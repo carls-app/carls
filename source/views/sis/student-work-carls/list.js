@@ -1,9 +1,4 @@
-/**
- * @flow
- *
- * All About Olaf
- * Student Work page
- */
+// @flow
 
 import React from 'react'
 import {StyleSheet, Text, FlatList} from 'react-native'
@@ -30,21 +25,23 @@ const styles = StyleSheet.create({
 const fetchJobs = (): Array<ThinJobType> =>
   fetchXml(jobsUrl).then(resp => resp.rss.channel.item)
 
-export class StudentWorkView extends React.PureComponent {
+type State = {
+  jobs: Array<ThinJobType>,
+  loaded: boolean,
+  refreshing: boolean,
+  error: boolean,
+}
+
+type Props = TopLevelViewPropsType & {}
+
+export class StudentWorkView extends React.PureComponent<Props, State> {
   static navigationOptions = {
     headerBackTitle: 'Job Postings',
     tabBarLabel: 'Job Postings',
     tabBarIcon: TabBarIcon('briefcase'),
   }
 
-  props: TopLevelViewPropsType
-
-  state: {
-    jobs: Array<ThinJobType>,
-    loaded: boolean,
-    refreshing: boolean,
-    error: boolean,
-  } = {
+  state = {
     jobs: [],
     loaded: false,
     refreshing: false,
@@ -69,7 +66,7 @@ export class StudentWorkView extends React.PureComponent {
     this.setState(() => ({loaded: true}))
   }
 
-  refresh = async () => {
+  refresh = async (): any => {
     const start = Date.now()
     this.setState(() => ({refreshing: true}))
 
@@ -89,8 +86,9 @@ export class StudentWorkView extends React.PureComponent {
 
   keyExtractor = (item: ThinJobType, index: number) => index.toString()
 
-  renderItem = ({item}: {item: ThinJobType}) =>
+  renderItem = ({item}: {item: ThinJobType}) => (
     <JobRow job={item} onPress={this.onPressJob} />
+  )
 
   render() {
     if (this.state.error) {

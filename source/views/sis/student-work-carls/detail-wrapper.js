@@ -6,18 +6,20 @@ import {JobDetailView} from './detail'
 import type {ThinJobType, FullJobType} from './types'
 import {fetchJob} from './fetch-job'
 
-export class StudentWorkDetailView extends React.PureComponent {
+type State = {
+  job: ?FullJobType,
+  error: ?Error,
+  loading: boolean,
+}
+
+type Props = {navigation: {state: {params: {job: ThinJobType}}}}
+
+export class StudentWorkDetailView extends React.PureComponent<Props, State> {
   static navigationOptions = ({navigation}) => {
     return {title: navigation.state.params.job.title}
   }
 
-  props: {navigation: {state: {params: {job: ThinJobType}}}}
-
-  state: {
-    job: ?FullJobType,
-    error: ?Error,
-    loading: boolean,
-  } = {
+  state = {
     job: null,
     error: null,
     loading: true,

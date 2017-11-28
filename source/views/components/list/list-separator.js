@@ -1,5 +1,5 @@
 // @flow
-import React from 'react'
+import * as React from 'react'
 import {Platform, StyleSheet} from 'react-native'
 import {Separator} from '../separator'
 
@@ -13,9 +13,11 @@ type PropsType = {
   styles?: any,
   fullWidth?: boolean,
   spacing?: {left?: number, right?: number},
+  force?: boolean,
 }
+
 export function ListSeparator(props: PropsType) {
-  if (Platform.OS === 'android') {
+  if (Platform.OS === 'android' && !props.force) {
     return null
   }
 

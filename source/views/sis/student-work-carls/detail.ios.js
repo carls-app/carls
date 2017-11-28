@@ -19,25 +19,21 @@ function Title({job}: {job: FullJobType}) {
 }
 
 function Information({job}: {job: FullJobType}) {
-  const department = job.department
-    ? <Cell
-        cellStyle="RightDetail"
-        title="Department"
-        detail={job.department}
-      />
-    : null
+  const department = job.department ? (
+    <Cell cellStyle="RightDetail" title="Department" detail={job.department} />
+  ) : null
 
   const opens = (
     <Cell cellStyle="RightDetail" title="Date Open" detail={job.dateOpen} />
   )
 
-  const term = job.duringTerm
-    ? <Cell cellStyle="Basic" title="Position Available During Term" />
-    : null
+  const term = job.duringTerm ? (
+    <Cell cellStyle="Basic" title="Position Available During Term" />
+  ) : null
 
-  const brk = job.duringBreak
-    ? <Cell cellStyle="Basic" title="Position Available During Break" />
-    : null
+  const brk = job.duringBreak ? (
+    <Cell cellStyle="Basic" title="Position Available During Break" />
+  ) : null
 
   return (
     <Section header="INFORMATION">
@@ -58,25 +54,25 @@ function Description({text}: {text: string}) {
 }
 
 function Links({links}: {links: Array<string>}) {
-  return links.length
-    ? <Section header="LINKS">
-        {links.map(url =>
-          <Cell
-            key={url}
-            title={url}
-            accessory="DisclosureIndicator"
-            onPress={() => openUrl(url)}
-          />,
-        )}
-      </Section>
-    : null
+  return links.length ? (
+    <Section header="LINKS">
+      {links.map(url => (
+        <Cell
+          key={url}
+          title={url}
+          accessory="DisclosureIndicator"
+          onPress={() => openUrl(url)}
+        />
+      ))}
+    </Section>
+  ) : null
 }
 
-export class JobDetailView extends React.PureComponent {
-  props: {
-    job: FullJobType,
-  }
+type Props = {
+  job: FullJobType,
+}
 
+export class JobDetailView extends React.PureComponent<Props> {
   render() {
     const {job} = this.props
 

@@ -8,10 +8,10 @@ import last from 'lodash/last'
 import moment from 'moment-timezone'
 import * as c from '../../components/colors'
 import {Separator} from '../../components/separator'
-import {BusStopRow} from '../bus/bus-stop-row'
 import {ListRow, ListSectionHeader, Title} from '../../components/list'
 import {updateBusList} from '../../../flux/parts/bus'
-import {BusView} from '../bus/bus-view'
+import {BusView} from '../bus'
+import {BusStopRow} from '../bus/components/bus-stop-row'
 import type {XyzBusLine} from './types'
 
 const TIME_FORMAT = 'H:mm'
@@ -30,7 +30,10 @@ const styles = StyleSheet.create({
 
 function makeSubtitle(now, moments) {
   if (now.isBefore(head(moments))) {
-    return `Starts ${now.clone().seconds(0).to(head(moments))}`
+    return `Starts ${now
+      .clone()
+      .seconds(0)
+      .to(head(moments))}`
   } else if (now.isAfter(last(moments))) {
     return 'Over for Today'
   }
@@ -48,17 +51,17 @@ const parseTime = (now: moment) => time => {
   )
 }
 
-export class XyzBusView extends React.PureComponent {
-  props: {
-    navigation: any,
-    routeName: string,
-    route?: XyzBusLine,
-    loading: boolean,
-    error: ?Error,
-    now: moment,
-    updateBusList: () => any,
-  }
+type Props = {
+  navigation: any,
+  routeName: string,
+  route?: XyzBusLine,
+  loading: boolean,
+  error: ?Error,
+  now: moment,
+  updateBusList: () => mixed,
+}
 
+export class XyzBusView extends React.PureComponent<Props> {
   componentWillMount() {
     this.props.updateBusList()
   }
@@ -115,7 +118,11 @@ export class XyzBusView extends React.PureComponent {
     }
 
     if (!route && loading) {
-      return <View><Text>Loading</Text></View>
+      return (
+        <View>
+          <Text>Loading</Text>
+        </View>
+      )
     }
 
     const androidColor = Platform.OS === 'android' ? {color: c.steelBlue} : null
@@ -125,7 +132,9 @@ export class XyzBusView extends React.PureComponent {
         <View>
           <ListSectionHeader title={routeName} titleStyle={androidColor} />
           <ListRow>
-            <Title><Text>No route found.</Text></Title>
+            <Title>
+              <Text>No route found.</Text>
+            </Title>
           </ListRow>
         </View>
       )
@@ -137,7 +146,9 @@ export class XyzBusView extends React.PureComponent {
         <View>
           <ListSectionHeader title={route.name} titleStyle={androidColor} />
           <ListRow>
-            <Title><Text>This line is not running today.</Text></Title>
+            <Title>
+              <Text>This line is not running today.</Text>
+            </Title>
           </ListRow>
         </View>
       )
@@ -151,26 +162,26 @@ export class XyzBusView extends React.PureComponent {
       <SectionList
         ItemSeparatorComponent={BusListSeparator}
         sections={sections}
-        renderSectionHeader={() =>
+        renderSectionHeader={() => (
           <ListSectionHeader
             title={route.name}
             subtitle={makeSubtitle(now, moments)}
             titleStyle={androidColor}
-          />}
+          />
+        )}
         keyExtractor={this.keyExtractor}
-        renderItem={({item}) =>
+        renderItem={({item}) => (
           <BusStopRow
-            times={[]}
-            place={item.format('h:mma')}
+            stop={{name: item.format('h:mma'), departures: []}}
+            departureIndex={0}
             now={now}
-            time={item}
             barColor={c.steelBlue}
             currentStopColor={c.midnightBlue}
             isFirstRow={false}
             isLastRow={false}
-            //isFirstRow={i === 0}
-            //isLastRow={i === list.length - 1}
-          />}
+            status="running"
+          />
+        )}
       />
     )
   }
@@ -187,7 +198,7 @@ const mapStateToProps = (state, {routeName, navigation}) => {
       ({name}) =>
         routeName && routeName.test ? routeName.test(name) : routeName === name,
     ),
-    now: state.app.now,
+    now: moment(state.app.now),
   }
 }
 

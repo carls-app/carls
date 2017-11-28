@@ -7,9 +7,8 @@ import {stringifyFilters} from './views/components/filter'
 
 import {getAnalyticsOptOut} from './lib/storage'
 
-const trackerId = process.env.NODE_ENV === 'development'
-  ? 'UA-90234209-3'
-  : 'UA-90234209-4'
+const trackerId =
+  process.env.NODE_ENV === 'development' ? 'UA-90234209-3' : 'UA-90234209-4'
 export const tracker = new GoogleAnalyticsTracker(trackerId)
 
 function disableIfOptedOut() {

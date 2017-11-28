@@ -8,7 +8,7 @@ import {ListRow, ListSeparator, Title, ListEmpty} from '../components/list'
 import {BonAppHostedMenu} from './menu-bonapp'
 import {GitHubHostedMenu} from './menu-github'
 
-export const OlafStavMenuScreen = ({navigation}: TopLevelViewPropsType) =>
+export const OlafStavMenuScreen = ({navigation}: TopLevelViewPropsType) => (
   <BonAppHostedMenu
     navigation={navigation}
     name="stav"
@@ -22,12 +22,13 @@ export const OlafStavMenuScreen = ({navigation}: TopLevelViewPropsType) =>
       'Putting out more cookies…',
     ]}
   />
+)
 OlafStavMenuScreen.navigationOptions = {
   title: 'Stav Hall',
   tabBarIcon: TabBarIcon('menu'),
 }
 
-export const OlafCageMenuScreen = ({navigation}: TopLevelViewPropsType) =>
+export const OlafCageMenuScreen = ({navigation}: TopLevelViewPropsType) => (
   <BonAppHostedMenu
     navigation={navigation}
     name="cage"
@@ -41,12 +42,13 @@ export const OlafCageMenuScreen = ({navigation}: TopLevelViewPropsType) =>
       'Brewing coffee…',
     ]}
   />
+)
 OlafCageMenuScreen.navigationOptions = {
   title: 'The Cage',
   tabBarIcon: TabBarIcon('menu'),
 }
 
-export const OlafPauseMenuScreen = ({navigation}: TopLevelViewPropsType) =>
+export const OlafPauseMenuScreen = ({navigation}: TopLevelViewPropsType) => (
   <GitHubHostedMenu
     navigation={navigation}
     name="pause"
@@ -58,6 +60,7 @@ export const OlafPauseMenuScreen = ({navigation}: TopLevelViewPropsType) =>
       'Fixing the oven…',
     ]}
   />
+)
 OlafPauseMenuScreen.navigationOptions = {
   tabBarLabel: 'The Pause',
   tabBarIcon: TabBarIcon('menu'),
@@ -70,15 +73,16 @@ const olafCafes = [
   {id: 'OlafPauseMenuView', title: 'The Pause'},
 ]
 
-export class OlafCafeIndex extends React.Component {
-  props: TopLevelViewPropsType
+type Props = TopLevelViewPropsType & {}
 
-  renderItem = ({item}: {item: OleCafeShape}) =>
+export class OlafCafeIndex extends React.Component<Props> {
+  renderItem = ({item}: {item: OleCafeShape}) => (
     <OleCafeRow
       id={item.id}
       title={item.title}
       onPress={this.props.navigation.navigate}
     />
+  )
 
   keyExtractor = (item: OleCafeShape) => item.id
 
@@ -96,13 +100,13 @@ export class OlafCafeIndex extends React.Component {
   }
 }
 
-class OleCafeRow extends React.PureComponent {
-  props: {
-    id: string,
-    title: string,
-    onPress: string => any,
-  }
+type RowProps = {
+  id: string,
+  title: string,
+  onPress: string => any,
+}
 
+class OleCafeRow extends React.PureComponent<RowProps> {
   onPress = () => this.props.onPress(this.props.id)
 
   render() {

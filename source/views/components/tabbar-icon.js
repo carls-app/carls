@@ -1,5 +1,5 @@
 // @flow
-import React from 'react'
+import * as React from 'react'
 import {StyleSheet} from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons'
 
@@ -15,8 +15,9 @@ export const TabBarIcon = (icon: string) => ({
 }: {
   tintColor: string,
   focused: boolean,
-}) =>
+}) => (
   <Icon
     style={[styles.icon, {color: tintColor}]}
     name={focused ? `ios-${icon}` : `ios-${icon}-outline`}
   />
+)

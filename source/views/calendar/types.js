@@ -67,6 +67,11 @@ type EmbeddedEventDetailType =
   | {type: 'google', data: GoogleEventType}
   | {type: 'reason', data: ReasonEventType}
 
+export type PoweredBy = {
+  title: string,
+  href: string,
+}
+
 export type EventType = {
   summary: string,
   location: string,

@@ -15,8 +15,7 @@ The Carleton community, now in pocket size!
 - `cd` into the folder
 - [Install React Native](http://facebook.github.io/react-native/docs/getting-started.html#content)
 - `npm install`
-- `npm run ios`
-    <!-- - Android setup is trickier: you'll want to launch your Android emulator first, then run `npm run android`. -->
+- For iOS: `npm run ios`
 
 ## Note
 The Calendar won't work until you give it a Google Calendar API key. You should [create one yourself](https://console.developers.google.com/projectselector/apis/credentials)!
@@ -35,4 +34,4 @@ Please see [CONTRIBUTING](CONTRIBUTING.md)
 * Bugs! All bugs should have the [`bug/general`](https://github.com/carls-app/carls/labels/bug%2Fgeneral) or [`bug/layout`](https://github.com/carls-app/carls/labels/bug%2Flayout) label in the issues
 * Enhancements! All ideas for improvement that are not being worked on should be [`closed` and labelled as `discussion`](https://github.com/carls-app/carls/issues?utf8=%E2%9C%93&q=is%3Aclosed%20is%3Aissue%20label%3Astatus%2Fdiscussion)
 
-For full information, see [CONTRIBUTING](CONTRIBUTING.md)
+For full information, see [CONTRIBUTING.md](CONTRIBUTING.md).

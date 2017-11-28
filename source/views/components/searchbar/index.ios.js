@@ -1,8 +1,8 @@
 // @flow
 
-import React from 'react'
+import * as React from 'react'
 import {StyleSheet} from 'react-native'
-import NativeSearchBar from 'react-native-search-bar'
+import NativeSearchBar from '@hawkrives/react-native-search-bar'
 import * as c from '../colors'
 
 const styles = StyleSheet.create({
@@ -20,7 +20,7 @@ type PropsType = {
   onSearchButtonPress: string => any,
 }
 
-export const SearchBar = (props: PropsType) =>
+export const SearchBar = (props: PropsType) => (
   <NativeSearchBar
     ref={props.getRef}
     style={styles.searchbar}
@@ -29,3 +29,4 @@ export const SearchBar = (props: PropsType) =>
     onChangeText={props.onChangeText || null}
     onSearchButtonPress={props.onSearchButtonPress || null}
   />
+)

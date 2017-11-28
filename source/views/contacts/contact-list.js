@@ -1,10 +1,6 @@
-/**
- * @flow
- * All About Olaf
- * Contact page
- */
+// @flow
 
-import React from 'react'
+import * as React from 'react'
 import {SectionList, StyleSheet} from 'react-native'
 import {ListSeparator, ListSectionHeader} from '../components/list'
 import {ListEmpty} from '../components/list'
@@ -39,7 +35,7 @@ type State = {
   refreshing: boolean,
 }
 
-export class ContactsListView extends React.PureComponent<void, Props, State> {
+export class ContactsListView extends React.PureComponent<Props, State> {
   static navigationOptions = {
     title: 'Important Contacts',
     headerBackTitle: 'Contacts',
@@ -52,10 +48,12 @@ export class ContactsListView extends React.PureComponent<void, Props, State> {
   }
 
   componentWillMount() {
-    this.fetchData()
+    this.fetchData().then(() => {
+      this.setState(() => ({loading: false}))
+    })
   }
 
-  refresh = async () => {
+  refresh = async (): any => {
     const start = Date.now()
     this.setState(() => ({refreshing: true}))
 
@@ -71,8 +69,6 @@ export class ContactsListView extends React.PureComponent<void, Props, State> {
   }
 
   fetchData = async () => {
-    this.setState(() => ({loading: true}))
-
     let {data: contacts} = await fetchJson(GITHUB_URL).catch(err => {
       reportNetworkProblem(err)
       return defaultData
@@ -82,7 +78,7 @@ export class ContactsListView extends React.PureComponent<void, Props, State> {
       contacts = defaultData.data
     }
 
-    this.setState(() => ({contacts, loading: false}))
+    this.setState(() => ({contacts}))
   }
 
   onPressContact = (contact: ContactType) => {
@@ -91,11 +87,13 @@ export class ContactsListView extends React.PureComponent<void, Props, State> {
     })
   }
 
-  renderSectionHeader = ({section: {title}}: any) =>
+  renderSectionHeader = ({section: {title}}: any) => (
     <ListSectionHeader title={title} />
+  )
 
-  renderItem = ({item}: {item: ContactType}) =>
+  renderItem = ({item}: {item: ContactType}) => (
     <ContactRow contact={item} onPress={this.onPressContact} />
+  )
 
   keyExtractor = (item: ContactType) => item.title
 

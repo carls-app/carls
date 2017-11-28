@@ -1,26 +1,27 @@
 #!/usr/bin/env node
-const AJV = require('ajv')
 const fs = require('fs')
 const path = require('path')
-const get = require('lodash/get')
 const yaml = require('js-yaml')
 const junk = require('junk')
 const minimist = require('minimist')
-
-const SCHEMA_BASE = path.join(__dirname, '..', 'data', '_schemas')
-const DATA_BASE = path.join(__dirname, '..', 'data')
+const validate = require('./validate')
+const {SCHEMA_BASE, DATA_BASE} = require('./paths')
 
 const isDir = pth => tryBoolean(() => fs.statSync(pth).isDirectory())
-const readYaml = pth => JSON.parse(JSON.stringify(yaml.safeLoad(fs.readFileSync(pth, 'utf-8'), {filename: pth})))
-const readDir = pth => fs.readdirSync(pth).filter(junk.not).filter(entry => !entry.startsWith('_'))
+const readYaml = pth =>
+  JSON.parse(
+    JSON.stringify(
+      yaml.safeLoad(fs.readFileSync(pth, 'utf-8'), {filename: pth}),
+    ),
+  )
+
+const readDir = pth =>
+  fs
+    .readdirSync(pth)
+    .filter(junk.not)
+    .filter(entry => !entry.startsWith('_'))
 
 /// MARK: program
-
-// set up the validator
-const validator = new AJV()
-// load the common definitions
-const defs = readYaml(path.join(SCHEMA_BASE, '_defs.yaml'))
-validator.addSchema(defs)
 
 // get cli arguments
 const args = parseArgs(process.argv.slice(2))
@@ -38,11 +39,10 @@ if (args.data) {
 // iterate!
 for (const multitudes of iterator) {
   for (const [filename, schema, data] of multitudes) {
-    const validate = validator.compile(schema)
-    const isValid = validate(data)
-    if (!isValid) {
+    const [result, errors] = validate(schema, data)
+    if (!result) {
       console.log(`${filename} is invalid`)
-      console.log(validate.errors.map(e => formatError(e, data)).join('\n'))
+      console.log(errors.join('\n'))
       if (args.bail) {
         process.exit(1)
       }
@@ -78,20 +78,26 @@ function parseArgs(argv) {
     console.error()
     console.error('Arguments:')
     console.error('  <blank>: validates all schemas and data')
-    console.error('  [schema-name]+: validates the schema and data for the given schema')
+    console.error(
+      '  [schema-name]+: validates the schema and data for the given schema',
+    )
     console.error()
     console.error('Options:')
     console.error('  --no-bail: continue past the first error')
     console.error('  -d, --data: use this as the data file (requires --schema)')
     console.error('  -s, --schema: use this as the schema (requires --data)')
     console.error()
-    console.error(`By default, the program looks for schema files in ${SCHEMA_BASE}`)
+    console.error(
+      `By default, the program looks for schema files in ${SCHEMA_BASE}`,
+    )
     process.exit(1)
   }
 
   if ((args.data && !args.schema) || (args.schema && !args.data)) {
     console.error('Usage: node validate-compiled-data.js [options] [args]')
-    console.error('If either --data or --schema are provided, both are required')
+    console.error(
+      'If either --data or --schema are provided, both are required',
+    )
     process.exit(1)
   }
 
@@ -137,27 +143,4 @@ function tryBoolean(cb) {
   } catch (err) {
     return false
   }
-}
-
-function formatError(err, data) {
-  // format some of the errors from ajv
-  let contents = ''
-  const dataPath = err.dataPath.replace(/^\./, '')
-  switch (err.keyword) {
-    case 'enum': {
-      contents = `Given value "${get(data, dataPath)}" ${err.message} [${err.params.allowedValues.join(', ')}]`
-      break
-    }
-    case 'type': {
-      contents = `${get(data, dataPath)} ${err.message}`
-      break
-    }
-    default: {
-      return JSON.stringify(err, null, 2)
-    }
-  }
-  return [
-    `Error at ${err.dataPath}:`,
-    contents,
-  ].join('\n')
 }

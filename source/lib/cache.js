@@ -79,46 +79,46 @@ export function getAllCourses(): CacheResultType<?CoursesByTermType> {
 
 const flexBalanceKey = 'financials:flex'
 const flexBalanceCacheTime = [5, 'minutes']
-export function setFlexBalance(balance: ?number) {
+export function setFlexBalance(balance: ?string) {
   return setItem(flexBalanceKey, balance, flexBalanceCacheTime)
 }
-export function getFlexBalance(): CacheResultType<?number> {
+export function getFlexBalance(): CacheResultType<?string> {
   return getItem(flexBalanceKey)
 }
 
 const oleBalanceKey = 'financials:ole'
 const oleBalanceCacheTime = [5, 'minutes']
-export function setOleBalance(balance: ?number) {
+export function setOleBalance(balance: ?string) {
   return setItem(oleBalanceKey, balance, oleBalanceCacheTime)
 }
-export function getOleBalance(): CacheResultType<?number> {
+export function getOleBalance(): CacheResultType<?string> {
   return getItem(oleBalanceKey)
 }
 
 const schillersBalanceKey = 'financials:schillers'
 const schillersBalanceCacheTime = [5, 'minutes']
-export function setSchillersBalance(balance: ?number) {
+export function setSchillersBalance(balance: ?string) {
   return setItem(schillersBalanceKey, balance, schillersBalanceCacheTime)
 }
-export function getSchillersBalance(): CacheResultType<?number> {
+export function getSchillersBalance(): CacheResultType<?string> {
   return getItem(schillersBalanceKey)
 }
 
 const diningBalanceKey = 'financials:diningdollars'
 const diningBalanceCacheTime = [5, 'minutes']
-export function setDiningBalance(balance: ?number) {
+export function setDiningBalance(balance: ?string) {
   return setItem(diningBalanceKey, balance, diningBalanceCacheTime)
 }
-export function getDiningBalance(): CacheResultType<?number> {
+export function getDiningBalance(): CacheResultType<?string> {
   return getItem(diningBalanceKey)
 }
 
 const printBalanceKey = 'financials:print'
 const printBalanceCacheTime = [5, 'minutes']
-export function setPrintBalance(balance: ?number) {
+export function setPrintBalance(balance: ?string) {
   return setItem(printBalanceKey, balance, printBalanceCacheTime)
 }
-export function getPrintBalance(): CacheResultType<?number> {
+export function getPrintBalance(): CacheResultType<?string> {
   return getItem(printBalanceKey)
 }
 
@@ -140,10 +140,19 @@ export function getWeeklyMealInfo(): CacheResultType<?string> {
   return getItem(weeklyMealsKey)
 }
 
+const mealPlanKey = 'meals:plan'
+const mealPlanCacheTime = [5, 'minutes']
+export function setMealPlanInfo(mealPlanName: ?string) {
+  return setItem(mealPlanKey, mealPlanName, mealPlanCacheTime)
+}
+export function getMealPlanInfo(): CacheResultType<?string> {
+  return getItem(mealPlanKey)
+}
+
 type BalancesInputType = {
-  schillers: ?number,
-  dining: ?number,
-  print: ?number,
+  schillers: ?string,
+  dining: ?string,
+  print: ?string,
   daily: ?string,
   weekly: ?string,
 }
@@ -164,9 +173,9 @@ export function setBalances({
 }
 
 type BalancesOutputType = {
-  schillers: BaseCacheResultType<?number>,
-  dining: BaseCacheResultType<?number>,
-  print: BaseCacheResultType<?number>,
+  schillers: BaseCacheResultType<?string>,
+  dining: BaseCacheResultType<?string>,
+  print: BaseCacheResultType<?string>,
   daily: BaseCacheResultType<?string>,
   weekly: BaseCacheResultType<?string>,
   _isExpired: boolean,

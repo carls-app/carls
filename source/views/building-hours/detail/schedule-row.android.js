@@ -4,20 +4,20 @@
  * <ScheduleRow/> renders a single row of the schedule information.
  */
 
-import React from 'react'
+import * as React from 'react'
 import {View, Text, StyleSheet} from 'react-native'
 import moment from 'moment-timezone'
 import type {SingleBuildingScheduleType} from '../types'
 
 import {formatBuildingTimes, summarizeDays} from '../lib'
 
-export class ScheduleRow extends React.PureComponent {
-  props: {
-    set: SingleBuildingScheduleType,
-    isActive: boolean,
-    now: moment,
-  }
+type Props = {
+  set: SingleBuildingScheduleType,
+  isActive: boolean,
+  now: moment,
+}
 
+export class ScheduleRow extends React.PureComponent<Props> {
   render() {
     const {set, isActive, now} = this.props
     return (
@@ -34,10 +34,11 @@ export class ScheduleRow extends React.PureComponent {
   }
 }
 
-const StyledText = ({children, style}) =>
+const StyledText = ({children, style}) => (
   <Text selectable={true} numberOfLines={1} style={style}>
     {children}
   </Text>
+)
 
 const styles = StyleSheet.create({
   bold: {

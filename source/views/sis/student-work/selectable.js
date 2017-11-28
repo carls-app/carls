@@ -1,5 +1,5 @@
 // @flow
-import React from 'react'
+import * as React from 'react'
 import {Text, StyleSheet} from 'react-native'
 import {Cell} from 'react-native-tableview-simple'
 
@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
   },
 })
 
-export const SelectableCell = ({text}: {text: string}) =>
+export const SelectableCell = ({text}: {text: string}) => (
   <Cell
     cellContentView={
       <Text selectable={true} style={styles.cell}>
@@ -17,3 +17,4 @@ export const SelectableCell = ({text}: {text: string}) =>
       </Text>
     }
   />
+)

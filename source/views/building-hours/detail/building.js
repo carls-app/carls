@@ -4,7 +4,7 @@
  * <Building /> controls the structure of the detail view.
  */
 
-import React from 'react'
+import * as React from 'react'
 import {ScrollView, StyleSheet, Platform, Image} from 'react-native'
 import {buildingImages} from '../../../../images/carls-building-images'
 import type {BuildingType} from '../types'
@@ -41,7 +41,7 @@ type Props = {
   onProblemReport: () => any,
 }
 
-export class BuildingDetail extends React.Component<void, Props, void> {
+export class BuildingDetail extends React.Component<Props> {
   shouldComponentUpdate(nextProps: Props) {
     return (
       !this.props.now.isSame(nextProps.now, 'minute') ||
@@ -53,21 +53,18 @@ export class BuildingDetail extends React.Component<void, Props, void> {
   render() {
     const {info, now, onProblemReport} = this.props
 
-    const headerImage = info.image && buildingImages.hasOwnProperty(info.image)
-      ? buildingImages[info.image]
-      : null
+    const headerImage =
+      info.image && buildingImages.hasOwnProperty(info.image)
+        ? buildingImages[info.image]
+        : null
     const openStatus = getShortBuildingStatus(info, now)
     const schedules = info.schedule || []
 
     return (
       <ScrollView contentContainerStyle={styles.container}>
-        {headerImage
-          ? <Image
-              source={headerImage}
-              resizeMode="cover"
-              style={styles.image}
-            />
-          : null}
+        {headerImage ? (
+          <Image source={headerImage} resizeMode="cover" style={styles.image} />
+        ) : null}
 
         <Header building={info} />
         <Badge status={openStatus} />
