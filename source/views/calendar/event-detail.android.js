@@ -8,7 +8,12 @@ import openUrl from '../components/open-url'
 import {Card} from '../components/card'
 import * as c from '../components/colors'
 import {ButtonCell} from '../components/cells/button'
-import {getLinksFromEvent, addToCalendar, shareEvent, getTimes} from './calendar-util'
+import {
+	getLinksFromEvent,
+	addToCalendar,
+	shareEvent,
+	getTimes,
+} from './calendar-util'
 import delay from 'delay'
 import {ListFooter} from '../components/list'
 

@@ -8,7 +8,12 @@ import {ShareButton} from '../components/nav-buttons'
 import openUrl from '../components/open-url'
 import {ListFooter} from '../components/list'
 import {ButtonCell} from '../components/cells/button'
-import {getLinksFromEvent, addToCalendar, shareEvent, getTimes} from './calendar-util'
+import {
+	getLinksFromEvent,
+	addToCalendar,
+	shareEvent,
+	getTimes,
+} from './calendar-util'
 import delay from 'delay'
 
 const styles = StyleSheet.create({

@@ -4,7 +4,6 @@ import * as React from 'react'
 import {WebView} from 'react-native'
 import type {PlayState, HtmlAudioError} from './types'
 
-const kstoEmbed = 'https://www.stolaf.edu/multimedia/play/embed/ksto.html'
 const krlxStream = 'http://radio.krlx.org/mp3/high_quality'
 
 type Props = {

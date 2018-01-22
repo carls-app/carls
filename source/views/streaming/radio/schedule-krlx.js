@@ -20,7 +20,7 @@ export class KRLXScheduleView extends React.PureComponent<Props> {
 					config: {
 						...event.config,
 						subtitle: 'description',
-					}
+					},
 				})}
 				navigation={this.props.navigation}
 				poweredBy={{
