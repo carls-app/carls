@@ -161,27 +161,27 @@ export class XyzBusView extends React.PureComponent<Props> {
 		return (
 			<SectionList
 				ItemSeparatorComponent={BusListSeparator}
-				sections={sections}
-				renderSectionHeader={() => (
-					<ListSectionHeader
-						title={route.name}
-						subtitle={makeSubtitle(now, moments)}
-						titleStyle={androidColor}
-					/>
-				)}
 				keyExtractor={this.keyExtractor}
 				renderItem={({item}) => (
 					<BusStopRow
-						stop={{name: item.format('h:mma'), departures: []}}
-						departureIndex={0}
-						now={now}
 						barColor={c.steelBlue}
 						currentStopColor={c.midnightBlue}
+						departureIndex={0}
 						isFirstRow={false}
 						isLastRow={false}
+						now={now}
 						status="running"
+						stop={{name: item.format('h:mma'), departures: []}}
 					/>
 				)}
+				renderSectionHeader={() => (
+					<ListSectionHeader
+						subtitle={makeSubtitle(now, moments)}
+						title={route.name}
+						titleStyle={androidColor}
+					/>
+				)}
+				sections={sections}
 			/>
 		)
 	}

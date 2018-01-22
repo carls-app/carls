@@ -35,10 +35,10 @@ export class XyzBusList extends React.PureComponent<Props> {
 	render() {
 		return (
 			<FlatList
-				data={this.props.routes}
 				ItemSeparatorComponent={ListSeparator}
-				renderItem={this.renderItem}
+				data={this.props.routes}
 				keyExtractor={this.keyExtractor}
+				renderItem={this.renderItem}
 			/>
 		)
 	}

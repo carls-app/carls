@@ -10,8 +10,6 @@ import {GitHubHostedMenu} from './menu-github'
 
 export const OlafStavMenuScreen = ({navigation}: TopLevelViewPropsType) => (
 	<BonAppHostedMenu
-		navigation={navigation}
-		name="stav"
 		cafeId="261"
 		loadingMessage={[
 			'Hunting Ferndale Turkey…',
@@ -21,6 +19,8 @@ export const OlafStavMenuScreen = ({navigation}: TopLevelViewPropsType) => (
 			'Waiting for omlets…',
 			'Putting out more cookies…',
 		]}
+		name="stav"
+		navigation={navigation}
 	/>
 )
 OlafStavMenuScreen.navigationOptions = {
@@ -30,8 +30,6 @@ OlafStavMenuScreen.navigationOptions = {
 
 export const OlafCageMenuScreen = ({navigation}: TopLevelViewPropsType) => (
 	<BonAppHostedMenu
-		navigation={navigation}
-		name="cage"
 		cafeId="262"
 		ignoreProvidedMenus={true}
 		loadingMessage={[
@@ -41,6 +39,8 @@ export const OlafCageMenuScreen = ({navigation}: TopLevelViewPropsType) => (
 			'Frying chicken…',
 			'Brewing coffee…',
 		]}
+		name="cage"
+		navigation={navigation}
 	/>
 )
 OlafCageMenuScreen.navigationOptions = {
@@ -50,8 +50,6 @@ OlafCageMenuScreen.navigationOptions = {
 
 export const OlafPauseMenuScreen = ({navigation}: TopLevelViewPropsType) => (
 	<GitHubHostedMenu
-		navigation={navigation}
-		name="pause"
 		loadingMessage={[
 			'Mixing up a shake…',
 			'Spinning up pizzas…',
@@ -59,6 +57,8 @@ export const OlafPauseMenuScreen = ({navigation}: TopLevelViewPropsType) => (
 			'Putting ice cream on the cookies…',
 			'Fixing the oven…',
 		]}
+		name="pause"
+		navigation={navigation}
 	/>
 )
 OlafPauseMenuScreen.navigationOptions = {
@@ -79,8 +79,8 @@ export class OlafCafeIndex extends React.Component<Props> {
 	renderItem = ({item}: {item: OleCafeShape}) => (
 		<OleCafeRow
 			id={item.id}
-			title={item.title}
 			onPress={this.props.navigation.navigate}
+			title={item.title}
 		/>
 	)
 
@@ -91,10 +91,10 @@ export class OlafCafeIndex extends React.Component<Props> {
 			<FlatList
 				ItemSeparatorComponent={ListSeparator}
 				ListEmptyComponent={<ListEmpty mode="bug" />}
-				style={styles.container}
 				data={olafCafes}
 				keyExtractor={this.keyExtractor}
 				renderItem={this.renderItem}
+				style={styles.container}
 			/>
 		)
 	}
@@ -111,7 +111,7 @@ class OleCafeRow extends React.PureComponent<RowProps> {
 
 	render() {
 		return (
-			<ListRow onPress={this.onPress} arrowPosition="center">
+			<ListRow arrowPosition="center" onPress={this.onPress}>
 				<Row alignItems="center">
 					<Title style={styles.rowText}>{this.props.title}</Title>
 				</Row>

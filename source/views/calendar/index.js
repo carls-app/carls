@@ -14,8 +14,8 @@ export default TabNavigator(
 		CarletonCalendarView: {
 			screen: ({navigation}) => (
 				<ReasonCalendarView
-					navigation={navigation}
 					calendarUrl="https://apps.carleton.edu/calendar/"
+					navigation={navigation}
 					poweredBy={{
 						title: 'Powered by the Carleton Calendar',
 						href: 'https://carleton.edu/calendar',
@@ -31,8 +31,8 @@ export default TabNavigator(
 		TheCaveCalendarView: {
 			screen: ({navigation}) => (
 				<ReasonCalendarView
-					navigation={navigation}
 					calendarUrl="https://apps.carleton.edu/student/orgs/cave/calendar/"
+					navigation={navigation}
 					poweredBy={{
 						title: 'Powered by the Carleton Calendar',
 						href: 'https://carleton.edu/calendar',
@@ -48,8 +48,8 @@ export default TabNavigator(
 		StOlafCalendarView: {
 			screen: ({navigation}) => (
 				<GoogleCalendarView
-					navigation={navigation}
 					calendarId="le6tdd9i38vgb7fcmha0hu66u9gjus2e@import.calendar.google.com"
+					navigation={navigation}
 					poweredBy={{
 						title: 'Powered by the St. Olaf Calendar',
 						href: 'https://wp.stolaf.edu/calendar/',
@@ -65,8 +65,8 @@ export default TabNavigator(
 		NorthfieldCalendarView: {
 			screen: ({navigation}) => (
 				<GoogleCalendarView
-					navigation={navigation}
 					calendarId="thisisnorthfield@gmail.com"
+					navigation={navigation}
 					poweredBy={{
 						title: 'Powered by VisitingNorthfield.com',
 						href: 'http://visitingnorthfield.com/events/calendar/',

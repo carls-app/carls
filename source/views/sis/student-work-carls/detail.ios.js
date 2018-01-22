@@ -11,8 +11,8 @@ function Title({job}: {job: FullJobType}) {
 		<Section header="JOB">
 			<Cell
 				cellStyle="Subtitle"
-				title={job.title}
 				detail={job.offCampus ? 'Off-Campus' : 'On-Campus'}
+				title={job.title}
 			/>
 		</Section>
 	)
@@ -20,11 +20,11 @@ function Title({job}: {job: FullJobType}) {
 
 function Information({job}: {job: FullJobType}) {
 	const department = job.department ? (
-		<Cell cellStyle="RightDetail" title="Department" detail={job.department} />
+		<Cell cellStyle="RightDetail" detail={job.department} title="Department" />
 	) : null
 
 	const opens = (
-		<Cell cellStyle="RightDetail" title="Date Open" detail={job.dateOpen} />
+		<Cell cellStyle="RightDetail" detail={job.dateOpen} title="Date Open" />
 	)
 
 	const term = job.duringTerm ? (
@@ -59,9 +59,9 @@ function Links({links}: {links: Array<string>}) {
 			{links.map(url => (
 				<Cell
 					key={url}
-					title={url}
 					accessory="DisclosureIndicator"
 					onPress={() => openUrl(url)}
+					title={url}
 				/>
 			))}
 		</Section>

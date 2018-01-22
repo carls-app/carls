@@ -16,7 +16,7 @@ export default TabNavigator(
 	{
 		ExpressLineBusView: {
 			screen: ({navigation}) => (
-				<ConnectedXyzBusView routeName="Express Bus" navigation={navigation} />
+				<ConnectedXyzBusView navigation={navigation} routeName="Express Bus" />
 			),
 			navigationOptions: {
 				tabBarLabel: 'Express Bus',
@@ -26,7 +26,7 @@ export default TabNavigator(
 
 		CarlsGoBusView: {
 			screen: ({navigation}) => (
-				<ConnectedXyzBusView routeName={/Carls-Go/} navigation={navigation} />
+				<ConnectedXyzBusView navigation={navigation} routeName={/Carls-Go/} />
 			),
 			navigationOptions: {
 				tabBarLabel: 'CarlsGO',
@@ -36,7 +36,7 @@ export default TabNavigator(
 
 		BlueLineBusView: {
 			screen: ({navigation}) => (
-				<ConnectedXyzBusView routeName="Blue Line" navigation={navigation} />
+				<ConnectedXyzBusView navigation={navigation} routeName="Blue Line" />
 			),
 			navigationOptions: {
 				tabBarLabel: 'Blue Line',

@@ -103,12 +103,12 @@ export class StudentWorkView extends React.PureComponent<Props, State> {
 			<FlatList
 				ItemSeparatorComponent={ListSeparator}
 				ListEmptyComponent={<NoticeView text="There are no job postings." />}
-				keyExtractor={this.keyExtractor}
-				style={styles.listContainer}
 				data={this.state.jobs}
-				refreshing={this.state.refreshing}
+				keyExtractor={this.keyExtractor}
 				onRefresh={this.refresh}
+				refreshing={this.state.refreshing}
 				renderItem={this.renderItem}
+				style={styles.listContainer}
 			/>
 		)
 	}

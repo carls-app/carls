@@ -83,7 +83,7 @@ function Links({links}: {links: Array<string>}) {
 	return links.length ? (
 		<Card header="LINKS" style={styles.card}>
 			{links.map(url => (
-				<Text key={url} style={styles.cardBody} onPress={() => openUrl(url)}>
+				<Text key={url} onPress={() => openUrl(url)} style={styles.cardBody}>
 					{url}
 				</Text>
 			))}

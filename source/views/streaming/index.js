@@ -16,8 +16,8 @@ export default TabNavigator(
 		WeeklyMovieView: {
 			screen: ({navigation}) => (
 				<ReasonCalendarView
-					navigation={navigation}
 					calendarUrl="https://apps.carleton.edu/student/orgs/sumo/"
+					navigation={navigation}
 					poweredBy={{
 						title: 'Powered by SUMO',
 						href: 'https://apps.carleton.edu/student/orgs/sumo/',

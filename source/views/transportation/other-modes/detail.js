@@ -60,8 +60,8 @@ export class OtherModesDetailView extends React.PureComponent<Props> {
 				<Button onPress={this.onPress} title="More Info" />
 
 				<ListFooter
-					title="Collected by the humans of CARLS"
 					href={GH_NEW_ISSUE_URL}
+					title="Collected by the humans of CARLS"
 				/>
 			</Container>
 		)

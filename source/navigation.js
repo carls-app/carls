@@ -70,7 +70,6 @@ export const AppNavigator = StackNavigator(
 		HelpView: {screen: HelpView},
 		LegalView: {screen: LegalView},
 		MenusView: {screen: MenusView},
-		NewsItemView: {screen: NewsItemView},
 		NewsView: {screen: NewsView},
 		PrivacyView: {screen: PrivacyView},
 		IconSettingsView: {screen: IconSettingsView},

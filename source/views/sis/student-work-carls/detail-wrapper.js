@@ -15,7 +15,7 @@ type State = {
 type Props = {navigation: {state: {params: {job: ThinJobType}}}}
 
 export class StudentWorkDetailView extends React.PureComponent<Props, State> {
-	static navigationOptions = ({navigation}) => {
+	static navigationOptions = ({navigation}: any) => {
 		return {title: navigation.state.params.job.title}
 	}
 

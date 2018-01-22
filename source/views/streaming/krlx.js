@@ -12,7 +12,7 @@ import {
 import * as c from '../components/colors'
 import {TabBarIcon} from '../components/tabbar-icon'
 import {trackedOpenUrl} from '../components/open-url'
-import {ActionButton} from './radio'
+import {ActionButton} from './radio/buttons'
 
 const image = require('../../../images/streaming/krlx.png')
 
@@ -69,9 +69,9 @@ export class KRLXView extends React.PureComponent<Props, State> {
 			>
 				<View style={[styles.logoWrapper, sideways && landscape.logoWrapper]}>
 					<Image
+						resizeMode="contain"
 						source={image}
 						style={[styles.logo, logoSize]}
-						resizeMode="contain"
 					/>
 				</View>
 
@@ -91,8 +91,8 @@ export class KRLXView extends React.PureComponent<Props, State> {
 
 					<ActionButton
 						icon="ios-play"
-						text="Listen to KRLX"
 						onPress={this.openWebsite}
+						text="Listen to KRLX"
 					/>
 				</View>
 			</ScrollView>
