@@ -1,19 +1,11 @@
 // @flow
 
-import {Platform, Linking, StatusBar} from 'react-native'
+import {Platform, Linking} from 'react-native'
 
 import * as c from './colors'
 import {tracker} from '../../analytics'
 import SafariView from 'react-native-safari-view'
 import {CustomTabs} from 'react-native-custom-tabs'
-
-export function startStatusBarColorChanger() {
-	return Promise.resolve(null)
-}
-
-export function stopStatusBarColorChanger() {
-	return Promise.resolve(null)
-}
 
 function genericOpen(url: string) {
 	return Linking.canOpenURL(url)
