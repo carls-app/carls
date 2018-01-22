@@ -24,6 +24,7 @@ type Props = TopLevelViewPropsType & {
 	calendarUrl: string,
 	calendarProps?: any,
 	poweredBy: {title: string, href: string},
+	eventMapper?: EventType => EventType,
 }
 
 export class ReasonCalendarView extends React.Component<Props, State> {
@@ -55,21 +56,33 @@ export class ReasonCalendarView extends React.Component<Props, State> {
 	}
 
 	convertEvents(data: ReasonEventType[], now: moment): EventType[] {
-		return data.map(event => {
+		let events = data.map(event => {
 			const startTime = moment(event.datetime)
 			const endTime = startTime
 				.clone()
 				.add(event.hours, 'hours')
 				.add(event.minutes, 'minutes')
+
 			return {
 				startTime,
 				endTime,
-				summary: event.name,
-				location: event.location,
+				title: event.name || '',
+				description: event.description || '',
+				location: event.location || '',
 				isOngoing: startTime.isBefore(now, 'day') && endTime.isSameOrAfter(now),
-				extra: {type: 'reason', data: event},
+				config: {
+					startTime: true,
+					endTime: true,
+					subtitle: 'location',
+				},
 			}
 		})
+
+		if (this.props.eventMapper) {
+			events = events.map(this.props.eventMapper)
+		}
+
+		return events
 	}
 
 	getEvents = async (now: moment = moment.tz(TIMEZONE)) => {

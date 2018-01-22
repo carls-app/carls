@@ -16,6 +16,14 @@ export default TabNavigator(
 			screen: ({navigation}) => (
 				<ReasonCalendarView
 					calendarUrl="https://apps.carleton.edu/student/orgs/sumo/"
+					eventMapper={event => ({
+						...event,
+						title: event.title.replace(/^SUMO: /, ''),
+						config: {
+							...event.config,
+							endTime: false,
+						},
+					})}
 					navigation={navigation}
 					poweredBy={{
 						title: 'Powered by SUMO',
