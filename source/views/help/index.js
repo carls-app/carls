@@ -8,15 +8,15 @@ import {ReportWifiProblemView} from './wifi'
 type Props = {}
 
 export default class HelpView extends React.Component<Props> {
-  static navigationOptions = {
-    title: 'Help',
-  }
+	static navigationOptions = {
+		title: 'Help',
+	}
 
-  render() {
-    return (
-      <View>
-        <ReportWifiProblemView />
-      </View>
-    )
-  }
+	render() {
+		return (
+			<View>
+				<ReportWifiProblemView />
+			</View>
+		)
+	}
 }

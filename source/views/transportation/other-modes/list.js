@@ -17,101 +17,101 @@ import type {OtherModeType} from '../types'
 const GITHUB_URL = 'https://carls-app.github.io/carls/transportation.json'
 
 const groupModes = (modes: OtherModeType[]) => {
-  const grouped = groupBy(modes, m => m.category)
-  return toPairs(grouped).map(([key, value]) => ({title: key, data: value}))
+	const grouped = groupBy(modes, m => m.category)
+	return toPairs(grouped).map(([key, value]) => ({title: key, data: value}))
 }
 
 const styles = StyleSheet.create({
-  listContainer: {
-    backgroundColor: c.white,
-  },
+	listContainer: {
+		backgroundColor: c.white,
+	},
 })
 
 type Props = TopLevelViewPropsType
 
 type State = {
-  modes: Array<OtherModeType>,
-  loading: boolean,
-  refreshing: boolean,
+	modes: Array<OtherModeType>,
+	loading: boolean,
+	refreshing: boolean,
 }
 
 export class OtherModesView extends React.PureComponent<Props, State> {
-  static navigationOptions = {
-    tabBarLabel: 'Other Modes',
-    tabBarIcon: TabBarIcon('boat'),
-  }
+	static navigationOptions = {
+		tabBarLabel: 'Other Modes',
+		tabBarIcon: TabBarIcon('boat'),
+	}
 
-  state = {
-    modes: defaultData.data,
-    loading: true,
-    refreshing: false,
-  }
+	state = {
+		modes: defaultData.data,
+		loading: true,
+		refreshing: false,
+	}
 
-  componentWillMount() {
-    this.fetchData().then(() => {
-      this.setState(() => ({loading: false}))
-    })
-  }
+	componentWillMount() {
+		this.fetchData().then(() => {
+			this.setState(() => ({loading: false}))
+		})
+	}
 
-  refresh = async (): any => {
-    const start = Date.now()
-    this.setState(() => ({refreshing: true}))
+	refresh = async (): any => {
+		const start = Date.now()
+		this.setState(() => ({refreshing: true}))
 
-    await this.fetchData()
+		await this.fetchData()
 
-    // wait 0.5 seconds – if we let it go at normal speed, it feels broken.
-    const elapsed = Date.now() - start
-    if (elapsed < 500) {
-      await delay(500 - elapsed)
-    }
+		// wait 0.5 seconds – if we let it go at normal speed, it feels broken.
+		const elapsed = Date.now() - start
+		if (elapsed < 500) {
+			await delay(500 - elapsed)
+		}
 
-    this.setState(() => ({refreshing: false}))
-  }
+		this.setState(() => ({refreshing: false}))
+	}
 
-  fetchData = async () => {
-    let {data: modes} = await fetchJson(GITHUB_URL).catch(err => {
-      reportNetworkProblem(err)
-      return defaultData
-    })
+	fetchData = async () => {
+		let {data: modes} = await fetchJson(GITHUB_URL).catch(err => {
+			reportNetworkProblem(err)
+			return defaultData
+		})
 
-    if (process.env.NODE_ENV === 'development') {
-      modes = defaultData.data
-    }
+		if (process.env.NODE_ENV === 'development') {
+			modes = defaultData.data
+		}
 
-    this.setState(() => ({modes}))
-  }
+		this.setState(() => ({modes}))
+	}
 
-  onPress = (mode: OtherModeType) => {
-    this.props.navigation.navigate('OtherModesDetailView', {
-      mode,
-    })
-  }
+	onPress = (mode: OtherModeType) => {
+		this.props.navigation.navigate('OtherModesDetailView', {
+			mode,
+		})
+	}
 
-  renderSectionHeader = ({section: {title}}: any) => (
-    <ListSectionHeader title={title} />
-  )
+	renderSectionHeader = ({section: {title}}: any) => (
+		<ListSectionHeader title={title} />
+	)
 
-  renderItem = ({item}: {item: OtherModeType}) => (
-    <OtherModesRow mode={item} onPress={this.onPress} />
-  )
+	renderItem = ({item}: {item: OtherModeType}) => (
+		<OtherModesRow mode={item} onPress={this.onPress} />
+	)
 
-  keyExtractor = (item: OtherModeType) => item.name
+	keyExtractor = (item: OtherModeType) => item.name
 
-  render() {
-    const groupedData = groupModes(this.state.modes)
-    return (
-      <SectionList
-        ItemSeparatorComponent={ListSeparator}
-        ListEmptyComponent={<ListEmpty mode="bug" />}
-        style={styles.listContainer}
-        data={groupedData}
-        sections={groupedData}
-        keyExtractor={this.keyExtractor}
-        renderSectionHeader={this.renderSectionHeader}
-        renderItem={this.renderItem}
-        refreshing={this.state.refreshing}
-        onRefresh={this.refresh}
-      />
-    )
-  }
+	render() {
+		const groupedData = groupModes(this.state.modes)
+		return (
+			<SectionList
+				ItemSeparatorComponent={ListSeparator}
+				ListEmptyComponent={<ListEmpty mode="bug" />}
+				style={styles.listContainer}
+				data={groupedData}
+				sections={groupedData}
+				keyExtractor={this.keyExtractor}
+				renderSectionHeader={this.renderSectionHeader}
+				renderItem={this.renderItem}
+				refreshing={this.state.refreshing}
+				onRefresh={this.refresh}
+			/>
+		)
+	}
 }

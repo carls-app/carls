@@ -2,13 +2,13 @@
 
 import * as React from 'react'
 import {
-  Dimensions,
-  Image,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-  WebView,
+	Dimensions,
+	Image,
+	ScrollView,
+	StyleSheet,
+	Text,
+	View,
+	WebView,
 } from 'react-native'
 import * as c from '../components/colors'
 import Icon from 'react-native-vector-icons/Ionicons'
@@ -27,240 +27,240 @@ type PlayState = 'paused' | 'playing' | 'checking' | 'loading'
 type Props = {}
 
 type State = {
-  playState: PlayState,
-  streamError: ?HtmlAudioError,
-  uplinkError: ?string,
-  viewport: Viewport,
+	playState: PlayState,
+	streamError: ?HtmlAudioError,
+	uplinkError: ?string,
+	viewport: Viewport,
 }
 
 export default class KSTOView extends React.PureComponent<Props, State> {
-  static navigationOptions = {
-    tabBarLabel: 'KSTO',
-    tabBarIcon: TabBarIcon('radio'),
-  }
+	static navigationOptions = {
+		tabBarLabel: 'KSTO',
+		tabBarIcon: TabBarIcon('radio'),
+	}
 
-  state = {
-    playState: 'paused',
-    streamError: null,
-    uplinkError: null,
-    viewport: Dimensions.get('window'),
-  }
+	state = {
+		playState: 'paused',
+		streamError: null,
+		uplinkError: null,
+		viewport: Dimensions.get('window'),
+	}
 
-  componentWillMount() {
-    Dimensions.addEventListener('change', this.handleResizeEvent)
-  }
+	componentWillMount() {
+		Dimensions.addEventListener('change', this.handleResizeEvent)
+	}
 
-  componentWillUnmount() {
-    Dimensions.removeEventListener('change', this.handleResizeEvent)
-  }
+	componentWillUnmount() {
+		Dimensions.removeEventListener('change', this.handleResizeEvent)
+	}
 
-  handleResizeEvent = (event: {window: {width: number, height: number}}) => {
-    this.setState(() => ({viewport: event.window}))
-  }
+	handleResizeEvent = (event: {window: {width: number, height: number}}) => {
+		this.setState(() => ({viewport: event.window}))
+	}
 
-  play = () => {
-    this.setState(() => ({playState: 'checking'}))
-  }
+	play = () => {
+		this.setState(() => ({playState: 'checking'}))
+	}
 
-  pause = () => {
-    this.setState(() => ({playState: 'paused'}))
-  }
+	pause = () => {
+		this.setState(() => ({playState: 'paused'}))
+	}
 
-  handleStreamPlay = () => {
-    this.setState(() => ({playState: 'playing'}))
-  }
+	handleStreamPlay = () => {
+		this.setState(() => ({playState: 'playing'}))
+	}
 
-  handleStreamPause = () => {
-    this.setState(() => ({playState: 'paused'}))
-  }
+	handleStreamPause = () => {
+		this.setState(() => ({playState: 'paused'}))
+	}
 
-  handleStreamEnd = () => {
-    this.setState(() => ({playState: 'paused'}))
-  }
+	handleStreamEnd = () => {
+		this.setState(() => ({playState: 'paused'}))
+	}
 
-  handleStreamError = (e: {code: number, message: string}) => {
-    this.setState(() => ({streamError: e, playState: 'paused'}))
-  }
+	handleStreamError = (e: {code: number, message: string}) => {
+		this.setState(() => ({streamError: e, playState: 'paused'}))
+	}
 
-  renderButton = (state: PlayState) => {
-    switch (state) {
-      case 'paused':
-        return (
-          <ActionButton icon="ios-play" text="Listen" onPress={this.play} />
-        )
+	renderButton = (state: PlayState) => {
+		switch (state) {
+			case 'paused':
+				return (
+					<ActionButton icon="ios-play" text="Listen" onPress={this.play} />
+				)
 
-      case 'checking':
-        return (
-          <ActionButton icon="ios-more" text="Starting" onPress={this.pause} />
-        )
+			case 'checking':
+				return (
+					<ActionButton icon="ios-more" text="Starting" onPress={this.pause} />
+				)
 
-      case 'playing':
-        return (
-          <ActionButton icon="ios-pause" text="Pause" onPress={this.pause} />
-        )
+			case 'playing':
+				return (
+					<ActionButton icon="ios-pause" text="Pause" onPress={this.pause} />
+				)
 
-      default:
-        return <ActionButton icon="ios-bug" text="Error" onPress={() => {}} />
-    }
-  }
+			default:
+				return <ActionButton icon="ios-bug" text="Error" onPress={() => {}} />
+		}
+	}
 
-  render() {
-    const sideways = this.state.viewport.width > this.state.viewport.height
+	render() {
+		const sideways = this.state.viewport.width > this.state.viewport.height
 
-    const logoWidth = Math.min(
-      this.state.viewport.width / 1.5,
-      this.state.viewport.height / 1.75,
-    )
+		const logoWidth = Math.min(
+			this.state.viewport.width / 1.5,
+			this.state.viewport.height / 1.75,
+		)
 
-    const logoSize = {
-      width: logoWidth,
-      height: logoWidth,
-    }
+		const logoSize = {
+			width: logoWidth,
+			height: logoWidth,
+		}
 
-    const error = this.state.uplinkError ? (
-      <Text style={styles.status}>{this.state.uplinkError}</Text>
-    ) : this.state.streamError ? (
-      <Text style={styles.status}>
-        Error Code {this.state.streamError.code}:{' '}
-        {this.state.streamError.message}
-      </Text>
-    ) : null
+		const error = this.state.uplinkError ? (
+			<Text style={styles.status}>{this.state.uplinkError}</Text>
+		) : this.state.streamError ? (
+			<Text style={styles.status}>
+				Error Code {this.state.streamError.code}:{' '}
+				{this.state.streamError.message}
+			</Text>
+		) : null
 
-    const button = this.renderButton(this.state.playState)
+		const button = this.renderButton(this.state.playState)
 
-    return (
-      <ScrollView
-        contentContainerStyle={[styles.root, sideways && landscape.root]}
-      >
-        <View style={[styles.logoWrapper, sideways && landscape.logoWrapper]}>
-          <Image
-            source={image}
-            style={[styles.logo, logoSize]}
-            resizeMode="contain"
-          />
-        </View>
+		return (
+			<ScrollView
+				contentContainerStyle={[styles.root, sideways && landscape.root]}
+			>
+				<View style={[styles.logoWrapper, sideways && landscape.logoWrapper]}>
+					<Image
+						source={image}
+						style={[styles.logo, logoSize]}
+						resizeMode="contain"
+					/>
+				</View>
 
-        <View style={styles.container}>
-          <View style={styles.titleWrapper}>
-            <Text selectable={true} style={styles.heading}>
-              St. Olaf College Radio
-            </Text>
-            <Text selectable={true} style={styles.subHeading}>
-              KSTO 93.1 FM
-            </Text>
+				<View style={styles.container}>
+					<View style={styles.titleWrapper}>
+						<Text selectable={true} style={styles.heading}>
+							St. Olaf College Radio
+						</Text>
+						<Text selectable={true} style={styles.subHeading}>
+							KSTO 93.1 FM
+						</Text>
 
-            {error}
-          </View>
+						{error}
+					</View>
 
-          {button}
+					{button}
 
-          <StreamPlayer
-            playState={this.state.playState}
-            // onWaiting={this.handleStreamWait}
-            onEnded={this.handleStreamEnd}
-            // onStalled={this.handleStreamStall}
-            onPlay={this.handleStreamPlay}
-            onPause={this.handleStreamPause}
-            onError={this.handleStreamError}
-          />
-        </View>
-      </ScrollView>
-    )
-  }
+					<StreamPlayer
+						playState={this.state.playState}
+						// onWaiting={this.handleStreamWait}
+						onEnded={this.handleStreamEnd}
+						// onStalled={this.handleStreamStall}
+						onPlay={this.handleStreamPlay}
+						onPause={this.handleStreamPause}
+						onError={this.handleStreamError}
+					/>
+				</View>
+			</ScrollView>
+		)
+	}
 }
 
 type StreamPlayerProps = {
-  playState: PlayState,
-  onWaiting?: () => any,
-  onEnded?: () => any,
-  onStalled?: () => any,
-  onPlay?: () => any,
-  onPause?: () => any,
-  onError?: HtmlAudioError => any,
+	playState: PlayState,
+	onWaiting?: () => any,
+	onEnded?: () => any,
+	onStalled?: () => any,
+	onPlay?: () => any,
+	onPause?: () => any,
+	onError?: HtmlAudioError => any,
 }
 
 type HtmlAudioState =
-  | 'waiting'
-  | 'ended'
-  | 'stalled'
-  | 'playing'
-  | 'play'
-  | 'pause'
+	| 'waiting'
+	| 'ended'
+	| 'stalled'
+	| 'playing'
+	| 'play'
+	| 'pause'
 type HtmlAudioEvent =
-  | {type: HtmlAudioState}
-  | {type: 'error', error: HtmlAudioError}
+	| {type: HtmlAudioState}
+	| {type: 'error', error: HtmlAudioError}
 
 class StreamPlayer extends React.PureComponent<StreamPlayerProps> {
-  _webview: WebView
+	_webview: WebView
 
-  componentWillReceiveProps(nextProps: StreamPlayerProps) {
-    this.dispatchEvent(nextProps.playState)
-  }
+	componentWillReceiveProps(nextProps: StreamPlayerProps) {
+		this.dispatchEvent(nextProps.playState)
+	}
 
-  componentWillUnmount() {
-    this.pause()
-  }
+	componentWillUnmount() {
+		this.pause()
+	}
 
-  dispatchEvent = (nextPlayState: PlayState) => {
-    // console.log('<StreamPlayer> state changed to', nextPlayState)
+	dispatchEvent = (nextPlayState: PlayState) => {
+		// console.log('<StreamPlayer> state changed to', nextPlayState)
 
-    switch (nextPlayState) {
-      case 'paused':
-        return this.pause()
+		switch (nextPlayState) {
+			case 'paused':
+				return this.pause()
 
-      case 'loading':
-      case 'checking':
-      case 'playing':
-        return this.play()
+			case 'loading':
+			case 'checking':
+			case 'playing':
+				return this.play()
 
-      default:
-        return
-    }
-  }
+			default:
+				return
+		}
+	}
 
-  handleMessage = (event: any) => {
-    const data: HtmlAudioEvent = JSON.parse(event.nativeEvent.data)
+	handleMessage = (event: any) => {
+		const data: HtmlAudioEvent = JSON.parse(event.nativeEvent.data)
 
-    // console.log('<audio> dispatched event', data.type)
+		// console.log('<audio> dispatched event', data.type)
 
-    switch (data.type) {
-      case 'waiting':
-        return this.props.onWaiting && this.props.onWaiting()
+		switch (data.type) {
+			case 'waiting':
+				return this.props.onWaiting && this.props.onWaiting()
 
-      case 'ended':
-        return this.props.onEnded && this.props.onEnded()
+			case 'ended':
+				return this.props.onEnded && this.props.onEnded()
 
-      case 'stalled':
-        return this.props.onStalled && this.props.onStalled()
+			case 'stalled':
+				return this.props.onStalled && this.props.onStalled()
 
-      case 'pause':
-        return this.props.onPause && this.props.onPause()
+			case 'pause':
+				return this.props.onPause && this.props.onPause()
 
-      case 'playing':
-      case 'play':
-        return this.props.onPlay && this.props.onPlay()
+			case 'playing':
+			case 'play':
+				return this.props.onPlay && this.props.onPlay()
 
-      case 'error':
-        return this.props.onError && this.props.onError(data.error)
+			case 'error':
+				return this.props.onError && this.props.onError(data.error)
 
-      default:
-        return
-    }
-  }
+			default:
+				return
+		}
+	}
 
-  pause = () => {
-    // console.log('sent "pause" message to <audio>')
-    this._webview.postMessage('pause')
-  }
+	pause = () => {
+		// console.log('sent "pause" message to <audio>')
+		this._webview.postMessage('pause')
+	}
 
-  play = () => {
-    // console.log('sent "play" message to <audio>')
-    this._webview.postMessage('play')
-  }
+	play = () => {
+		// console.log('sent "play" message to <audio>')
+		this._webview.postMessage('play')
+	}
 
-  setRef = (ref: WebView) => (this._webview = ref)
+	setRef = (ref: WebView) => (this._webview = ref)
 
-  html = url => `
+	html = url => `
     <style>body {background-color: white;}</style>
 
     <title>KSTO Stream</title>
@@ -338,119 +338,119 @@ class StreamPlayer extends React.PureComponent<StreamPlayerProps> {
       player.addEventListener('error', error)
     </script>`
 
-  render() {
-    return (
-      <WebView
-        ref={this.setRef}
-        mediaPlaybackRequiresUserAction={false}
-        allowsInlineMediaPlayback={true}
-        source={{html: this.html(kstoStream)}}
-        onMessage={this.handleMessage}
-        style={styles.webview}
-      />
-    )
-  }
+	render() {
+		return (
+			<WebView
+				ref={this.setRef}
+				mediaPlaybackRequiresUserAction={false}
+				allowsInlineMediaPlayback={true}
+				source={{html: this.html(kstoStream)}}
+				onMessage={this.handleMessage}
+				style={styles.webview}
+			/>
+		)
+	}
 }
 
 type ActionButtonProps = {
-  icon: string,
-  text: string,
-  onPress: () => any,
+	icon: string,
+	text: string,
+	onPress: () => any,
 }
 export const ActionButton = ({icon, text, onPress}: ActionButtonProps) => (
-  <Touchable style={buttonStyles.button} hightlight={false} onPress={onPress}>
-    <View style={buttonStyles.buttonWrapper}>
-      <Icon style={buttonStyles.icon} name={icon} />
-      <Text style={buttonStyles.action}>{text}</Text>
-    </View>
-  </Touchable>
+	<Touchable style={buttonStyles.button} hightlight={false} onPress={onPress}>
+		<View style={buttonStyles.buttonWrapper}>
+			<Icon style={buttonStyles.icon} name={icon} />
+			<Text style={buttonStyles.action}>{text}</Text>
+		</View>
+	</Touchable>
 )
 
 const styles = StyleSheet.create({
-  root: {
-    flexDirection: 'column',
-    alignItems: 'stretch',
-    justifyContent: 'space-between',
-    padding: 20,
-  },
-  container: {
-    alignItems: 'center',
-    flex: 1,
-    marginTop: 20,
-    marginBottom: 20,
-  },
-  logoWrapper: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    flex: 1,
-  },
-  logo: {
-    borderRadius: 6,
-    borderColor: c.kstoSecondaryDark,
-    borderWidth: 3,
-  },
-  titleWrapper: {
-    alignItems: 'center',
-    marginBottom: 20,
-  },
-  heading: {
-    color: c.kstoPrimaryDark,
-    fontWeight: '600',
-    fontSize: 28,
-    textAlign: 'center',
-  },
-  subHeading: {
-    marginTop: 5,
-    color: c.kstoPrimaryDark,
-    fontWeight: '300',
-    fontSize: 28,
-    textAlign: 'center',
-  },
-  status: {
-    fontWeight: '400',
-    fontSize: 18,
-    textAlign: 'center',
-    color: c.grapefruit,
-    marginTop: 15,
-    marginBottom: 5,
-  },
-  webview: {
-    display: 'none',
-  },
+	root: {
+		flexDirection: 'column',
+		alignItems: 'stretch',
+		justifyContent: 'space-between',
+		padding: 20,
+	},
+	container: {
+		alignItems: 'center',
+		flex: 1,
+		marginTop: 20,
+		marginBottom: 20,
+	},
+	logoWrapper: {
+		alignItems: 'center',
+		justifyContent: 'center',
+		flex: 1,
+	},
+	logo: {
+		borderRadius: 6,
+		borderColor: c.kstoSecondaryDark,
+		borderWidth: 3,
+	},
+	titleWrapper: {
+		alignItems: 'center',
+		marginBottom: 20,
+	},
+	heading: {
+		color: c.kstoPrimaryDark,
+		fontWeight: '600',
+		fontSize: 28,
+		textAlign: 'center',
+	},
+	subHeading: {
+		marginTop: 5,
+		color: c.kstoPrimaryDark,
+		fontWeight: '300',
+		fontSize: 28,
+		textAlign: 'center',
+	},
+	status: {
+		fontWeight: '400',
+		fontSize: 18,
+		textAlign: 'center',
+		color: c.grapefruit,
+		marginTop: 15,
+		marginBottom: 5,
+	},
+	webview: {
+		display: 'none',
+	},
 })
 
 const landscape = StyleSheet.create({
-  root: {
-    flex: 1,
-    padding: 20,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  logoWrapper: {
-    flex: 0,
-  },
+	root: {
+		flex: 1,
+		padding: 20,
+		flexDirection: 'row',
+		alignItems: 'center',
+	},
+	logoWrapper: {
+		flex: 0,
+	},
 })
 
 const buttonStyles = StyleSheet.create({
-  button: {
-    alignItems: 'center',
-    paddingVertical: 5,
-    backgroundColor: c.denim,
-    width: 200,
-    borderRadius: 8,
-    overflow: 'hidden',
-  },
-  buttonWrapper: {
-    flexDirection: 'row',
-  },
-  icon: {
-    color: c.white,
-    fontSize: 30,
-  },
-  action: {
-    color: c.white,
-    paddingLeft: 10,
-    paddingTop: 7,
-    fontWeight: '900',
-  },
+	button: {
+		alignItems: 'center',
+		paddingVertical: 5,
+		backgroundColor: c.denim,
+		width: 200,
+		borderRadius: 8,
+		overflow: 'hidden',
+	},
+	buttonWrapper: {
+		flexDirection: 'row',
+	},
+	icon: {
+		color: c.white,
+		fontSize: 30,
+	},
+	action: {
+		color: c.white,
+		paddingLeft: 10,
+		paddingTop: 7,
+		fontWeight: '900',
+	},
 })

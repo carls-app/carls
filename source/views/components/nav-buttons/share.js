@@ -7,23 +7,23 @@ import {Touchable} from '../touchable'
 import {rightButtonStyles as styles} from './styles'
 
 type Props = {
-  onPress: () => any,
+	onPress: () => any,
 }
 
 export class ShareButton extends React.PureComponent<Props> {
-  render() {
-    return (
-      <Touchable
-        highlight={false}
-        style={styles.button}
-        onPress={this.props.onPress}
-      >
-        {Platform.OS === 'ios' ? (
-          <Icon style={styles.icon} name="ios-share-outline" />
-        ) : (
-          <Icon style={styles.icon} name="md-share" />
-        )}
-      </Touchable>
-    )
-  }
+	render() {
+		return (
+			<Touchable
+				highlight={false}
+				style={styles.button}
+				onPress={this.props.onPress}
+			>
+				{Platform.OS === 'ios' ? (
+					<Icon style={styles.icon} name="ios-share-outline" />
+				) : (
+					<Icon style={styles.icon} name="md-share" />
+				)}
+			</Touchable>
+		)
+	}
 }

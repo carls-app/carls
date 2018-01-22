@@ -3,6 +3,6 @@
 export {BuildingHoursView} from './stateful-list'
 export {BuildingHoursDetailView} from './detail'
 export {
-  BuildingHoursProblemReportView,
-  BuildingHoursScheduleEditorView,
+	BuildingHoursProblemReportView,
+	BuildingHoursScheduleEditorView,
 } from './report'

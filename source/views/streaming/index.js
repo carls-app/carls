@@ -9,28 +9,28 @@ import {KRLXView} from './krlx'
 // import WeeklyMovieView from './movie'
 
 export default TabNavigator(
-  {
-    WeeklyMovieView: {
-      screen: ({navigation}) => (
-        <ReasonCalendarView
-          navigation={navigation}
-          calendarUrl="https://apps.carleton.edu/student/orgs/sumo/"
-          poweredBy={{
-            title: 'Powered by SUMO',
-            href: 'https://apps.carleton.edu/student/orgs/sumo/',
-          }}
-        />
-      ),
-      navigationOptions: {
-        tabBarLabel: 'SUMO',
-        tabBarIcon: TabBarIcon('film'),
-      },
-    },
-    KRLXRadioView: {screen: KRLXView},
-  },
-  {
-    navigationOptions: {
-      title: 'Streaming Media',
-    },
-  },
+	{
+		WeeklyMovieView: {
+			screen: ({navigation}) => (
+				<ReasonCalendarView
+					navigation={navigation}
+					calendarUrl="https://apps.carleton.edu/student/orgs/sumo/"
+					poweredBy={{
+						title: 'Powered by SUMO',
+						href: 'https://apps.carleton.edu/student/orgs/sumo/',
+					}}
+				/>
+			),
+			navigationOptions: {
+				tabBarLabel: 'SUMO',
+				tabBarIcon: TabBarIcon('film'),
+			},
+		},
+		KRLXRadioView: {screen: KRLXView},
+	},
+	{
+		navigationOptions: {
+			title: 'Streaming Media',
+		},
+	},
 )

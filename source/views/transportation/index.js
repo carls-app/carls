@@ -13,48 +13,48 @@ export {OtherModesDetailView} from './other-modes'
 export {BusMap} from './bus'
 
 export default TabNavigator(
-  {
-    ExpressLineBusView: {
-      screen: ({navigation}) => (
-        <ConnectedXyzBusView routeName="Express Bus" navigation={navigation} />
-      ),
-      navigationOptions: {
-        tabBarLabel: 'Express Bus',
-        tabBarIcon: TabBarIcon('subway'),
-      },
-    },
+	{
+		ExpressLineBusView: {
+			screen: ({navigation}) => (
+				<ConnectedXyzBusView routeName="Express Bus" navigation={navigation} />
+			),
+			navigationOptions: {
+				tabBarLabel: 'Express Bus',
+				tabBarIcon: TabBarIcon('subway'),
+			},
+		},
 
-    CarlsGoBusView: {
-      screen: ({navigation}) => (
-        <ConnectedXyzBusView routeName={/Carls-Go/} navigation={navigation} />
-      ),
-      navigationOptions: {
-        tabBarLabel: 'CarlsGO',
-        tabBarIcon: TabBarIcon('car'),
-      },
-    },
+		CarlsGoBusView: {
+			screen: ({navigation}) => (
+				<ConnectedXyzBusView routeName={/Carls-Go/} navigation={navigation} />
+			),
+			navigationOptions: {
+				tabBarLabel: 'CarlsGO',
+				tabBarIcon: TabBarIcon('car'),
+			},
+		},
 
-    BlueLineBusView: {
-      screen: ({navigation}) => (
-        <ConnectedXyzBusView routeName="Blue Line" navigation={navigation} />
-      ),
-      navigationOptions: {
-        tabBarLabel: 'Blue Line',
-        tabBarIcon: TabBarIcon('bus'),
-      },
-    },
+		BlueLineBusView: {
+			screen: ({navigation}) => (
+				<ConnectedXyzBusView routeName="Blue Line" navigation={navigation} />
+			),
+			navigationOptions: {
+				tabBarLabel: 'Blue Line',
+				tabBarIcon: TabBarIcon('bus'),
+			},
+		},
 
-    TransportationOtherBusView: {
-      screen: ConnectedXyzBusList,
-    },
+		TransportationOtherBusView: {
+			screen: ConnectedXyzBusList,
+		},
 
-    TransportationOtherModesListView: {
-      screen: OtherModesView,
-    },
-  },
-  {
-    navigationOptions: {
-      title: 'Transportation',
-    },
-  },
+		TransportationOtherModesListView: {
+			screen: OtherModesView,
+		},
+	},
+	{
+		navigationOptions: {
+			title: 'Transportation',
+		},
+	},
 )

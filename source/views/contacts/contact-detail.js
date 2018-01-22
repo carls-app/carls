@@ -14,87 +14,87 @@ import type {ContactType} from './types'
 const AAO_URL = 'https://github.com/carls-app/carls/issues/new'
 
 const Title = glamorous.text({
-  fontSize: 36,
-  textAlign: 'center',
-  marginHorizontal: 18,
-  marginVertical: 10,
+	fontSize: 36,
+	textAlign: 'center',
+	marginHorizontal: 18,
+	marginVertical: 10,
 })
 
 const Container = glamorous.view({
-  paddingHorizontal: 18,
-  paddingVertical: 6,
+	paddingHorizontal: 18,
+	paddingVertical: 6,
 })
 
 const styles = StyleSheet.create({
-  paragraph: {
-    fontSize: 16,
-  },
-  image: {
-    width: null,
-    height: 100,
-  },
+	paragraph: {
+		fontSize: 16,
+	},
+	image: {
+		width: null,
+		height: 100,
+	},
 })
 
 function formatNumber(phoneNumber: string) {
-  const re = /(\d{3})-?(\d{3})-?(\d{4})/g
-  return phoneNumber.replace(re, '($1) $2-$3')
+	const re = /(\d{3})-?(\d{3})-?(\d{4})/g
+	return phoneNumber.replace(re, '($1) $2-$3')
 }
 
 function promptCall(buttonText: string, phoneNumber: string) {
-  Alert.alert(buttonText, formatNumber(phoneNumber), [
-    {text: 'Cancel', onPress: () => console.log('Call cancel pressed')},
-    {text: 'Call', onPress: () => phonecall(phoneNumber, false)},
-  ])
+	Alert.alert(buttonText, formatNumber(phoneNumber), [
+		{text: 'Cancel', onPress: () => console.log('Call cancel pressed')},
+		{text: 'Call', onPress: () => phonecall(phoneNumber, false)},
+	])
 }
 
 type Props = {navigation: {state: {params: {contact: ContactType}}}}
 
 export class ContactsDetailView extends React.PureComponent<Props> {
-  static navigationOptions = ({navigation}) => {
-    return {
-      title: navigation.state.params.contact.title,
-    }
-  }
+	static navigationOptions = ({navigation}) => {
+		return {
+			title: navigation.state.params.contact.title,
+		}
+	}
 
-  onPress = () => {
-    const {
-      title,
-      phoneNumber,
-      buttonText,
-      buttonLink,
-    } = this.props.navigation.state.params.contact
-    tracker.trackScreenView(`ImportantContacts_${title.replace(' ', '')}View`)
-    if (buttonLink) {
-      openUrl(buttonLink)
-    } else if (phoneNumber) {
-      promptCall(buttonText, phoneNumber)
-    }
-  }
+	onPress = () => {
+		const {
+			title,
+			phoneNumber,
+			buttonText,
+			buttonLink,
+		} = this.props.navigation.state.params.contact
+		tracker.trackScreenView(`ImportantContacts_${title.replace(' ', '')}View`)
+		if (buttonLink) {
+			openUrl(buttonLink)
+		} else if (phoneNumber) {
+			promptCall(buttonText, phoneNumber)
+		}
+	}
 
-  render() {
-    const contact = this.props.navigation.state.params.contact
-    const headerImage =
-      contact.image && contactImages.hasOwnProperty(contact.image)
-        ? contactImages[contact.image]
-        : null
-    return (
-      <ScrollView>
-        {headerImage ? (
-          <Image source={headerImage} resizeMode="cover" style={styles.image} />
-        ) : null}
-        <Container>
-          <Title selectable={true}>{contact.title}</Title>
+	render() {
+		const contact = this.props.navigation.state.params.contact
+		const headerImage =
+			contact.image && contactImages.hasOwnProperty(contact.image)
+				? contactImages[contact.image]
+				: null
+		return (
+			<ScrollView>
+				{headerImage ? (
+					<Image source={headerImage} resizeMode="cover" style={styles.image} />
+				) : null}
+				<Container>
+					<Title selectable={true}>{contact.title}</Title>
 
-          <Markdown
-            styles={{Paragraph: styles.paragraph}}
-            source={contact.text}
-          />
+					<Markdown
+						styles={{Paragraph: styles.paragraph}}
+						source={contact.text}
+					/>
 
-          <Button onPress={this.onPress} title={contact.buttonText} />
+					<Button onPress={this.onPress} title={contact.buttonText} />
 
-          <ListFooter title="Collected by the humans of CARLS" href={AAO_URL} />
-        </Container>
-      </ScrollView>
-    )
-  }
+					<ListFooter title="Collected by the humans of CARLS" href={AAO_URL} />
+				</Container>
+			</ScrollView>
+		)
+	}
 }

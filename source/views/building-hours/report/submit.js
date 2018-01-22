@@ -6,23 +6,23 @@ import {email} from 'react-native-communications'
 import querystring from 'querystring'
 
 export function submitReport(current: BuildingType, suggestion: BuildingType) {
-  // calling trim() on these to remove the trailing newlines
-  const before = stringifyBuilding(current).trim()
-  const after = stringifyBuilding(suggestion).trim()
+	// calling trim() on these to remove the trailing newlines
+	const before = stringifyBuilding(current).trim()
+	const after = stringifyBuilding(suggestion).trim()
 
-  const body = makeEmailBody(before, after, current.name)
+	const body = makeEmailBody(before, after, current.name)
 
-  return email(
-    ['rives@stolaf.edu'],
-    [],
-    [],
-    `[building] Suggestion for ${current.name}`,
-    body,
-  )
+	return email(
+		['rives@stolaf.edu'],
+		[],
+		[],
+		`[building] Suggestion for ${current.name}`,
+		body,
+	)
 }
 
 function makeEmailBody(before: string, after: string, title: string): string {
-  return `
+	return `
 Hi! Thanks for letting us know about a schedule change.
 
 Please do not change anything below this line.
@@ -36,7 +36,7 @@ ${makeHtmlBody(before, after)}
 }
 
 const makeMarkdownBody = (before, after) =>
-  `
+	`
 ## Before:
 
 \`\`\`yaml
@@ -59,27 +59,27 @@ const makeHtmlBody = (before, after) => `
 `
 
 function makeIssueLink(before: string, after: string, title: string): string {
-  const q = querystring.stringify({
-    'labels[]': 'data/hours',
-    title: `Building hours update for ${title}`,
-    body: makeMarkdownBody(before, after),
-  })
-  return `https://github.com/carls-app/carls/issues/new?${q}`
+	const q = querystring.stringify({
+		'labels[]': 'data/hours',
+		title: `Building hours update for ${title}`,
+		body: makeMarkdownBody(before, after),
+	})
+	return `https://github.com/carls-app/carls/issues/new?${q}`
 }
 
 function stringifyBuilding(building: BuildingType): string {
-  let res = ''
-  let prev = null
-  let data = jsYaml.safeDump(building, {flowLevel: 4}).split('\n')
-  for (let line of data) {
-    if (['schedule:', 'breakSchedule:'].includes(line)) {
-      res += `\n\n${line}`
-    } else if (line.startsWith('  - title:') && prev !== 'schedule:') {
-      res += `\n\n${line}`
-    } else {
-      res += `\n${line}`
-    }
-    prev = line
-  }
-  return res
+	let res = ''
+	let prev = null
+	let data = jsYaml.safeDump(building, {flowLevel: 4}).split('\n')
+	for (let line of data) {
+		if (['schedule:', 'breakSchedule:'].includes(line)) {
+			res += `\n\n${line}`
+		} else if (line.startsWith('  - title:') && prev !== 'schedule:') {
+			res += `\n\n${line}`
+		} else {
+			res += `\n${line}`
+		}
+		prev = line
+	}
+	return res
 }

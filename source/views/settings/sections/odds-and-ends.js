@@ -11,63 +11,63 @@ import {PushButtonCell} from '../../components/cells/push-button'
 import {trackedOpenUrl} from '../../components/open-url'
 
 type Props = TopLevelViewPropsType & {
-  onChangeFeedbackToggle: (feedbackDisabled: boolean) => any,
-  feedbackDisabled: boolean,
+	onChangeFeedbackToggle: (feedbackDisabled: boolean) => any,
+	feedbackDisabled: boolean,
 }
 
 class OddsAndEndsSection extends React.PureComponent<Props> {
-  onPressButton = (id: string) => {
-    this.props.navigation.navigate(id)
-  }
+	onPressButton = (id: string) => {
+		this.props.navigation.navigate(id)
+	}
 
-  onCreditsButton = () => this.onPressButton('CreditsView')
-  onPrivacyButton = () => this.onPressButton('PrivacyView')
-  onLegalButton = () => this.onPressButton('LegalView')
-  onSourceButton = () =>
-    trackedOpenUrl({
-      url: 'https://github.com/carls-app/carls',
-      id: 'ContributingView',
-    })
+	onCreditsButton = () => this.onPressButton('CreditsView')
+	onPrivacyButton = () => this.onPressButton('PrivacyView')
+	onLegalButton = () => this.onPressButton('LegalView')
+	onSourceButton = () =>
+		trackedOpenUrl({
+			url: 'https://github.com/carls-app/carls',
+			id: 'ContributingView',
+		})
 
-  render() {
-    return (
-      <View>
-        <Section header="MISCELLANY">
-          <PushButtonCell title="Credits" onPress={this.onCreditsButton} />
-          <PushButtonCell
-            title="Privacy Policy"
-            onPress={this.onPrivacyButton}
-          />
-          <PushButtonCell title="Legal" onPress={this.onLegalButton} />
-          <PushButtonCell title="Contributing" onPress={this.onSourceButton} />
-        </Section>
+	render() {
+		return (
+			<View>
+				<Section header="MISCELLANY">
+					<PushButtonCell title="Credits" onPress={this.onCreditsButton} />
+					<PushButtonCell
+						title="Privacy Policy"
+						onPress={this.onPrivacyButton}
+					/>
+					<PushButtonCell title="Legal" onPress={this.onLegalButton} />
+					<PushButtonCell title="Contributing" onPress={this.onSourceButton} />
+				</Section>
 
-        <Section header="ODDS &amp; ENDS">
-          <Cell cellStyle="RightDetail" title="Version" detail={version} />
+				<Section header="ODDS &amp; ENDS">
+					<Cell cellStyle="RightDetail" title="Version" detail={version} />
 
-          <CellToggle
-            label="Share Analytics"
-            // These are both inverted because the toggle makes more sense as
-            // optout/optin, but the code works better as optin/optout.
-            value={!this.props.feedbackDisabled}
-            onChange={val => this.props.onChangeFeedbackToggle(!val)}
-          />
-        </Section>
-      </View>
-    )
-  }
+					<CellToggle
+						label="Share Analytics"
+						// These are both inverted because the toggle makes more sense as
+						// optout/optin, but the code works better as optin/optout.
+						value={!this.props.feedbackDisabled}
+						onChange={val => this.props.onChangeFeedbackToggle(!val)}
+					/>
+				</Section>
+			</View>
+		)
+	}
 }
 
 function mapStateToProps(state) {
-  return {
-    feedbackDisabled: state.settings.feedbackDisabled,
-  }
+	return {
+		feedbackDisabled: state.settings.feedbackDisabled,
+	}
 }
 
 function mapDispatchToProps(dispatch) {
-  return {
-    onChangeFeedbackToggle: s => dispatch(setFeedbackStatus(s)),
-  }
+	return {
+		onChangeFeedbackToggle: s => dispatch(setFeedbackStatus(s)),
+	}
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(OddsAndEndsSection)

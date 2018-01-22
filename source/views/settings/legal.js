@@ -7,15 +7,15 @@ import {text} from '../../../docs/legal.json'
 type Props = {}
 
 export default class LegalView extends React.PureComponent<Props> {
-  static navigationOptions = {
-    title: 'Legal',
-  }
+	static navigationOptions = {
+		title: 'Legal',
+	}
 
-  render() {
-    return (
-      <ScrollView paddingHorizontal={15}>
-        <Markdown source={text} />
-      </ScrollView>
-    )
-  }
+	render() {
+		return (
+			<ScrollView paddingHorizontal={15}>
+				<Markdown source={text} />
+			</ScrollView>
+		)
+	}
 }

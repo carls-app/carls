@@ -10,33 +10,33 @@ import type {NavType} from '../../types'
 import {commonStyles} from './styles'
 
 export function CloseScreenButton({
-  navigation,
-  buttonStyle,
+	navigation,
+	buttonStyle,
 }: {
-  navigation: NavType,
-  buttonStyle?: any,
+	navigation: NavType,
+	buttonStyle?: any,
 }) {
-  return (
-    <Touchable
-      borderless={true}
-      highlight={false}
-      style={[commonStyles.button, buttonStyle]}
-      onPress={() => navigation.goBack()}
-    >
-      <Text style={[commonStyles.text, styles.text]}>Done</Text>
-    </Touchable>
-  )
+	return (
+		<Touchable
+			borderless={true}
+			highlight={false}
+			style={[commonStyles.button, buttonStyle]}
+			onPress={() => navigation.goBack()}
+		>
+			<Text style={[commonStyles.text, styles.text]}>Done</Text>
+		</Touchable>
+	)
 }
 
 const styles = StyleSheet.create({
-  text: {
-    ...Platform.select({
-      ios: {
-        fontWeight: '600',
-      },
-      android: {
-        fontWeight: '400',
-      },
-    }),
-  },
+	text: {
+		...Platform.select({
+			ios: {
+				fontWeight: '600',
+			},
+			android: {
+				fontWeight: '400',
+			},
+		}),
+	},
 })

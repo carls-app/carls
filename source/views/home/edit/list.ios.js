@@ -17,84 +17,84 @@ import {EditHomeRow} from './row'
 const objViews = fromPairs(allViews.map(v => [v.view, v]))
 
 const styles = StyleSheet.create({
-  contentContainer: {
-    backgroundColor: c.iosLightBackground,
-    paddingTop: 10,
-    paddingBottom: 20,
-    flexDirection: 'column',
-    alignItems: 'stretch',
-  },
+	contentContainer: {
+		backgroundColor: c.iosLightBackground,
+		paddingTop: 10,
+		paddingBottom: 20,
+		flexDirection: 'column',
+		alignItems: 'stretch',
+	},
 })
 
 type ReduxStateProps = {
-  order: string[],
+	order: string[],
 }
 
 type ReduxDispatchProps = {
-  onSaveOrder: (string[]) => any,
+	onSaveOrder: (string[]) => any,
 }
 
 type Props = ReduxStateProps & ReduxDispatchProps
 
 type State = {
-  width: number,
+	width: number,
 }
 
 class EditHomeView extends React.PureComponent<Props, State> {
-  static navigationOptions = {
-    title: 'Edit Home',
-  }
+	static navigationOptions = {
+		title: 'Edit Home',
+	}
 
-  state = {
-    width: Dimensions.get('window').width,
-  }
+	state = {
+		width: Dimensions.get('window').width,
+	}
 
-  componentWillMount() {
-    Dimensions.addEventListener('change', this.handleResizeEvent)
-  }
+	componentWillMount() {
+		Dimensions.addEventListener('change', this.handleResizeEvent)
+	}
 
-  componentWillUnmount() {
-    Dimensions.removeEventListener('change', this.handleResizeEvent)
-  }
+	componentWillUnmount() {
+		Dimensions.removeEventListener('change', this.handleResizeEvent)
+	}
 
-  handleResizeEvent = event => {
-    this.setState(() => ({width: event.window.width}))
-  }
+	handleResizeEvent = event => {
+		this.setState(() => ({width: event.window.width}))
+	}
 
-  renderRow = ({data, active}: {data: ViewType, active: boolean}) => (
-    <EditHomeRow data={data} active={active} width={this.state.width} />
-  )
+	renderRow = ({data, active}: {data: ViewType, active: boolean}) => (
+		<EditHomeRow data={data} active={active} width={this.state.width} />
+	)
 
-  onChangeOrder = (order: string[]) => this.props.onSaveOrder(order)
+	onChangeOrder = (order: string[]) => this.props.onSaveOrder(order)
 
-  render() {
-    return (
-      <SortableList
-        contentContainerStyle={[
-          styles.contentContainer,
-          {width: this.state.width},
-        ]}
-        data={objViews}
-        order={this.props.order}
-        onChangeOrder={this.onChangeOrder}
-        renderRow={this.renderRow}
-      />
-    )
-  }
+	render() {
+		return (
+			<SortableList
+				contentContainerStyle={[
+					styles.contentContainer,
+					{width: this.state.width},
+				]}
+				data={objViews}
+				order={this.props.order}
+				onChangeOrder={this.onChangeOrder}
+				renderRow={this.renderRow}
+			/>
+		)
+	}
 }
 
 function mapState(state: ReduxState): ReduxStateProps {
-  return {
-    order: state.homescreen ? state.homescreen.order : [],
-  }
+	return {
+		order: state.homescreen ? state.homescreen.order : [],
+	}
 }
 
 function mapDispatch(dispatch): ReduxDispatchProps {
-  return {
-    onSaveOrder: newOrder => dispatch(saveHomescreenOrder(newOrder)),
-  }
+	return {
+		onSaveOrder: newOrder => dispatch(saveHomescreenOrder(newOrder)),
+	}
 }
 
 export const ConnectedEditHomeView = connect(mapState, mapDispatch)(
-  EditHomeView,
+	EditHomeView,
 )

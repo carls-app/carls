@@ -11,49 +11,49 @@ import type {WordType} from './types'
 const STO_SA_DICT_URL = 'https://github.com/carls-app/carls/issues/new'
 
 const Term = glamorous.text({
-  fontSize: 36,
-  textAlign: 'center',
-  marginHorizontal: 18,
-  marginVertical: 10,
+	fontSize: 36,
+	textAlign: 'center',
+	marginHorizontal: 18,
+	marginVertical: 10,
 })
 
 const Container = glamorous.scrollView({
-  paddingHorizontal: 18,
-  paddingVertical: 6,
+	paddingHorizontal: 18,
+	paddingVertical: 6,
 })
 
 const styles = StyleSheet.create({
-  paragraph: {
-    fontSize: 16,
-  },
+	paragraph: {
+		fontSize: 16,
+	},
 })
 
 type Props = {
-  navigation: {state: {params: {item: WordType}}},
+	navigation: {state: {params: {item: WordType}}},
 }
 
 export class DictionaryDetailView extends React.PureComponent<Props> {
-  static navigationOptions = ({navigation}) => {
-    return {
-      title: navigation.state.params.item.word,
-    }
-  }
+	static navigationOptions = ({navigation}) => {
+		return {
+			title: navigation.state.params.item.word,
+		}
+	}
 
-  render() {
-    const item = this.props.navigation.state.params.item
-    return (
-      <Container>
-        <Term selectable={true}>{item.word}</Term>
-        <Markdown
-          styles={{Paragraph: styles.paragraph}}
-          source={item.definition}
-        />
+	render() {
+		const item = this.props.navigation.state.params.item
+		return (
+			<Container>
+				<Term selectable={true}>{item.word}</Term>
+				<Markdown
+					styles={{Paragraph: styles.paragraph}}
+					source={item.definition}
+				/>
 
-        <ListFooter
-          title="Collected by the humans of CARLS"
-          href={STO_SA_DICT_URL}
-        />
-      </Container>
-    )
-  }
+				<ListFooter
+					title="Collected by the humans of CARLS"
+					href={STO_SA_DICT_URL}
+				/>
+			</Container>
+		)
+	}
 }

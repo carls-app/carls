@@ -12,11 +12,11 @@ import {refreshApp} from '../../../lib/refresh'
 type Props = TopLevelViewPropsType
 
 export default class SupportSection extends React.PureComponent<Props> {
-  onPressButton = (id: string) => {
-    this.props.navigation.navigate(id)
-  }
+	onPressButton = (id: string) => {
+		this.props.navigation.navigate(id)
+	}
 
-  getDeviceInfo = () => `
+	getDeviceInfo = () => `
 
       ----- Please do not edit below here -----
       ${DeviceInfo.getBrand()} ${DeviceInfo.getModel()}
@@ -25,40 +25,40 @@ export default class SupportSection extends React.PureComponent<Props> {
       ${DeviceInfo.getReadableVersion()}
     `
 
-  openEmail = () => {
-    email(
-      ['rives@stolaf.edu'],
-      null,
-      null,
-      'Support: CARLS',
-      this.getDeviceInfo(),
-    )
-  }
+	openEmail = () => {
+		email(
+			['rives@stolaf.edu'],
+			null,
+			null,
+			'Support: CARLS',
+			this.getDeviceInfo(),
+		)
+	}
 
-  onFaqButton = () => this.onPressButton('FaqView')
+	onFaqButton = () => this.onPressButton('FaqView')
 
-  onResetButton = () => {
-    Alert.alert(
-      'Reset Everything',
-      'Are you sure you want to clear everything?',
-      [
-        {text: 'Nope!', style: 'cancel'},
-        {
-          text: 'Reset it!',
-          style: 'destructive',
-          onPress: () => refreshApp(),
-        },
-      ],
-    )
-  }
+	onResetButton = () => {
+		Alert.alert(
+			'Reset Everything',
+			'Are you sure you want to clear everything?',
+			[
+				{text: 'Nope!', style: 'cancel'},
+				{
+					text: 'Reset it!',
+					style: 'destructive',
+					onPress: () => refreshApp(),
+				},
+			],
+		)
+	}
 
-  render() {
-    return (
-      <Section header="SUPPORT">
-        <PushButtonCell title="Contact Us" onPress={this.openEmail} />
-        <PushButtonCell title="FAQs" onPress={this.onFaqButton} />
-        <PushButtonCell title="Reset Everything" onPress={this.onResetButton} />
-      </Section>
-    )
-  }
+	render() {
+		return (
+			<Section header="SUPPORT">
+				<PushButtonCell title="Contact Us" onPress={this.openEmail} />
+				<PushButtonCell title="FAQs" onPress={this.onFaqButton} />
+				<PushButtonCell title="Reset Everything" onPress={this.onResetButton} />
+			</Section>
+		)
+	}
 }

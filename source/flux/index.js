@@ -16,24 +16,24 @@ export {init as initRedux} from './init'
 export {updateMenuFilters} from './parts/menus'
 
 export type ReduxState = {
-  app?: AppState,
-  bus?: BusState,
-  homescreen?: HomescreenState,
-  menus?: MenusState,
-  settings?: SettingsState,
-  sis?: SisState,
+	app?: AppState,
+	bus?: BusState,
+	homescreen?: HomescreenState,
+	menus?: MenusState,
+	settings?: SettingsState,
+	sis?: SisState,
 }
 
 export const makeStore = () => {
-  const aao: any = combineReducers({
-    app,
-    bus,
-    homescreen,
-    menus,
-    settings,
-    sis,
-  })
+	const aao: any = combineReducers({
+		app,
+		bus,
+		homescreen,
+		menus,
+		settings,
+		sis,
+	})
 
-  const logger = createLogger({collapsed: () => true})
-  return createStore(aao, applyMiddleware(reduxPromise, reduxThunk, logger))
+	const logger = createLogger({collapsed: () => true})
+	return createStore(aao, applyMiddleware(reduxPromise, reduxThunk, logger))
 }

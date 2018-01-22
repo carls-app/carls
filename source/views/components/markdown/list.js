@@ -13,16 +13,16 @@ export const ListText = glamorous(Paragraph)({})
 
 // the list item's container box thing
 type Props = {
-  children?: React.Node,
+	children?: React.Node,
 }
 
 export class ListItem extends React.PureComponent<Props> {
-  render() {
-    return (
-      <glamorous.View flexDirection="row">
-        <Text>• </Text>
-        <ListText {...this.props} />
-      </glamorous.View>
-    )
-  }
+	render() {
+		return (
+			<glamorous.View flexDirection="row">
+				<Text>• </Text>
+				<ListText {...this.props} />
+			</glamorous.View>
+		)
+	}
 }

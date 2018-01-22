@@ -7,15 +7,15 @@ import {text} from '../../../docs/privacy.json'
 type Props = {}
 
 export default class PrivacyView extends React.PureComponent<Props> {
-  static navigationOptions = {
-    title: 'Privacy Policy',
-  }
+	static navigationOptions = {
+		title: 'Privacy Policy',
+	}
 
-  render() {
-    return (
-      <ScrollView paddingHorizontal={15}>
-        <Markdown source={text} />
-      </ScrollView>
-    )
-  }
+	render() {
+		return (
+			<ScrollView paddingHorizontal={15}>
+				<Markdown source={text} />
+			</ScrollView>
+		)
+	}
 }

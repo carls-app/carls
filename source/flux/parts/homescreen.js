@@ -10,72 +10,72 @@ const SAVE_HOMESCREEN_ORDER = 'homescreen/SAVE_HOMESCREEN_ORDER'
 type ViewName = string
 
 export function updateViewOrder(
-  currentOrder: Array<ViewName>,
-  defaultOrder: Array<ViewName> = defaultViewOrder,
+	currentOrder: Array<ViewName>,
+	defaultOrder: Array<ViewName> = defaultViewOrder,
 ): Array<ViewName> {
-  currentOrder = currentOrder || []
+	currentOrder = currentOrder || []
 
-  // lodash/difference: Creates an array of array values _not included_ in the
-  // other given arrays.
+	// lodash/difference: Creates an array of array values _not included_ in the
+	// other given arrays.
 
-  // In case new screens have been added, get a list of the new screens
-  let addedScreens = difference(defaultOrder, currentOrder)
-  // check for removed screens
-  let removedScreens = difference(currentOrder, defaultOrder)
+	// In case new screens have been added, get a list of the new screens
+	let addedScreens = difference(defaultOrder, currentOrder)
+	// check for removed screens
+	let removedScreens = difference(currentOrder, defaultOrder)
 
-  // add the new screens to the list
-  currentOrder = currentOrder.concat(addedScreens)
+	// add the new screens to the list
+	currentOrder = currentOrder.concat(addedScreens)
 
-  // now we remove the screens that were removed
-  currentOrder = difference(currentOrder, removedScreens)
+	// now we remove the screens that were removed
+	currentOrder = difference(currentOrder, removedScreens)
 
-  return currentOrder
+	return currentOrder
 }
 
 export async function loadHomescreenOrder() {
-  // get the saved list from persistent storage
-  let savedOrder = await storage.getHomescreenOrder()
+	// get the saved list from persistent storage
+	let savedOrder = await storage.getHomescreenOrder()
 
-  // update the order, in case new views have been added/removed
-  let order = updateViewOrder(savedOrder, defaultViewOrder)
+	// update the order, in case new views have been added/removed
+	let order = updateViewOrder(savedOrder, defaultViewOrder)
 
-  // return an action to save it to persistent storage
-  return saveHomescreenOrder(order, {noTrack: true})
+	// return an action to save it to persistent storage
+	return saveHomescreenOrder(order, {noTrack: true})
 }
 
 type SaveViewOrderAction = {
-  type: 'homescreen/SAVE_HOMESCREEN_ORDER',
-  payload: Array<ViewName>,
+	type: 'homescreen/SAVE_HOMESCREEN_ORDER',
+	payload: Array<ViewName>,
 }
 export function saveHomescreenOrder(
-  order: Array<ViewName>,
-  options: {noTrack?: boolean} = {},
+	order: Array<ViewName>,
+	options: {noTrack?: boolean} = {},
 ): SaveViewOrderAction {
-  if (!options.noTrack) {
-    trackHomescreenOrder(order)
-  }
+	if (!options.noTrack) {
+		trackHomescreenOrder(order)
+	}
 
-  storage.setHomescreenOrder(order)
-  return {type: SAVE_HOMESCREEN_ORDER, payload: order}
+	storage.setHomescreenOrder(order)
+	return {type: SAVE_HOMESCREEN_ORDER, payload: order}
 }
 
 type Action = SaveViewOrderAction
 
 export type State = {|
-  order: Array<ViewName>,
+	order: Array<ViewName>,
 |}
 
 const initialState: State = {
-  order: [],
+	order: [],
 }
 
 export function homescreen(state: State = initialState, action: Action) {
-  switch (action.type) {
-    case SAVE_HOMESCREEN_ORDER: {
-      return {...state, order: action.payload}
-    }
-    default: {
-      return state
-    }
-  }
+	switch (action.type) {
+		case SAVE_HOMESCREEN_ORDER: {
+			return {...state, order: action.payload}
+		}
+		default: {
+			return state
+		}
+	}
 }

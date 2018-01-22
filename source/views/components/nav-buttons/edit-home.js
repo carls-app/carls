@@ -10,20 +10,20 @@ import type {NavType} from '../../types'
 import {commonStyles} from './styles'
 
 export function EditHomeButton({
-  navigation,
-  buttonStyle,
+	navigation,
+	buttonStyle,
 }: {
-  navigation: NavType,
-  buttonStyle?: any,
+	navigation: NavType,
+	buttonStyle?: any,
 }) {
-  return (
-    <Touchable
-      borderless={true}
-      highlight={false}
-      style={[commonStyles.button, buttonStyle]}
-      onPress={() => navigation.navigate('EditHomeView')}
-    >
-      <Text style={commonStyles.text}>Edit</Text>
-    </Touchable>
-  )
+	return (
+		<Touchable
+			borderless={true}
+			highlight={false}
+			style={[commonStyles.button, buttonStyle]}
+			onPress={() => navigation.navigate('EditHomeView')}
+		>
+			<Text style={commonStyles.text}>Edit</Text>
+		</Touchable>
+	)
 }

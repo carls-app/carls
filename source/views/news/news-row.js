@@ -7,40 +7,40 @@ import {ListRow, Detail, Title} from '../components/list'
 import type {StoryType} from './types'
 
 type Props = {
-  onPress: StoryType => any,
-  story: StoryType,
-  thumbnail: number,
+	onPress: StoryType => any,
+	story: StoryType,
+	thumbnail: number,
 }
 
 export class NewsRow extends React.PureComponent<Props> {
-  _onPress = () => this.props.onPress(this.props.story)
+	_onPress = () => this.props.onPress(this.props.story)
 
-  render() {
-    const {story, thumbnail} = this.props
+	render() {
+		const {story, thumbnail} = this.props
 
-    return (
-      <ListRow onPress={this._onPress} arrowPosition="top">
-        <Row alignItems="center">
-          {story.featuredImage ? (
-            <Image source={{uri: story.featuredImage}} style={styles.image} />
-          ) : (
-            <Image source={thumbnail} style={styles.image} />
-          )}
-          <Column flex={1}>
-            <Title lines={1}>{story.title}</Title>
-            <Detail lines={2}>{story.excerpt}</Detail>
-          </Column>
-        </Row>
-      </ListRow>
-    )
-  }
+		return (
+			<ListRow onPress={this._onPress} arrowPosition="top">
+				<Row alignItems="center">
+					{story.featuredImage ? (
+						<Image source={{uri: story.featuredImage}} style={styles.image} />
+					) : (
+						<Image source={thumbnail} style={styles.image} />
+					)}
+					<Column flex={1}>
+						<Title lines={1}>{story.title}</Title>
+						<Detail lines={2}>{story.excerpt}</Detail>
+					</Column>
+				</Row>
+			</ListRow>
+		)
+	}
 }
 
 const styles = StyleSheet.create({
-  image: {
-    borderRadius: 5,
-    marginRight: 15,
-    height: 70,
-    width: 70,
-  },
+	image: {
+		borderRadius: 5,
+		marginRight: 15,
+		height: 70,
+		width: 70,
+	},
 })

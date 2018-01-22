@@ -6,24 +6,24 @@ import {ListRow, Title} from '../../components/list'
 import type {ThinJobType} from './types'
 
 type Props = {
-  onPress: ThinJobType => any,
-  job: ThinJobType,
+	onPress: ThinJobType => any,
+	job: ThinJobType,
 }
 
 export class JobRow extends React.PureComponent<Props> {
-  _onPress = () => this.props.onPress(this.props.job)
+	_onPress = () => this.props.onPress(this.props.job)
 
-  render() {
-    const {job} = this.props
+	render() {
+		const {job} = this.props
 
-    return (
-      <ListRow arrowPosition="center" onPress={this._onPress}>
-        <Row minHeight={36} alignItems="center">
-          <Column flex={1}>
-            <Title lines={1}>{job.title}</Title>
-          </Column>
-        </Row>
-      </ListRow>
-    )
-  }
+		return (
+			<ListRow arrowPosition="center" onPress={this._onPress}>
+				<Row minHeight={36} alignItems="center">
+					<Column flex={1}>
+						<Title lines={1}>{job.title}</Title>
+					</Column>
+				</Row>
+			</ListRow>
+		)
+	}
 }

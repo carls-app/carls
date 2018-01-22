@@ -1,16 +1,16 @@
 // @flow
 
 import {
-  performLogin,
-  saveLoginCredentials,
-  clearLoginCredentials,
+	performLogin,
+	saveLoginCredentials,
+	clearLoginCredentials,
 } from '../../lib/login'
 
 import {
-  setAnalyticsOptOut,
-  getAnalyticsOptOut,
-  getAcknowledgementStatus,
-  setAcknowledgementStatus,
+	setAnalyticsOptOut,
+	getAnalyticsOptOut,
+	getAcknowledgementStatus,
+	setAcknowledgementStatus,
 } from '../../lib/storage'
 
 import {type ReduxState} from '../index'
@@ -36,188 +36,188 @@ const CHANGE_THEME = 'settings/CHANGE_THEME'
 const SIS_ALERT_SEEN = 'settings/SIS_ALERT_SEEN'
 
 type SetFeedbackStatusAction = {|
-  type: 'settings/SET_FEEDBACK',
-  payload: boolean,
+	type: 'settings/SET_FEEDBACK',
+	payload: boolean,
 |}
 export async function setFeedbackStatus(
-  feedbackEnabled: boolean,
+	feedbackEnabled: boolean,
 ): Promise<SetFeedbackStatusAction> {
-  await setAnalyticsOptOut(feedbackEnabled)
-  return {type: SET_FEEDBACK, payload: feedbackEnabled}
+	await setAnalyticsOptOut(feedbackEnabled)
+	return {type: SET_FEEDBACK, payload: feedbackEnabled}
 }
 
 export async function loadFeedbackStatus(): Promise<SetFeedbackStatusAction> {
-  return {type: SET_FEEDBACK, payload: await getAnalyticsOptOut()}
+	return {type: SET_FEEDBACK, payload: await getAnalyticsOptOut()}
 }
 
 type SisAlertSeenAction = {|type: 'settings/SIS_ALERT_SEEN', payload: boolean|}
 export async function loadAcknowledgement(): Promise<SisAlertSeenAction> {
-  return {type: SIS_ALERT_SEEN, payload: await getAcknowledgementStatus()}
+	return {type: SIS_ALERT_SEEN, payload: await getAcknowledgementStatus()}
 }
 
 export async function hasSeenAcknowledgement(): Promise<SisAlertSeenAction> {
-  await setAcknowledgementStatus(true)
-  return {type: SIS_ALERT_SEEN, payload: true}
+	await setAcknowledgementStatus(true)
+	return {type: SIS_ALERT_SEEN, payload: true}
 }
 
 type SetCredentialsAction = {|
-  type: 'settings/SET_LOGIN_CREDENTIALS',
-  payload: {username: string, password: string},
+	type: 'settings/SET_LOGIN_CREDENTIALS',
+	payload: {username: string, password: string},
 |}
 export async function setLoginCredentials(
-  username: string,
-  password: string,
+	username: string,
+	password: string,
 ): Promise<SetCredentialsAction> {
-  await saveLoginCredentials(username, password)
-  return {type: SET_LOGIN_CREDENTIALS, payload: {username, password}}
+	await saveLoginCredentials(username, password)
+	return {type: SET_LOGIN_CREDENTIALS, payload: {username, password}}
 }
 
 type LoginStartAction = {|type: 'settings/CREDENTIALS_LOGIN_START'|}
 type LoginSuccessAction = {|
-  type: 'settings/CREDENTIALS_LOGIN_SUCCESS',
-  payload: {username: string, password: string},
+	type: 'settings/CREDENTIALS_LOGIN_SUCCESS',
+	payload: {username: string, password: string},
 |}
 type LoginFailureAction = {|type: 'settings/CREDENTIALS_LOGIN_FAILURE'|}
 type LogInActions = LoginStartAction | LoginSuccessAction | LoginFailureAction
 export function logInViaCredentials(
-  username: string,
-  password: string,
+	username: string,
+	password: string,
 ): ThunkAction<LogInActions | UpdateBalancesType> {
-  return async dispatch => {
-    dispatch({type: CREDENTIALS_LOGIN_START})
+	return async dispatch => {
+		dispatch({type: CREDENTIALS_LOGIN_START})
 
-    const result = await performLogin(username, password)
-    if (result) {
-      dispatch({type: CREDENTIALS_LOGIN_SUCCESS, payload: {username, password}})
-      // since we logged in successfully, go ahead and fetch the meal info
-      dispatch(updateBalances())
-    } else {
-      dispatch({type: CREDENTIALS_LOGIN_FAILURE})
-    }
-  }
+		const result = await performLogin(username, password)
+		if (result) {
+			dispatch({type: CREDENTIALS_LOGIN_SUCCESS, payload: {username, password}})
+			// since we logged in successfully, go ahead and fetch the meal info
+			dispatch(updateBalances())
+		} else {
+			dispatch({type: CREDENTIALS_LOGIN_FAILURE})
+		}
+	}
 }
 
 type LogOutAction = {|type: 'settings/CREDENTIALS_LOGOUT'|}
 export async function logOutViaCredentials(): Promise<LogOutAction> {
-  await clearLoginCredentials()
-  return {type: CREDENTIALS_LOGOUT}
+	await clearLoginCredentials()
+	return {type: CREDENTIALS_LOGOUT}
 }
 
 type ValidateStartAction = {|type: 'settings/CREDENTIALS_VALIDATE_START'|}
 type ValidateSuccessAction = {|type: 'settings/CREDENTIALS_VALIDATE_SUCCESS'|}
 type ValidateFailureAction = {|type: 'settings/CREDENTIALS_VALIDATE_FAILURE'|}
 type ValidateCredentialsActions =
-  | ValidateStartAction
-  | ValidateSuccessAction
-  | ValidateFailureAction
+	| ValidateStartAction
+	| ValidateSuccessAction
+	| ValidateFailureAction
 export function validateLoginCredentials(
-  username?: string,
-  password?: string,
+	username?: string,
+	password?: string,
 ): ThunkAction<ValidateCredentialsActions> {
-  return async dispatch => {
-    if (!username || !password) {
-      return
-    }
+	return async dispatch => {
+		if (!username || !password) {
+			return
+		}
 
-    dispatch({type: CREDENTIALS_VALIDATE_START})
+		dispatch({type: CREDENTIALS_VALIDATE_START})
 
-    const result = await performLogin(username, password)
-    if (result) {
-      dispatch({type: CREDENTIALS_VALIDATE_SUCCESS})
-    } else {
-      dispatch({type: CREDENTIALS_VALIDATE_FAILURE})
-    }
-  }
+		const result = await performLogin(username, password)
+		if (result) {
+			dispatch({type: CREDENTIALS_VALIDATE_SUCCESS})
+		} else {
+			dispatch({type: CREDENTIALS_VALIDATE_FAILURE})
+		}
+	}
 }
 
 type Action =
-  | SetFeedbackStatusAction
-  | SisAlertSeenAction
-  | CredentialsActions
-  | UpdateBalancesType
+	| SetFeedbackStatusAction
+	| SisAlertSeenAction
+	| CredentialsActions
+	| UpdateBalancesType
 
 type CredentialsActions =
-  | LogInActions
-  | LogOutAction
-  | ValidateCredentialsActions
-  | SetCredentialsAction
+	| LogInActions
+	| LogOutAction
+	| ValidateCredentialsActions
+	| SetCredentialsAction
 
 export type State = {
-  +theme: string,
-  +dietaryPreferences: [],
-  +feedbackDisabled: boolean,
-  +unofficiallyAcknowledged: boolean,
+	+theme: string,
+	+dietaryPreferences: [],
+	+feedbackDisabled: boolean,
+	+unofficiallyAcknowledged: boolean,
 
-  +username: string,
-  +password: string,
-  +loginState: LoginStateType,
+	+username: string,
+	+password: string,
+	+loginState: LoginStateType,
 }
 
 const initialState = {
-  theme: 'All About Olaf',
-  dietaryPreferences: [],
+	theme: 'All About Olaf',
+	dietaryPreferences: [],
 
-  feedbackDisabled: false,
-  unofficiallyAcknowledged: false,
+	feedbackDisabled: false,
+	unofficiallyAcknowledged: false,
 
-  username: '',
-  password: '',
-  loginState: 'logged-out',
+	username: '',
+	password: '',
+	loginState: 'logged-out',
 }
 
 export function settings(state: State = initialState, action: Action) {
-  switch (action.type) {
-    case CHANGE_THEME:
-      return {...state, theme: action.payload}
+	switch (action.type) {
+		case CHANGE_THEME:
+			return {...state, theme: action.payload}
 
-    case SET_FEEDBACK:
-      return {...state, feedbackDisabled: action.payload}
+		case SET_FEEDBACK:
+			return {...state, feedbackDisabled: action.payload}
 
-    case SIS_ALERT_SEEN:
-      return {...state, unofficiallyAcknowledged: action.payload}
+		case SIS_ALERT_SEEN:
+			return {...state, unofficiallyAcknowledged: action.payload}
 
-    case CREDENTIALS_VALIDATE_START:
-      return {...state, loginState: 'checking'}
+		case CREDENTIALS_VALIDATE_START:
+			return {...state, loginState: 'checking'}
 
-    case CREDENTIALS_VALIDATE_SUCCESS:
-      return {...state, loginState: 'logged-in'}
+		case CREDENTIALS_VALIDATE_SUCCESS:
+			return {...state, loginState: 'logged-in'}
 
-    case CREDENTIALS_VALIDATE_FAILURE:
-      return {...state, loginState: 'invalid'}
+		case CREDENTIALS_VALIDATE_FAILURE:
+			return {...state, loginState: 'invalid'}
 
-    case CREDENTIALS_LOGIN_START:
-      return {...state, loginState: 'checking'}
+		case CREDENTIALS_LOGIN_START:
+			return {...state, loginState: 'checking'}
 
-    case CREDENTIALS_LOGIN_SUCCESS: {
-      return {
-        ...state,
-        loginState: 'logged-in',
-        username: action.payload.username,
-        password: action.payload.password,
-      }
-    }
+		case CREDENTIALS_LOGIN_SUCCESS: {
+			return {
+				...state,
+				loginState: 'logged-in',
+				username: action.payload.username,
+				password: action.payload.password,
+			}
+		}
 
-    case CREDENTIALS_LOGIN_FAILURE:
-      return {...state, state: 'invalid'}
+		case CREDENTIALS_LOGIN_FAILURE:
+			return {...state, state: 'invalid'}
 
-    case CREDENTIALS_LOGOUT: {
-      return {
-        ...state,
-        loginState: 'logged-out',
-        username: '',
-        password: '',
-      }
-    }
+		case CREDENTIALS_LOGOUT: {
+			return {
+				...state,
+				loginState: 'logged-out',
+				username: '',
+				password: '',
+			}
+		}
 
-    case SET_LOGIN_CREDENTIALS: {
-      return {
-        ...state,
-        username: action.payload.username,
-        password: action.payload.password,
-      }
-    }
+		case SET_LOGIN_CREDENTIALS: {
+			return {
+				...state,
+				username: action.payload.username,
+				password: action.payload.password,
+			}
+		}
 
-    default:
-      return state
-  }
+		default:
+			return state
+	}
 }

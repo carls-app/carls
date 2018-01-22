@@ -15,59 +15,59 @@ import * as c from '../components/colors'
 export {BuildingHoursDetailView} from './detail'
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: c.white,
-  },
+	container: {
+		backgroundColor: c.white,
+	},
 })
 
 type Props = TopLevelViewPropsType & {
-  now: momentT,
-  loading: boolean,
-  onRefresh: () => any,
-  buildings: Array<{title: string, data: BuildingType[]}>,
+	now: momentT,
+	loading: boolean,
+	onRefresh: () => any,
+	buildings: Array<{title: string, data: BuildingType[]}>,
 }
 
 export class BuildingHoursList extends React.PureComponent<Props> {
-  onPressRow = (data: BuildingType) => {
-    tracker.trackEvent('building-hours', data.name)
-    this.props.navigation.navigate('BuildingHoursDetailView', {building: data})
-  }
+	onPressRow = (data: BuildingType) => {
+		tracker.trackEvent('building-hours', data.name)
+		this.props.navigation.navigate('BuildingHoursDetailView', {building: data})
+	}
 
-  keyExtractor = (item: BuildingType) => item.name
+	keyExtractor = (item: BuildingType) => item.name
 
-  renderSectionHeader = ({section: {title}}: any) => (
-    <ListSectionHeader title={title} />
-  )
+	renderSectionHeader = ({section: {title}}: any) => (
+		<ListSectionHeader title={title} />
+	)
 
-  renderItem = ({item}: {item: BuildingType}) => (
-    <BuildingRow
-      name={item.name}
-      info={item}
-      now={this.props.now}
-      onPress={this.onPressRow}
-    />
-  )
+	renderItem = ({item}: {item: BuildingType}) => (
+		<BuildingRow
+			name={item.name}
+			info={item}
+			now={this.props.now}
+			onPress={this.onPressRow}
+		/>
+	)
 
-  render() {
-    return (
-      <SectionList
-        ItemSeparatorComponent={ListSeparator}
-        ListFooterComponent={
-          <ListFooter
-            title={
-              'Building hours subject to change without notice\n\nData collected from SaylesHill.xyz'
-            }
-          />
-        }
-        sections={(this.props.buildings: any)}
-        extraData={this.props}
-        keyExtractor={this.keyExtractor}
-        renderSectionHeader={this.renderSectionHeader}
-        renderItem={this.renderItem}
-        contentContainerStyle={styles.container}
-        refreshing={this.props.loading}
-        onRefresh={this.props.onRefresh}
-      />
-    )
-  }
+	render() {
+		return (
+			<SectionList
+				ItemSeparatorComponent={ListSeparator}
+				ListFooterComponent={
+					<ListFooter
+						title={
+							'Building hours subject to change without notice\n\nData collected from SaylesHill.xyz'
+						}
+					/>
+				}
+				sections={(this.props.buildings: any)}
+				extraData={this.props}
+				keyExtractor={this.keyExtractor}
+				renderSectionHeader={this.renderSectionHeader}
+				renderItem={this.renderItem}
+				contentContainerStyle={styles.container}
+				refreshing={this.props.loading}
+				onRefresh={this.props.onRefresh}
+			/>
+		)
+	}
 }

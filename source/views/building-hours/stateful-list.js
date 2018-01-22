@@ -22,93 +22,93 @@ import {CENTRAL_TZ} from './lib'
 const githubBaseUrl = 'https://carls-app.github.io/carls/building-hours.json'
 
 const groupBuildings = (buildings: BuildingType[]) => {
-  const grouped = groupBy(buildings, b => b.category || 'Other')
-  return toPairs(grouped).map(([key, value]) => ({title: key, data: value}))
+	const grouped = groupBy(buildings, b => b.category || 'Other')
+	return toPairs(grouped).map(([key, value]) => ({title: key, data: value}))
 }
 
 type Props = TopLevelViewPropsType
 
 type State = {
-  error: ?Error,
-  loading: boolean,
-  now: moment,
-  buildings: Array<{title: string, data: BuildingType[]}>,
-  intervalId: number,
+	error: ?Error,
+	loading: boolean,
+	now: moment,
+	buildings: Array<{title: string, data: BuildingType[]}>,
+	intervalId: number,
 }
 
 export class BuildingHoursView extends React.Component<Props, State> {
-  static navigationOptions = {
-    title: 'Building Hours',
-    headerBackTitle: 'Hours',
-  }
+	static navigationOptions = {
+		title: 'Building Hours',
+		headerBackTitle: 'Hours',
+	}
 
-  state = {
-    error: null,
-    loading: false,
-    // now: moment.tz('Wed 7:25pm', 'ddd h:mma', null, CENTRAL_TZ),
-    now: moment.tz(CENTRAL_TZ),
-    buildings: groupBuildings(defaultData.data),
-    intervalId: 0,
-  }
+	state = {
+		error: null,
+		loading: false,
+		// now: moment.tz('Wed 7:25pm', 'ddd h:mma', null, CENTRAL_TZ),
+		now: moment.tz(CENTRAL_TZ),
+		buildings: groupBuildings(defaultData.data),
+		intervalId: 0,
+	}
 
-  componentWillMount() {
-    this.fetchData()
+	componentWillMount() {
+		this.fetchData()
 
-    // This updates the screen every ten seconds, so that the building
-    // info statuses are updated without needing to leave and come back.
-    this.setState({intervalId: setInterval(this.updateTime, 1000)})
-  }
+		// This updates the screen every ten seconds, so that the building
+		// info statuses are updated without needing to leave and come back.
+		this.setState({intervalId: setInterval(this.updateTime, 1000)})
+	}
 
-  componentWillUnmount() {
-    clearTimeout(this.state.intervalId)
-  }
+	componentWillUnmount() {
+		clearTimeout(this.state.intervalId)
+	}
 
-  updateTime = () => {
-    this.setState(() => ({now: moment.tz(CENTRAL_TZ)}))
-  }
+	updateTime = () => {
+		this.setState(() => ({now: moment.tz(CENTRAL_TZ)}))
+	}
 
-  refresh = async (): any => {
-    let start = Date.now()
-    this.setState(() => ({loading: true}))
+	refresh = async (): any => {
+		let start = Date.now()
+		this.setState(() => ({loading: true}))
 
-    await this.fetchData()
+		await this.fetchData()
 
-    // wait 0.5 seconds – if we let it go at normal speed, it feels broken.
-    let elapsed = Date.now() - start
-    if (elapsed < 500) {
-      await delay(500 - elapsed)
-    }
+		// wait 0.5 seconds – if we let it go at normal speed, it feels broken.
+		let elapsed = Date.now() - start
+		if (elapsed < 500) {
+			await delay(500 - elapsed)
+		}
 
-    this.setState(() => ({loading: false}))
-  }
+		this.setState(() => ({loading: false}))
+	}
 
-  fetchData = async () => {
-    let {data: buildings} = await fetchJson(githubBaseUrl).catch(err => {
-      reportNetworkProblem(err)
-      return defaultData
-    })
-    if (process.env.NODE_ENV === 'development') {
-      buildings = defaultData.data
-    }
-    this.setState(() => ({
-      buildings: groupBuildings(buildings),
-      now: moment.tz(CENTRAL_TZ),
-    }))
-  }
+	fetchData = async () => {
+		let {data: buildings} = await fetchJson(githubBaseUrl).catch(err => {
+			reportNetworkProblem(err)
+			return defaultData
+		})
+		if (process.env.NODE_ENV === 'development') {
+			buildings = defaultData.data
+		}
+		this.setState(() => ({
+			buildings: groupBuildings(buildings),
+			now: moment.tz(CENTRAL_TZ),
+		}))
+	}
 
-  render() {
-    if (this.state.error) {
-      return <NoticeView text={`Error: ${this.state.error.message}`} />
-    }
+	render() {
+		if (this.state.error) {
+			return <NoticeView text={`Error: ${this.state.error.message}`} />
+		}
 
-    return (
-      <BuildingHoursList
-        navigation={this.props.navigation}
-        buildings={this.state.buildings}
-        now={this.state.now}
-        onRefresh={this.refresh}
-        loading={this.state.loading}
-      />
-    )
-  }
+		return (
+			<BuildingHoursList
+				navigation={this.props.navigation}
+				buildings={this.state.buildings}
+				now={this.state.now}
+				onRefresh={this.refresh}
+				loading={this.state.loading}
+			/>
+		)
+	}
 }
