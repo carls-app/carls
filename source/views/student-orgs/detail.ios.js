@@ -1,12 +1,13 @@
 // @flow
 import * as React from 'react'
-import {ScrollView, Text, View, StyleSheet, Linking} from 'react-native'
+import {ScrollView, Text, View, StyleSheet} from 'react-native'
 import moment from 'moment'
 import {Cell, Section, TableView} from 'react-native-tableview-simple'
 import * as c from '../components/colors'
 import type {StudentOrgType} from './types'
 import type {TopLevelViewPropsType} from '../types'
-import openUrl from '../components/open-url'
+import {openUrl} from '../components/open-url'
+import {sendEmail} from '../components/send-email'
 import {cleanOrg, showNameOrEmail} from './util'
 
 const styles = StyleSheet.create({
@@ -52,7 +53,7 @@ type Props = TopLevelViewPropsType & {
 }
 
 export class StudentOrgsDetailView extends React.PureComponent<Props> {
-	static navigationOptions = ({navigation}) => {
+	static navigationOptions = ({navigation}: any) => {
 		const {org} = navigation.state.params
 		return {
 			title: org.name,
@@ -98,10 +99,10 @@ export class StudentOrgsDetailView extends React.PureComponent<Props> {
 					{website ? (
 						<Section header="WEBSITE">
 							<Cell
-								cellStyle="Basic"
 								accessory="DisclosureIndicator"
-								title={website}
+								cellStyle="Basic"
 								onPress={() => openUrl(website)}
+								title={website}
 							/>
 						</Section>
 					) : null}
@@ -111,11 +112,11 @@ export class StudentOrgsDetailView extends React.PureComponent<Props> {
 							{contacts.map((c, i) => (
 								<Cell
 									key={i}
-									cellStyle={c.title ? 'Subtitle' : 'Basic'}
 									accessory="DisclosureIndicator"
-									title={showNameOrEmail(c)}
+									cellStyle={c.title ? 'Subtitle' : 'Basic'}
 									detail={c.title}
-									onPress={() => Linking.openURL(`mailto:${c.email}`)}
+									onPress={() => sendEmail({to: [c.email], subject: orgName})}
+									title={showNameOrEmail(c)}
 								/>
 							))}
 						</Section>
@@ -126,10 +127,10 @@ export class StudentOrgsDetailView extends React.PureComponent<Props> {
 							{advisors.map((c, i) => (
 								<Cell
 									key={i}
-									cellStyle="Basic"
 									accessory="DisclosureIndicator"
+									cellStyle="Basic"
+									onPress={() => sendEmail({to: [c.email], subject: orgName})}
 									title={c.name}
-									onPress={() => Linking.openURL(`mailto:${c.email}`)}
 								/>
 							))}
 						</Section>

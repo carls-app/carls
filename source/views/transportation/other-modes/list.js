@@ -13,8 +13,9 @@ import groupBy from 'lodash/groupBy'
 import toPairs from 'lodash/toPairs'
 import type {TopLevelViewPropsType} from '../../types'
 import type {OtherModeType} from '../types'
+import {GH_PAGES_URL} from '../../../globals'
 
-const GITHUB_URL = 'https://carls-app.github.io/carls/transportation.json'
+const transportationUrl = GH_PAGES_URL('transportation.json')
 
 const groupModes = (modes: OtherModeType[]) => {
 	const grouped = groupBy(modes, m => m.category)
@@ -69,7 +70,7 @@ export class OtherModesView extends React.PureComponent<Props, State> {
 	}
 
 	fetchData = async () => {
-		let {data: modes} = await fetchJson(GITHUB_URL).catch(err => {
+		let {data: modes} = await fetchJson(transportationUrl).catch(err => {
 			reportNetworkProblem(err)
 			return defaultData
 		})
@@ -103,14 +104,14 @@ export class OtherModesView extends React.PureComponent<Props, State> {
 			<SectionList
 				ItemSeparatorComponent={ListSeparator}
 				ListEmptyComponent={<ListEmpty mode="bug" />}
-				style={styles.listContainer}
 				data={groupedData}
-				sections={groupedData}
 				keyExtractor={this.keyExtractor}
-				renderSectionHeader={this.renderSectionHeader}
-				renderItem={this.renderItem}
-				refreshing={this.state.refreshing}
 				onRefresh={this.refresh}
+				refreshing={this.state.refreshing}
+				renderItem={this.renderItem}
+				renderSectionHeader={this.renderSectionHeader}
+				sections={groupedData}
+				style={styles.listContainer}
 			/>
 		)
 	}

@@ -9,13 +9,31 @@ import {connect} from 'react-redux'
 import {CellToggle} from '../../components/cells/toggle'
 import {PushButtonCell} from '../../components/cells/push-button'
 import {trackedOpenUrl} from '../../components/open-url'
+import * as Icons from '@hawkrives/react-native-alternate-icons'
 
 type Props = TopLevelViewPropsType & {
 	onChangeFeedbackToggle: (feedbackDisabled: boolean) => any,
 	feedbackDisabled: boolean,
 }
 
-class OddsAndEndsSection extends React.PureComponent<Props> {
+type State = {
+	supported: boolean,
+}
+
+class OddsAndEndsSection extends React.PureComponent<Props, State> {
+	state = {
+		supported: false,
+	}
+
+	componentWillMount() {
+		this.checkIfCustomIconsSupported()
+	}
+
+	checkIfCustomIconsSupported = async () => {
+		const supported = await Icons.isSupported()
+		this.setState(() => ({supported}))
+	}
+
 	onPressButton = (id: string) => {
 		this.props.navigation.navigate(id)
 	}
@@ -28,29 +46,37 @@ class OddsAndEndsSection extends React.PureComponent<Props> {
 			url: 'https://github.com/carls-app/carls',
 			id: 'ContributingView',
 		})
+	onAppIconButton = () => this.onPressButton('IconSettingsView')
 
 	render() {
 		return (
 			<View>
 				<Section header="MISCELLANY">
-					<PushButtonCell title="Credits" onPress={this.onCreditsButton} />
+					{this.state.supported ? (
+						<PushButtonCell
+							onPress={this.onAppIconButton}
+							title="Change App Icon"
+						/>
+					) : null}
+
+					<PushButtonCell onPress={this.onCreditsButton} title="Credits" />
 					<PushButtonCell
-						title="Privacy Policy"
 						onPress={this.onPrivacyButton}
+						title="Privacy Policy"
 					/>
-					<PushButtonCell title="Legal" onPress={this.onLegalButton} />
-					<PushButtonCell title="Contributing" onPress={this.onSourceButton} />
+					<PushButtonCell onPress={this.onLegalButton} title="Legal" />
+					<PushButtonCell onPress={this.onSourceButton} title="Contributing" />
 				</Section>
 
 				<Section header="ODDS &amp; ENDS">
-					<Cell cellStyle="RightDetail" title="Version" detail={version} />
+					<Cell cellStyle="RightDetail" detail={version} title="Version" />
 
 					<CellToggle
 						label="Share Analytics"
 						// These are both inverted because the toggle makes more sense as
 						// optout/optin, but the code works better as optin/optout.
-						value={!this.props.feedbackDisabled}
 						onChange={val => this.props.onChangeFeedbackToggle(!val)}
+						value={!this.props.feedbackDisabled}
 					/>
 				</Section>
 			</View>

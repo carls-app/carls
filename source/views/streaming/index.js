@@ -6,7 +6,10 @@ import {TabBarIcon} from '../components/tabbar-icon'
 import {ReasonCalendarView} from '../calendar/calendar-reason'
 
 import {KRLXView} from './krlx'
+// import {KSTOView} from './radio'
 // import WeeklyMovieView from './movie'
+
+// export {KSTOScheduleView} from './radio'
 
 export default TabNavigator(
 	{
@@ -27,6 +30,10 @@ export default TabNavigator(
 			},
 		},
 		KRLXRadioView: {screen: KRLXView},
+		// StreamingView: {screen: StreamListView},
+		// LiveWebcamsView: {screen: WebcamsView},
+		// KSTORadioView: {screen: KSTOView},
+		// WeeklyMovieView: {screen: WeeklyMovieView},
 	},
 	{
 		navigationOptions: {

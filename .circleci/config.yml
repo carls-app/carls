@@ -1,0 +1,275 @@
+---
+version: 2
+
+x-config:
+  x-caching:  # caching instructions
+    - &save-cache-yarn
+      key: 'v3-yarn-dependencies-{{ arch }}-{{ checksum "yarn.lock" }}'
+      paths: [~/.cache/yarn, ~/Library/Caches/Yarn]
+    - &restore-cache-yarn
+      key: 'v3-yarn-dependencies-{{ arch }}-{{ checksum "yarn.lock" }}'
+    - &save-cache-bundler
+      key: 'v2-ruby-dependencies-{{ arch }}-{{ checksum "Gemfile.lock" }}'
+      paths: [./vendor/bundle]
+    - &restore-cache-bundler
+      key: 'v2-ruby-dependencies-{{ arch }}-{{ checksum "Gemfile.lock" }}'
+    - &save-cache-gradle
+      key: 'v1-gradle-dependencies-{{ arch }}-{{ checksum "android/build.gradle" }}-{{ checksum "android/app/build.gradle" }}-{{ checksum "node_modules/react-native/package.json" }}'
+      paths: [~/.gradle]
+    - &restore-cache-gradle
+      key: 'v1-gradle-dependencies-{{ arch }}-{{ checksum "android/build.gradle" }}-{{ checksum "android/app/build.gradle" }}-{{ checksum "node_modules/react-native/package.json" }}'
+  x-commands:  # command shorthands
+    - &set-ruby-version
+      name: Set Ruby Version
+      command: echo "ruby-2.4.2" > ~/.ruby-version
+    - &run-danger
+      command: yarn run danger --id $task
+      when: always
+    - &embed-env-vars
+      name: Embed environment variables into the app
+      command: |
+        touch .env.js
+        echo "export const GOOGLE_CALENDAR_API_KEY = '$GCAL_KEY'" >> .env.js
+        echo "export const GOOGLE_MAPS_API_KEY = '$GMAPS_KEY'" >> .env.js
+
+workflows:
+  version: 2
+  analyze-and-build:
+    # The way this works is, Circle runs analyze-and-build on every commit
+    # to every branch.
+    # Fastlane checks the environment to see if it should build or deploy,
+    # and if there's a tag then it deploys (otherwise it just builds.)
+    # These same jobs are run by the "nightly" workflow, which has a
+    # different CIRCLE_WORKFLOW_ID, which should allow us to only deploy
+    # nightlies from that branch.
+    jobs: &basic-jobs
+      - cache-yarn-linux:
+          filters: &filters {tags: {only: /.*/}}
+      - danger:
+          filters: *filters
+          requires: [cache-yarn-linux]
+      - flow:
+          filters: *filters
+          requires: [cache-yarn-linux]
+      - jest:
+          filters: *filters
+          requires: [cache-yarn-linux]
+      - prettier:
+          filters: *filters
+          requires: [cache-yarn-linux]
+      - eslint:
+          filters: *filters
+          requires: [cache-yarn-linux]
+      - data:
+          filters: *filters
+          requires: [cache-yarn-linux]
+      - ios:
+          filters: *filters
+          requires: [danger, flow, jest, prettier, eslint, data]
+      # - android:
+      #     filters: *filters
+      #     requires: [danger, flow, jest, prettier, eslint, data]
+  nightly:
+    triggers:
+      - schedule:
+          cron: 0 6 * * *
+          filters: {branches: {only: [master]}}
+    jobs:
+      - cache-yarn-linux
+      - danger: {requires: [cache-yarn-linux]}
+      - flow: {requires: [cache-yarn-linux]}
+      - jest: {requires: [cache-yarn-linux]}
+      - prettier: {requires: [cache-yarn-linux]}
+      - eslint: {requires: [cache-yarn-linux]}
+      - data: {requires: [cache-yarn-linux]}
+      - ios-nightly: {requires: [danger, flow, jest, prettier, eslint, data]}
+      # - android-nightly: {requires: [danger, flow, jest, prettier, eslint, data]}
+
+jobs:
+  cache-yarn-linux:
+    docker: [{image: 'circleci/node:8'}]
+    steps:
+      - checkout
+      - restore_cache: *restore-cache-yarn
+      - run: yarn install --frozen-lockfile
+      - run: yarn --version
+      - save_cache: *save-cache-yarn
+
+  danger:
+    docker: [{image: 'circleci/node:8'}]
+    environment:
+      task: JS-general
+    steps:
+      - checkout
+      - restore_cache: *restore-cache-yarn
+      - run: yarn install --frozen-lockfile
+      - save_cache: *save-cache-yarn
+      - run: *run-danger
+
+  flow:
+    docker: [{image: 'circleci/node:8'}]
+    environment:
+      task: JS-flow
+    steps:
+      - checkout
+      - restore_cache: *restore-cache-yarn
+      - run: yarn install --frozen-lockfile
+      - save_cache: *save-cache-yarn
+      - run: mkdir -p logs/
+      - run: yarn run bundle-data
+      - run: yarn run --silent flow check --quiet | tee logs/flow
+      - run: *run-danger
+
+  jest:
+    docker: [{image: 'circleci/node:8'}]
+    environment:
+      task: JS-jest
+      JEST_JUNIT_OUTPUT: ./test-results/jest/junit.xml
+    steps:
+      - checkout
+      - restore_cache: *restore-cache-yarn
+      - run: yarn install --frozen-lockfile
+      - save_cache: *save-cache-yarn
+      - run: mkdir -p logs/ test-results/jest/
+      - run: yarn run bundle-data
+      - run: yarn run --silent test --coverage --testResultsProcessor="jest-junit" 2>&1 | tee logs/jest
+      - run: *run-danger
+      - store_test_results:
+          path: ./test-results
+      - run: yarn global add coveralls
+      - run:
+          name: coveralls
+          command: |
+            export PATH=$PATH:$(yarn global bin)
+            export COVERALLS_SERVICE_NAME=CircleCI
+            export COVERALLS_SERVICE_JOB_ID=$CIRCLE_BUILD_NUM
+            coveralls < ./coverage/lcov.info
+
+  prettier:
+    docker: [{image: 'circleci/node:8'}]
+    environment:
+      task: JS-prettier
+    steps:
+      - checkout
+      - restore_cache: *restore-cache-yarn
+      - run: yarn install --frozen-lockfile
+      - save_cache: *save-cache-yarn
+      - run: mkdir -p logs/
+      - run: yarn run prettier
+      - run:
+          name: git diff
+          command: |
+            touch logs/prettier  # to ensure that the file exists
+            if ! git diff --quiet *.js source/ scripts/; then
+              git diff *.js source/ scripts/ | tee logs/prettier
+            fi
+      - run: *run-danger
+
+  eslint:
+    docker: [{image: 'circleci/node:8'}]
+    environment:
+      task: JS-lint
+    steps:
+      - checkout
+      - restore_cache: *restore-cache-yarn
+      - run: yarn install --frozen-lockfile
+      - save_cache: *save-cache-yarn
+      - run: mkdir -p logs/ test-results/eslint/
+      - run: yarn run bundle-data
+      - run: yarn run --silent lint | tee logs/eslint
+      - run: yarn run --silent lint --format junit > test-results/eslint/junit.xml
+      - run: *run-danger
+      - store_test_results:
+          path: ./test-results
+
+  data:
+    docker: [{image: 'circleci/node:8'}]
+    environment:
+      task: JS-data
+    steps:
+      - checkout
+      - restore_cache: *restore-cache-yarn
+      - run: yarn install --frozen-lockfile
+      - save_cache: *save-cache-yarn
+      - run: mkdir -p logs/
+      - run: yarn run --silent validate-data --quiet | tee logs/validate-data
+      - run: yarn run --silent validate-bus-data | tee logs/validate-bus-data
+      - run: *run-danger
+
+  android: &android
+    # cmd: key is passed to solve a weird issue (see GitHub PR's 2170 and 2173).
+    # this overrides the thing and forces the container to run /bin/bash as the "command"
+    # so it doesn't get confused and OOM/exhaust the build resources (don't ask me)
+    docker: [{image: 'circleci/android:api-27-node8-alpha', cmd: '/bin/bash'}]
+    environment: &android-env
+      task: ANDROID
+      FASTLANE_SKIP_UPDATE_CHECK: '1'
+      FASTLANE_DISABLE_ANIMATION: '1'
+    steps:
+      - checkout
+      - run: node --version
+      - run: yarn --version
+      - run: *set-ruby-version
+      - restore_cache: *restore-cache-yarn
+      - run: yarn install --frozen-lockfile
+      - save_cache: *save-cache-yarn
+      - restore_cache: *restore-cache-bundler
+      - run: bundle check || bundle install --frozen --path ./vendor/bundle
+      - save_cache: *save-cache-bundler
+      - restore_cache: *restore-cache-gradle
+      - run:
+          name: Download Android dependencies
+          command: cd android && ./gradlew androidDependencies
+          environment: {TERM: xterm-256color}
+      - save_cache: *save-cache-gradle
+      - run: mkdir -p logs/
+      - run: *embed-env-vars
+      - run:
+          name: Run Fastlane
+          command: bundle exec fastlane android ci-run | tee ./logs/build
+          environment:
+            GIT_COMMIT_DESC: $(git log --format=oneline -n 1 $CIRCLE_SHA1)
+      - run: *run-danger
+
+  android-nightly:
+    <<: *android
+    environment:
+      <<: *android-env
+      IS_NIGHTLY: '1'
+
+  ios: &ios
+    macos: {xcode: '9.0'}
+    environment: &ios-env
+      task: IOS
+      FASTLANE_SKIP_UPDATE_CHECK: '1'
+      FASTLANE_DISABLE_ANIMATION: '1'
+      LC_ALL: en_US.UTF-8
+      LANG: en_US.UTF-8
+    shell: /bin/bash --login -o pipefail
+    steps:
+      - checkout
+      - run: yarn --version
+      - run: *set-ruby-version
+      - restore_cache: *restore-cache-yarn
+      - run: yarn install --frozen-lockfile
+      - save_cache: *save-cache-yarn
+      - restore_cache: *restore-cache-bundler
+      - run: bundle check || bundle install --frozen --path ./vendor/bundle
+      - save_cache: *save-cache-bundler
+      - run: mkdir -p logs/
+      - run: *embed-env-vars
+      - run:
+          name: Run Fastlane
+          command: bundle exec fastlane ios ci-run | tee ./logs/build
+          environment:
+            GIT_COMMIT_DESC: $(git log --format=oneline -n 1 $CIRCLE_SHA1)
+      - run:
+          name: Analyze Fastlane Logfile
+          command: python2 ./scripts/analyze-gym.py -s 20 < ./logs/build | tee ./logs/analysis || true
+      - run: *run-danger
+
+  ios-nightly:
+    <<: *ios
+    environment:
+      <<: *ios-env
+      IS_NIGHTLY: '1'

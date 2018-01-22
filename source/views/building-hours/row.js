@@ -131,7 +131,7 @@ export class BuildingRow extends React.Component<Props, State> {
 		const {openStatus, hours, accentBg, accentText} = this.state
 
 		return (
-			<ListRow onPress={this.onPress} arrowPosition="center">
+			<ListRow arrowPosition="center" onPress={this.onPress}>
 				<Row style={styles.title}>
 					<Title lines={1} style={styles.titleText}>
 						<Text>{name}</Text>
@@ -141,24 +141,31 @@ export class BuildingRow extends React.Component<Props, State> {
 						) : null}
 					</Title>
 
-					<Badge
-						text={openStatus}
-						accentColor={accentBg}
-						textColor={accentText}
-						style={styles.accessoryBadge}
-					/>
+					{!info.isNotice ? (
+						<Badge
+							accentColor={accentBg}
+							style={styles.accessoryBadge}
+							text={openStatus}
+							textColor={accentText}
+						/>
+					) : null}
 				</Row>
 
 				<View style={styles.detailWrapper}>
-					{hours.map(({isActive, label, status}, i) => (
-						<Detail key={i} style={styles.detailRow}>
-							<BuildingTimeSlot
-								highlight={hours.length > 1 && isActive}
-								label={label}
-								status={status}
-							/>
-						</Detail>
-					))}
+					{info.noticeMessage ? (
+						<Detail style={styles.detailRow}>{info.noticeMessage}</Detail>
+					) : null}
+					{!(info.noticeMessage && info.isNotice)
+						? hours.map(({isActive, label, status}, i) => (
+								<Detail key={i} style={styles.detailRow}>
+									<BuildingTimeSlot
+										highlight={hours.length > 1 && isActive}
+										label={label}
+										status={status}
+									/>
+								</Detail>
+							))
+						: null}
 				</View>
 			</ListRow>
 		)

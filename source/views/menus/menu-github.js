@@ -20,9 +20,9 @@ import {upgradeMenuItem, upgradeStation} from './lib/process-menu-shorthands'
 import {data as fallbackMenu} from '../../../docs/pause-menu.json'
 import {tracker} from '../../analytics'
 import bugsnag from '../../bugsnag'
-const CENTRAL_TZ = 'America/Winnipeg'
+import {GH_PAGES_URL} from '../../globals'
 
-const githubMenuBaseUrl = 'https://carls-app.github.io/carls'
+const CENTRAL_TZ = 'America/Winnipeg'
 
 type Props = TopLevelViewPropsType & {
 	name: string,
@@ -59,7 +59,7 @@ export class GitHubHostedMenu extends React.PureComponent<Props, State> {
 		let stationMenus: StationMenuType[] = []
 		let corIcons: MasterCorIconMapType = {}
 		try {
-			let container = await fetchJson(`${githubMenuBaseUrl}/pause-menu.json`)
+			let container = await fetchJson(GH_PAGES_URL('pause-menu.json'))
 			let data = container.data
 			foodItems = data.foodItems || []
 			stationMenus = data.stationMenus || []
@@ -111,17 +111,17 @@ export class GitHubHostedMenu extends React.PureComponent<Props, State> {
 		}
 
 		if (this.state.error) {
-			return <NoticeView text={'Error: ' + this.state.error.message} />
+			return <NoticeView text={`Error: ${this.state.error.message}`} />
 		}
 
 		return (
 			<FancyMenu
-				navigation={this.props.navigation}
 				foodItems={this.state.foodItems}
-				menuCorIcons={this.state.corIcons}
 				meals={this.state.meals}
-				now={this.state.now}
+				menuCorIcons={this.state.corIcons}
 				name={this.props.name}
+				navigation={this.props.navigation}
+				now={this.state.now}
 			/>
 		)
 	}

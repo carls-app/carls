@@ -10,8 +10,9 @@ import {Column} from '../../components/layout'
 import {partitionByIndex} from '../../../lib/partition-by-index'
 import type {Webcam} from './types'
 import {StreamThumbnail} from './thumbnail'
+import {GH_PAGES_URL} from '../../../globals'
 
-const GITHUB_URL = 'https://carls-app.github.io/carls/webcams.json'
+const webcamsUrl = GH_PAGES_URL('webcams.json')
 
 type Props = {}
 
@@ -66,7 +67,7 @@ export class WebcamsView extends React.PureComponent<Props, State> {
 	fetchData = async () => {
 		this.setState(() => ({loading: true}))
 
-		let {data: webcams} = await fetchJson(GITHUB_URL).catch(err => {
+		let {data: webcams} = await fetchJson(webcamsUrl).catch(err => {
 			reportNetworkProblem(err)
 			return defaultData
 		})
@@ -88,8 +89,8 @@ export class WebcamsView extends React.PureComponent<Props, State> {
 						{contents.map(webcam => (
 							<StreamThumbnail
 								key={webcam.name}
-								webcam={webcam}
 								viewportWidth={this.state.width}
+								webcam={webcam}
 							/>
 						))}
 					</Column>

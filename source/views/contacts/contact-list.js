@@ -13,8 +13,9 @@ import toPairs from 'lodash/toPairs'
 import * as c from '../components/colors'
 import type {ContactType} from './types'
 import type {TopLevelViewPropsType} from '../types'
+import {GH_PAGES_URL} from '../../globals'
 
-const GITHUB_URL = 'https://carls-app.github.io/carls/contact-info.json'
+const contactInfoUrl = GH_PAGES_URL('contact-info.json')
 
 const groupContacts = (contacts: ContactType[]) => {
 	const grouped = groupBy(contacts, c => c.category)
@@ -69,7 +70,7 @@ export class ContactsListView extends React.PureComponent<Props, State> {
 	}
 
 	fetchData = async () => {
-		let {data: contacts} = await fetchJson(GITHUB_URL).catch(err => {
+		let {data: contacts} = await fetchJson(contactInfoUrl).catch(err => {
 			reportNetworkProblem(err)
 			return defaultData
 		})
@@ -103,14 +104,14 @@ export class ContactsListView extends React.PureComponent<Props, State> {
 			<SectionList
 				ItemSeparatorComponent={ListSeparator}
 				ListEmptyComponent={<ListEmpty mode="bug" />}
-				style={styles.listContainer}
 				data={groupedData}
-				sections={groupedData}
 				keyExtractor={this.keyExtractor}
-				renderSectionHeader={this.renderSectionHeader}
-				renderItem={this.renderItem}
-				refreshing={this.state.refreshing}
 				onRefresh={this.refresh}
+				refreshing={this.state.refreshing}
+				renderItem={this.renderItem}
+				renderSectionHeader={this.renderSectionHeader}
+				sections={groupedData}
+				style={styles.listContainer}
 			/>
 		)
 	}

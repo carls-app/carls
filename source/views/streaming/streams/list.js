@@ -132,20 +132,20 @@ export class StreamListView extends React.PureComponent<Props, State> {
 		}
 
 		if (this.state.error) {
-			return <NoticeView text={'Error: ' + this.state.error} />
+			return <NoticeView text={`Error: ${this.state.error}`} />
 		}
 
 		return (
 			<SectionList
+				ItemSeparatorComponent={ListSeparator}
 				ListEmptyComponent={<NoticeView text="No Streams" />}
+				keyExtractor={this.keyExtractor}
+				onRefresh={this.refresh}
+				refreshing={this.state.refreshing}
+				renderItem={this.renderItem}
 				renderSectionHeader={this.renderSectionHeader}
 				sections={(this.state.streams: any)}
-				ItemSeparatorComponent={ListSeparator}
-				keyExtractor={this.keyExtractor}
 				style={styles.listContainer}
-				refreshing={this.state.refreshing}
-				onRefresh={this.refresh}
-				renderItem={this.renderItem}
 			/>
 		)
 	}

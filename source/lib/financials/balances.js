@@ -29,7 +29,7 @@ export async function getBalances(
 		const balances = await fetchBalancesFromServer()
 
 		// we don't want to cache error responses
-		if (balances.error === true) {
+		if (balances.error) {
 			return balances
 		}
 

@@ -5,13 +5,12 @@ import {contactImages} from '../../../images/contact-images'
 import {Markdown} from '../components/markdown'
 import {ListFooter} from '../components/list'
 import glamorous from 'glamorous-native'
-import {phonecall} from 'react-native-communications'
+import {callPhone} from '../components/call-phone'
 import {tracker} from '../../analytics'
 import {Button} from '../components/button'
-import openUrl from '../components/open-url'
+import {openUrl} from '../components/open-url'
 import type {ContactType} from './types'
-
-const AAO_URL = 'https://github.com/carls-app/carls/issues/new'
+import {GH_NEW_ISSUE_URL} from '../../globals'
 
 const Title = glamorous.text({
 	fontSize: 36,
@@ -42,15 +41,15 @@ function formatNumber(phoneNumber: string) {
 
 function promptCall(buttonText: string, phoneNumber: string) {
 	Alert.alert(buttonText, formatNumber(phoneNumber), [
-		{text: 'Cancel', onPress: () => console.log('Call cancel pressed')},
-		{text: 'Call', onPress: () => phonecall(phoneNumber, false)},
+		{text: 'Cancel', onPress: () => {}},
+		{text: 'Call', onPress: () => callPhone(phoneNumber, {prompt: false})},
 	])
 }
 
 type Props = {navigation: {state: {params: {contact: ContactType}}}}
 
 export class ContactsDetailView extends React.PureComponent<Props> {
-	static navigationOptions = ({navigation}) => {
+	static navigationOptions = ({navigation}: any) => {
 		return {
 			title: navigation.state.params.contact.title,
 		}
@@ -80,19 +79,22 @@ export class ContactsDetailView extends React.PureComponent<Props> {
 		return (
 			<ScrollView>
 				{headerImage ? (
-					<Image source={headerImage} resizeMode="cover" style={styles.image} />
+					<Image resizeMode="cover" source={headerImage} style={styles.image} />
 				) : null}
 				<Container>
 					<Title selectable={true}>{contact.title}</Title>
 
 					<Markdown
-						styles={{Paragraph: styles.paragraph}}
 						source={contact.text}
+						styles={{Paragraph: styles.paragraph}}
 					/>
 
 					<Button onPress={this.onPress} title={contact.buttonText} />
 
-					<ListFooter title="Collected by the humans of CARLS" href={AAO_URL} />
+					<ListFooter
+						href={GH_NEW_ISSUE_URL}
+						title="Collected by the humans of CARLS"
+					/>
 				</Container>
 			</ScrollView>
 		)

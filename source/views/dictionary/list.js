@@ -21,8 +21,10 @@ import uniq from 'lodash/uniq'
 import words from 'lodash/words'
 import deburr from 'lodash/deburr'
 import * as defaultData from '../../../docs/dictionary.json'
+import {GH_PAGES_URL} from '../../globals'
 
-const GITHUB_URL = 'https://carls-app.github.io/carls/dictionary.json'
+const dictionaryUrl = GH_PAGES_URL('dictionary.json')
+
 const ROW_HEIGHT = Platform.OS === 'ios' ? 76 : 89
 const SECTION_HEADER_HEIGHT = Platform.OS === 'ios' ? 33 : 41
 
@@ -83,7 +85,7 @@ export class DictionaryView extends React.PureComponent<Props, State> {
 	}
 
 	fetchData = async () => {
-		let {data: allTerms} = await fetchJson(GITHUB_URL).catch(err => {
+		let {data: allTerms} = await fetchJson(dictionaryUrl).catch(err => {
 			reportNetworkProblem(err)
 			return defaultData
 		})
@@ -102,9 +104,9 @@ export class DictionaryView extends React.PureComponent<Props, State> {
 
 	renderRow = ({item}: {item: WordType}) => (
 		<ListRow
-			onPress={() => this.onPressRow(item)}
-			contentContainerStyle={styles.row}
 			arrowPosition="none"
+			contentContainerStyle={styles.row}
+			onPress={() => this.onPressRow(item)}
 		>
 			<Column>
 				<Title lines={1}>{item.word}</Title>
@@ -116,7 +118,7 @@ export class DictionaryView extends React.PureComponent<Props, State> {
 	)
 
 	renderSectionHeader = ({title}: {title: string}) => (
-		<ListSectionHeader title={title} style={styles.rowSectionHeader} />
+		<ListSectionHeader style={styles.rowSectionHeader} title={title} />
 	)
 
 	renderSeparator = (sectionId: string, rowId: string) => (
@@ -140,8 +142,8 @@ export class DictionaryView extends React.PureComponent<Props, State> {
 	render() {
 		const refreshControl = (
 			<RefreshControl
-				refreshing={this.state.refreshing}
 				onRefresh={this.refresh}
+				refreshing={this.state.refreshing}
 			/>
 		)
 

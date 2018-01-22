@@ -111,9 +111,8 @@ android {
         }
         manifestPlaceholders = [
             manifestApplicationId: applicationId,
-            // onesignal_app_id: "aa46a500-ab1c-4127-b9ff-e7373da3ce35",
-            // onesignal_google_project_number: "185558680648",
-            gmaps_key: System.getenv("GMAPS_KEY") ?: "",
+            BUGSNAG_KEY: System.getenv("BUGSNAG_KEY") ?: "",
+            GMAPS_KEY: System.getenv("GMAPS_KEY") ?: "",
         ]
     }
     signingConfigs {
@@ -201,7 +200,6 @@ dependencies {
     compile project(':react-native-linear-gradient')
     compile project(':react-native-maps')
     compile project(':react-native-network-info')
-    // compile project(':react-native-onesignal')
     compile project(':react-native-restart')
     compile project(':react-native-vector-icons')
     // this is for react-native itself
@@ -215,4 +213,16 @@ dependencies {
 task copyDownloadableDepsToLibs(type: Copy) {
     from configurations.compile
     into 'libs'
+}
+
+// Bundles the app's data for the build process
+task bundleData(type: Exec) {
+    workingDir '../../'
+    commandLine 'npm', 'run', 'bundle-data'
+}
+
+gradle.projectsEvaluated {
+    // hook bundleData into the android build process
+    bundleDebugJsAndAssets.dependsOn bundleData
+    bundleReleaseJsAndAssets.dependsOn bundleData
 }

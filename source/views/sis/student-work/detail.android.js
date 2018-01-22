@@ -1,10 +1,10 @@
 // @flow
 import * as React from 'react'
 import {Text, View, ScrollView, StyleSheet} from 'react-native'
-import {email} from 'react-native-communications'
+import {sendEmail} from '../../components/send-email'
 import {Card} from '../../components/card'
 import moment from 'moment'
-import openUrl from '../../components/open-url'
+import {openUrl} from '../../components/open-url'
 import * as c from '../../components/colors'
 import type {JobType} from './types'
 import {cleanJob, getContactName, getLinksFromJob} from './clean-job'
@@ -62,8 +62,10 @@ function Contact({job}: {job: JobType}) {
 	return job.office || contactName ? (
 		<Card header="Contact" style={styles.card}>
 			<Text
+				onPress={() =>
+					sendEmail({to: [job.contactEmail], subject: job.title, body: ''})
+				}
 				style={styles.cardBody}
-				onPress={() => email([job.contactEmail], null, null, job.title, '')}
 			>
 				{contactName} {job.title ? `(${job.title})` : ''}
 				{'\n'}
@@ -115,7 +117,7 @@ function Links({job}: {job: JobType}) {
 	return links.length ? (
 		<Card header="LINKS" style={styles.card}>
 			{links.map(url => (
-				<Text key={url} style={styles.cardBody} onPress={() => openUrl(url)}>
+				<Text key={url} onPress={() => openUrl(url)} style={styles.cardBody}>
 					{url}
 				</Text>
 			))}
@@ -138,7 +140,7 @@ type Props = {
 }
 
 export class JobDetailView extends React.PureComponent<Props> {
-	static navigationOptions = ({navigation}) => {
+	static navigationOptions = ({navigation}: any) => {
 		const {job} = navigation.state.params
 		return {
 			title: job.title,

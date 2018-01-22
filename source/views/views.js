@@ -120,7 +120,7 @@ export const allViews: ViewType[] = [
 		title: 'Student Orgs',
 		icon: 'globe',
 		tint: c.periwinkle,
-		gradient: c.lightBlueToBlueDark,
+		gradient: c.tealToSeafoam,
 	},
 	{
 		type: 'url',
@@ -129,16 +129,16 @@ export const allViews: ViewType[] = [
 		title: 'Moodle',
 		icon: 'graduation-cap',
 		tint: c.cantaloupe,
-		gradient: c.yellowToGoldDark,
+		gradient: c.yellowToGoldLight,
 	},
-	//   {
-	//     type: 'view',
-	//     view: 'HelpView',
-	//     title: 'Report A Problem',
-	//     icon: 'help',
-	//     tint: c.lavender,
-	//     gradient: c.purpleToIndigo,
-	//   },
+	{
+		type: 'view',
+		view: 'HelpView',
+		title: 'Report A Problem',
+		icon: 'help',
+		tint: c.lavender,
+		gradient: c.seafoamToGrass,
+	},
 ]
 
 export const allViewNames = allViews.map(v => v.view)

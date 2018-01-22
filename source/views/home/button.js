@@ -1,9 +1,10 @@
 // @flow
 
 import * as React from 'react'
-import {Text, StyleSheet, Platform} from 'react-native'
+import {View, Text, StyleSheet, Platform} from 'react-native'
 import Icon from 'react-native-vector-icons/Entypo'
 import type {ViewType} from '../views'
+import LinearGradient from 'react-native-linear-gradient'
 import {Touchable} from '../components/touchable'
 import * as c from '../components/colors'
 
@@ -13,19 +14,41 @@ type Props = {
 }
 
 export function HomeScreenButton({view, onPress}: Props) {
-	const style = {backgroundColor: view.tint}
+	let contents = (
+		<React.Fragment>
+			<Icon name={view.icon} size={32} style={styles.rectangleButtonIcon} />
+			<Text style={styles.rectangleButtonText}>{view.title}</Text>
+		</React.Fragment>
+	)
+
+	if (view.gradient) {
+		contents = (
+			<LinearGradient
+				colors={view.gradient}
+				end={{x: 1, y: 0.85}}
+				start={{x: 0, y: 0.05}}
+				style={styles.rectangle}
+			>
+				{contents}
+			</LinearGradient>
+		)
+	} else {
+		contents = (
+			<View style={[styles.rectangle, {backgroundColor: view.tint}]}>
+				{contents}
+			</View>
+		)
+	}
 
 	return (
 		<Touchable
-			highlight={false}
-			onPress={onPress}
-			style={[styles.rectangle, style]}
+			accessibilityComponentType="button"
 			accessibilityLabel={view.title}
 			accessibilityTraits="button"
-			accessibilityComponentType="button"
+			highlight={false}
+			onPress={onPress}
 		>
-			<Icon name={view.icon} size={32} style={styles.rectangleButtonIcon} />
-			<Text style={styles.rectangleButtonText}>{view.title}</Text>
+			{contents}
 		</Touchable>
 	)
 }
@@ -47,8 +70,7 @@ const styles = StyleSheet.create({
 
 		elevation: 2,
 
-		marginTop: CELL_MARGIN / 2,
-		marginBottom: CELL_MARGIN / 2,
+		marginBottom: CELL_MARGIN,
 		marginLeft: CELL_MARGIN / 2,
 		marginRight: CELL_MARGIN / 2,
 	},
@@ -56,12 +78,12 @@ const styles = StyleSheet.create({
 	// Text styling in buttons
 	rectangleButtonIcon: {
 		color: c.white,
+		backgroundColor: c.transparent,
 	},
 	rectangleButtonText: {
 		color: c.white,
-		// marginTop: cellVerticalPadding / 2,
+		backgroundColor: c.transparent,
 		fontFamily: Platform.OS === 'ios' ? 'System' : 'sans-serif-condensed',
-		// textAlign: 'center',
 		fontSize: 14,
 	},
 })

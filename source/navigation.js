@@ -12,7 +12,6 @@ import StreamingView from './views/streaming'
 import {MenusView} from './views/menus'
 import {FilterView} from './views/components/filter'
 import NewsView from './views/news'
-import NewsItemView from './views/news/news-item'
 import SISView from './views/sis'
 import {StudentWorkDetailView} from './views/sis/student-work-carls'
 import {
@@ -30,6 +29,7 @@ import SettingsView from './views/settings'
 import CreditsView from './views/settings/credits'
 import PrivacyView from './views/settings/privacy'
 import LegalView from './views/settings/legal'
+import {IconSettingsView} from './views/settings/icon'
 import {StudentOrgsView, StudentOrgsDetailView} from './views/student-orgs'
 import {FaqView} from './views/faqs'
 import HelpView from './views/help'
@@ -73,6 +73,7 @@ export const AppNavigator = StackNavigator(
 		NewsItemView: {screen: NewsItemView},
 		NewsView: {screen: NewsView},
 		PrivacyView: {screen: PrivacyView},
+		IconSettingsView: {screen: IconSettingsView},
 		SettingsView: {screen: SettingsView},
 		SISView: {screen: SISView},
 		StreamingView: {screen: StreamingView},

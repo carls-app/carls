@@ -1,6 +1,7 @@
 // @flow
 import * as React from 'react'
-import {View, Text, StyleSheet} from 'react-native'
+import {View, Text, StyleSheet, Platform} from 'react-native'
+import {material, iOSUIKit} from 'react-native-typography'
 import * as c from './colors'
 
 const cardStyles = StyleSheet.create({
@@ -17,8 +18,16 @@ const cardStyles = StyleSheet.create({
 		paddingBottom: 6,
 	},
 	titleText: {
-		color: c.androidTextColor,
-		fontWeight: 'bold',
+		...Platform.select({
+			ios: iOSUIKit.title3Object,
+			android: material.titleObject,
+		}),
+	},
+	footerText: {
+		...Platform.select({
+			ios: iOSUIKit.footnoteObject,
+			android: material.captionObject,
+		}),
 	},
 	footer: {
 		borderTopWidth: 1,
@@ -28,17 +37,14 @@ const cardStyles = StyleSheet.create({
 	},
 })
 
-export function Card({
-	header,
-	footer,
-	children,
-	style,
-}: {
-	header?: string,
-	footer?: string,
+type Props = {
+	header?: false | string,
+	footer?: false | string,
 	children?: any,
 	style?: any,
-}) {
+}
+
+export function Card({header, footer, children, style}: Props) {
 	return (
 		<View style={[cardStyles.card, style]}>
 			{header ? (
@@ -53,7 +59,9 @@ export function Card({
 
 			{footer ? (
 				<View style={cardStyles.footer}>
-					<Text selectable={true}>{footer}</Text>
+					<Text selectable={true} style={cardStyles.footerText}>
+						{footer}
+					</Text>
 				</View>
 			) : null}
 		</View>

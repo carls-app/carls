@@ -2,8 +2,9 @@
 
 import jsYaml from 'js-yaml'
 import type {BuildingType} from '../types'
-import {email} from 'react-native-communications'
+import {sendEmail} from '../../components/send-email'
 import querystring from 'querystring'
+import {GH_NEW_ISSUE_URL} from '../../../globals'
 
 export function submitReport(current: BuildingType, suggestion: BuildingType) {
 	// calling trim() on these to remove the trailing newlines
@@ -12,13 +13,11 @@ export function submitReport(current: BuildingType, suggestion: BuildingType) {
 
 	const body = makeEmailBody(before, after, current.name)
 
-	return email(
-		['rives@stolaf.edu'],
-		[],
-		[],
-		`[building] Suggestion for ${current.name}`,
+	return sendEmail({
+		to: ['rives@stolaf.edu'],
+		subject: `[building] Suggestion for ${current.name}`,
 		body,
-	)
+	})
 }
 
 function makeEmailBody(before: string, after: string, title: string): string {
@@ -64,7 +63,7 @@ function makeIssueLink(before: string, after: string, title: string): string {
 		title: `Building hours update for ${title}`,
 		body: makeMarkdownBody(before, after),
 	})
-	return `https://github.com/carls-app/carls/issues/new?${q}`
+	return `${GH_NEW_ISSUE_URL}?${q}`
 }
 
 function stringifyBuilding(building: BuildingType): string {

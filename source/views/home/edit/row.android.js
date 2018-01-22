@@ -1,7 +1,7 @@
 // @flow
 
 import * as React from 'react'
-import {View, StyleSheet, Text} from 'react-native'
+import {View, StyleSheet, Text, Switch} from 'react-native'
 import EntypoIcon from 'react-native-vector-icons/Entypo'
 import IonIcon from 'react-native-vector-icons/Ionicons'
 import * as c from '../../components/colors'
@@ -44,11 +44,13 @@ const MenuIcon = ({icon, tint}: {icon: string, tint: string}) => (
 
 type Props = {
 	item: ViewType,
+	isEnabled: boolean,
 	isFirst: boolean,
 	isLast: boolean,
 	order: string[],
 	onMoveUp: (string[], string) => any,
 	onMoveDown: (string[], string) => any,
+	onToggle: string => any,
 }
 
 export class EditHomeRow extends React.PureComponent<Props> {
@@ -60,16 +62,37 @@ export class EditHomeRow extends React.PureComponent<Props> {
 		this.props.onMoveDown(this.props.order, this.props.item.view)
 	}
 
+	onToggleSwitch = () => {
+		this.props.onToggle(this.props.item.view)
+	}
+
 	render() {
 		const {item, isFirst, isLast} = this.props
+		const tint = item.gradient ? item.gradient[0] : item.tint
+
 		return (
 			<View style={styles.row}>
-				<MenuIcon icon={this.props.item.icon} tint={item.tint} />
+				<MenuIcon icon={this.props.item.icon} tint={tint} />
 
-				<Text style={[styles.text, {color: item.tint}]}>{item.title}</Text>
+				<Text style={[styles.text, {color: tint}]}>{item.title}</Text>
 
-				<ArrowIcon dir="up" disabled={isFirst} onPress={this.onMoveUp} />
-				<ArrowIcon dir="down" disabled={isLast} onPress={this.onMoveDown} />
+				<Switch
+					onValueChange={this.onToggleSwitch}
+					value={this.props.isEnabled}
+				/>
+
+				<ArrowIcon
+					dir="up"
+					disabled={isFirst}
+					onPress={this.onMoveUp}
+					tint={tint}
+				/>
+				<ArrowIcon
+					dir="down"
+					disabled={isLast}
+					onPress={this.onMoveDown}
+					tint={tint}
+				/>
 			</View>
 		)
 	}
@@ -79,8 +102,9 @@ type ArrowIconProps = {
 	dir: 'up' | 'down',
 	disabled: boolean,
 	onPress: () => any,
+	tint: string,
 }
-const ArrowIcon = ({dir, disabled, onPress}: ArrowIconProps) => {
+const ArrowIcon = ({dir, disabled, onPress, tint}: ArrowIconProps) => {
 	const icon = `md-arrow-${dir}`
 	const size = 24
 
@@ -96,7 +120,7 @@ const ArrowIcon = ({dir, disabled, onPress}: ArrowIconProps) => {
 
 	return (
 		<Touchable borderless={true} onPress={onPress}>
-			<IonIcon name={icon} size={size} style={styles.icon} />
+			<IonIcon name={icon} size={size} style={[styles.icon, {color: tint}]} />
 		</Touchable>
 	)
 }

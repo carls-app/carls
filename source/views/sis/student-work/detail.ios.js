@@ -1,10 +1,10 @@
 // @flow
 import * as React from 'react'
 import {Text, ScrollView, StyleSheet} from 'react-native'
-import {email} from 'react-native-communications'
+import {sendEmail} from '../../components/send-email'
 import {Cell, Section, TableView} from 'react-native-tableview-simple'
 import moment from 'moment'
-import openUrl from '../../components/open-url'
+import {openUrl} from '../../components/open-url'
 import * as c from '../../components/colors'
 import type {JobType} from './types'
 import {cleanJob, getContactName, getLinksFromJob} from './clean-job'
@@ -36,33 +36,31 @@ function Information({job}: {job: JobType}) {
 
 	const contact = job.contactEmail ? (
 		<Cell
-			cellStyle="LeftDetail"
-			detail={'Contact'}
-			title={getContactName(job).trim() || job.contactEmail}
 			accessory="DisclosureIndicator"
-			onPress={() => email([job.contactEmail], null, null, job.title, '')}
+			cellStyle="LeftDetail"
+			detail="Contact"
+			onPress={() =>
+				sendEmail({to: [job.contactEmail], subject: job.title, body: ''})
+			}
+			title={getContactName(job).trim() || job.contactEmail}
 		/>
 	) : null
 
-	const ending = job.hoursPerWeek == 'Full-time' ? '' : ' hrs/week'
+	const ending = job.hoursPerWeek === 'Full-time' ? '' : ' hrs/week'
 	const hours = job.hoursPerWeek ? (
 		<Cell
 			cellStyle="LeftDetail"
-			detail={'Hours'}
+			detail="Hours"
 			title={job.hoursPerWeek + ending}
 		/>
 	) : null
 
 	const amount = job.timeOfHours ? (
-		<Cell
-			cellStyle="LeftDetail"
-			detail={'Time of Day'}
-			title={job.timeOfHours}
-		/>
+		<Cell cellStyle="LeftDetail" detail="Time of Day" title={job.timeOfHours} />
 	) : null
 
 	const category = job.type ? (
-		<Cell cellStyle="LeftDetail" detail={'Category'} title={job.type} />
+		<Cell cellStyle="LeftDetail" detail="Category" title={job.type} />
 	) : null
 
 	return (
@@ -107,9 +105,9 @@ function Links({job}: {job: JobType}) {
 			{links.map(url => (
 				<Cell
 					key={url}
-					title={url}
 					accessory="DisclosureIndicator"
 					onPress={() => openUrl(url)}
+					title={url}
 				/>
 			))}
 		</Section>
@@ -131,7 +129,7 @@ type Props = {
 }
 
 export class JobDetailView extends React.PureComponent<Props> {
-	static navigationOptions = ({navigation}) => {
+	static navigationOptions = ({navigation}: any) => {
 		const {job} = navigation.state.params
 		return {
 			title: job.title,
