@@ -2,28 +2,17 @@
 
 import {Platform, Linking, StatusBar} from 'react-native'
 
+import * as c from './colors'
 import {tracker} from '../../analytics'
 import SafariView from 'react-native-safari-view'
 import {CustomTabs} from 'react-native-custom-tabs'
 
-const iosOnShowListener = () => StatusBar.setBarStyle('dark-content')
-const iosOnDismissListener = () => StatusBar.setBarStyle('light-content')
 export function startStatusBarColorChanger() {
-	return SafariView.isAvailable()
-		.then(() => {
-			SafariView.addEventListener('onShow', iosOnShowListener)
-			SafariView.addEventListener('onDismiss', iosOnDismissListener)
-		})
-		.catch(() => {})
+	return Promise.resolve(null)
 }
 
 export function stopStatusBarColorChanger() {
-	return SafariView.isAvailable()
-		.then(() => {
-			SafariView.removeEventListener('onShow', iosOnShowListener)
-			SafariView.removeEventListener('onDismiss', iosOnDismissListener)
-		})
-		.catch(() => {})
+	return Promise.resolve(null)
 }
 
 function genericOpen(url: string) {
@@ -43,7 +32,7 @@ function genericOpen(url: string) {
 function iosOpen(url: string) {
 	// SafariView.isAvailable throws if it's not available
 	return SafariView.isAvailable()
-		.then(() => SafariView.show({url}))
+		.then(() => SafariView.show({url, barTintColor: c.carletonBlue}))
 		.catch(() => genericOpen(url))
 }
 
