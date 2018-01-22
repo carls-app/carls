@@ -293,11 +293,11 @@ class EditableSchedule extends React.PureComponent<EditableScheduleProps> {
 					<TitleCell onChange={this.editTitle} text={schedule.title || ''} />
 					<NotesCell onChange={this.editNotes} text={schedule.notes || ''} />
 
-					<CellToggle
+					{/*<CellToggle
 						label="Closes for Chapel"
 						onChange={this.toggleChapel}
 						value={Boolean(schedule.closedForChapelTime)}
-					/>
+					/>*/}
 
 					{schedule.hours.map((set, i) => (
 						<TimesCell
