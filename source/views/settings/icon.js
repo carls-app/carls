@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
 	},
 })
 
-type IconTypeEnum = 'default'// | 'icon_type_windmill'
+type IconTypeEnum = 'default' // | 'icon_type_windmill'
 
 type Icon = {
 	src: any,
