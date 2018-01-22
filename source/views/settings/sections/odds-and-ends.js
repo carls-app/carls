@@ -9,65 +9,91 @@ import {connect} from 'react-redux'
 import {CellToggle} from '../../components/cells/toggle'
 import {PushButtonCell} from '../../components/cells/push-button'
 import {trackedOpenUrl} from '../../components/open-url'
+import * as Icons from '@hawkrives/react-native-alternate-icons'
 
 type Props = TopLevelViewPropsType & {
-  onChangeFeedbackToggle: (feedbackDisabled: boolean) => any,
-  feedbackDisabled: boolean,
+	onChangeFeedbackToggle: (feedbackDisabled: boolean) => any,
+	feedbackDisabled: boolean,
 }
 
-class OddsAndEndsSection extends React.PureComponent<Props> {
-  onPressButton = (id: string) => {
-    this.props.navigation.navigate(id)
-  }
+type State = {
+	supported: boolean,
+}
 
-  onCreditsButton = () => this.onPressButton('CreditsView')
-  onPrivacyButton = () => this.onPressButton('PrivacyView')
-  onLegalButton = () => this.onPressButton('LegalView')
-  onSourceButton = () =>
-    trackedOpenUrl({
-      url: 'https://github.com/carls-app/carls',
-      id: 'ContributingView',
-    })
+class OddsAndEndsSection extends React.PureComponent<Props, State> {
+	state = {
+		supported: false,
+	}
 
-  render() {
-    return (
-      <View>
-        <Section header="MISCELLANY">
-          <PushButtonCell title="Credits" onPress={this.onCreditsButton} />
-          <PushButtonCell
-            title="Privacy Policy"
-            onPress={this.onPrivacyButton}
-          />
-          <PushButtonCell title="Legal" onPress={this.onLegalButton} />
-          <PushButtonCell title="Contributing" onPress={this.onSourceButton} />
-        </Section>
+	componentWillMount() {
+		this.checkIfCustomIconsSupported()
+	}
 
-        <Section header="ODDS &amp; ENDS">
-          <Cell cellStyle="RightDetail" title="Version" detail={version} />
+	checkIfCustomIconsSupported = async () => {
+		const supported = await Icons.isSupported()
+		this.setState(() => ({supported}))
+	}
 
-          <CellToggle
-            label="Share Analytics"
-            // These are both inverted because the toggle makes more sense as
-            // optout/optin, but the code works better as optin/optout.
-            value={!this.props.feedbackDisabled}
-            onChange={val => this.props.onChangeFeedbackToggle(!val)}
-          />
-        </Section>
-      </View>
-    )
-  }
+	onPressButton = (id: string) => {
+		this.props.navigation.navigate(id)
+	}
+
+	onCreditsButton = () => this.onPressButton('CreditsView')
+	onPrivacyButton = () => this.onPressButton('PrivacyView')
+	onLegalButton = () => this.onPressButton('LegalView')
+	onSourceButton = () =>
+		trackedOpenUrl({
+			url: 'https://github.com/carls-app/carls',
+			id: 'ContributingView',
+		})
+	onAppIconButton = () => this.onPressButton('IconSettingsView')
+
+	render() {
+		return (
+			<View>
+				<Section header="MISCELLANY">
+					{this.state.supported ? (
+						<PushButtonCell
+							onPress={this.onAppIconButton}
+							title="Change App Icon"
+						/>
+					) : null}
+
+					<PushButtonCell onPress={this.onCreditsButton} title="Credits" />
+					<PushButtonCell
+						onPress={this.onPrivacyButton}
+						title="Privacy Policy"
+					/>
+					<PushButtonCell onPress={this.onLegalButton} title="Legal" />
+					<PushButtonCell onPress={this.onSourceButton} title="Contributing" />
+				</Section>
+
+				<Section header="ODDS &amp; ENDS">
+					<Cell cellStyle="RightDetail" detail={version} title="Version" />
+
+					<CellToggle
+						label="Share Analytics"
+						// These are both inverted because the toggle makes more sense as
+						// optout/optin, but the code works better as optin/optout.
+						onChange={val => this.props.onChangeFeedbackToggle(!val)}
+						value={!this.props.feedbackDisabled}
+					/>
+				</Section>
+			</View>
+		)
+	}
 }
 
 function mapStateToProps(state) {
-  return {
-    feedbackDisabled: state.settings.feedbackDisabled,
-  }
+	return {
+		feedbackDisabled: state.settings.feedbackDisabled,
+	}
 }
 
 function mapDispatchToProps(dispatch) {
-  return {
-    onChangeFeedbackToggle: s => dispatch(setFeedbackStatus(s)),
-  }
+	return {
+		onChangeFeedbackToggle: s => dispatch(setFeedbackStatus(s)),
+	}
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(OddsAndEndsSection)

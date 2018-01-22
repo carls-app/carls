@@ -12,63 +12,63 @@ export type PopViewAction = {|type: 'app/POP_VIEW'|}
 export type TickAction = {|type: 'app/TICK', payload: Date|}
 
 export type UpdateOnlineStatusAction = {|
-  type: 'app/ONLINE_STATUS',
-  payload: boolean,
+	type: 'app/ONLINE_STATUS',
+	payload: boolean,
 |}
 export function updateOnlineStatus(status: boolean): UpdateOnlineStatusAction {
-  return {type: ONLINE_STATUS, payload: status}
+	return {type: ONLINE_STATUS, payload: status}
 }
 
 export function tick(): TickAction {
-  return {type: TICK, payload: new Date()}
+	return {type: TICK, payload: new Date()}
 }
 
 type Action = UpdateOnlineStatusAction | PushViewAction | PopViewAction
 
 export type State = {|
-  +currentView: ?ViewName,
-  +viewStack: Array<ViewName>,
-  +isConnected: boolean,
-  +now: Date,
+	+currentView: ?ViewName,
+	+viewStack: Array<ViewName>,
+	+isConnected: boolean,
+	+now: Date,
 |}
 
 function handleViewPop(state: State) {
-  return {
-    ...state,
-    viewStack: state.viewStack.slice(0, -1),
-    currentView: state.viewStack[state.viewStack.length - 2] || null,
-  }
+	return {
+		...state,
+		viewStack: state.viewStack.slice(0, -1),
+		currentView: state.viewStack[state.viewStack.length - 2] || null,
+	}
 }
 
 function handleViewPush(state: State, action: PushViewAction) {
-  return {
-    ...state,
-    viewStack: [...state.viewStack, action.payload],
-    currentView: action.payload,
-  }
+	return {
+		...state,
+		viewStack: [...state.viewStack, action.payload],
+		currentView: action.payload,
+	}
 }
 
 const initialState = {
-  currentView: null,
-  viewStack: [],
-  isConnected: false,
-  now: new Date(),
+	currentView: null,
+	viewStack: [],
+	isConnected: false,
+	now: new Date(),
 }
 
 export function app(state: State = initialState, action: Action) {
-  switch (action.type) {
-    case PUSH_VIEW:
-      return handleViewPush(state, action)
-    case POP_VIEW:
-      return handleViewPop(state)
+	switch (action.type) {
+		case PUSH_VIEW:
+			return handleViewPush(state, action)
+		case POP_VIEW:
+			return handleViewPop(state)
 
-    case ONLINE_STATUS:
-      return {...state, isConnected: action.payload}
+		case ONLINE_STATUS:
+			return {...state, isConnected: action.payload}
 
-    case TICK:
-      return {...state, now: action.payload}
+		case TICK:
+			return {...state, now: action.payload}
 
-    default:
-      return state
-  }
+		default:
+			return state
+	}
 }
