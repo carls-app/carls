@@ -1,6 +1,6 @@
 {
   "name": "CARLS",
-  "version": "1.0.0-beta.11",
+  "version": "1.0.0-beta.12",
   "private": true,
   "scripts": {
     "android": "react-native run-android",
@@ -54,7 +54,6 @@
   "prettier": {
     "useTabs": true,
     "singleQuote": true,
-    "useTabs": true,
     "trailingComma": "all",
     "bracketSpacing": false,
     "semi": false
