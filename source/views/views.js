@@ -111,7 +111,7 @@ export const allViews: ViewType[] = [
 		title: 'Carlpedia',
 		icon: 'open-book',
 		tint: c.olive,
-		gradient: c.yellowToGoldLight,
+		gradient: c.pinkToHotpink,
 	},
 	{
 		type: 'url',
