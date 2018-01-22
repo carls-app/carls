@@ -1,0 +1,26 @@
+// @flow
+
+import React from 'react'
+import {GoogleCalendarView} from '../../calendar/calendar-google'
+import type {TopLevelViewPropsType} from '../../types'
+
+type Props = TopLevelViewPropsType & {}
+
+export class KRLXScheduleView extends React.PureComponent<Props> {
+	static navigationOptions = {
+		title: 'Show Schedule',
+	}
+
+	render() {
+		return (
+			<GoogleCalendarView
+				calendarId="krlxradio88.1@gmail.com"
+				navigation={this.props.navigation}
+				poweredBy={{
+					title: 'Powered by the KRLX team',
+					href: 'http://www.krlx.org/schedule/',
+				}}
+			/>
+		)
+	}
+}

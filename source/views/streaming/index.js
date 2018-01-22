@@ -5,11 +5,10 @@ import {TabNavigator} from '../components/tabbed-view'
 import {TabBarIcon} from '../components/tabbar-icon'
 import {ReasonCalendarView} from '../calendar/calendar-reason'
 
-import {KRLXView} from './krlx'
-// import {KSTOView} from './radio'
+import {KSTOView} from './radio'
 // import WeeklyMovieView from './movie'
 
-// export {KSTOScheduleView} from './radio'
+export {KSTOScheduleView, KRLXScheduleView} from './radio'
 
 export default TabNavigator(
 	{
@@ -29,7 +28,7 @@ export default TabNavigator(
 				tabBarIcon: TabBarIcon('film'),
 			},
 		},
-		KRLXRadioView: {screen: KRLXView},
+		KRLXRadioView: {screen: KSTOView},
 		// StreamingView: {screen: StreamListView},
 		// LiveWebcamsView: {screen: WebcamsView},
 		// KSTORadioView: {screen: KSTOView},

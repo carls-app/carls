@@ -21,9 +21,9 @@ import type {PlayState, HtmlAudioError, Viewport} from './types'
 import {ActionButton, ShowCalendarButton, CallButton} from './buttons'
 import {openUrl} from '../../components/open-url'
 
-const image = require('../../../../images/streaming/ksto/ksto-logo.png')
-const stationNumber = '+15077863602'
-const kstoLiveUrl = 'https://www.stolaf.edu/multimedia/play/embed/ksto.html'
+const image = require('../../../../images/streaming/krlx.png')
+const stationNumber = '+15072224127'
+const kstoLiveUrl = 'http://live.krlx.org'
 
 type Props = TopLevelViewPropsType
 
@@ -36,7 +36,7 @@ type State = {
 
 export class KSTOView extends React.PureComponent<Props, State> {
 	static navigationOptions = {
-		tabBarLabel: 'KSTO',
+		tabBarLabel: 'KRLX',
 		tabBarIcon: TabBarIcon('radio'),
 	}
 
@@ -84,7 +84,7 @@ export class KSTOView extends React.PureComponent<Props, State> {
 	}
 
 	openSchedule = () => {
-		this.props.navigation.navigate('KSTOScheduleView')
+		this.props.navigation.navigate('KRLXScheduleView')
 	}
 
 	callStation = () => {
@@ -164,10 +164,10 @@ export class KSTOView extends React.PureComponent<Props, State> {
 				<View style={styles.container}>
 					<View style={styles.titleWrapper}>
 						<Text selectable={true} style={styles.heading}>
-							St. Olaf College Radio
+							Carleton College Radio
 						</Text>
 						<Text selectable={true} style={styles.subHeading}>
-							KSTO 93.1 FM
+							88.1 KRLX-FM
 						</Text>
 
 						{error}
