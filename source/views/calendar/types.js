@@ -63,30 +63,21 @@ export type ReasonEventType = {
 	week_of_month: ?string,
 }
 
-type EmbeddedEventDetailType =
-	| {type: 'google', data: GoogleEventType}
-	| {type: 'reason', data: ReasonEventType}
-
 export type PoweredBy = {
 	title: string,
 	href: string,
 }
 
-export type EventType = {
-	summary: string,
-	location: string,
-	startTime: moment,
-	endTime: moment,
-	isOngoing: boolean,
-	extra: EmbeddedEventDetailType,
-}
-
-export type CleanedEventType = {
+export type EventType = {|
 	title: string,
-	summary: string,
+	description: string,
 	location: string,
 	startTime: moment,
 	endTime: moment,
 	isOngoing: boolean,
-	extra: EmbeddedEventDetailType,
-}
+	config: {
+		startTime: boolean,
+		endTime: boolean,
+		subtitle: 'location' | 'description',
+	},
+|}

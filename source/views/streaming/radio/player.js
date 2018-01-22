@@ -4,7 +4,7 @@ import * as React from 'react'
 import {WebView} from 'react-native'
 import type {PlayState, HtmlAudioError} from './types'
 
-const kstoEmbed = 'https://www.stolaf.edu/multimedia/play/embed/ksto.html'
+const krlxStream = 'http://radio.krlx.org/mp3/high_quality'
 
 type Props = {
 	playState: PlayState,
@@ -99,6 +99,15 @@ export class StreamPlayer extends React.PureComponent<Props> {
 
 	setRef = (ref: WebView) => (this._webview = ref)
 
+	html = (url: string) => `
+		<style>body {background-color: white;}</style>
+	  <title>KSTO Stream</title>
+
+	  <audio id="player" webkit-playsinline playsinline>
+	    <source src="${url}" />
+	  </audio>
+	`
+
 	js = `
     function ready(fn) {
       if (document.readyState !== 'loading') {
@@ -190,7 +199,7 @@ export class StreamPlayer extends React.PureComponent<Props> {
 				injectedJavaScript={this.js}
 				mediaPlaybackRequiresUserAction={false}
 				onMessage={this.handleMessage}
-				source={{uri: kstoEmbed}}
+				source={{html: this.html(krlxStream)}}
 				style={this.props.style}
 			/>
 		)
