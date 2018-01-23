@@ -8,7 +8,7 @@ import * as React from 'react'
 import {ScrollView, View, StyleSheet, Text} from 'react-native'
 import moment from 'moment-timezone'
 import {CellTextField} from '../../components/cells/textfield'
-import {CellToggle} from '../../components/cells/toggle'
+// import {CellToggle} from '../../components/cells/toggle'
 import {DeleteButtonCell} from '../../components/cells/delete-button'
 import {ButtonCell} from '../../components/cells/button'
 import * as c from '../../components/colors'
@@ -293,11 +293,11 @@ class EditableSchedule extends React.PureComponent<EditableScheduleProps> {
 					<TitleCell onChange={this.editTitle} text={schedule.title || ''} />
 					<NotesCell onChange={this.editNotes} text={schedule.notes || ''} />
 
-					<CellToggle
+					{/*<CellToggle
 						label="Closes for Chapel"
 						onChange={this.toggleChapel}
 						value={Boolean(schedule.closedForChapelTime)}
-					/>
+					/>*/}
 
 					{schedule.hours.map((set, i) => (
 						<TimesCell
