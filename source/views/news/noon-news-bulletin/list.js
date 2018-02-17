@@ -73,6 +73,7 @@ export class NoonNewsView extends React.PureComponent<Props, State> {
 			.then(resp => resp.rss.channel.item)
 			.catch(err => {
 				reportNetworkProblem(err)
+				return []
 			})
 
 		this.setState(() => ({bulletins}))
