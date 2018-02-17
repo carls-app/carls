@@ -12,6 +12,7 @@ import StreamingView, {KRLXScheduleView} from './views/streaming'
 import {MenusView} from './views/menus'
 import {FilterView} from './views/components/filter'
 import NewsView from './views/news'
+import {NoonNewsView} from './views/news/noon-news-bulletin'
 import SISView from './views/sis'
 import {StudentWorkDetailView} from './views/sis/student-work-carls'
 import {
@@ -71,6 +72,7 @@ export const AppNavigator = StackNavigator(
 		LegalView: {screen: LegalView},
 		MenusView: {screen: MenusView},
 		NewsView: {screen: NewsView},
+		NoonNewsView: {screen: NoonNewsView},
 		PrivacyView: {screen: PrivacyView},
 		IconSettingsView: {screen: IconSettingsView},
 		SettingsView: {screen: SettingsView},
