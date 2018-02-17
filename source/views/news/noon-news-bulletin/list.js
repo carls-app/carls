@@ -9,7 +9,6 @@ import LoadingView from '../../components/loading'
 import * as c from '../../components/colors'
 import groupBy from 'lodash/groupBy'
 import toPairs from 'lodash/toPairs'
-import qs from 'querystring'
 import delay from 'delay'
 import type {TopLevelViewPropsType} from '../../types'
 import type {NewsBulletinType} from './types'
@@ -64,12 +63,7 @@ export class NoonNewsView extends React.PureComponent<Props, State> {
 	}
 
 	fetchData = async () => {
-		let params = {
-			style: 'rss',
-		}
-
-		const noonNewsURL = `${this.props.url}?${qs.stringify(params)}`
-		const bulletins = await fetchXml(noonNewsURL)
+		const bulletins = await fetchXml(this.props.url)
 			.then(resp => resp.rss.channel.item)
 			.catch(err => {
 				reportNetworkProblem(err)
