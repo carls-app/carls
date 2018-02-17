@@ -11,21 +11,6 @@ import {NoonNewsView} from './noon-news-bulletin'
 
 export default TabNavigator(
 	{
-		NoonNews: {
-			screen: ({navigation}) => (
-				<NoonNewsView
-					name="Noon News Bulletin"
-					navigation={navigation}
-					url="https://apps.carleton.edu/campact/nnb/show.php3"
-				/>
-			),
-			navigationOptions: {
-				tabBarLabel: 'NNB',
-				tabBarIcon: TabBarIcon('paper'),
-			},
-		},
-	},
-	{
 		CarletonNewsView: {
 			screen: ({navigation}) => (
 				<NewsContainer
@@ -55,6 +40,20 @@ export default TabNavigator(
 			),
 			navigationOptions: {
 				tabBarLabel: 'Carletonian',
+				tabBarIcon: TabBarIcon('paper'),
+			},
+		},
+
+		NoonNews: {
+			screen: ({navigation}) => (
+				<NoonNewsView
+					name="Noon News Bulletin"
+					navigation={navigation}
+					url="https://apps.carleton.edu/campact/nnb/show.php3"
+				/>
+			),
+			navigationOptions: {
+				tabBarLabel: 'NNB',
 				tabBarIcon: TabBarIcon('paper'),
 			},
 		},
