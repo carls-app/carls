@@ -14,7 +14,7 @@ import delay from 'delay'
 import type {TopLevelViewPropsType} from '../../types'
 import type {NewsBulletinType} from './types'
 
-const groupbulletins = (bulletins: NewsBulletinType[]) => {
+const groupBulletins = (bulletins: NewsBulletinType[]) => {
 	const grouped = groupBy(bulletins, m => m.category)
 	return toPairs(grouped).map(([key, value]) => ({title: key, data: value}))
 }
@@ -94,7 +94,7 @@ export class NoonNewsView extends React.PureComponent<Props, State> {
 			return <LoadingView />
 		}
 
-		const groupedData = groupbulletins(this.state.bulletins)
+		const groupedData = groupBulletins(this.state.bulletins)
 		return (
 			<SectionList
 				ItemSeparatorComponent={ListSeparator}
