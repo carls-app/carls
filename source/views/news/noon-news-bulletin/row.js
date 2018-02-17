@@ -1,8 +1,10 @@
 // @flow
 
 import * as React from 'react'
+import {TextInput, Platform, StyleSheet} from 'react-native'
 import type {NewsBulletinType} from './types'
-import {ListRow, Title} from '../../components/list'
+import {ListRow} from '../../components/list'
+import * as c from '../../components/colors'
 import {fastGetTrimmedText} from '../../../lib/html'
 import {AllHtmlEntities} from 'html-entities'
 
@@ -18,10 +20,29 @@ export class NoonNewsRowView extends React.PureComponent<Props> {
 
 		return (
 			<ListRow arrowPosition="none">
-				<Title>
-					{entities.decode(fastGetTrimmedText(bulletin.description))}
-				</Title>
+				<TextInput
+					dataDetectorTypes="all"
+					editable={false}
+					multiline={true}
+					style={styles.title}
+					value={entities.decode(fastGetTrimmedText(bulletin.description))}
+				/>
 			</ListRow>
 		)
 	}
 }
+
+const styles = StyleSheet.create({
+	title: {
+		color: c.black,
+		fontSize: 17,
+		...Platform.select({
+			ios: {
+				fontWeight: '500',
+			},
+			android: {
+				fontWeight: '600',
+			},
+		}),
+	},
+})
