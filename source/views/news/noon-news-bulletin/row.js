@@ -3,7 +3,7 @@
 import * as React from 'react'
 import type {NewsBulletinType} from './types'
 import {ListRow, Title} from '../../components/list'
-import {Column, Row} from '../../components/layout'
+import {Row} from '../../components/layout'
 import {fastGetTrimmedText} from '../../../lib/html'
 import {AllHtmlEntities} from 'html-entities'
 
@@ -20,11 +20,9 @@ export class NoonNewsRowView extends React.PureComponent<Props> {
 		return (
 			<ListRow arrowPosition="none">
 				<Row alignItems="center">
-					<Column flex={1}>
-						<Title>
-							{entities.decode(fastGetTrimmedText(bulletin.description))}
-						</Title>
-					</Column>
+					<Title>
+						{entities.decode(fastGetTrimmedText(bulletin.description))}
+					</Title>
 				</Row>
 			</ListRow>
 		)
