@@ -36,6 +36,7 @@ const styles = StyleSheet.create({
 	title: {
 		color: c.black,
 		fontSize: 17,
+		marginTop: -4,
 		...Platform.select({
 			ios: {
 				fontWeight: '500',
