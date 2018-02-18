@@ -18,11 +18,11 @@ extends:
 
 env:
   es6: true
-  node: true
-  browser: true
+  react-native/react-native: true
 
 globals:
   fetch: true
+  Headers: true
   FormData: true
   fetchJson: true
   fetchXml: true
@@ -72,6 +72,7 @@ rules:
 
   # react rules – https://github.com/yannickcr/eslint-plugin-react
   react/display-name: off
+  react/jsx-curly-brace-presence: [warn, never]
   react/jsx-key: warn
   react/jsx-no-bind:
     - warn
@@ -80,7 +81,7 @@ rules:
   react/jsx-sort-props:
     - warn
     - reservedFirst: true
-      ignoreCase: true
+      ignoreCase: false
       callbacksLast: true
   react/no-multi-comp: off  # prevent multiple component definition per file
   react/no-redundant-should-component-update: warn
@@ -90,11 +91,11 @@ rules:
   react/sort-comp:
     - warn
     - order:
-      - static-methods
-      - type-annotations
-      - lifecycle
-      - everything-else
-      - render
+        - static-methods
+        - type-annotations
+        - lifecycle
+        - everything-else
+        - render
   react/sort-prop-types: warn
   react/wrap-multilines: off
   react/jsx-boolean-value: [error, always]

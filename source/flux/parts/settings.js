@@ -1,220 +1,247 @@
-/**
- * @flow
- * Reducer for app settings
- */
+// @flow
 
 import {
-  performLogin,
-  saveLoginCredentials,
-  clearLoginCredentials,
+	performLogin,
+	saveLoginCredentials,
+	clearLoginCredentials,
 } from '../../lib/login'
 
 import {
-  setTokenValid,
-  clearTokenValid,
-  setAnalyticsOptOut,
-  getAnalyticsOptOut,
+	setAnalyticsOptOut,
+	getAnalyticsOptOut,
+	getAcknowledgementStatus,
+	setAcknowledgementStatus,
 } from '../../lib/storage'
 
-import {updateBalances, updateCourses} from './sis'
+import {type ReduxState} from '../index'
+import {type UpdateBalancesType} from './sis'
+import {updateBalances} from './sis'
+import {Alert} from 'react-native'
 
-export const SET_LOGIN_CREDENTIALS = 'settings/SET_LOGIN_CREDENTIALS'
-export const CREDENTIALS_LOGIN = 'settings/CREDENTIALS_LOGIN'
-export const CREDENTIALS_LOGOUT = 'settings/CREDENTIALS_LOGOUT'
-export const CREDENTIALS_VALIDATE = 'settings/CREDENTIALS_VALIDATE'
-export const SET_FEEDBACK = 'settings/SET_FEEDBACK'
-export const TOKEN_LOGIN = 'settings/TOKEN_LOGIN'
-export const TOKEN_LOGOUT = 'settings/TOKEN_LOGOUT'
-export const CHANGE_THEME = 'settings/CHANGE_THEME'
+export type LoginStateType = 'logged-out' | 'logged-in' | 'checking' | 'invalid'
 
-export async function setFeedbackStatus(feedbackEnabled: boolean) {
-  await setAnalyticsOptOut(feedbackEnabled)
-  return {type: SET_FEEDBACK, payload: feedbackEnabled}
+type Dispatch<A: Action> = (action: A | Promise<A> | ThunkAction<A>) => any
+type GetState = () => ReduxState
+type ThunkAction<A: Action> = (dispatch: Dispatch<A>, getState: GetState) => any
+
+const SET_LOGIN_CREDENTIALS = 'settings/SET_LOGIN_CREDENTIALS'
+const CREDENTIALS_LOGIN_START = 'settings/CREDENTIALS_LOGIN_START'
+const CREDENTIALS_LOGIN_SUCCESS = 'settings/CREDENTIALS_LOGIN_SUCCESS'
+const CREDENTIALS_LOGIN_FAILURE = 'settings/CREDENTIALS_LOGIN_FAILURE'
+const CREDENTIALS_LOGOUT = 'settings/CREDENTIALS_LOGOUT'
+const CREDENTIALS_VALIDATE_START = 'settings/CREDENTIALS_VALIDATE_START'
+const CREDENTIALS_VALIDATE_SUCCESS = 'settings/CREDENTIALS_VALIDATE_SUCCESS'
+const CREDENTIALS_VALIDATE_FAILURE = 'settings/CREDENTIALS_VALIDATE_FAILURE'
+const SET_FEEDBACK = 'settings/SET_FEEDBACK'
+const CHANGE_THEME = 'settings/CHANGE_THEME'
+const SIS_ALERT_SEEN = 'settings/SIS_ALERT_SEEN'
+
+type SetFeedbackStatusAction = {|
+	type: 'settings/SET_FEEDBACK',
+	payload: boolean,
+|}
+export async function setFeedbackStatus(
+	feedbackEnabled: boolean,
+): Promise<SetFeedbackStatusAction> {
+	await setAnalyticsOptOut(feedbackEnabled)
+	return {type: SET_FEEDBACK, payload: feedbackEnabled}
 }
 
-export function loadFeedbackStatus() {
-  return {type: SET_FEEDBACK, payload: getAnalyticsOptOut()}
+export async function loadFeedbackStatus(): Promise<SetFeedbackStatusAction> {
+	return {type: SET_FEEDBACK, payload: await getAnalyticsOptOut()}
 }
 
-export async function setLoginCredentials(username: string, password: string) {
-  await saveLoginCredentials(username, password)
-  return {type: SET_LOGIN_CREDENTIALS, payload: {username, password}}
+type SisAlertSeenAction = {|type: 'settings/SIS_ALERT_SEEN', payload: boolean|}
+export async function loadAcknowledgement(): Promise<SisAlertSeenAction> {
+	return {type: SIS_ALERT_SEEN, payload: await getAcknowledgementStatus()}
 }
 
-export function logInViaCredentials(username: string, password: string) {
-  return async (dispatch: any => any) => {
-    const result = await performLogin(username, password)
-    dispatch({type: CREDENTIALS_LOGIN, payload: {username, password, result}})
-
-    // if we logged in successfully, go ahead and fetch the meals remaining number
-    if (result) {
-      dispatch(updateBalances())
-    }
-  }
+export async function hasSeenAcknowledgement(): Promise<SisAlertSeenAction> {
+	await setAcknowledgementStatus(true)
+	return {type: SIS_ALERT_SEEN, payload: true}
 }
 
-export function logInViaToken(tokenStatus: boolean) {
-  return async (dispatch: any => any) => {
-    await setTokenValid(tokenStatus)
-    dispatch({type: TOKEN_LOGIN, payload: tokenStatus})
-
-    // if we logged in successfully, go ahead and fetch the data that requires a valid token
-    if (tokenStatus) {
-      dispatch(updateCourses())
-    }
-  }
+type SetCredentialsAction = {|
+	type: 'settings/SET_LOGIN_CREDENTIALS',
+	payload: {username: string, password: string},
+|}
+export async function setLoginCredentials(
+	username: string,
+	password: string,
+): Promise<SetCredentialsAction> {
+	await saveLoginCredentials(username, password)
+	return {type: SET_LOGIN_CREDENTIALS, payload: {username, password}}
 }
 
-export function logOutViaCredentials() {
-  return {type: CREDENTIALS_LOGOUT, payload: clearLoginCredentials()}
+type LoginStartAction = {|type: 'settings/CREDENTIALS_LOGIN_START'|}
+type LoginSuccessAction = {|
+	type: 'settings/CREDENTIALS_LOGIN_SUCCESS',
+	payload: {username: string, password: string},
+|}
+type LoginFailureAction = {|type: 'settings/CREDENTIALS_LOGIN_FAILURE'|}
+type LogInActions = LoginStartAction | LoginSuccessAction | LoginFailureAction
+
+const showNetworkFailureMessage = () =>
+	Alert.alert(
+		'Network Failure',
+		'You are not connected to the internet. Please connect if you want to access this feature.',
+		[{text: 'OK'}],
+	)
+
+const showInvalidLoginMessage = () =>
+	Alert.alert(
+		'Invalid Login',
+		'The username and password you provided do not match a valid account. Please try again.',
+		[{text: 'OK'}],
+	)
+
+export function logInViaCredentials(
+	username: string,
+	password: string,
+): ThunkAction<LogInActions | UpdateBalancesType> {
+	return async (dispatch, getState) => {
+		dispatch({type: CREDENTIALS_LOGIN_START})
+		const state = getState()
+		const isConnected = state.app ? state.app.isConnected : false
+
+		const result = await performLogin(username, password)
+		if (result) {
+			dispatch({type: CREDENTIALS_LOGIN_SUCCESS, payload: {username, password}})
+			// since we logged in successfully, go ahead and fetch the meal info
+			dispatch(updateBalances())
+		} else {
+			dispatch({type: CREDENTIALS_LOGIN_FAILURE})
+
+			if (isConnected) {
+				showInvalidLoginMessage()
+			} else {
+				showNetworkFailureMessage()
+			}
+		}
+	}
 }
 
-export async function validateLoginCredentials(
-  username?: string,
-  password?: string,
-) {
-  const result = await performLogin(username, password)
-  return {type: CREDENTIALS_VALIDATE, payload: {result}}
+type LogOutAction = {|type: 'settings/CREDENTIALS_LOGOUT'|}
+export async function logOutViaCredentials(): Promise<LogOutAction> {
+	await clearLoginCredentials()
+	return {type: CREDENTIALS_LOGOUT}
 }
 
-export async function logOutViaToken() {
-  await clearTokenValid()
-  return {type: TOKEN_LOGOUT}
+type ValidateStartAction = {|type: 'settings/CREDENTIALS_VALIDATE_START'|}
+type ValidateSuccessAction = {|type: 'settings/CREDENTIALS_VALIDATE_SUCCESS'|}
+type ValidateFailureAction = {|type: 'settings/CREDENTIALS_VALIDATE_FAILURE'|}
+type ValidateCredentialsActions =
+	| ValidateStartAction
+	| ValidateSuccessAction
+	| ValidateFailureAction
+export function validateLoginCredentials(
+	username?: string,
+	password?: string,
+): ThunkAction<ValidateCredentialsActions> {
+	return async dispatch => {
+		if (!username || !password) {
+			return
+		}
+
+		dispatch({type: CREDENTIALS_VALIDATE_START})
+
+		const result = await performLogin(username, password)
+		if (result) {
+			dispatch({type: CREDENTIALS_VALIDATE_SUCCESS})
+		} else {
+			dispatch({type: CREDENTIALS_VALIDATE_FAILURE})
+		}
+	}
 }
 
-const initialCredentialsState = {
-  username: '',
-  password: '',
-  error: null,
-  valid: false,
-}
-function credentialsReducer(state = initialCredentialsState, action) {
-  const {type, payload, error} = action
+type Action =
+	| SetFeedbackStatusAction
+	| SisAlertSeenAction
+	| CredentialsActions
+	| UpdateBalancesType
 
-  switch (type) {
-    case CREDENTIALS_VALIDATE: {
-      if (error === true || payload.result === false) {
-        return {
-          ...state,
-          valid: false,
-          error: payload.message,
-        }
-      }
+type CredentialsActions =
+	| LogInActions
+	| LogOutAction
+	| ValidateCredentialsActions
+	| SetCredentialsAction
 
-      return {
-        ...state,
-        valid: true,
-        error: null,
-      }
-    }
+export type State = {
+	+theme: string,
+	+dietaryPreferences: [],
+	+feedbackDisabled: boolean,
+	+unofficiallyAcknowledged: boolean,
 
-    case SET_LOGIN_CREDENTIALS: {
-      return {
-        ...state,
-        username: payload.username,
-        password: payload.password,
-      }
-    }
-
-    case CREDENTIALS_LOGIN: {
-      if (error === true || payload.result === false) {
-        return {
-          ...state,
-          valid: false,
-          error: payload.message,
-        }
-      }
-
-      return {
-        ...state,
-        valid: true,
-        error: null,
-        username: payload.username,
-        password: payload.password,
-      }
-    }
-
-    case CREDENTIALS_LOGOUT: {
-      return {
-        ...state,
-        username: '',
-        password: '',
-        valid: false,
-        error: null,
-      }
-    }
-
-    default:
-      return state
-  }
+	+username: string,
+	+password: string,
+	+loginState: LoginStateType,
 }
 
-const initialTokenState = {
-  status: false,
-  error: null,
-  valid: false,
-}
-function tokenReducer(state = initialTokenState, action) {
-  const {type, payload, error} = action
-  switch (type) {
-    case TOKEN_LOGIN: {
-      if (error === true) {
-        return {
-          ...state,
-          valid: false,
-          error: payload,
-          status: false,
-        }
-      }
+const initialState = {
+	theme: 'All About Olaf',
+	dietaryPreferences: [],
 
-      return {
-        ...state,
-        valid: payload === true,
-        error: null,
-        status: payload,
-      }
-    }
+	feedbackDisabled: false,
+	unofficiallyAcknowledged: false,
 
-    case TOKEN_LOGOUT: {
-      return {
-        ...state,
-        valid: false,
-        error: null,
-        status: false,
-      }
-    }
-
-    default:
-      return state
-  }
+	username: '',
+	password: '',
+	loginState: 'logged-out',
 }
 
-const initialSettingsState = {
-  theme: 'All About Olaf',
-  dietaryPreferences: [],
+export function settings(state: State = initialState, action: Action) {
+	switch (action.type) {
+		case CHANGE_THEME:
+			return {...state, theme: action.payload}
 
-  credentials: undefined,
-  token: undefined,
-  feedbackDisabled: false,
-}
-export function settings(state: Object = initialSettingsState, action: Object) {
-  // start out by running the reducers for the complex chunks of the state
-  state = {
-    ...state,
-    credentials: credentialsReducer(state.credentials, action),
-    token: tokenReducer(state.token, action),
-  }
+		case SET_FEEDBACK:
+			return {...state, feedbackDisabled: action.payload}
 
-  const {type, payload} = action
+		case SIS_ALERT_SEEN:
+			return {...state, unofficiallyAcknowledged: action.payload}
 
-  switch (type) {
-    case CHANGE_THEME:
-      return {...state, theme: payload}
+		case CREDENTIALS_VALIDATE_START:
+			return {...state, loginState: 'checking'}
 
-    case SET_FEEDBACK:
-      return {...state, feedbackDisabled: payload}
+		case CREDENTIALS_VALIDATE_SUCCESS:
+			return {...state, loginState: 'logged-in'}
 
-    default:
-      return state
-  }
+		case CREDENTIALS_VALIDATE_FAILURE:
+			return {...state, loginState: 'invalid'}
+
+		case CREDENTIALS_LOGIN_START:
+			return {...state, loginState: 'checking'}
+
+		case CREDENTIALS_LOGIN_SUCCESS: {
+			return {
+				...state,
+				loginState: 'logged-in',
+				username: action.payload.username,
+				password: action.payload.password,
+			}
+		}
+
+		case CREDENTIALS_LOGIN_FAILURE:
+			return {...state, loginState: 'invalid'}
+
+		case CREDENTIALS_LOGOUT: {
+			return {
+				...state,
+				loginState: 'logged-out',
+				username: '',
+				password: '',
+			}
+		}
+
+		case SET_LOGIN_CREDENTIALS: {
+			return {
+				...state,
+				username: action.payload.username,
+				password: action.payload.password,
+			}
+		}
+
+		default:
+			return state
+	}
 }

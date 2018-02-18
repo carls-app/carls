@@ -8,95 +8,93 @@ import CalendarView, {EventDetail as EventDetailView} from './views/calendar'
 import {ContactsView, ContactsDetailView} from './views/contacts'
 import {DictionaryView, DictionaryDetailView} from './views/dictionary'
 import {HomeView, EditHomeView} from './views/home'
-import StreamingView from './views/streaming'
+import StreamingView, {KRLXScheduleView} from './views/streaming'
 import {MenusView} from './views/menus'
 import {FilterView} from './views/components/filter'
 import NewsView from './views/news'
-import NewsItemView from './views/news/news-item'
 import SISView from './views/sis'
-// import JobDetailView from './views/sis/student-work/detail'
+import {StudentWorkDetailView} from './views/sis/student-work-carls'
 import {
-  BuildingHoursView,
-  BuildingHoursDetailView,
-  BuildingHoursProblemReportView,
-  BuildingHoursScheduleEditorView,
+	BuildingHoursView,
+	BuildingHoursDetailView,
+	BuildingHoursProblemReportView,
+	BuildingHoursScheduleEditorView,
 } from './views/building-hours'
 import TransportationView, {
-  BusMapView,
-  ConnectedXyzBusView,
+	BusMap as BusMapView,
+	ConnectedXyzBusView,
+	OtherModesDetailView,
 } from './views/transportation'
 import SettingsView from './views/settings'
-import SISLoginView from './views/settings/login'
 import CreditsView from './views/settings/credits'
 import PrivacyView from './views/settings/privacy'
 import LegalView from './views/settings/legal'
+import {IconSettingsView} from './views/settings/icon'
 import {StudentOrgsView, StudentOrgsDetailView} from './views/student-orgs'
 import {FaqView} from './views/faqs'
-// import {SnapshotsView} from './storybook'
 import HelpView from './views/help'
 import {
-  ConvocationsView,
-  ArchivedConvocationDetailView,
+	ConvocationsView,
+	ArchivedConvocationDetailView,
 } from './views/convocations'
 
 const styles = StyleSheet.create({
-  header: {
-    backgroundColor: c.carletonBlue,
-  },
-  card: {
-    ...Platform.select({
-      ios: {
-        backgroundColor: c.iosLightBackground,
-      },
-      android: {
-        backgroundColor: c.androidLightBackground,
-      },
-    }),
-  },
+	header: {
+		backgroundColor: c.carletonBlue,
+	},
+	card: {
+		...Platform.select({
+			ios: {
+				backgroundColor: c.iosLightBackground,
+			},
+			android: {
+				backgroundColor: c.androidLightBackground,
+			},
+		}),
+	},
 })
 
 export const AppNavigator = StackNavigator(
-  {
-    HomeView: {screen: HomeView},
-    ArchivedConvocationDetailView: {screen: ArchivedConvocationDetailView},
-    BuildingHoursDetailView: {screen: BuildingHoursDetailView},
-    BuildingHoursView: {screen: BuildingHoursView},
-    BuildingHoursProblemReportView: {screen: BuildingHoursProblemReportView},
-    BuildingHoursScheduleEditorView: {screen: BuildingHoursScheduleEditorView},
-    CalendarView: {screen: CalendarView},
-    ContactsView: {screen: ContactsView},
-    ConvocationsView: {screen: ConvocationsView},
-    ContactsDetailView: {screen: ContactsDetailView},
-    CreditsView: {screen: CreditsView},
-    DictionaryDetailView: {screen: DictionaryDetailView},
-    DictionaryView: {screen: DictionaryView},
-    EditHomeView: {screen: EditHomeView},
-    EventDetailView: {screen: EventDetailView},
-    FaqView: {screen: FaqView},
-    FilterView: {screen: FilterView},
-    HelpView: {screen: HelpView},
-    // JobDetailView: {screen: JobDetailView},
-    LegalView: {screen: LegalView},
-    MenusView: {screen: MenusView},
-    NewsItemView: {screen: NewsItemView},
-    NewsView: {screen: NewsView},
-    PrivacyView: {screen: PrivacyView},
-    SettingsView: {screen: SettingsView},
-    SISLoginView: {screen: SISLoginView},
-    SISView: {screen: SISView},
-    // SnapshotsView: {screen: SnapshotsView},
-    StreamingView: {screen: StreamingView},
-    StudentOrgsDetailView: {screen: StudentOrgsDetailView},
-    StudentOrgsView: {screen: StudentOrgsView},
-    TransportationView: {screen: TransportationView},
-    BusMapView: {screen: BusMapView},
-    XyzBusView: {screen: ConnectedXyzBusView},
-  },
-  {
-    navigationOptions: {
-      headerStyle: styles.header,
-      headerTintColor: c.white,
-    },
-    cardStyle: styles.card,
-  },
+	{
+		HomeView: {screen: HomeView},
+		BuildingHoursDetailView: {screen: BuildingHoursDetailView},
+		BuildingHoursView: {screen: BuildingHoursView},
+		BuildingHoursProblemReportView: {screen: BuildingHoursProblemReportView},
+		BuildingHoursScheduleEditorView: {screen: BuildingHoursScheduleEditorView},
+		CalendarView: {screen: CalendarView},
+		ContactsView: {screen: ContactsView},
+		ContactsDetailView: {screen: ContactsDetailView},
+		ConvocationsView: {screen: ConvocationsView},
+		CreditsView: {screen: CreditsView},
+		DictionaryDetailView: {screen: DictionaryDetailView},
+		DictionaryView: {screen: DictionaryView},
+		EditHomeView: {screen: EditHomeView},
+		EventDetailView: {screen: EventDetailView},
+		FaqView: {screen: FaqView},
+		FilterView: {screen: FilterView},
+		HelpView: {screen: HelpView},
+		LegalView: {screen: LegalView},
+		MenusView: {screen: MenusView},
+		NewsView: {screen: NewsView},
+		PrivacyView: {screen: PrivacyView},
+		IconSettingsView: {screen: IconSettingsView},
+		SettingsView: {screen: SettingsView},
+		SISView: {screen: SISView},
+		StreamingView: {screen: StreamingView},
+		StudentOrgsDetailView: {screen: StudentOrgsDetailView},
+		StudentOrgsView: {screen: StudentOrgsView},
+		StudentWorkDetailView: {screen: StudentWorkDetailView},
+		TransportationView: {screen: TransportationView},
+		OtherModesDetailView: {screen: OtherModesDetailView},
+		BusMapView: {screen: BusMapView},
+		XyzBusView: {screen: ConnectedXyzBusView},
+		KRLXScheduleView: {screen: KRLXScheduleView},
+	},
+	{
+		navigationOptions: {
+			headerStyle: styles.header,
+			headerTintColor: c.white,
+		},
+		cardStyle: styles.card,
+	},
 )

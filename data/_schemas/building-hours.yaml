@@ -1,4 +1,4 @@
-$schema: http://json-schema.org/draft-06/schema#
+$schema: http://json-schema.org/draft-07/schema#
 
 additionalProperties: false
 required: [name, category, schedule]
@@ -8,6 +8,8 @@ properties:
   abbreviation: {type: string}
   category: {type: string}
   image: {type: string}
+  isNotice: {type: boolean}
+  noticeMessage: {type: string}
   schedule:
     type: array
     items: {$ref: '#/definitions/schedule'}

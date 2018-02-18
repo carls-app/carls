@@ -9,22 +9,20 @@ import android.util.Log;
 import com.airbnb.android.react.maps.MapsPackage;
 import com.avishayil.rnrestart.ReactNativeRestartPackage;
 import com.bugsnag.BugsnagReactNative;
-import com.brentvatne.react.ReactVideoPackage;
 import com.BV.LinearGradient.LinearGradientPackage;
+import com.calendarevents.CalendarEventsPackage;
 import com.facebook.react.ReactApplication;
 import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
-// import com.geektime.rnonesignalandroid.ReactNativeOneSignalPackage;
 import com.github.droibit.android.reactnative.customtabs.CustomTabsPackage;
 import com.idehub.GoogleAnalyticsBridge.GoogleAnalyticsBridgePackage;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.oblador.keychain.KeychainPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.pusherman.networkinfo.RNNetworkInfoPackage;
-import fr.greweb.reactnativeviewshot.RNViewShotPackage;
 
 import java.io.File;
 import java.io.IOException;
@@ -45,19 +43,22 @@ public class MainApplication extends Application implements ReactApplication {
         new MainReactPackage(),
         // please keep these sorted alphabetically
         BugsnagReactNative.getPackage(),
+        new CalendarEventsPackage(),
         new CustomTabsPackage(),
         new GoogleAnalyticsBridgePackage(),
         new KeychainPackage(),
         new LinearGradientPackage(),
         new MapsPackage(),
-        // new ReactNativeOneSignalPackage(),
         new ReactNativeRestartPackage(),
-        new ReactVideoPackage(),
         new RNDeviceInfo(),
         new RNNetworkInfoPackage(),
-        new RNViewShotPackage(),
         new VectorIconsPackage()
       );
+    }
+
+    @Override
+    protected String getJSMainModuleName() {
+      return "index";
     }
   };
 

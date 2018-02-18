@@ -1,0 +1,22 @@
+---
+key: facilities-work-order
+enabled: true
+hidden: false
+
+title: Contact Facilities
+body: |
+  > Wild squirrels? Broken stairs? Missing doorframes?
+
+  > They're here to help!
+
+  Facilities "[…] provides and maintains a high-quality, clean, and safe environment that supports and enhances the residential liberal arts college experience."
+
+  Please be prepared to clearly explain the problem and where it is located in the box labeled “Description,” with a building name and room number or reference point. Let them know the time of the report, who you are, and how you can be reached.
+
+  You must be on Carleton's WiFi for the form to work.
+
+buttons:
+  - title: Open the Form
+    action: open-url
+    params:
+      url: https://facwiz2017.ads.carleton.edu/fmi/webd/?homeurl=http://go.carleton.edu#PMO_REQUEST_CCv9?script=opening_closing_script

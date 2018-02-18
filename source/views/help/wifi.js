@@ -1,102 +1,103 @@
 // @flow
 
-import React from 'react'
-import {ScrollView, Text} from 'react-native'
+import * as React from 'react'
 import {Card} from '../components/card'
 import {Button} from '../components/button'
-import deviceInfo from 'react-native-device-info'
-import networkInfo from 'react-native-network-info'
-import pkg from '../../../package.json'
+import {Markdown} from '../components/markdown'
+import retry from 'p-retry'
+import delay from 'delay'
+import {reportNetworkProblem} from '../../lib/report-network-problem'
+import {Error, ErrorMessage} from './components'
+import {getPosition, collectData, reportToServer} from './wifi-tools'
+import {styles} from './tool'
+import type {ToolOptions} from './types'
 
-const getIpAddress = () =>
-  new Promise(resolve => {
-    try {
-      networkInfo.getIPAddress(resolve)
-    } catch (err) {
-      resolve(null)
-    }
-  })
+export const toolName = 'wifi'
 
-const getPosition = (args = {}) =>
-  new Promise(resolve => {
-    navigator.geolocation.getCurrentPosition(resolve, () => resolve({}), {
-      ...args,
-      enableHighAccuracy: true,
-      maximumAge: 1000 /*ms*/,
-      timeout: 5000 /*ms*/,
-    })
-  })
-
-const collectData = async () => ({
-  id: deviceInfo.getUniqueID(),
-  brand: deviceInfo.getBrand(),
-  model: deviceInfo.getModel(),
-  deviceKind: deviceInfo.getDeviceId(),
-  os: deviceInfo.getSystemName(),
-  osVersion: deviceInfo.getSystemVersion(),
-  appVersion: deviceInfo.getReadableVersion(),
-  jsVersion: pkg.version,
-  ua: deviceInfo.getUserAgent(),
-  ip: await getIpAddress(),
-})
-
-function reportToServer(data) {
-  return fetch(
-    'https://www.stolaf.edu/apps/all-about-olaf/index.cfm?fuseaction=Submit',
-    {
-      method: 'POST',
-      body: JSON.stringify(data),
-    },
-  ).then(async r => {
-    let text = await r.text()
-    try {
-      return JSON.parse(text)
-    } catch (err) {
-      return text
-    }
-  })
+const messages = {
+	init: 'Report',
+	collecting: 'Collecting data…',
+	reporting: 'Reporting data…',
+	done: 'Thanks!',
+	error: 'Try again?',
 }
 
-export class ReportWifiProblemView extends React.Component {
-  state = {
-    status: '',
-    data: null,
-  }
+type Props = {
+	config: ToolOptions,
+}
 
-  start = async () => {
-    this.setState(() => ({status: 'Collecting data…'}))
-    const [position, device] = await Promise.all([getPosition(), collectData()])
-    this.setState(() => ({status: 'Reporting data…'}))
-    try {
-      let data = {position, device, version: 1}
-      let resp = await reportToServer(data)
-      if (resp.status === 'success') {
-        this.setState(() => ({data}))
-        this.setState(() => ({status: 'Thanks!'}))
-      } else {
-        console.error(resp)
-        this.setState(() => ({status: 'Server error'}))
-      }
-    } catch (err) {
-      console.warn(err)
-      this.setState(() => ({status: err.message}))
-    }
-  }
+type State = {
+	error: ?string,
+	status: $Keys<typeof messages>,
+}
 
-  render() {
-    return (
-      <ScrollView>
-        <Card header="Report a WiFi Problem!" footer={this.state.status}>
-          <Button
-            disabled={this.state.status !== ''}
-            onPress={this.start}
-            title="Report"
-          />
-          <Text>
-            {this.state.data && JSON.stringify(this.state.data, null, 2)}
-          </Text>
-        </Card>
-      </ScrollView>
-    )
-  }
+export class ToolView extends React.Component<Props, State> {
+	state = {
+		error: null,
+		status: 'init',
+	}
+
+	start = async () => {
+		this.setState(() => ({status: 'collecting', error: ''}))
+		const [position, device] = await Promise.all([getPosition(), collectData()])
+		this.setState(() => ({status: 'reporting'}))
+		try {
+			let data = {position, device, version: 1}
+			await retry(() => reportToServer(data), {retries: 10})
+			await delay(1000)
+			this.setState(() => ({status: 'done'}))
+		} catch (err) {
+			reportNetworkProblem(err)
+			this.setState(() => ({
+				error:
+					this.props.config.errorMessage ||
+					'Apologies; there was an error. Please try again later.',
+				status: 'error',
+			}))
+		}
+	}
+
+	render() {
+		const toolEnabled = this.props.config.enabled
+		let buttonMessage = messages[this.state.status] || 'Error'
+		let buttonEnabled =
+			this.state.status === 'init' || this.state.status === 'error'
+
+		if (this.props.config.buttons && this.props.config.buttons.length >= 1) {
+			const btnConfig = this.props.config.buttons[0]
+			buttonEnabled = buttonEnabled && btnConfig.enabled !== false
+			buttonMessage =
+				this.state.status === 'init' ? btnConfig.title : buttonMessage
+		}
+
+		if (!toolEnabled) {
+			buttonEnabled = false
+		}
+
+		return (
+			<Card
+				footer={
+					!toolEnabled
+						? this.props.config.message || 'This tool is disabled.'
+						: false
+				}
+				header={this.props.config.title}
+				style={styles.card}
+			>
+				<Markdown source={this.props.config.body} />
+
+				{this.state.error ? (
+					<Error>
+						<ErrorMessage selectable={true}>{this.state.error}</ErrorMessage>
+					</Error>
+				) : null}
+
+				<Button
+					disabled={!buttonEnabled}
+					onPress={this.start}
+					title={buttonMessage}
+				/>
+			</Card>
+		)
+	}
 }

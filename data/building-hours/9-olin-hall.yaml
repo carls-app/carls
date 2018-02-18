@@ -1,0 +1,17 @@
+name: Olin Hall
+image: olin
+category: Academia
+
+schedule:
+  - title: Hours
+    notes: Unknown hours
+    hours: []
+
+breakSchedule:
+  fall: []
+  thanksgiving: []
+  winter: []
+  interim: []
+  spring: []
+  easter: []
+  summer: []

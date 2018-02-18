@@ -1,0 +1,37 @@
+---
+key: it-helpdesk
+enabled: true
+hidden: false
+
+title: Open a Helpdesk Ticket
+body: |
+  > If there’s something strange
+  > in your neighborhood
+  > Who you gonna call?
+
+  If you need help with general computing issues, please contact ITS.
+
+  Helpdesk requests are often related to accounts and passwords, classroom technologies, equipment checkout, Gmail migration, printer setup, network folder access, and network registration and connectivity, but are by no means limited to the aforementioned categories.
+
+buttons:
+  - title: File a Ticket
+    action: open-url
+    params:
+      url: https://helpdesk.carleton.edu/
+
+  - title: Call the Helpdesk
+    action: call-phone
+    params:
+      number: '15072225999'
+
+  - title: Email a Ticket
+    action: send-email
+    params:
+      to: helpdesk@carleton.edu
+      subject: I Haz A Problem
+      body: |
+        Thank you for contacting the IT Helpdesk!
+
+        Please include your name, phone number, and next of kin.
+
+        Have a wonderful day!

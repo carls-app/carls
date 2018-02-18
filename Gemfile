@@ -1,10 +1,12 @@
-source "https://rubygems.org"
+source 'https://rubygems.org'
 
-gem "badge"
-gem "fastlane"
-gem "hockeyapp"
-gem "json"
-gem "xcodeproj"
+gem 'fastlane'
+gem 'json'
+gem 'xcodeproj'
 
-plugins_path = File.join(File.dirname(__FILE__), 'fastlane', 'Pluginfile')
-eval(File.read(plugins_path), binding) if File.exist?(plugins_path)
+# fastlane plugins
+gem 'fastlane-plugin-bugsnag'
+
+group :development do
+  gem 'rubocop', '~> 0.51.0'
+end

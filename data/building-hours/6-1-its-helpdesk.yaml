@@ -1,0 +1,20 @@
+name: ITS Helpdesk
+image: its-helpdesk
+category: Help and Support
+
+schedule:
+  - title: Hours
+    hours:
+      - {days: [Mo, Tu, We, Th], from: '7:30am', to: '10:00pm'}
+      - {days: [Fr], from: '7:30am', to: '9:00pm'}
+      - {days: [Sa], from: '10:00am', to: '9:00pm'}
+      - {days: [Su], from: '10:00am', to: '10:00pm'}
+
+breakSchedule:
+  fall: []
+  thanksgiving: []
+  winter: []
+  interim: []
+  spring: []
+  easter: []
+  summer: []

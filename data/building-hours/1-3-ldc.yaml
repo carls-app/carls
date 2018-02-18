@@ -1,16 +1,17 @@
 name: LDC
 subtitle: Language and Dining Center
-image: ldc
+image: ldc-caf
 category: Food
 
 schedule:
   - title: Breakfast
     hours:
       - {days: [Mo, Tu, We, Th, Fr], from: '7:30am', to: '10:00am'}
+      - {days: [Sa], from: '8:00am', to: '9:30am'}
 
   - title: Brunch
     hours:
-      - {days: [Sa, Su], from: '11:30am', to: '1:00pm'}
+      - {days: [Su], from: '10:30am', to: '1:00pm'}
 
   - title: Lunch
     hours:

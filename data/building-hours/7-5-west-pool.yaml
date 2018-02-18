@@ -1,0 +1,17 @@
+name: West Pool
+category: Gym
+image: west-gym-pool
+
+schedule:
+  - title: Hours
+    notes: Closed for the summer.
+    hours: []
+
+breakSchedule:
+  fall: []
+  thanksgiving: []
+  winter: []
+  interim: []
+  spring: []
+  easter: []
+  summer: []

@@ -1,78 +1,118 @@
-/**
- * @flow
- * All About Olaf
- * Contact page
- */
+// @flow
 
-import React from 'react'
+import * as React from 'react'
 import {SectionList, StyleSheet} from 'react-native'
 import {ListSeparator, ListSectionHeader} from '../components/list'
-import {ListEmpty, ListFooter} from '../components/list'
+import {ListEmpty} from '../components/list'
 import {ContactRow} from './contact-row'
-import {data} from './data'
+import delay from 'delay'
+import {reportNetworkProblem} from '../../lib/report-network-problem'
+import * as defaultData from '../../../docs/contact-info.json'
 import groupBy from 'lodash/groupBy'
 import toPairs from 'lodash/toPairs'
 import * as c from '../components/colors'
 import type {ContactType} from './types'
+import type {TopLevelViewPropsType} from '../types'
+import {GH_PAGES_URL} from '../../globals'
 
-const AAO_URL = 'https://github.com/StoDevX/AAO-React-Native/issues/new'
+const contactInfoUrl = GH_PAGES_URL('contact-info.json')
 
 const groupContacts = (contacts: ContactType[]) => {
-  const grouped = groupBy(contacts, c => c.category)
-  return toPairs(grouped).map(([key, value]) => ({title: key, data: value}))
+	const grouped = groupBy(contacts, c => c.category)
+	return toPairs(grouped).map(([key, value]) => ({title: key, data: value}))
 }
 
 const styles = StyleSheet.create({
-  listContainer: {
-    backgroundColor: c.white,
-  },
+	listContainer: {
+		backgroundColor: c.white,
+	},
 })
 
-const listFooter = (
-  <ListFooter
-    title="Collected by the humans of All About Olaf"
-    href={AAO_URL}
-  />
-)
+type Props = TopLevelViewPropsType
 
-export default class ContactsListView extends React.PureComponent {
-  static navigationOptions = {
-    title: 'Important Contacts',
-    headerBackTitle: 'Contacts',
-  }
+type State = {
+	contacts: Array<ContactType>,
+	loading: boolean,
+	refreshing: boolean,
+}
 
-  onPressContact = (contact: ContactType) => {
-    this.props.navigation.navigate('ContactsDetailView', {
-      contact,
-    })
-  }
+export class ContactsListView extends React.PureComponent<Props, State> {
+	static navigationOptions = {
+		title: 'Important Contacts',
+		headerBackTitle: 'Contacts',
+	}
 
-  renderSeparator = () => <ListSeparator />
+	state = {
+		contacts: defaultData.data,
+		loading: true,
+		refreshing: false,
+	}
 
-  renderSectionHeader = ({section: {title}}: any) =>
-    <ListSectionHeader title={title} spacing={{left: 10}} />
+	componentWillMount() {
+		this.fetchData().then(() => {
+			this.setState(() => ({loading: false}))
+		})
+	}
 
-  renderItem = ({item}: {item: ContactType}) =>
-    <ContactRow contact={item} onPress={this.onPressContact} />
+	refresh = async (): any => {
+		const start = Date.now()
+		this.setState(() => ({refreshing: true}))
 
-  keyExtractor = (item: ContactType) => {
-    return item.title
-  }
+		await this.fetchData()
 
-  render() {
-    const groupedData = groupContacts(data)
-    return (
-      <SectionList
-        ItemSeparatorComponent={this.renderSeparator}
-        ListEmptyComponent={<ListEmpty mode="bug" />}
-        ListFooterComponent={listFooter}
-        style={styles.listContainer}
-        data={groupedData}
-        sections={groupedData}
-        keyExtractor={this.keyExtractor}
-        renderSectionHeader={this.renderSectionHeader}
-        renderItem={this.renderItem}
-      />
-    )
-  }
+		// wait 0.5 seconds – if we let it go at normal speed, it feels broken.
+		const elapsed = Date.now() - start
+		if (elapsed < 500) {
+			await delay(500 - elapsed)
+		}
+
+		this.setState(() => ({refreshing: false}))
+	}
+
+	fetchData = async () => {
+		let {data: contacts} = await fetchJson(contactInfoUrl).catch(err => {
+			reportNetworkProblem(err)
+			return defaultData
+		})
+
+		if (process.env.NODE_ENV === 'development') {
+			contacts = defaultData.data
+		}
+
+		this.setState(() => ({contacts}))
+	}
+
+	onPressContact = (contact: ContactType) => {
+		this.props.navigation.navigate('ContactsDetailView', {
+			contact,
+		})
+	}
+
+	renderSectionHeader = ({section: {title}}: any) => (
+		<ListSectionHeader title={title} />
+	)
+
+	renderItem = ({item}: {item: ContactType}) => (
+		<ContactRow contact={item} onPress={this.onPressContact} />
+	)
+
+	keyExtractor = (item: ContactType) => item.title
+
+	render() {
+		const groupedData = groupContacts(this.state.contacts)
+		return (
+			<SectionList
+				ItemSeparatorComponent={ListSeparator}
+				ListEmptyComponent={<ListEmpty mode="bug" />}
+				data={groupedData}
+				keyExtractor={this.keyExtractor}
+				onRefresh={this.refresh}
+				refreshing={this.state.refreshing}
+				renderItem={this.renderItem}
+				renderSectionHeader={this.renderSectionHeader}
+				sections={groupedData}
+				style={styles.listContainer}
+			/>
+		)
+	}
 }

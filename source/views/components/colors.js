@@ -22,6 +22,7 @@ export const iosGray = silver
 
 export const androidLightBackground = 'rgb(244, 244, 244)'
 export const androidSeparator = 'rgb(224, 224, 224)'
+export const androidDisabledIcon = 'rgb(224, 224, 224)'
 export const androidTextColor = 'rgb(113, 113, 118)'
 export const androidTabAccentColor = '#ffeb3b'
 
@@ -191,3 +192,42 @@ export const magentaToPurple = ['rgb(213,69,196)', 'rgb(160,50,230)']
 export const pinkToHotpink = ['rgb(248,102,149)', 'rgb(209,44,159)']
 export const grayToDarkGray = ['rgb(118,134,157)', 'rgb(85,96,124)']
 export const navyToNavy = ['rgb(32,67,107)', 'rgb(0,48,104)']
+
+// MARK: St. Olaf colors
+export const sto = {
+	black: '#242121',
+	darkGray: '#53585A',
+	mediumGray: '#E0DAD6',
+	lightGray: '#F7F5F2',
+	gold: '#E3A025',
+	lightGold: '#F7C55A',
+	cranberry: '#B11556',
+	lime: '#A3D65C',
+	orange: '#FA8D29',
+	red: '#E84A36',
+	lightBlue: '#83DBE0',
+	blue: '#00ADD9',
+	teal: '#00827E',
+	purple: '#6E3A5D',
+	navy: '#233746',
+	mint: '#CFE1D7',
+}
+
+export const stoText = {
+	black: white,
+	darkGray: white,
+	mediumGray: black,
+	lightGray: black,
+	gold: black,
+	lightGold: black,
+	cranberry: white,
+	lime: black,
+	orange: black,
+	red: transparent,
+	lightBlue: black,
+	blue: black,
+	teal: white,
+	purple: white,
+	navy: white,
+	mint: black,
+}

@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react'
+import * as React from 'react'
 import {ActionSheetIOS, Clipboard} from 'react-native'
 import glamorous from 'glamorous-native'
 import openUrl from '../open-url'
@@ -8,67 +8,69 @@ import openUrl from '../open-url'
 import * as c from '../colors'
 
 export const LinkText = glamorous.text({
-  textDecorationLine: 'underline',
-  textDecorationStyle: 'solid',
-  color: c.infoBlue,
+	textDecorationLine: 'underline',
+	textDecorationStyle: 'solid',
+	color: c.infoBlue,
 })
 
-export class Link extends React.PureComponent {
-  props: {
-    href: string,
-    title?: string,
-    children: Array<string>,
-  }
+type Props = {
+	href: string,
+	title?: string,
+	children: React.ChildrenArray<string>,
+}
 
-  options = [
-    ['Open', ({href}: {href: string}) => openUrl(href)],
-    [
-      'Copy',
-      ({title, href}: {href: string, title?: string}) =>
-        Clipboard.setString(`${href}${title ? ' ' + title : ''}`),
-    ],
-    [
-      'Share…',
-      ({href}: {href: string}) =>
-        ActionSheetIOS.showShareActionSheetWithOptions(
-          {url: href},
-          this.onShareFailure,
-          this.onShareSuccess,
-        ),
-    ],
-    ['Cancel', () => {}],
-  ]
+type Callback = ({title?: string, href: string}) => any
 
-  onPress = () => {
-    return openUrl(this.props.href)
-  }
+export class Link extends React.PureComponent<Props> {
+	options: Array<[string, Callback]> = [
+		['Open', ({href}: {href: string}) => openUrl(href)],
+		[
+			'Copy',
+			({title, href}: {href: string, title?: string}) =>
+				Clipboard.setString(`${href}${title ? ' ' + title : ''}`),
+		],
+		[
+			'Share…',
+			({href}: {href: string}) =>
+				ActionSheetIOS.showShareActionSheetWithOptions(
+					{url: href},
+					this.onShareFailure,
+					this.onShareSuccess,
+				),
+		],
+		['Cancel', () => {}],
+	]
 
-  onLongPress = () => {
-    return ActionSheetIOS.showActionSheetWithOptions(
-      {
-        options: this.options.map(([name]) => name),
-        title: this.props.title,
-        message: this.props.href,
-        cancelButtonIndex: this.options.length - 1,
-      },
-      this.onLongPressEnd,
-    )
-  }
+	onPress = () => {
+		return openUrl(this.props.href)
+	}
 
-  onLongPressEnd = (pressedOptionIndex: number) => {
-    // eslint-disable-next-line no-unused-vars
-    const [name, action] = this.options[pressedOptionIndex]
-    return action(this.props)
-  }
+	onLongPress = () => {
+		return ActionSheetIOS.showActionSheetWithOptions(
+			{
+				options: this.options.map(([name]) => name),
+				title: this.props.title,
+				message: this.props.href,
+				cancelButtonIndex: this.options.length - 1,
+			},
+			this.onLongPressEnd,
+		)
+	}
 
-  onShareFailure = () => {}
-  onShareSuccess = () => {}
+	onLongPressEnd = (pressedOptionIndex: number) => {
+		// eslint-disable-next-line no-unused-vars
+		const [name, action] = this.options[pressedOptionIndex]
+		return action(this.props)
+	}
 
-  render() {
-    return (
-      <LinkText onPress={this.onPress} onLongPress={this.onLongPress}>
-        {this.props.children}
-      </LinkText>
-    )
-  }
+	onShareFailure = () => {}
+	onShareSuccess = () => {}
+
+	render() {
+		return (
+			<LinkText onLongPress={this.onLongPress} onPress={this.onPress}>
+				{this.props.children}
+			</LinkText>
+		)
+	}
 }

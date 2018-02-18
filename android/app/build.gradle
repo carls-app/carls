@@ -75,6 +75,8 @@ import com.android.build.OutputFile
 project.ext.react = [
     // ignore the ruby deps
     inputExcludes: ["android/**", "ios/**", "vendor/**"],
+    // set the input file manually
+    entryFile: "index.js",
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"
@@ -96,7 +98,7 @@ def enableProguardInReleaseBuilds = false
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "25.0.3"
+    buildToolsVersion "26.0.1"
 
     defaultConfig {
         applicationId "com.carls"
@@ -108,10 +110,9 @@ android {
             abiFilters "armeabi-v7a", "x86"
         }
         manifestPlaceholders = [
-            manifestApplicationId: "${applicationId}",
-            // onesignal_app_id: "aa46a500-ab1c-4127-b9ff-e7373da3ce35",
-            // onesignal_google_project_number: "185558680648",
-            gmaps_key: System.getenv("GMAPS_KEY") ?: "",
+            manifestApplicationId: applicationId,
+            BUGSNAG_KEY: System.getenv("BUGSNAG_KEY") ?: "",
+            GMAPS_KEY: System.getenv("GMAPS_KEY") ?: "",
         ]
     }
     signingConfigs {
@@ -157,7 +158,7 @@ android {
 // borrowed from https://gist.github.com/gabrielemariotti/6856974
 def propFile = new File('android/app//signing.properties')
 if (propFile.canRead()) {
-    def Properties props = new Properties()
+    Properties props = new Properties()
     props.load(new FileInputStream(propFile))
     if (props != null
             && props.containsKey('STORE_FILE')
@@ -191,6 +192,7 @@ if (propFile.canRead()) {
 dependencies {
     // please keep this list sorted
     compile project(':bugsnag-react-native')
+    compile project(':react-native-calendar-events')
     compile project(':react-native-custom-tabs')
     compile project(':react-native-device-info')
     compile project(':react-native-google-analytics-bridge')
@@ -198,11 +200,8 @@ dependencies {
     compile project(':react-native-linear-gradient')
     compile project(':react-native-maps')
     compile project(':react-native-network-info')
-    // compile project(':react-native-onesignal')
     compile project(':react-native-restart')
     compile project(':react-native-vector-icons')
-    compile project(':react-native-video-exoplayer')
-    compile project(':react-native-view-shot')
     // this is for react-native itself
     compile fileTree(dir: "libs", include: ["*.jar"])
     compile "com.android.support:appcompat-v7:23.0.1"
@@ -214,4 +213,16 @@ dependencies {
 task copyDownloadableDepsToLibs(type: Copy) {
     from configurations.compile
     into 'libs'
+}
+
+// Bundles the app's data for the build process
+task bundleData(type: Exec) {
+    workingDir '../../'
+    commandLine 'npm', 'run', 'bundle-data'
+}
+
+gradle.projectsEvaluated {
+    // hook bundleData into the android build process
+    bundleDebugJsAndAssets.dependsOn bundleData
+    bundleReleaseJsAndAssets.dependsOn bundleData
 }
