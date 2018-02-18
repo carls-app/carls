@@ -40,6 +40,12 @@ export const makeStore = () => {
 		sis,
 	})
 
-	const logger = createLogger({collapsed: () => true})
-	return createStore(aao, applyMiddleware(reduxPromise, reduxThunk, logger))
+	const middleware = [reduxPromise, reduxThunk]
+
+	if (__DEV__) {
+		const logger = createLogger({collapsed: () => true})
+		middleware.push(logger)
+	}
+
+	return createStore(aao, applyMiddleware(...middleware))
 }

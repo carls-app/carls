@@ -8,7 +8,10 @@ import CalendarView, {EventDetail as EventDetailView} from './views/calendar'
 import {ContactsView, ContactsDetailView} from './views/contacts'
 import {DictionaryView, DictionaryDetailView} from './views/dictionary'
 import {HomeView, EditHomeView} from './views/home'
-import StreamingView, {KRLXScheduleView} from './views/streaming'
+import StreamingView, {
+	KSTOScheduleView,
+	KRLXScheduleView,
+} from './views/streaming'
 import {MenusView} from './views/menus'
 import {FilterView} from './views/components/filter'
 import NewsView from './views/news'
@@ -82,6 +85,8 @@ export const AppNavigator = StackNavigator(
 		SettingsView: {screen: SettingsView},
 		SISView: {screen: SISView},
 		StreamingView: {screen: StreamingView},
+		KSTOScheduleView: {screen: KSTOScheduleView},
+		KRLXScheduleView: {screen: KRLXScheduleView},
 		StudentOrgsDetailView: {screen: StudentOrgsDetailView},
 		StudentOrgsView: {screen: StudentOrgsView},
 		StudentWorkDetailView: {screen: StudentWorkDetailView},
@@ -89,7 +94,6 @@ export const AppNavigator = StackNavigator(
 		OtherModesDetailView: {screen: OtherModesDetailView},
 		BusMapView: {screen: BusMapView},
 		XyzBusView: {screen: ConnectedXyzBusView},
-		KRLXScheduleView: {screen: KRLXScheduleView},
 	},
 	{
 		navigationOptions: {

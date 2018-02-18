@@ -3,6 +3,8 @@ import * as React from 'react'
 import {ActivityIndicator, StyleSheet, Text, View} from 'react-native'
 import * as c from './colors'
 import {Button} from './button'
+import {Heading} from './markdown/heading'
+import {Viewport} from './viewport'
 
 const styles = StyleSheet.create({
 	container: {
@@ -23,6 +25,8 @@ const styles = StyleSheet.create({
 })
 
 type Props = {
+	buttonDisabled?: boolean,
+	header?: string,
 	text?: string,
 	style?: any,
 	spinner?: boolean,
@@ -30,16 +34,32 @@ type Props = {
 	onPress?: () => any,
 }
 
-export function NoticeView({text, style, spinner, buttonText, onPress}: Props) {
+export function NoticeView(props: Props) {
+	const {header, text, style} = props
+	const {buttonDisabled, buttonText, onPress} = props
+	const {spinner} = props
+
 	return (
-		<View style={[styles.container, style]}>
-			{spinner ? <ActivityIndicator style={styles.spinner} /> : null}
+		<Viewport
+			render={() => (
+				<View style={[styles.container, style]}>
+					{spinner ? <ActivityIndicator style={styles.spinner} /> : null}
 
-			<Text selectable={true} style={styles.text}>
-				{text || 'Notice!'}
-			</Text>
+					{header ? <Heading level={1}>{header}</Heading> : null}
 
-			{buttonText ? <Button onPress={onPress} title={buttonText} /> : null}
-		</View>
+					<Text selectable={true} style={styles.text}>
+						{text || 'Notice!'}
+					</Text>
+
+					{buttonText ? (
+						<Button
+							disabled={buttonDisabled}
+							onPress={onPress}
+							title={buttonText}
+						/>
+					) : null}
+				</View>
+			)}
+		/>
 	)
 }

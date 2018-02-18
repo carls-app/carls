@@ -7,12 +7,15 @@ export function clearAsyncStorage() {
 
 /// MARK: Utilities
 
+// eslint-disable-next-line no-unused-vars
 function setItem(key: string, value: mixed) {
 	return AsyncStorage.setItem(`aao:${key}`, JSON.stringify(value))
 }
+// eslint-disable-next-line no-unused-vars
 function getItem(key: string): Promise<?any> {
 	return AsyncStorage.getItem(`aao:${key}`).then(stored => JSON.parse(stored))
 }
+// eslint-disable-next-line no-unused-vars
 function removeItem(key: string): Promise<void> {
 	return AsyncStorage.removeItem(`aao:${key}`)
 }
@@ -24,7 +27,7 @@ function removeItem(key: string): Promise<void> {
 async function getItemAsBoolean(key: string): Promise<boolean> {
 	return (await getItem(key)) || false
 }
-async function getItemAsArray(key: string): Promise<Array<*>> {
+async function getItemAsArray<T>(key: string): Promise<Array<T>> {
 	return (await getItem(key)) || []
 }
 
@@ -62,27 +65,6 @@ export function getAcknowledgementStatus(): Promise<boolean> {
 	return getItemAsBoolean(acknowledgementStatusKey)
 }
 
-/// MARK: Credentials
-
-const tokenValidKey = 'credentials:valid'
-export function setTokenValid(valid: boolean) {
-	return setItem(tokenValidKey, valid)
-}
-export function getTokenValid(): Promise<boolean> {
-	return getItemAsBoolean(tokenValidKey)
-}
-export function clearTokenValid(): Promise<any> {
-	return removeItem(tokenValidKey)
-}
-
-const credentialsValidKey = 'olafCredentials:valid'
-export function setCredentialsValid(valid: boolean) {
-	return setItem(credentialsValidKey, valid)
-}
-export function getCredentialsValid(): Promise<boolean> {
-	return getItemAsBoolean(credentialsValidKey)
-}
-
 /// MARK: Favorite Buildings
 
 const favoriteBuildingsKey = 'buildings:favorited'
@@ -91,4 +73,24 @@ export function setFavoriteBuildings(buildings: string[]) {
 }
 export function getFavoriteBuildings(): Promise<Array<string>> {
 	return getItemAsArray(favoriteBuildingsKey)
+}
+
+/// MARK: SIS
+import type {CourseType, TermType} from './course-search/types'
+
+const courseDataKey = 'sis:course-data'
+export function setTermCourseData(term: number, courseData: Array<CourseType>) {
+	const key = courseDataKey + `:${term}:courses`
+	return setItem(key, courseData)
+}
+export function getTermCourseData(term: number): Promise<Array<CourseType>> {
+	const key = courseDataKey + `:${term}:courses`
+	return getItemAsArray(key)
+}
+const termInfoKey = courseDataKey + ':term-info'
+export function setTermInfo(termData: Array<TermType>) {
+	return setItem(termInfoKey, termData)
+}
+export function getTermInfo(): Promise<Array<TermType>> {
+	return getItemAsArray(termInfoKey)
 }
