@@ -5,20 +5,24 @@ import {ReasonCalendarView} from '../calendar/calendar-reason'
 import {TabBarIcon} from '../components/tabbar-icon'
 import type {TopLevelViewPropsType} from '../types'
 
-export class UpcomingConvocationsView extends React.PureComponent {
-  static navigationOptions = {
-    tabBarLabel: 'Upcoming',
-    tabBarIcon: TabBarIcon('planet'),
-  }
+type Props = TopLevelViewPropsType
 
-  props: TopLevelViewPropsType
+export class UpcomingConvocationsView extends React.PureComponent<Props> {
+	static navigationOptions = {
+		tabBarLabel: 'Upcoming',
+		tabBarIcon: TabBarIcon('planet'),
+	}
 
-  render() {
-    return (
-      <ReasonCalendarView
-        navigation={this.props.navigation}
-        calendarUrl="https://apps.carleton.edu/events/convocations/"
-      />
-    )
-  }
+	render() {
+		return (
+			<ReasonCalendarView
+				calendarUrl="https://apps.carleton.edu/events/convocations/"
+				navigation={this.props.navigation}
+				poweredBy={{
+					title: 'Powered by the Carleton Calendar',
+					href: 'https://carleton.edu/calendar',
+				}}
+			/>
+		)
+	}
 }
