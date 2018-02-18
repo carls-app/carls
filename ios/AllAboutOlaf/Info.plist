@@ -43,10 +43,10 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>NFMTHAZVS9.com.drewvolz.stolaf</string>
+			<string>com.rives.carls</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>AllAboutOlaf</string>
+				<string>carls</string>
 			</array>
 		</dict>
 	</array>
