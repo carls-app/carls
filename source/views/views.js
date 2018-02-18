@@ -123,6 +123,14 @@ export const allViews: ViewType[] = [
 		gradient: c.tealToSeafoam,
 	},
 	{
+		type: 'view',
+		view: 'ConvocationsView',
+		title: 'Convo',
+		icon: 'globe',
+		tint: c.periwinkle,
+		gradient: c.lightBlueToBlueDark,
+	},
+	{
 		type: 'url',
 		url: 'https://moodle.carleton.edu/',
 		view: 'MoodleView',

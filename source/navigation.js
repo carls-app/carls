@@ -33,6 +33,10 @@ import {IconSettingsView} from './views/settings/icon'
 import {StudentOrgsView, StudentOrgsDetailView} from './views/student-orgs'
 import {FaqView} from './views/faqs'
 import HelpView from './views/help'
+import {
+	ConvocationsView,
+	ArchivedConvocationDetailView,
+} from './views/convocations'
 
 const styles = StyleSheet.create({
 	header: {
@@ -60,6 +64,8 @@ export const AppNavigator = StackNavigator(
 		CalendarView: {screen: CalendarView},
 		ContactsView: {screen: ContactsView},
 		ContactsDetailView: {screen: ContactsDetailView},
+		ConvocationsView: {screen: ConvocationsView},
+		ArchivedConvocationDetailView: {screen: ArchivedConvocationDetailView},
 		CreditsView: {screen: CreditsView},
 		DictionaryDetailView: {screen: DictionaryDetailView},
 		DictionaryView: {screen: DictionaryView},
