@@ -3,7 +3,7 @@ import React from 'react'
 import {ScrollView, Image, StyleSheet} from 'react-native'
 import * as Icons from '@hawkrives/react-native-alternate-icons'
 import {Section, Cell} from 'react-native-tableview-simple'
-import {icons as appIcons} from '../../../images/icon-images'
+import {icons as appIcons} from '../../../images/icons'
 import * as c from '../components/colors'
 import type {TopLevelViewPropsType} from '../types'
 
@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
 	},
 })
 
-type IconTypeEnum = 'default' // | 'icon_type_windmill'
+type IconTypeEnum = 'default' | 'icon_type_windmill'
 
 type Icon = {
 	src: any,
@@ -27,15 +27,15 @@ type Icon = {
 
 export const icons: Array<Icon> = [
 	{
-		src: appIcons.penguin,
+		src: appIcons.oscar,
 		title: 'Penguin',
 		type: 'default',
 	},
-	// {
-	// 	src: appIcons.windmill,
-	// 	title: 'Wind Turbine (Big Ole)',
-	// 	type: 'icon_type_windmill',
-	// },
+	{
+		src: appIcons.windmill,
+		title: 'Wind Turbine',
+		type: 'icon_type_windmill',
+	},
 ]
 
 type Props = TopLevelViewPropsType & {}

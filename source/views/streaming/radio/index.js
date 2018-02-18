@@ -1,5 +1,4 @@
 // @flow
 
-export {KSTOView} from './controller'
-export {KSTOScheduleView} from './schedule'
-export {KRLXScheduleView} from './schedule-krlx'
+export {RadioControllerView} from './controller'
+export {KSTOScheduleView, KRLXScheduleView} from './schedule'
