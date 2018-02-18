@@ -1,17 +1,16 @@
 // @flow
 
 import React from 'react'
-// import Video from 'react-native-video'
 import {StyleSheet, WebView, ScrollView} from 'react-native'
 import {Title} from '../components/list'
 import type {PodcastEpisode} from './types'
 
 const styles = StyleSheet.create({
-	'🎧': {
+	audio: {
 		width: 200,
 		height: 100,
 	},
-	'📺': {
+	video: {
 		width: 854,
 		height: 480,
 		flex: 1,
@@ -49,9 +48,9 @@ export class ArchivedConvocationDetailView extends React.PureComponent<Props> {
 
 		let style = null
 		if (event.enclosure && event.enclosure.type.startsWith('audio/')) {
-			style = styles['🎧']
+			style = styles.audio
 		} else if (event.enclosure && event.enclosure.type.startsWith('video/')) {
-			style = styles['📺']
+			style = styles.video
 		}
 
 		return (
@@ -59,13 +58,6 @@ export class ArchivedConvocationDetailView extends React.PureComponent<Props> {
 				<Title>{event.title}</Title>
 
 				{event.enclosure ? (
-					/* <Video
-    					source={{uri: event.enclosure.url}}
-    					style={style}
-    					controls={true}
-    					playInBackground={true}
-    					playWhenInactive={true}
-    				/> */
 					<WebView
 						source={{html: htmlVideo(event.enclosure.url)}}
 						style={style}
