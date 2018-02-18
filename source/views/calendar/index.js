@@ -48,7 +48,7 @@ export default TabNavigator(
 		StOlafCalendarView: {
 			screen: ({navigation}) => (
 				<GoogleCalendarView
-					calendarId="le6tdd9i38vgb7fcmha0hu66u9gjus2e@import.calendar.google.com"
+					calendarId="5g91il39n0sv4c2bjdv1jrvcpq4ulm4r@import.calendar.google.com"
 					navigation={navigation}
 					poweredBy={{
 						title: 'Powered by the St. Olaf Calendar',
