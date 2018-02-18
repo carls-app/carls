@@ -4,6 +4,8 @@ import React from 'react'
 import {StyleSheet} from 'react-native'
 import {ListRow, Detail, Title} from '../components/list'
 import type {PodcastEpisode} from './types'
+import {fastGetTrimmedText} from '../../lib/html'
+import {AllHtmlEntities} from 'html-entities'
 
 const styles = StyleSheet.create({
 	row: {
@@ -16,6 +18,8 @@ type Props = {
 	event: PodcastEpisode,
 	onPress: PodcastEpisode => any,
 }
+
+const entities = new AllHtmlEntities()
 
 export class ArchivedConvocationRow extends React.PureComponent<Props> {
 	_onPress = () => this.props.onPress(this.props.event)
@@ -39,7 +43,9 @@ export class ArchivedConvocationRow extends React.PureComponent<Props> {
 				<Title>
 					{annotation} {event.title}
 				</Title>
-				<Detail lines={4}>{event.description}</Detail>
+				<Detail lines={4}>
+					{entities.decode(fastGetTrimmedText(event.description))}
+				</Detail>
 			</ListRow>
 		)
 	}
