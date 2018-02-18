@@ -65,6 +65,7 @@ export const AppNavigator = StackNavigator(
 		ContactsView: {screen: ContactsView},
 		ContactsDetailView: {screen: ContactsDetailView},
 		ConvocationsView: {screen: ConvocationsView},
+		ArchivedConvocationDetailView: {screen: ArchivedConvocationDetailView},
 		CreditsView: {screen: CreditsView},
 		DictionaryDetailView: {screen: DictionaryDetailView},
 		DictionaryView: {screen: DictionaryView},
