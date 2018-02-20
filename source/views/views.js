@@ -143,7 +143,7 @@ export const allViews: ViewType[] = [
 		icon: 'globe',
 		foreground: 'light',
 		tint: c.periwinkle,
-		gradient: c.lightBlueToBlueDark,
+		gradient: c.carlsBlueLightToBlue,
 	},
 	{
 		type: 'url',
