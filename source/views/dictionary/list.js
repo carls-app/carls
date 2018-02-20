@@ -20,7 +20,7 @@ import groupBy from 'lodash/groupBy'
 import uniq from 'lodash/uniq'
 import words from 'lodash/words'
 import deburr from 'lodash/deburr'
-import * as defaultData from '../../../docs/dictionary.json'
+import * as defaultData from '../../../docs/dictionary-carls.json'
 import {GH_PAGES_URL} from '../../globals'
 
 const dictionaryUrl = GH_PAGES_URL('dictionary.json')
