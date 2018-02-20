@@ -117,6 +117,15 @@ export const allViews: ViewType[] = [
 		gradient: c.grayToDarkGray,
 	},
 	{
+		type: 'view',
+		view: 'DictionaryView',
+		title: 'Dictionary',
+		icon: 'open-book',
+		foreground: 'light',
+		tint: c.olive,
+		gradient: c.darkBlueToIndigo,
+	},
+	{
 		type: 'url',
 		url: 'https://wiki.carleton.edu',
 		view: 'CarlpediaView',
