@@ -130,7 +130,7 @@ export const allViews: ViewType[] = [
 		url: 'https://wiki.carleton.edu',
 		view: 'CarlpediaView',
 		title: 'Carlpedia',
-		icon: 'open-book',
+		icon: 'book',
 		foreground: 'light',
 		tint: c.olive,
 		gradient: c.pinkToHotpink,
