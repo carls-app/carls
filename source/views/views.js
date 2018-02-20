@@ -149,7 +149,7 @@ export const allViews: ViewType[] = [
 		type: 'view',
 		view: 'ConvocationsView',
 		title: 'Convo',
-		icon: 'globe',
+		icon: 'network',
 		foreground: 'light',
 		tint: c.periwinkle,
 		gradient: c.carlsBlueLightToBlue,
