@@ -21,7 +21,7 @@ export default TabNavigator(
 			),
 			navigationOptions: {
 				tabBarLabel: 'NNB',
-				tabBarIcon: TabBarIcon('paper'),
+				tabBarIcon: TabBarIcon('bonfire'),
 			},
 		},
 
