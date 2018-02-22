@@ -16,6 +16,7 @@ export default TabNavigator(
 				<NoonNewsView
 					name="Noon News Bulletin"
 					navigation={navigation}
+					pdfUrl="https://apps.carleton.edu/campus/campact/publications/nnb/"
 					url="https://apps.carleton.edu/campact/nnb/show.php3?style=rss"
 				/>
 			),
