@@ -123,16 +123,6 @@ export const allViews: ViewType[] = [
 		icon: 'open-book',
 		foreground: 'light',
 		tint: c.olive,
-		gradient: c.darkBlueToIndigo,
-	},
-	{
-		type: 'url',
-		url: 'https://wiki.carleton.edu',
-		view: 'CarlpediaView',
-		title: 'Carlpedia',
-		icon: 'book',
-		foreground: 'light',
-		tint: c.olive,
 		gradient: c.pinkToHotpink,
 	},
 	{
