@@ -24,16 +24,6 @@ export default TabNavigator(
 			},
 		},
 
-		CarlsGoBusView: {
-			screen: ({navigation}) => (
-				<ConnectedXyzBusView navigation={navigation} routeName={/Carls-Go/} />
-			),
-			navigationOptions: {
-				tabBarLabel: 'CarlsGO',
-				tabBarIcon: TabBarIcon('car'),
-			},
-		},
-
 		BlueLineBusView: {
 			screen: ({navigation}) => (
 				<ConnectedXyzBusView navigation={navigation} routeName="Blue Line" />
