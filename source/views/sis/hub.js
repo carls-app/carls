@@ -11,7 +11,7 @@ type Props = TopLevelViewPropsType
 export class TheHubView extends React.PureComponent<Props> {
 	static navigationOptions = {
 		tabBarLabel: 'The Hub',
-		tabBarIcon: TabBarIcon('cash'),
+		tabBarIcon: TabBarIcon('finger-print'),
 	}
 
 	open = () => openUrl('https://campushub.carleton.edu/')
