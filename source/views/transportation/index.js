@@ -6,7 +6,8 @@ import {TabNavigator} from '../components/tabbed-view'
 import {TabBarIcon} from '../components/tabbar-icon'
 
 import {OtherModesView} from './other-modes'
-import {ConnectedXyzBusView, ConnectedXyzBusList} from './xyz'
+import {BusView} from './bus'
+import {ConnectedXyzBusList} from './xyz'
 
 export {ConnectedXyzBusView} from './xyz/view'
 export {OtherModesDetailView} from './other-modes'
@@ -16,7 +17,7 @@ export default TabNavigator(
 	{
 		ExpressLineBusView: {
 			screen: ({navigation}) => (
-				<ConnectedXyzBusView navigation={navigation} routeName="Express Bus" />
+				<BusView line="Express Bus" navigation={navigation} />
 			),
 			navigationOptions: {
 				tabBarLabel: 'Express Bus',
@@ -24,19 +25,9 @@ export default TabNavigator(
 			},
 		},
 
-		CarlsGoBusView: {
-			screen: ({navigation}) => (
-				<ConnectedXyzBusView navigation={navigation} routeName={/Carls-Go/} />
-			),
-			navigationOptions: {
-				tabBarLabel: 'CarlsGO',
-				tabBarIcon: TabBarIcon('car'),
-			},
-		},
-
 		BlueLineBusView: {
 			screen: ({navigation}) => (
-				<ConnectedXyzBusView navigation={navigation} routeName="Blue Line" />
+				<BusView line="Blue Line" navigation={navigation} />
 			),
 			navigationOptions: {
 				tabBarLabel: 'Blue Line',
