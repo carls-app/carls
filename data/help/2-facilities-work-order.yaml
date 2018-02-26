@@ -1,7 +1,7 @@
 ---
 key: facilities-work-order
-enabled: false
-hidden: true
+enabled: true
+hidden: false
 
 title: Contact Facilities
 body: |
