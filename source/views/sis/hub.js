@@ -22,7 +22,7 @@ export class TheHubView extends React.PureComponent<Props> {
 				buttonText="Open The Hub"
 				header="The Hub"
 				onPress={this.open}
-				text="The Hub is the hub of your Carleton academic life. Well, the Hub and Moodle together are, at least."
+				text="The Hub is a central area where Carleton community members access information about themselves or their students."
 			/>
 		)
 	}
