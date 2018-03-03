@@ -23,7 +23,7 @@ import deburr from 'lodash/deburr'
 import * as defaultData from '../../../docs/dictionary-carls.json'
 import {GH_PAGES_URL} from '../../globals'
 
-const dictionaryUrl = GH_PAGES_URL('dictionary.json')
+const dictionaryUrl = GH_PAGES_URL('dictionary-carls.json')
 
 const ROW_HEIGHT = Platform.OS === 'ios' ? 76 : 89
 const SECTION_HEADER_HEIGHT = Platform.OS === 'ios' ? 33 : 41
