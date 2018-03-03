@@ -7,9 +7,7 @@ import {TabBarIcon} from '../components/tabbar-icon'
 
 import {OtherModesView} from './other-modes'
 import {BusView} from './bus'
-import {ConnectedXyzBusList} from './xyz'
 
-export {ConnectedXyzBusView} from './xyz/view'
 export {OtherModesDetailView} from './other-modes'
 export {BusMap} from './bus'
 
@@ -33,10 +31,6 @@ export default TabNavigator(
 				tabBarLabel: 'Blue Line',
 				tabBarIcon: TabBarIcon('bus'),
 			},
-		},
-
-		TransportationOtherBusView: {
-			screen: ConnectedXyzBusList,
 		},
 
 		TransportationOtherModesListView: {
