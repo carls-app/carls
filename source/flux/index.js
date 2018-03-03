@@ -6,7 +6,6 @@ import reduxPromise from 'redux-promise'
 import reduxThunk from 'redux-thunk'
 
 import {app, type State as AppState} from './parts/app'
-import {bus, type State as BusState} from './parts/bus'
 import {homescreen, type State as HomescreenState} from './parts/homescreen'
 import {menus, type State as MenusState} from './parts/menus'
 import {settings, type State as SettingsState} from './parts/settings'
@@ -20,7 +19,6 @@ export {updateMenuFilters} from './parts/menus'
 export type ReduxState = {
 	app?: AppState,
 	buildings?: BuildingsState,
-	bus?: BusState,
 	help?: HelpState,
 	homescreen?: HomescreenState,
 	menus?: MenusState,
@@ -32,7 +30,6 @@ export const makeStore = () => {
 	const aao: any = combineReducers({
 		app,
 		buildings,
-		bus,
 		help,
 		homescreen,
 		menus,

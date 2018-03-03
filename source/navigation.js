@@ -25,7 +25,6 @@ import {
 } from './views/building-hours'
 import TransportationView, {
 	BusMap as BusMapView,
-	ConnectedXyzBusView,
 	OtherModesDetailView,
 } from './views/transportation'
 import SettingsView from './views/settings'
@@ -93,7 +92,6 @@ export const AppNavigator = StackNavigator(
 		TransportationView: {screen: TransportationView},
 		OtherModesDetailView: {screen: OtherModesDetailView},
 		BusMapView: {screen: BusMapView},
-		XyzBusView: {screen: ConnectedXyzBusView},
 	},
 	{
 		navigationOptions: {
