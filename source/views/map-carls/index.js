@@ -1,7 +1,7 @@
 // @flow
 
 import * as React from 'react'
-import {StyleSheet, FlatList} from 'react-native'
+import {StyleSheet, FlatList, TouchableWithoutFeedback} from 'react-native'
 import {View, Text} from 'glamorous-native'
 import Map, {Marker, Polygon, UrlTile} from 'react-native-maps'
 import * as c from '../components/colors'
@@ -162,12 +162,16 @@ export class MapView extends React.Component<Props, State> {
 	}
 
 	onPickerFocus = () => {
-		this.setState(() => ({buildingPickerState: 'max'}))
+		this.expandPickerMax()
 	}
 
 	onPickerSearchCancel = () => {
-		this.setState(() => ({buildingPickerState: 'mid'}))
+		this.expandPickerMid()
 	}
+
+	expandPickerMin = () => this.setState(() => ({buildingPickerState: 'min'}))
+	expandPickerMid = () => this.setState(() => ({buildingPickerState: 'mid'}))
+	expandPickerMax = () => this.setState(() => ({buildingPickerState: 'max'}))
 
 	onPickerSelect = (id: string) => {
 		const match = this.state.buildings.find(b => b.id === id)
@@ -229,6 +233,9 @@ export class MapView extends React.Component<Props, State> {
 					onFocus={this.onPickerFocus}
 					onCancel={this.onPickerSearchCancel}
 					onSelect={this.onPickerSelect}
+					expandMin={this.expandPickerMin}
+					expandMid={this.expandPickerMid}
+					expandMax={this.expandPickerMax}
 				/>
 			</View>
 		)
@@ -241,6 +248,9 @@ type BuildingPickerProps = {
 	onFocus: () => any,
 	onCancel: () => any,
 	onSelect: string => any,
+	expandMin: () => any,
+	expandMid: () => any,
+	expandMax: () => any,
 }
 
 type BuildingPickerState = {
@@ -292,9 +302,8 @@ class BuildingPicker extends React.Component<
 		const search = (
 			<SearchBar
 				getRef={ref => (this.searchBar = ref)}
-				onSearchButtonPress={() => this.searchBar.unFocus()}
+				onSearchButtonPress={this.dismissKeyboard}
 				onChangeText={this.performSearch}
-				onSearchButtonPress={() => {}}
 				onFocus={this.props.onFocus}
 				onCancel={this.props.onCancel}
 				textFieldBackgroundColor={c.iosGray}
@@ -314,14 +323,14 @@ class BuildingPicker extends React.Component<
 		if (viewState === 'min') {
 			return (
 				<View style={[styles.overlay, styles.overlayMin]}>
-					<GrabberBar />
+					<GrabberBar onPress={this.props.expandMid} />
 					{search}
 				</View>
 			)
 		} else if (viewState === 'mid') {
 			return (
 				<View style={[styles.overlay, styles.overlayMid]}>
-					<GrabberBar />
+					<GrabberBar onPress={this.props.expandMax} />
 					{search}
 					<BuildingResults
 						buildings={matches}
@@ -332,7 +341,7 @@ class BuildingPicker extends React.Component<
 		} else if (viewState === 'max') {
 			return (
 				<View style={[styles.overlay, styles.overlayMax]}>
-					<GrabberBar />
+					<GrabberBar onPress={this.props.expandMin} />
 					{search}
 					<BuildingResults
 						buildings={matches}
@@ -344,7 +353,11 @@ class BuildingPicker extends React.Component<
 	}
 }
 
-const GrabberBar = () => <View style={styles.grabber} />
+const GrabberBar = ({onPress}: {onPress: () => any}) => (
+	<TouchableWithoutFeedback onPress={onPress}>
+		<View style={styles.grabber} />
+	</TouchableWithoutFeedback>
+)
 
 class BuildingResults extends React.Component<{
 	buildings: Array<Building>,
