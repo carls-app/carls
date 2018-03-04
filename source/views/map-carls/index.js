@@ -359,10 +359,12 @@ const GrabberBar = ({onPress}: {onPress: () => any}) => (
 	</TouchableWithoutFeedback>
 )
 
-class BuildingResults extends React.Component<{
+type BuildingResultsProps = {
 	buildings: Array<Building>,
 	onSelect: string => any,
-}> {
+}
+
+class BuildingResults extends React.Component<BuildingResultsProps> {
 	keyExtractor = (item: Building) => item.id
 
 	onPress = (id: string) => this.props.onSelect(id)
