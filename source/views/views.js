@@ -89,8 +89,7 @@ export const allViews: ViewType[] = [
 		gradient: c.purpleToIndigo,
 	},
 	{
-		type: 'url',
-		url: 'https://apps.carleton.edu/map/',
+		type: 'view',
 		view: 'MapView',
 		title: 'Campus Map',
 		icon: 'map',
@@ -98,6 +97,16 @@ export const allViews: ViewType[] = [
 		tint: c.coffee,
 		gradient: c.navyToNavy,
 	},
+	// {
+	// 	type: 'url',
+	// 	url: 'https://apps.carleton.edu/map/',
+	// 	view: 'MapView',
+	// 	title: 'Campus Map',
+	// 	icon: 'map',
+	// 	foreground: 'light',
+	// 	tint: c.coffee,
+	// 	gradient: c.navyToNavy,
+	// },
 	{
 		type: 'view',
 		view: 'ContactsView',
