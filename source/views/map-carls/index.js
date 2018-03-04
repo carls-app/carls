@@ -403,6 +403,7 @@ class BuildingResults extends React.Component<{
 				keyExtractor={this.keyExtractor}
 				ItemSeparatorComponent={this.separator}
 				renderItem={this.renderItem}
+				keyboardDismissMode="on-drag"
 			/>
 		)
 	}
