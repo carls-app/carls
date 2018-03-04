@@ -129,7 +129,7 @@ export class MapView extends React.Component<Props, State> {
 		)
 	}
 
-	buildingToOutline = (b: Building) => {
+	buildingToOutline = (b: Building, highlighted: boolean) => {
 		const coords = b.outline.map(([latitude, longitude]) => ({
 			latitude,
 			longitude,
@@ -139,27 +139,15 @@ export class MapView extends React.Component<Props, State> {
 			<Polygon
 				key={b.id}
 				coordinates={coords}
-				fillColor={c.black75Percent}
-				strokeColor={c.black50Percent}
+				fillColor={highlighted ? c.brickRed : c.black75Percent}
+				strokeColor={highlighted ? c.brickRed : c.black50Percent}
 			/>
 		)
 	}
 
-	buildingToHighlightedOutline = (b: Building) => {
-		const coords = b.outline.map(([latitude, longitude]) => ({
-			latitude,
-			longitude,
-		}))
 
-		return (
-			<Polygon
-				key={b.id}
-				coordinates={coords}
-				fillColor={c.brickRed}
-				strokeColor={c.brickRed}
-			/>
-		)
-	}
+	buildingToUnhightlightedOutline = (b: Building) => this.buildingToOutline(b, false)
+	buildingToHighlightedOutline = (b: Building) => this.buildingToOutline(b, true)
 
 	onPickerFocus = () => {
 		this.expandPickerMax()
@@ -220,7 +208,7 @@ export class MapView extends React.Component<Props, State> {
 
 					{this.state.buildings
 						.filter(b => !this.state.highlighted.includes(b.id))
-						.map(this.buildingToOutline)}
+						.map(this.buildingToUnhightlightedOutline)}
 
 					{this.state.buildings
 						.filter(b => this.state.highlighted.includes(b.id))
