@@ -34,7 +34,7 @@ export const SearchBar = (props: PropsType) => {
 			onFocus={props.onFocus || (() => {})}
 			onSearchButtonPress={props.onSearchButtonPress || (() => {})}
 			placeholder={props.placeholder || 'Search'}
-			style={styles.searchbar}
+			style={[styles.searchbar, props.style]}
 			textFieldBackgroundColor={props.textFieldBackgroundColor || c.white}
 		/>
 	)
