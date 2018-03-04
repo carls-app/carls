@@ -91,6 +91,8 @@ export class MapView extends React.Component<Props, State> {
 		headerBackTitle: 'Map',
 	}
 
+	_mapRef: ?Map = null
+
 	state = {
 		region: originalCenterpoint,
 		buildings: [],
@@ -169,6 +171,10 @@ export class MapView extends React.Component<Props, State> {
 	}
 
 	onPickerSelect = (id: string) => {
+		if (!this._mapRef) {
+			return
+		}
+
 		const match = this.state.buildings.find(b => b.id === id)
 
 		if (!match) {
@@ -179,21 +185,21 @@ export class MapView extends React.Component<Props, State> {
 			return
 		}
 
-		const newCenter = match.center
-			? {latitude: match.center[0], longitude: match.center[1]}
-			: originalCenterpoint
+		const newCenter = {latitude: match.center[0], longitude: match.center[1]}
 
 		const zoom = {
 			latitudeDelta: 0.002252,
 			longitudeDelta: 0.001962,
 		}
 
+		if (!this._mapRef) {
+			return
+		}
+
+		this._mapRef.animateToRegion({...newCenter, ...zoom})
+
 		this.setState(state => {
 			return {
-				region: {
-					...newCenter,
-					...zoom,
-				},
 				buildingPickerState: 'min',
 				visibleMarkers: [id],
 				highlighted: [id],
@@ -209,11 +215,11 @@ export class MapView extends React.Component<Props, State> {
 		return (
 			<View {...StyleSheet.absoluteFillObject}>
 				<Map
-					onRegionChange={this.onRegionChange}
-					region={this.state.region}
+					initialRegion={originalCenterpoint}
 					showsPointsOfInterest={false}
 					showsUserLocation={true}
 					style={styles.map}
+					ref={ref => this._mapRef = ref}
 				>
 					<UrlTile maximumZ={19} urlTemplate={GITHUB_TILE_TEMPLATE} />
 
