@@ -161,7 +161,7 @@ export class MapView extends React.Component<Props, State> {
 	expandPickerMid = () => this.setState(() => ({buildingPickerState: 'mid'}))
 	expandPickerMax = () => this.setState(() => ({buildingPickerState: 'max'}))
 
-	onPickerSelect = (id: string) => {
+	highlightBuildingById = (id: string) => {
 		const match = this.state.buildings.find(b => b.id === id)
 
 		if (!match || !match.center) {
@@ -188,6 +188,10 @@ export class MapView extends React.Component<Props, State> {
 				this._mapRef.animateToRegion(newRegion, 750)
 			},
 		)
+	}
+
+	onPickerSelect = (id: string) => {
+		this.highlightBuildingById(id)
 	}
 
 	render() {
