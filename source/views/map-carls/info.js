@@ -70,7 +70,7 @@ export class BuildingInfo extends React.Component<Props> {
 					</Row>
 
 					{building.photo ? (
-						<Section>
+						<Section paddingTop={0}>
 							<ScrollView horizontal={true}>
 								<Image source={{uri: photo}} style={styles.photo} />
 							</ScrollView>
