@@ -191,8 +191,8 @@ export class MapView extends React.Component<Props, State> {
 					...zoom,
 				},
 				buildingPickerState: 'min',
-				visibleMarkers: uniq([...state.visibleMarkers, id]),
-				highlighted: uniq([...state.highlighted, id]),
+				visibleMarkers: [id],
+				highlighted: [id],
 			}
 		})
 	}
