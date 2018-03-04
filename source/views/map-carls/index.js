@@ -171,40 +171,32 @@ export class MapView extends React.Component<Props, State> {
 	}
 
 	onPickerSelect = (id: string) => {
-		if (!this._mapRef) {
-			return
-		}
-
 		const match = this.state.buildings.find(b => b.id === id)
 
-		if (!match) {
+		if (!match || !match.center) {
 			return
 		}
 
-		if (!match.center) {
-			return
-		}
-
-		const newCenter = {latitude: match.center[0], longitude: match.center[1]}
-
-		const zoom = {
+		const newRegion = {
+			latitude: match.center[0],
+			longitude: match.center[1],
 			latitudeDelta: 0.002252,
 			longitudeDelta: 0.001962,
 		}
 
-		if (!this._mapRef) {
-			return
-		}
-
-		this._mapRef.animateToRegion({...newCenter, ...zoom}, 750)
-
-		this.setState(state => {
-			return {
+		this.setState(
+			state => ({
 				buildingPickerState: 'min',
 				visibleMarkers: [id],
 				highlighted: [id],
-			}
-		})
+			}),
+			() => {
+				if (!this._mapRef) {
+					return
+				}
+				this._mapRef.animateToRegion(newRegion, 750)
+			},
+		)
 	}
 
 	onRegionChange = (region: Region) => {
@@ -219,7 +211,7 @@ export class MapView extends React.Component<Props, State> {
 					showsPointsOfInterest={false}
 					showsUserLocation={true}
 					style={styles.map}
-					ref={ref => this._mapRef = ref}
+					ref={ref => (this._mapRef = ref)}
 				>
 					<UrlTile maximumZ={19} urlTemplate={GITHUB_TILE_TEMPLATE} />
 
