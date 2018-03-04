@@ -7,6 +7,7 @@ import {SearchBar} from '../components/searchbar'
 import sortBy from 'lodash/sortBy'
 import type {Building} from './types'
 import {GrabberBar} from './grabber'
+import {CategoryPicker} from './category-picker'
 import {BuildingList} from './building-list'
 
 type Props = {
@@ -22,11 +23,13 @@ type Props = {
 
 type State = {
 	query: string,
+	category: string,
 }
 
 export class BuildingPicker extends React.Component<Props, State> {
 	state = {
 		query: '',
+		category: 'Buildings',
 	}
 
 	componentWillReceiveProps(nextProps: Props) {
@@ -60,6 +63,18 @@ export class BuildingPicker extends React.Component<Props, State> {
 
 	onSelectBuilding = (id: string) => this.props.onSelect(id)
 
+	onCategoryChange = (category: string) => {
+		this.setState(() => ({category}))
+	}
+
+	allCategories = ['Buildings', 'Outdoors', 'Parking', 'Athletics']
+	categoryLookup = {
+		Buildings: 'building',
+		Outdoors: 'outdoors',
+		Parking: 'parking',
+		Athletics: 'athletics',
+	}
+
 	render() {
 		const {viewState} = this.props
 
@@ -76,11 +91,25 @@ export class BuildingPicker extends React.Component<Props, State> {
 			/>
 		)
 
+		const picker =
+			this.state.query.length < 1 ? (
+				<CategoryPicker
+					categories={this.allCategories}
+					onChange={this.onCategoryChange}
+					selected={this.state.category}
+				/>
+			) : null
+
 		let matches = this.state.query
 			? this.props.buildings.filter(b =>
 					b.name.toLowerCase().startsWith(this.state.query),
 				)
 			: this.props.buildings
+
+		if (!this.state.query) {
+			const selectedCategory = this.categoryLookup[this.state.category]
+			matches = matches.filter(b => b.categories[selectedCategory])
+		}
 
 		matches = sortBy(matches, m => m.name)
 
@@ -96,6 +125,7 @@ export class BuildingPicker extends React.Component<Props, State> {
 				<View style={[styles.overlay, styles.overlayMid]}>
 					<GrabberBar onPress={this.props.expandMax} />
 					{search}
+					{picker}
 					<BuildingList buildings={matches} onSelect={this.onSelectBuilding} />
 				</View>
 			)
@@ -104,6 +134,7 @@ export class BuildingPicker extends React.Component<Props, State> {
 				<View style={[styles.overlay, styles.overlayMax]}>
 					<GrabberBar onPress={this.props.expandMin} />
 					{search}
+					{picker}
 					<BuildingList buildings={matches} onSelect={this.onSelectBuilding} />
 				</View>
 			)
