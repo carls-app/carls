@@ -175,6 +175,10 @@ export class MapView extends React.Component<Props, State> {
 			return
 		}
 
+		if (!match.center) {
+			return
+		}
+
 		const newCenter = match.center
 			? {latitude: match.center[0], longitude: match.center[1]}
 			: originalCenterpoint
