@@ -1,8 +1,8 @@
 // @flow
 
 import * as React from 'react'
-import {View, Text} from 'react-native'
-import Map, {Marker, MAP_TYPES, Polygon, UrlTile} from 'react-native-maps'
+import {StyleSheet} from 'react-native'
+import Map, {Marker, Polygon, UrlTile} from 'react-native-maps'
 
 const url = 'https://carls-app.github.io/map-data/map.json'
 
@@ -38,8 +38,6 @@ export class MapView extends React.Component<Props, State> {
 	fetchData = async () => {
 		const data = await fetchJson(url)
 
-		console.log(data)
-
 		const markers = data.filter(s => s.center).map(s => {
 			return {
 				coordinate: {latitude: s.center[0], longitude: s.center[1]},
@@ -68,40 +66,39 @@ export class MapView extends React.Component<Props, State> {
 
 	render() {
 		return (
-			<View style={{flex: 1}}>
-				<Map
-					mapType={ MAP_TYPES.STANDARD }
-					onRegionChange={this.onRegionChange}
-					region={this.state.region}
-					showsPointsOfInterest={false}
-					showsUserLocation={true}
-					style={{flex: 1}}
-					//minZoomLevel={16}
-				>
-					{this.state.markers.map(marker => (
-						<Marker
-							key={marker.key}
-							coordinate={marker.coordinate}
-							description={marker.description}
-							title={marker.title}
-						/>
-					))}
-					<UrlTile
-						maximumZ={19}
-						//urlTemplate="https://www.carleton.edu/global_stock/images/campus_map/tiles/base/{z}_{x}_{y}.png"
-						urlTemplate="https://carls-app.github.io/map-data/tiles/{z}/{x}_{y}.png"
+			<Map
+				onRegionChange={this.onRegionChange}
+				region={this.state.region}
+				showsPointsOfInterest={false}
+				showsUserLocation={true}
+				style={styles.map}
+			>
+				{this.state.markers.map(marker => (
+					<Marker
+						key={marker.key}
+						coordinate={marker.coordinate}
+						description={marker.description}
+						title={marker.title}
 					/>
-					{this.state.outlines.map(marker => (
-						<Polygon
-							key={marker.key}
-							coordinates={marker.coordinates}
-							fillColor="rgb(161,31,3)"
-							strokeColor="rgb(161,31,3)"
-				 		/>
-					))}
-				</Map>
-				{/* <Text>{JSON.stringify(this.state.region)}</Text> */}
-			</View>
+				))}
+				<UrlTile
+					maximumZ={19}
+					//urlTemplate="https://www.carleton.edu/global_stock/images/campus_map/tiles/base/{z}_{x}_{y}.png"
+					urlTemplate="https://carls-app.github.io/map-data/tiles/{z}/{x}_{y}.png"
+				/>
+				{this.state.outlines.map(marker => (
+					<Polygon
+						key={marker.key}
+						coordinates={marker.coordinates}
+						fillColor="rgb(161,31,3)"
+						strokeColor="rgb(161,31,3)"
+					/>
+				))}
+			</Map>
 		)
 	}
 }
+
+const styles = StyleSheet.create({
+	map: StyleSheet.absoluteFillObject,
+})
