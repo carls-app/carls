@@ -318,6 +318,7 @@ class BuildingPicker extends React.Component<
 				onCancel={this.props.onCancel}
 				textFieldBackgroundColor={c.iosGray}
 				placeholder="Search for a place"
+				style={styles.searchBox}
 			/>
 		)
 
@@ -375,7 +376,7 @@ class BuildingResults extends React.Component<{
 	renderItem = ({item}: {item: Building}) => {
 		const detail = item.address || (item.center || []).join(',') || ''
 		return (
-			<ListRow spacing={{left: 4}} onPress={() => this.onPress(item.id)}>
+			<ListRow spacing={{left: 12}} onPress={() => this.onPress(item.id)}>
 				<Row>
 					<View
 						width={24}
@@ -383,7 +384,7 @@ class BuildingResults extends React.Component<{
 						borderRadius={24}
 						backgroundColor={c.success}
 						alignSelf="center"
-						marginRight={6}
+						marginRight={8}
 					/>
 					<Column>
 						<Title>{item.name}</Title>
@@ -394,7 +395,7 @@ class BuildingResults extends React.Component<{
 		)
 	}
 
-	separator = () => <ListSeparator spacing={{left: 4}} />
+	separator = () => <ListSeparator spacing={{left: 12}} />
 
 	render() {
 		return (
@@ -412,6 +413,9 @@ class BuildingResults extends React.Component<{
 const styles = StyleSheet.create({
 	map: {
 		flex: 1,
+	},
+	searchBox: {
+		marginHorizontal: 6,
 	},
 	grabber: {
 		backgroundColor: c.iosGray,
@@ -434,7 +438,7 @@ const styles = StyleSheet.create({
 		borderTopRightRadius: 10,
 		bottom: 0,
 		left: 0,
-		paddingHorizontal: 6,
+		paddingHorizontal: 0,
 		paddingTop: 0,
 		position: 'absolute',
 		right: 0,
