@@ -196,7 +196,7 @@ export class MapView extends React.Component<Props, State> {
 			return
 		}
 
-		this._mapRef.animateToRegion({...newCenter, ...zoom})
+		this._mapRef.animateToRegion({...newCenter, ...zoom}, 750)
 
 		this.setState(state => {
 			return {
