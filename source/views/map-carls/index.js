@@ -141,10 +141,14 @@ export class MapView extends React.Component<Props, State> {
 				coordinates={coords}
 				fillColor={highlighted ? c.brickRed : c.black75Percent}
 				strokeColor={highlighted ? c.brickRed : c.black50Percent}
+				onPress={() => this.onTouchOutline(b.id)}
 			/>
 		)
 	}
 
+	onTouchOutline = (id: string) => {
+		this.highlightBuildingById(id)
+	}
 
 	buildingToUnhightlightedOutline = (b: Building) => this.buildingToOutline(b, false)
 	buildingToHighlightedOutline = (b: Building) => this.buildingToOutline(b, true)
