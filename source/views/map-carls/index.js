@@ -78,6 +78,13 @@ type Building = {
 	photo: ?string,
 }
 
+const originalCenterpoint = {
+	latitude: 44.460800862266,
+	longitude: -93.15488752015,
+	latitudeDelta: 0.004617,
+	longitudeDelta: 0.004023,
+}
+
 export class MapView extends React.Component<Props, State> {
 	static navigationOptions = {
 		title: 'Campus Map',
@@ -85,12 +92,7 @@ export class MapView extends React.Component<Props, State> {
 	}
 
 	state = {
-		region: {
-			latitude: 44.460800862266,
-			longitude: -93.15488752015,
-			latitudeDelta: 0.004617,
-			longitudeDelta: 0.004023,
-		},
+		region: originalCenterpoint,
 		buildings: [],
 		highlighted: [],
 		visibleMarkers: [],
@@ -144,6 +146,7 @@ export class MapView extends React.Component<Props, State> {
 			latitude,
 			longitude,
 		}))
+
 		return (
 			<Polygon
 				key={b.id}
@@ -164,11 +167,26 @@ export class MapView extends React.Component<Props, State> {
 
 	onPickerSelect = (id: string) => {
 		const match = this.state.buildings.find(b => b.id === id)
+
 		if (!match) {
 			return
 		}
+
+		const newCenter = match.center
+			? {latitude: match.center[0], longitude: match.center[1]}
+			: originalCenterpoint
+
+		const zoom = {
+			latitudeDelta: 0.002252,
+			longitudeDelta: 0.001962,
+		}
+
 		this.setState(state => {
 			return {
+				region: {
+					...newCenter,
+					...zoom,
+				},
 				buildingPickerState: 'min',
 				visibleMarkers: uniq([...state.visibleMarkers, id]),
 				highlighted: uniq([...state.highlighted, id]),
