@@ -251,7 +251,10 @@ class BuildingPicker extends React.Component<
 	}
 
 	componentWillReceiveProps(nextProps) {
-		if (this.props.viewState === 'max' && this.props.viewState !== nextProps.viewState) {
+		if (
+			this.props.viewState === 'max' &&
+			this.props.viewState !== nextProps.viewState
+		) {
 			this.dismissKeyboard()
 		}
 	}
