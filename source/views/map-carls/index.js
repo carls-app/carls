@@ -114,7 +114,10 @@ export class MapView extends React.Component<Props, State> {
 	}
 
 	buildingToMarker = (b: Building) => {
-		// $FlowExpectedError
+		if (!b.center) {
+			return
+		}
+
 		const coord = {latitude: b.center[0], longitude: b.center[1]}
 		return (
 			<Marker
