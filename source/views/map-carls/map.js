@@ -16,7 +16,6 @@ type State = {|
 	buildings: Array<Building>,
 	visibleMarkers: Array<string>,
 	highlighted: Array<string>,
-	buildingPickerState: 'min' | 'mid' | 'max',
 	selectedBuilding: ?Building,
 |}
 
@@ -37,7 +36,6 @@ export class MapView extends React.Component<Props, State> {
 		buildings: [],
 		highlighted: [],
 		visibleMarkers: [],
-		buildingPickerState: 'min',
 		selectedBuilding: null,
 	}
 
@@ -99,18 +97,6 @@ export class MapView extends React.Component<Props, State> {
 	buildingToHighlightedOutline = (b: Building) =>
 		this.buildingToOutline(b, true)
 
-	onPickerFocus = () => {
-		this.expandPickerMax()
-	}
-
-	onPickerSearchCancel = () => {
-		this.expandPickerMid()
-	}
-
-	expandPickerMin = () => this.setState(() => ({buildingPickerState: 'min'}))
-	expandPickerMid = () => this.setState(() => ({buildingPickerState: 'mid'}))
-	expandPickerMax = () => this.setState(() => ({buildingPickerState: 'max'}))
-
 	highlightBuildingById = (id: string) => {
 		const match = this.state.buildings.find(b => b.id === id)
 
@@ -127,7 +113,6 @@ export class MapView extends React.Component<Props, State> {
 
 		this.setState(
 			() => ({
-				buildingPickerState: 'mid',
 				visibleMarkers: [id],
 				highlighted: [id],
 				selectedBuilding: match,
@@ -150,7 +135,6 @@ export class MapView extends React.Component<Props, State> {
 			selectedBuilding: null,
 			visibleMarkers: [],
 			highlighted: [],
-			buildingPickerState: 'min',
 		}))
 	}
 
@@ -182,22 +166,12 @@ export class MapView extends React.Component<Props, State> {
 				{this.state.selectedBuilding ? (
 					<BuildingInfo
 						building={this.state.selectedBuilding}
-						expandMax={this.expandPickerMax}
-						expandMid={this.expandPickerMid}
-						expandMin={this.expandPickerMin}
 						onClose={this.onInfoOverlayClose}
-						viewState={this.state.buildingPickerState}
 					/>
 				) : (
 					<BuildingPicker
 						buildings={this.state.buildings}
-						expandMax={this.expandPickerMax}
-						expandMid={this.expandPickerMid}
-						expandMin={this.expandPickerMin}
-						onCancel={this.onPickerSearchCancel}
-						onFocus={this.onPickerFocus}
 						onSelect={this.onPickerSelect}
-						viewState={this.state.buildingPickerState}
 					/>
 				)}
 			</View>

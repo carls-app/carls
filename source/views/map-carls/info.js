@@ -1,121 +1,144 @@
 // @flow
 
 import * as React from 'react'
-import {View, Text, StyleSheet,ScrollView,  TouchableHighlight, Image} from 'react-native'
+import {
+	View,
+	Text,
+	StyleSheet,
+	ScrollView,
+	TouchableHighlight,
+	Image,
+} from 'react-native'
 import glamorous from 'glamorous-native'
 import * as c from '../components/colors'
 import type {Building} from './types'
-import {GrabberBar} from './grabber'
 import startCase from 'lodash/startCase'
 import {Row, Column} from '../components/layout'
 import {ListRow, Title} from '../components/list'
 import openUrl from '../components/open-url'
+import {Overlay} from './overlay'
 
 type Props = {
-	viewState: 'min' | 'mid' | 'max',
 	building: Building,
 	onClose: () => any,
-	expandMin: () => any,
-	expandMid: () => any,
-	expandMax: () => any,
 }
 
-export class BuildingInfo extends React.Component<Props> {
-	render() {
-		const {viewState, building} = this.props
+type State = {
+	overlaySize: 'min' | 'mid' | 'max',
+}
+
+export class BuildingInfo extends React.Component<Props, State> {
+	state = {
+		overlaySize: 'mid',
+	}
+
+	onClose = () => {
+		this.setState(() => ({overlaySize: 'min'}))
+		this.props.onClose()
+	}
+
+	onOverlaySizeChange = (size: 'min' | 'mid' | 'max') => {
+		this.setState(() => {
+			return {overlaySize: size}
+		})
+	}
+
+	renderCollapsed = () => {
+		const {building} = this.props
 
 		const blacklist = ['hall', 'house', 'building']
 		const category = Object.keys(building.categories)
 			.filter(name => !blacklist.includes(name))
 			.map(name => startCase(name))
 			.join(' • ')
+		return (
+			<React.Fragment>
+				<Row>
+					<Column>
+						<PlaceTitle>{building.name}</PlaceTitle>
+						<PlaceSubtitle>{category}</PlaceSubtitle>
+					</Column>
+					<CloseButton onPress={this.onClose} />
+				</Row>
+			</React.Fragment>
+		)
+	}
 
-		if (viewState === 'min') {
-			return (
-				<View style={[styles.overlay, styles.overlayMin]}>
-					<GrabberBar onPress={this.props.expandMid} />
-					<Row>
-						<Column>
-							<PlaceTitle>{building.name}</PlaceTitle>
-							<PlaceSubtitle>{category}</PlaceSubtitle>
-						</Column>
-						<CloseButton onPress={this.props.onClose} />
-					</Row>
-				</View>
-			)
-		} else if (viewState === 'mid' || viewState === 'max') {
-			const style = [
-				styles.overlay,
-				viewState === 'mid' && styles.overlayMid,
-				viewState === 'max' && styles.overlayMax,
-			]
+	renderExpanded = () => {
+		const {building} = this.props
 
-			const photo = building.photo
-				? `https://carls-app.github.io/map-data/cache/img/${building.photo}`
-				: null
+		const blacklist = ['hall', 'house', 'building']
+		const category = Object.keys(building.categories)
+			.filter(name => !blacklist.includes(name))
+			.map(name => startCase(name))
+			.join(' • ')
+		const photo = building.photo
+			? `https://carls-app.github.io/map-data/cache/img/${building.photo}`
+			: null
+		return (
+			<React.Fragment>
+				<Row
+					alignItems="center"
+					justifyContent="space-between"
+					marginBottom={12}
+				>
+					<Column>
+						<PlaceTitle>{building.name}</PlaceTitle>
+						<PlaceSubtitle>{category}</PlaceSubtitle>
+					</Column>
+					<CloseButton onPress={this.onClose} />
+				</Row>
 
-			return (
-				<View style={style}>
-					<GrabberBar onPress={this.props.expandMax} />
-					<Row
-						alignItems="center"
-						justifyContent="space-between"
-						marginBottom={12}
-					>
-						<Column>
-							<PlaceTitle>{building.name}</PlaceTitle>
-							<PlaceSubtitle>{category}</PlaceSubtitle>
-						</Column>
-						<CloseButton onPress={this.props.onClose} />
-					</Row>
+				{building.photo ? (
+					<Section paddingTop={0}>
+						<ScrollView horizontal={true}>
+							<Image source={{uri: photo}} style={styles.photo} />
+						</ScrollView>
+					</Section>
+				) : null}
 
-					{building.photo ? (
-						<Section paddingTop={0}>
-							<ScrollView horizontal={true}>
-								<Image source={{uri: photo}} style={styles.photo} />
-							</ScrollView>
-						</Section>
-					) : null}
+				{building.address ? (
+					<Section>
+						<SectionTitle>Address</SectionTitle>
+						<SectionContent>{building.address}</SectionContent>
+					</Section>
+				) : null}
 
-					{building.address ? (
-						<Section>
-							<SectionTitle>Address</SectionTitle>
-							<SectionContent>{building.address}</SectionContent>
-						</Section>
-					) : null}
+				{building.departments.length ? (
+					<Section>
+						<SectionListTitle>Departments</SectionListTitle>
+						<View>
+							{building.departments.map(d => (
+								<SectionListItem key={d.label} href={d.href} label={d.label} />
+							))}
+						</View>
+					</Section>
+				) : null}
 
-					{building.departments.length ? (
-						<Section>
-							<SectionListTitle>Departments</SectionListTitle>
-							<View>
-								{building.departments.map(d => (
-									<SectionListItem
-										key={d.label}
-										href={d.href}
-										label={d.label}
-									/>
-								))}
-							</View>
-						</Section>
-					) : null}
+				{building.offices.length ? (
+					<Section>
+						<SectionListTitle>Offices</SectionListTitle>
+						<View>
+							{building.offices.map(d => (
+								<SectionListItem key={d.label} href={d.href} label={d.label} />
+							))}
+						</View>
+					</Section>
+				) : null}
+			</React.Fragment>
+		)
+	}
 
-					{building.offices.length ? (
-						<Section>
-							<SectionListTitle>Offices</SectionListTitle>
-							<View>
-								{building.offices.map(d => (
-									<SectionListItem
-										key={d.label}
-										href={d.href}
-										label={d.label}
-									/>
-								))}
-							</View>
-						</Section>
-					) : null}
-				</View>
-			)
-		}
+	render() {
+		return (
+			<Overlay
+				onSizeChange={this.onOverlaySizeChange}
+				renderCollapsed={this.renderCollapsed}
+				renderExpanded={this.renderExpanded}
+				size={this.state.overlaySize}
+				style={styles.overlay}
+			/>
+		)
 	}
 }
 
@@ -136,7 +159,10 @@ const SectionListTitle = glamorous(SectionTitle)({
 
 const SectionListItem = ({href, label}) => {
 	return (
-		<ListRow contentContainerStyle={styles.listItem} onPress={() => openUrl(href)}>
+		<ListRow
+			contentContainerStyle={styles.listItem}
+			onPress={() => openUrl(href)}
+		>
 			<Title style={styles.listItemText}>{label}</Title>
 		</ListRow>
 	)
@@ -154,30 +180,7 @@ const CloseButton = ({onPress}) => (
 
 const styles = StyleSheet.create({
 	overlay: {
-		backgroundColor: c.white,
-		borderTopLeftRadius: 10,
-		borderTopRightRadius: 10,
-		bottom: 0,
-		left: 0,
-		paddingTop: 0,
-		position: 'absolute',
-		right: 0,
-		shadowColor: c.black,
-		shadowOffset: {height: -4},
-		shadowOpacity: 0.15,
-		shadowRadius: 4,
-		zIndex: 2,
-
 		paddingHorizontal: 12,
-	},
-	overlayMin: {
-		height: 80,
-	},
-	overlayMid: {
-		height: 200,
-	},
-	overlayMax: {
-		top: 20,
 	},
 	closeButton: {
 		width: 24,

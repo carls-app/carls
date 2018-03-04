@@ -1,32 +1,28 @@
 // @flow
 
 import * as React from 'react'
-import {View, StyleSheet} from 'react-native'
+import {StyleSheet} from 'react-native'
 import * as c from '../components/colors'
 import {SearchBar} from '../components/searchbar'
 import sortBy from 'lodash/sortBy'
 import type {Building} from './types'
-import {GrabberBar} from './grabber'
+import {Overlay} from './overlay'
 import {BuildingList} from './building-list'
 
 type Props = {
-	viewState: 'min' | 'mid' | 'max',
 	buildings: Array<Building>,
-	onFocus: () => any,
-	onCancel: () => any,
 	onSelect: string => any,
-	expandMin: () => any,
-	expandMid: () => any,
-	expandMax: () => any,
 }
 
 type State = {
 	query: string,
+	overlaySize: 'min' | 'mid' | 'max',
 }
 
 export class BuildingPicker extends React.Component<Props, State> {
 	state = {
 		query: '',
+		overlaySize: 'min',
 	}
 
 	componentWillReceiveProps(nextProps: Props) {
@@ -60,15 +56,33 @@ export class BuildingPicker extends React.Component<Props, State> {
 
 	onSelectBuilding = (id: string) => this.props.onSelect(id)
 
+	onFocus = () => {
+		this.setState(() => ({overlaySize: 'max'}))
+	}
+
+	onCancel = () => {
+		this.dismissKeyboard()
+		this.setState(() => ({overlaySize: 'mid'}))
+	}
+
+	onOverlaySizeChange = (size: 'min' | 'mid' | 'max') => {
+		this.setState(state => {
+			if (state.size === 'max' && state.size !== size) {
+				this.dismissKeyboard()
+			}
+			return {overlaySize: size}
+		})
+	}
+
 	render() {
-		const {viewState} = this.props
+		const {overlaySize} = this.state
 
 		const search = (
 			<SearchBar
 				getRef={ref => (this.searchBar = ref)}
-				onCancel={this.props.onCancel}
+				onCancel={this.onCancel}
 				onChangeText={this.performSearch}
-				onFocus={this.props.onFocus}
+				onFocus={this.onFocus}
 				onSearchButtonPress={this.dismissKeyboard}
 				placeholder="Search for a place"
 				style={styles.searchBox}
@@ -84,60 +98,27 @@ export class BuildingPicker extends React.Component<Props, State> {
 
 		matches = sortBy(matches, m => m.name)
 
-		if (viewState === 'min') {
-			return (
-				<View style={[styles.overlay, styles.overlayMin]}>
-					<GrabberBar onPress={this.props.expandMid} />
-					{search}
-				</View>
-			)
-		} else if (viewState === 'mid') {
-			return (
-				<View style={[styles.overlay, styles.overlayMid]}>
-					<GrabberBar onPress={this.props.expandMax} />
-					{search}
-					<BuildingList buildings={matches} onSelect={this.onSelectBuilding} />
-				</View>
-			)
-		} else if (viewState === 'max') {
-			return (
-				<View style={[styles.overlay, styles.overlayMax]}>
-					<GrabberBar onPress={this.props.expandMin} />
-					{search}
-					<BuildingList buildings={matches} onSelect={this.onSelectBuilding} />
-				</View>
-			)
-		}
+		return (
+			<Overlay
+				onSizeChange={this.onOverlaySizeChange}
+				renderCollapsed={() => <React.Fragment>{search}</React.Fragment>}
+				renderExpanded={() => (
+					<React.Fragment>
+						{search}
+						<BuildingList
+							buildings={matches}
+							onSelect={this.onSelectBuilding}
+						/>
+					</React.Fragment>
+				)}
+				size={overlaySize}
+			/>
+		)
 	}
 }
 
 const styles = StyleSheet.create({
 	searchBox: {
 		marginHorizontal: 6,
-	},
-	overlay: {
-		backgroundColor: c.white,
-		borderTopLeftRadius: 10,
-		borderTopRightRadius: 10,
-		bottom: 0,
-		left: 0,
-		paddingHorizontal: 0,
-		paddingTop: 0,
-		position: 'absolute',
-		right: 0,
-		shadowColor: c.black,
-		shadowOffset: {height: -4},
-		shadowOpacity: 0.15,
-		shadowRadius: 4,
-		zIndex: 2,
-	},
-	overlayMin: {
-		height: 80,
-	},
-	overlayMid: {
-		height: 200,
-	},
-	overlayMax: {
-		top: 20,
 	},
 })
