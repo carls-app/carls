@@ -22,7 +22,6 @@ const GITHUB_TILE_TEMPLATE =
 type Props = TopLevelViewPropsType
 
 type State = {|
-	region: Region,
 	buildings: Array<Building>,
 	visibleMarkers: Array<string>,
 	highlighted: Array<string>,
@@ -94,7 +93,6 @@ export class MapView extends React.Component<Props, State> {
 	_mapRef: ?Map = null
 
 	state = {
-		region: originalCenterpoint,
 		buildings: [],
 		highlighted: [],
 		visibleMarkers: [],
@@ -136,6 +134,7 @@ export class MapView extends React.Component<Props, State> {
 			latitude,
 			longitude,
 		}))
+
 		return (
 			<Polygon
 				key={b.id}
@@ -199,10 +198,6 @@ export class MapView extends React.Component<Props, State> {
 		)
 	}
 
-	onRegionChange = (region: Region) => {
-		this.setState(() => ({region}))
-	}
-
 	render() {
 		return (
 			<View {...StyleSheet.absoluteFillObject}>
@@ -235,17 +230,6 @@ export class MapView extends React.Component<Props, State> {
 					onCancel={this.onPickerSearchCancel}
 					onSelect={this.onPickerSelect}
 				/>
-
-				<View style={styles.infoOverlay}>
-					<Text>latitude: {this.state.region.latitude}</Text>
-					<Text>longitude: {this.state.region.longitude}</Text>
-					<Text>
-						latitudeDelta: {this.state.region.latitudeDelta}
-					</Text>
-					<Text>
-						longitudeDelta: {this.state.region.longitudeDelta}
-					</Text>
-				</View>
 			</View>
 		)
 	}
@@ -288,8 +272,7 @@ class BuildingPicker extends React.Component<
 
 	onSearch = (text: ?string) => {
 		let query = text || ''
-		query = query.toLowerCase()
-		this.setState(() => ({query}))
+		this.setState(() => ({query: query.toLowerCase()}))
 	}
 
 	performSearch = (text: string) => {
