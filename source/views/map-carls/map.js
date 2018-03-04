@@ -8,6 +8,7 @@ import type {TopLevelViewPropsType} from '../types'
 import type {Building} from './types'
 import {MAP_DATA_URL, GITHUB_TILE_TEMPLATE} from './urls'
 import {BuildingPicker} from './picker'
+import {BuildingInfo} from './info'
 
 type Props = TopLevelViewPropsType
 
@@ -16,6 +17,7 @@ type State = {|
 	visibleMarkers: Array<string>,
 	highlighted: Array<string>,
 	buildingPickerState: 'min' | 'mid' | 'max',
+	selectedBuilding: ?Building,
 |}
 
 const originalCenterpoint = {
@@ -36,6 +38,7 @@ export class MapView extends React.Component<Props, State> {
 		highlighted: [],
 		visibleMarkers: [],
 		buildingPickerState: 'min',
+		selectedBuilding: null,
 	}
 
 	componentDidMount() {
@@ -124,9 +127,10 @@ export class MapView extends React.Component<Props, State> {
 
 		this.setState(
 			() => ({
-				buildingPickerState: 'min',
+				buildingPickerState: 'mid',
 				visibleMarkers: [id],
 				highlighted: [id],
+				selectedBuilding: match,
 			}),
 			() => {
 				if (!this._mapRef) {
@@ -139,6 +143,15 @@ export class MapView extends React.Component<Props, State> {
 
 	onPickerSelect = (id: string) => {
 		this.highlightBuildingById(id)
+	}
+
+	onInfoOverlayClose = () => {
+		this.setState(() => ({
+			selectedBuilding: null,
+			visibleMarkers: [],
+			highlighted: [],
+			buildingPickerState: 'min',
+		}))
 	}
 
 	render() {
@@ -166,16 +179,27 @@ export class MapView extends React.Component<Props, State> {
 						.map(this.buildingToHighlightedOutline)}
 				</Map>
 
-				<BuildingPicker
-					buildings={this.state.buildings}
-					expandMax={this.expandPickerMax}
-					expandMid={this.expandPickerMid}
-					expandMin={this.expandPickerMin}
-					onCancel={this.onPickerSearchCancel}
-					onFocus={this.onPickerFocus}
-					onSelect={this.onPickerSelect}
-					viewState={this.state.buildingPickerState}
-				/>
+				{this.state.selectedBuilding ? (
+					<BuildingInfo
+						building={this.state.selectedBuilding}
+						expandMax={this.expandPickerMax}
+						expandMid={this.expandPickerMid}
+						expandMin={this.expandPickerMin}
+						onClose={this.onInfoOverlayClose}
+						viewState={this.state.buildingPickerState}
+					/>
+				) : (
+					<BuildingPicker
+						buildings={this.state.buildings}
+						expandMax={this.expandPickerMax}
+						expandMid={this.expandPickerMid}
+						expandMin={this.expandPickerMin}
+						onCancel={this.onPickerSearchCancel}
+						onFocus={this.onPickerFocus}
+						onSelect={this.onPickerSelect}
+						viewState={this.state.buildingPickerState}
+					/>
+				)}
 			</View>
 		)
 	}
