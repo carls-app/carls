@@ -45,7 +45,6 @@ export class Overlay extends React.Component<Props> {
 
 	render() {
 		const {
-			renderCollapsed,
 			renderExpanded,
 			style: outerStyle,
 			size: viewState,
@@ -61,7 +60,8 @@ export class Overlay extends React.Component<Props> {
 			contents = (
 				<React.Fragment>
 					<GrabberBar />
-					{renderCollapsed()}
+					{/* {renderCollapsed()} */}
+					{renderExpanded()}
 				</React.Fragment>
 			)
 		} else if (viewState === 'mid') {
