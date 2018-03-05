@@ -122,20 +122,12 @@ export class Overlay extends React.Component<Props> {
 }
 
 const styles = StyleSheet.create({
-	panelContainer: {
-		position: 'absolute',
-		top: 0,
-		bottom: 0,
-		left: 0,
-		right: 0,
-	},
+	panelContainer: StyleSheet.absoluteFillObject,
 	overlay: {
 		backgroundColor: c.white,
 		height: screenHeight + 300,
 		borderTopLeftRadius: 10,
 		borderTopRightRadius: 10,
-		paddingHorizontal: 0,
-		paddingTop: 0,
 		shadowColor: c.black,
 		shadowOffset: {height: -4},
 		shadowOpacity: 0.15,
