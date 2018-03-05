@@ -20,6 +20,7 @@ import openUrl from '../components/open-url'
 type Props = {
 	building: Building,
 	onClose: () => any,
+	overlaySize: 'min' | 'mid' | 'max',
 }
 
 export class BuildingInfo extends React.Component<Props> {
@@ -56,42 +57,55 @@ export class BuildingInfo extends React.Component<Props> {
 					<CloseButton onPress={this.onClose} />
 				</Row>
 
-				{building.photo ? (
-					<Section paddingTop={0}>
-						<ScrollView horizontal={true}>
-							<Image source={{uri: photo}} style={styles.photo} />
-						</ScrollView>
-					</Section>
-				) : null}
+				<ScrollView
+					scrollEnabled={this.props.overlaySize === 'max'}
+					style={styles.scroll}
+				>
+					{building.photo ? (
+						<Section paddingTop={0}>
+							<ScrollView horizontal={true}>
+								<Image source={{uri: photo}} style={styles.photo} />
+							</ScrollView>
+						</Section>
+					) : null}
 
-				{building.address ? (
-					<Section>
-						<SectionTitle>Address</SectionTitle>
-						<SectionContent>{building.address}</SectionContent>
-					</Section>
-				) : null}
+					{building.address ? (
+						<Section>
+							<SectionTitle>Address</SectionTitle>
+							<SectionContent>{building.address}</SectionContent>
+						</Section>
+					) : null}
 
-				{building.departments.length ? (
-					<Section>
-						<SectionListTitle>Departments</SectionListTitle>
-						<View>
-							{building.departments.map(d => (
-								<SectionListItem key={d.label} href={d.href} label={d.label} />
-							))}
-						</View>
-					</Section>
-				) : null}
+					{building.departments.length ? (
+						<Section>
+							<SectionListTitle>Departments</SectionListTitle>
+							<View>
+								{building.departments.map(d => (
+									<SectionListItem
+										key={d.label}
+										href={d.href}
+										label={d.label}
+									/>
+								))}
+							</View>
+						</Section>
+					) : null}
 
-				{building.offices.length ? (
-					<Section>
-						<SectionListTitle>Offices</SectionListTitle>
-						<View>
-							{building.offices.map(d => (
-								<SectionListItem key={d.label} href={d.href} label={d.label} />
-							))}
-						</View>
-					</Section>
-				) : null}
+					{building.offices.length ? (
+						<Section>
+							<SectionListTitle>Offices</SectionListTitle>
+							<View>
+								{building.offices.map(d => (
+									<SectionListItem
+										key={d.label}
+										href={d.href}
+										label={d.label}
+									/>
+								))}
+							</View>
+						</Section>
+					) : null}
+				</ScrollView>
 			</View>
 		)
 	}
@@ -136,6 +150,9 @@ const CloseButton = ({onPress}) => (
 const styles = StyleSheet.create({
 	container: {
 		paddingHorizontal: 12,
+	},
+	scroll: {
+		height: 600,
 	},
 	closeButton: {
 		width: 24,
