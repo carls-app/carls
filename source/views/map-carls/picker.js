@@ -25,15 +25,6 @@ export class BuildingPicker extends React.Component<Props, State> {
 		overlaySize: 'min',
 	}
 
-	componentWillReceiveProps(nextProps: Props) {
-		if (
-			this.props.viewState === 'max' &&
-			this.props.viewState !== nextProps.viewState
-		) {
-			this.dismissKeyboard()
-		}
-	}
-
 	searchBar: any = null
 
 	dismissKeyboard = () => {

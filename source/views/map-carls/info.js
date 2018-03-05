@@ -72,9 +72,11 @@ export class BuildingInfo extends React.Component<Props, State> {
 			.filter(name => !blacklist.includes(name))
 			.map(name => startCase(name))
 			.join(' • ')
+
 		const photo = building.photo
 			? `https://carls-app.github.io/map-data/cache/img/${building.photo}`
 			: null
+
 		return (
 			<React.Fragment>
 				<Row
