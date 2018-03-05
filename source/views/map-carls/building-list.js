@@ -10,6 +10,7 @@ import type {Building} from './types'
 type Props = {
 	buildings: Array<Building>,
 	onSelect: string => any,
+	scrollEnabled: boolean,
 }
 
 export class BuildingList extends React.Component<Props> {
@@ -45,10 +46,12 @@ export class BuildingList extends React.Component<Props> {
 		return (
 			<FlatList
 				ItemSeparatorComponent={this.separator}
+				contentInsetAdjustmentBehavior="automatic"
 				data={this.props.buildings}
 				keyExtractor={this.keyExtractor}
 				keyboardDismissMode="on-drag"
 				renderItem={this.renderItem}
+				scrollEnabled={this.props.scrollEnabled}
 			/>
 		)
 	}
