@@ -20,7 +20,6 @@ const screenHeight = Dimensions.get('window').height - 75
 
 export class Overlay extends React.Component<Props> {
 	componentWillReceiveProps(nextProps: Props) {
-		console.warn(nextProps.size)
 		Animated.timing(
 			this._deltaY,
 			{toValue: this.lookupPosition(nextProps.size)}
@@ -33,18 +32,15 @@ export class Overlay extends React.Component<Props> {
 		min: screenHeight - 100,
 	}
 
-	lookupPosition = (size: ViewState) => {
-		return this.positions[size]
-	}
-
-	_deltaY = new Animated.Value(this.lookupPosition(this.props.size))
-
+	lookupPosition = (size: ViewState) => this.positions[size]
 	resizeMin = () => this.props.onSizeChange('min')
 	resizeMid = () => this.props.onSizeChange('mid')
 	resizeMax = () => this.props.onSizeChange('max')
 
-	onSnap = (index: number, id: ViewState) => {
-		this.props.onSizeChange(id)
+	_deltaY = new Animated.Value(this.lookupPosition(this.props.size))
+
+	onSnap = (ev: {nativeEvent: {index: number, id: ViewState}}) => {
+		this.props.onSizeChange(ev.nativeEvent.id)
 	}
 
 	render() {
