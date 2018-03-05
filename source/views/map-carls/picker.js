@@ -7,6 +7,7 @@ import {SearchBar} from '../components/searchbar'
 import sortBy from 'lodash/sortBy'
 import type {Building} from './types'
 import {Overlay} from './overlay'
+import {CategoryPicker} from './category-picker'
 import {BuildingList} from './building-list'
 
 type Props = {
@@ -17,12 +18,14 @@ type Props = {
 type State = {
 	query: string,
 	overlaySize: 'min' | 'mid' | 'max',
+	category: string,
 }
 
 export class BuildingPicker extends React.Component<Props, State> {
 	state = {
 		query: '',
 		overlaySize: 'min',
+		category: 'Buildings',
 	}
 
 	searchBar: any = null
@@ -65,6 +68,18 @@ export class BuildingPicker extends React.Component<Props, State> {
 		})
 	}
 
+	onCategoryChange = (category: string) => {
+		this.setState(() => ({category}))
+	}
+
+	allCategories = ['Buildings', 'Outdoors', 'Parking', 'Athletics']
+	categoryLookup = {
+		Buildings: 'building',
+		Outdoors: 'outdoors',
+		Parking: 'parking',
+		Athletics: 'athletics',
+	}
+
 	render() {
 		const {overlaySize} = this.state
 
@@ -81,17 +96,32 @@ export class BuildingPicker extends React.Component<Props, State> {
 			/>
 		)
 
+		const picker =
+			!this.state.query ? (
+				<CategoryPicker
+					categories={this.allCategories}
+					onChange={this.onCategoryChange}
+					selected={this.state.category}
+				/>
+			) : null
+
 		let matches = this.state.query
 			? this.props.buildings.filter(b =>
 					b.name.toLowerCase().startsWith(this.state.query),
 				)
 			: this.props.buildings
 
+		if (!this.state.query) {
+			const selectedCategory = this.categoryLookup[this.state.category]
+			matches = matches.filter(b => b.categories[selectedCategory])
+		}
+
 		matches = sortBy(matches, m => m.name)
 
 		return (
 			<Overlay onSizeChange={this.onOverlaySizeChange} size={overlaySize}>
 				{search}
+				{picker}
 				<BuildingList buildings={matches} onSelect={this.onSelectBuilding} />
 			</Overlay>
 		)
