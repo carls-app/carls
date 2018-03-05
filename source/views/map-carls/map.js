@@ -83,7 +83,8 @@ export class MapView extends React.Component<Props, State> {
 				coordinates={coords}
 				fillColor={highlighted ? c.brickRed : c.black75Percent}
 				onPress={() => this.onTouchOutline(b.id)}
-				strokeColor={highlighted ? c.brickRed : c.black50Percent}
+				strokeColor={highlighted ? c.maroon : c.black50Percent}
+				strokeWidth={StyleSheet.hairlineWidth}
 			/>
 		)
 	}
