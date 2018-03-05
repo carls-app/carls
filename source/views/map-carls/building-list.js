@@ -1,7 +1,7 @@
 // @flow
 
 import * as React from 'react'
-import {View, FlatList, StyleSheet} from 'react-native'
+import {View, FlatList} from 'react-native'
 import * as c from '../components/colors'
 import {ListSeparator, Title, Detail, ListRow} from '../components/list'
 import {Row, Column} from '../components/layout'
