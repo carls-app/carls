@@ -1,43 +1,45 @@
 // @flow
 
 import * as React from 'react'
-import {View, StyleSheet} from 'react-native'
+import {View, StyleSheet, Animated, Dimensions} from 'react-native'
 import * as c from '../components/colors'
 import {GrabberBar} from './grabber'
+import Interactable from 'react-native-interactable'
 
 type ViewState = 'min' | 'mid' | 'max'
 
-type ControlledProps = {|
-	initialState: ViewState,
-|}
-
-type UncontrolledProps = {|
-	size: ViewState,
-	onSizeChange: ViewState => any,
-|}
-
-type Props = {|
+type Props = {
 	renderCollapsed: () => React.Node,
 	renderExpanded: () => React.Node,
-	style: any,
-|} & (ControlledProps | UncontrolledProps)
+	style?: any,
+	size: ViewState,
+	onSizeChange: ViewState => any,
+}
 
 type State = {
 	viewState: ViewState,
 }
 
+const screenHeight = Dimensions.get('window').height - 75
+
 export class Overlay extends React.Component<Props, State> {
 	state = {
-		viewState: this.props.initialState ? this.props.initialState : 'min',
+		viewState: this.props.size,
 	}
 
-	resizeMin = () => this.setState(() => ({viewState: 'min'}))
-	resizeMid = () => this.setState(() => ({viewState: 'mid'}))
-	resizeMax = () => this.setState(() => ({viewState: 'max'}))
+	_deltaY = new Animated.Value(screenHeight - 100)
+
+	resizeMin = () => this.props.onSizeChange('min')
+	resizeMid = () => this.props.onSizeChange('mid')
+	resizeMax = () => this.props.onSizeChange('max')
 
 	render() {
-		const {renderCollapsed, renderExpanded, style: outerStyle} = this.props
-		const {viewState} = this.state
+		const {
+			renderCollapsed,
+			renderExpanded,
+			style: outerStyle,
+			size: viewState,
+		} = this.props
 
 		let overlaySize =
 			viewState === 'min'
@@ -45,37 +47,82 @@ export class Overlay extends React.Component<Props, State> {
 				: viewState === 'mid'
 					? styles.overlayMid
 					: viewState === 'max' ? styles.overlayMax : styles.overlayMin
-		let style = [styles.overlay, overlaySize, outerStyle]
 
-		switch (viewState) {
-			case 'min':
-				return (
-					<View style={style}>
-						<GrabberBar onPress={this.resizeMax} />
-						{renderCollapsed()}
-					</View>
-				)
-			case 'mid':
-				return (
-					<View style={style}>
-						<GrabberBar onPress={this.resizeMax} />
-						{renderExpanded()}
-					</View>
-				)
-			case 'max':
-				return (
-					<View style={style}>
-						<GrabberBar onPress={this.resizeMin} />
-						{renderExpanded()}
-					</View>
-				)
-			default:
-				;(viewState: empty)
+		let style = [
+			styles.overlay,
+			overlaySize,
+			outerStyle,
+			{transform: [{translateY: this.translateY}]},
+		]
+
+		let contents = null
+		if (viewState === 'min') {
+			contents = (
+				<React.Fragment>
+					<GrabberBar onPress={this.resizeMax} />
+					{renderCollapsed()}
+				</React.Fragment>
+			)
+		} else if (viewState === 'mid') {
+			contents = (
+				<React.Fragment>
+					<GrabberBar onPress={this.resizeMax} />
+					{renderExpanded()}
+				</React.Fragment>
+			)
+		} else if (viewState === 'max') {
+			contents = (
+				<React.Fragment>
+					<GrabberBar onPress={this.resizeMin} />
+					{renderExpanded()}
+				</React.Fragment>
+			)
+		} else {
+			;(viewState: empty)
 		}
+
+		return (
+			<View pointerEvents="box-none" style={styles.panelContainer}>
+				<Animated.View
+					pointerEvents="box-none"
+					style={[
+						styles.panelContainer,
+						{
+							backgroundColor: 'black',
+							opacity: this._deltaY.interpolate({
+								inputRange: [0, screenHeight - 100],
+								outputRange: [0.5, 0],
+								extrapolateRight: 'clamp',
+							}),
+						},
+					]}
+				/>
+				<Interactable.View
+					animatedValueY={this._deltaY}
+					boundaries={{top: -300}}
+					initialPosition={{y: screenHeight - 100}}
+					snapPoints={[
+						{y: 40},
+						{y: screenHeight - 300},
+						{y: screenHeight - 100},
+					]}
+					verticalOnly={true}
+				>
+					{contents}
+				</Interactable.View>
+			</View>
+		)
 	}
 }
 
 const styles = StyleSheet.create({
+	panelContainer: {
+		position: 'absolute',
+		top: 0,
+		bottom: 0,
+		left: 0,
+		right: 0,
+	},
 	overlay: {
 		backgroundColor: c.white,
 		borderTopLeftRadius: 10,
