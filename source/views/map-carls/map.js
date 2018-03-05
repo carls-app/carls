@@ -121,7 +121,7 @@ export class MapView extends React.Component<Props, State> {
 				if (!this._mapRef) {
 					return
 				}
-				this._mapRef.animateToRegion(newRegion, 750)
+				this._mapRef.animateToRegion(newRegion)
 			},
 		)
 	}
