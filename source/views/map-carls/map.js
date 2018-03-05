@@ -182,6 +182,6 @@ export class MapView extends React.Component<Props, State> {
 
 const styles = StyleSheet.create({
 	map: {
-		flex: 1,
+		...StyleSheet.absoluteFillObject,
 	},
 })
