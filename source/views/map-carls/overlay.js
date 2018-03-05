@@ -71,7 +71,7 @@ export class Overlay extends React.Component<Props> {
 				/> */}
 
 				<Interactable.View
-					ref={ref => this._view = ref}
+					ref={ref => (this._view = ref)}
 					// to play with the darkening bg, uncomment the following line as well
 					animatedValueY={this._deltaY}
 					boundaries={{top: -300}}

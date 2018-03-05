@@ -6,33 +6,40 @@ import * as c from '../components/colors'
 import {SearchBar} from '../components/searchbar'
 import sortBy from 'lodash/sortBy'
 import type {Building} from './types'
-import {Overlay} from './overlay'
 import {CategoryPicker} from './category-picker'
 import {BuildingList} from './building-list'
 
 type Props = {
 	buildings: Array<Building>,
 	onSelect: string => any,
+	overlaySize: 'min' | 'mid' | 'max',
+	onFocus: () => any,
+	onCancel: () => any,
 }
 
 type State = {
 	query: string,
-	overlaySize: 'min' | 'mid' | 'max',
 	category: string,
 }
 
 export class BuildingPicker extends React.Component<Props, State> {
 	state = {
 		query: '',
-		overlaySize: 'min',
 		category: 'Buildings',
+	}
+
+	componentWillReceiveProps(nextProps: Props) {
+		const thisSize = this.props.overlaySize
+		const nextSize = nextProps.overlaySize
+
+		if (thisSize !== nextSize && thisSize === 'max') {
+			this.dismissKeyboard()
+		}
 	}
 
 	searchBar: any = null
 
-	dismissKeyboard = () => {
-		this.searchBar.unFocus()
-	}
+	dismissKeyboard = () => this.searchBar.unFocus()
 
 	onSearch = (text: ?string) => {
 		let query = text || ''
@@ -51,12 +58,12 @@ export class BuildingPicker extends React.Component<Props, State> {
 	onSelectBuilding = (id: string) => this.props.onSelect(id)
 
 	onFocus = () => {
-		this.setState(() => ({overlaySize: 'max'}))
+		this.props.onFocus()
 	}
 
 	onCancel = () => {
 		this.dismissKeyboard()
-		this.setState(() => ({overlaySize: 'mid'}))
+		this.props.onCancel()
 	}
 
 	onOverlaySizeChange = (size: 'min' | 'mid' | 'max') => {
@@ -64,13 +71,10 @@ export class BuildingPicker extends React.Component<Props, State> {
 			if (state.size === 'max' && state.size !== size) {
 				this.dismissKeyboard()
 			}
-			return {overlaySize: size}
 		})
 	}
 
-	onCategoryChange = (category: string) => {
-		this.setState(() => ({category}))
-	}
+	onCategoryChange = (category: string) => this.setState(() => ({category}))
 
 	allCategories = ['Buildings', 'Outdoors', 'Parking', 'Athletics']
 	categoryLookup = {
@@ -81,8 +85,6 @@ export class BuildingPicker extends React.Component<Props, State> {
 	}
 
 	render() {
-		const {overlaySize} = this.state
-
 		const search = (
 			<SearchBar
 				getRef={ref => (this.searchBar = ref)}
@@ -96,14 +98,13 @@ export class BuildingPicker extends React.Component<Props, State> {
 			/>
 		)
 
-		const picker =
-			!this.state.query ? (
-				<CategoryPicker
-					categories={this.allCategories}
-					onChange={this.onCategoryChange}
-					selected={this.state.category}
-				/>
-			) : null
+		const picker = !this.state.query ? (
+			<CategoryPicker
+				categories={this.allCategories}
+				onChange={this.onCategoryChange}
+				selected={this.state.category}
+			/>
+		) : null
 
 		let matches = this.state.query
 			? this.props.buildings.filter(b =>
@@ -119,11 +120,11 @@ export class BuildingPicker extends React.Component<Props, State> {
 		matches = sortBy(matches, m => m.name)
 
 		return (
-			<Overlay onSizeChange={this.onOverlaySizeChange} size={overlaySize}>
+			<React.Fragment>
 				{search}
 				{picker}
 				<BuildingList buildings={matches} onSelect={this.onSelectBuilding} />
-			</Overlay>
+			</React.Fragment>
 		)
 	}
 }

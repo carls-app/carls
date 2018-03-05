@@ -16,31 +16,15 @@ import startCase from 'lodash/startCase'
 import {Row, Column} from '../components/layout'
 import {ListRow, Title} from '../components/list'
 import openUrl from '../components/open-url'
-import {Overlay} from './overlay'
 
 type Props = {
 	building: Building,
 	onClose: () => any,
 }
 
-type State = {
-	overlaySize: 'min' | 'mid' | 'max',
-}
-
-export class BuildingInfo extends React.Component<Props, State> {
-	state = {
-		overlaySize: 'mid',
-	}
-
+export class BuildingInfo extends React.Component<Props> {
 	onClose = () => {
-		this.setState(() => ({overlaySize: 'min'}))
 		this.props.onClose()
-	}
-
-	onOverlaySizeChange = (size: 'min' | 'mid' | 'max') => {
-		this.setState(() => {
-			return {overlaySize: size}
-		})
 	}
 
 	makeBuildingCategory = (building: Building) => {
@@ -51,7 +35,7 @@ export class BuildingInfo extends React.Component<Props, State> {
 			.join(' • ')
 	}
 
-	renderExpanded = () => {
+	render() {
 		const {building} = this.props
 		const category = this.makeBuildingCategory(building)
 		const photo = building.photo
@@ -59,7 +43,7 @@ export class BuildingInfo extends React.Component<Props, State> {
 			: null
 
 		return (
-			<React.Fragment>
+			<View style={styles.container}>
 				<Row
 					alignItems="center"
 					justifyContent="space-between"
@@ -108,19 +92,7 @@ export class BuildingInfo extends React.Component<Props, State> {
 						</View>
 					</Section>
 				) : null}
-			</React.Fragment>
-		)
-	}
-
-	render() {
-		return (
-			<Overlay
-				onSizeChange={this.onOverlaySizeChange}
-				size={this.state.overlaySize}
-				style={styles.overlay}
-			>
-				{this.renderExpanded()}
-			</Overlay>
+			</View>
 		)
 	}
 }
@@ -162,7 +134,7 @@ const CloseButton = ({onPress}) => (
 )
 
 const styles = StyleSheet.create({
-	overlay: {
+	container: {
 		paddingHorizontal: 12,
 	},
 	closeButton: {

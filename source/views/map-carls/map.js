@@ -2,6 +2,7 @@
 
 import * as React from 'react'
 import {View, StyleSheet} from 'react-native'
+import {SafeAreaView} from 'react-native'
 import Map, {Marker, Polygon, UrlTile} from 'react-native-maps'
 import * as c from '../components/colors'
 import type {TopLevelViewPropsType} from '../types'
@@ -9,6 +10,8 @@ import type {Building} from './types'
 import {MAP_DATA_URL, GITHUB_TILE_TEMPLATE} from './urls'
 import {BuildingPicker} from './picker'
 import {BuildingInfo} from './info'
+import {Overlay} from './overlay'
+// import {SafeAreaView} from 'react-navigation'
 
 type Props = TopLevelViewPropsType
 
@@ -17,6 +20,7 @@ type State = {|
 	visibleMarkers: Array<string>,
 	highlighted: Array<string>,
 	selectedBuilding: ?Building,
+	overlaySize: 'min' | 'mid' | 'max',
 |}
 
 const originalCenterpoint = {
@@ -37,6 +41,7 @@ export class MapView extends React.Component<Props, State> {
 		highlighted: [],
 		visibleMarkers: [],
 		selectedBuilding: null,
+		overlaySize: 'mid',
 	}
 
 	componentDidMount() {
@@ -94,8 +99,7 @@ export class MapView extends React.Component<Props, State> {
 	buildingToHighlightedOutline = (b: Building) =>
 		this.buildingToOutline(b, true)
 
-	onTouchOutline = (id: string) =>
-		this.highlightBuildingById(id)
+	onTouchOutline = (id: string) => this.highlightBuildingById(id)
 
 	highlightBuildingById = (id: string) => {
 		const match = this.state.buildings.find(b => b.id === id)
@@ -126,9 +130,9 @@ export class MapView extends React.Component<Props, State> {
 		)
 	}
 
-	onPickerSelect = (id: string) => {
-		this.highlightBuildingById(id)
-	}
+	onPickerSelect = (id: string) => this.highlightBuildingById(id)
+	onPickerFocus = () => this.setOverlayMax()
+	onPickerCancel = () => this.setOverlayMid()
 
 	onInfoOverlayClose = () => {
 		this.setState(() => ({
@@ -136,7 +140,15 @@ export class MapView extends React.Component<Props, State> {
 			visibleMarkers: [],
 			highlighted: [],
 		}))
+		this.setOverlayMin()
 	}
+
+	setOverlayMax = () => this.setState(() => ({overlaySize: 'max'}))
+	setOverlayMid = () => this.setState(() => ({overlaySize: 'mid'}))
+	setOverlayMin = () => this.setState(() => ({overlaySize: 'min'}))
+
+	onOverlaySizeChange = (size: 'min' | 'mid' | 'max') =>
+		this.setState(() => ({overlaySize: size}))
 
 	render() {
 		return (
@@ -163,17 +175,25 @@ export class MapView extends React.Component<Props, State> {
 						.map(this.buildingToHighlightedOutline)}
 				</Map>
 
-				{this.state.selectedBuilding ? (
-					<BuildingInfo
-						building={this.state.selectedBuilding}
-						onClose={this.onInfoOverlayClose}
-					/>
-				) : (
-					<BuildingPicker
-						buildings={this.state.buildings}
-						onSelect={this.onPickerSelect}
-					/>
-				)}
+				<Overlay
+					onSizeChange={this.onOverlaySizeChange}
+					size={this.state.overlaySize}
+				>
+					{this.state.selectedBuilding ? (
+						<BuildingInfo
+							building={this.state.selectedBuilding}
+							onClose={this.onInfoOverlayClose}
+						/>
+					) : (
+						<BuildingPicker
+							buildings={this.state.buildings}
+							onCancel={this.onPickerCancel}
+							onFocus={this.onPickerFocus}
+							onSelect={this.onPickerSelect}
+							overlaySize={this.state.overlaySize}
+						/>
+					)}
+				</Overlay>
 			</View>
 		)
 	}
