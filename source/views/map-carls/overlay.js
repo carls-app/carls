@@ -27,7 +27,7 @@ export class Overlay extends React.Component<Props, State> {
 		viewState: this.props.size,
 	}
 
-	_deltaY = new Animated.Value(screenHeight - 100)
+	// _deltaY = new Animated.Value(screenHeight - 100)
 
 	resizeMin = () => this.props.onSizeChange('min')
 	resizeMid = () => this.props.onSizeChange('mid')
@@ -41,18 +41,10 @@ export class Overlay extends React.Component<Props, State> {
 			size: viewState,
 		} = this.props
 
-		let overlaySize =
-			viewState === 'min'
-				? styles.overlayMin
-				: viewState === 'mid'
-					? styles.overlayMid
-					: viewState === 'max' ? styles.overlayMax : styles.overlayMin
-
 		let style = [
 			styles.overlay,
-			overlaySize,
+			// overlaySize,
 			outerStyle,
-			{transform: [{translateY: this.translateY}]},
 		]
 
 		let contents = null
@@ -83,12 +75,14 @@ export class Overlay extends React.Component<Props, State> {
 
 		return (
 			<View pointerEvents="box-none" style={styles.panelContainer}>
-				<Animated.View
+				{/* this would be a way to darken the background as you move the panel up, but
+				    it currently starts out dark – we'd need it to start out transparent. */}
+				{/* <Animated.View
 					pointerEvents="box-none"
 					style={[
 						styles.panelContainer,
+						{backgroundColor: 'black'},
 						{
-							backgroundColor: 'black',
 							opacity: this._deltaY.interpolate({
 								inputRange: [0, screenHeight - 100],
 								outputRange: [0.5, 0],
@@ -96,9 +90,11 @@ export class Overlay extends React.Component<Props, State> {
 							}),
 						},
 					]}
-				/>
+				/> */}
+
 				<Interactable.View
-					animatedValueY={this._deltaY}
+					// to play with the darkening bg, uncomment the following line as well
+					//animatedValueY={this._deltaY}
 					boundaries={{top: -300}}
 					initialPosition={{y: screenHeight - 100}}
 					snapPoints={[
@@ -108,7 +104,7 @@ export class Overlay extends React.Component<Props, State> {
 					]}
 					verticalOnly={true}
 				>
-					{contents}
+					<View style={style}>{contents}</View>
 				</Interactable.View>
 			</View>
 		)
@@ -125,27 +121,14 @@ const styles = StyleSheet.create({
 	},
 	overlay: {
 		backgroundColor: c.white,
+		height: screenHeight + 300,
 		borderTopLeftRadius: 10,
 		borderTopRightRadius: 10,
-		bottom: 0,
-		left: 0,
 		paddingHorizontal: 0,
 		paddingTop: 0,
-		position: 'absolute',
-		right: 0,
 		shadowColor: c.black,
 		shadowOffset: {height: -4},
 		shadowOpacity: 0.15,
 		shadowRadius: 4,
-		zIndex: 2,
-	},
-	overlayMin: {
-		height: 80,
-	},
-	overlayMid: {
-		height: 200,
-	},
-	overlayMax: {
-		top: 20,
 	},
 })
