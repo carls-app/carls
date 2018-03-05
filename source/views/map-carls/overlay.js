@@ -9,8 +9,7 @@ import Interactable from 'react-native-interactable'
 type ViewState = 'min' | 'mid' | 'max'
 
 type Props = {
-	renderCollapsed: () => React.Node,
-	renderExpanded: () => React.Node,
+	children: React.Node,
 	style?: any,
 	size: ViewState,
 	onSizeChange: ViewState => any,
@@ -20,10 +19,9 @@ const screenHeight = Dimensions.get('window').height - 75
 
 export class Overlay extends React.Component<Props> {
 	componentWillReceiveProps(nextProps: Props) {
-		Animated.timing(
-			this._deltaY,
-			{toValue: this.lookupPosition(nextProps.size)}
-		).start()
+		Animated.timing(this._deltaY, {
+			toValue: this.lookupPosition(nextProps.size),
+		}).start()
 	}
 
 	positions = {
@@ -44,43 +42,9 @@ export class Overlay extends React.Component<Props> {
 	}
 
 	render() {
-		const {
-			renderExpanded,
-			style: outerStyle,
-			size: viewState,
-		} = this.props
+		const {style: outerStyle, size: viewState} = this.props
 
-		let style = [
-			styles.overlay,
-			outerStyle,
-		]
-
-		let contents = null
-		if (viewState === 'min') {
-			contents = (
-				<React.Fragment>
-					<GrabberBar />
-					{/* {renderCollapsed()} */}
-					{renderExpanded()}
-				</React.Fragment>
-			)
-		} else if (viewState === 'mid') {
-			contents = (
-				<React.Fragment>
-					<GrabberBar />
-					{renderExpanded()}
-				</React.Fragment>
-			)
-		} else if (viewState === 'max') {
-			contents = (
-				<React.Fragment>
-					<GrabberBar />
-					{renderExpanded()}
-				</React.Fragment>
-			)
-		} else {
-			;(viewState: empty)
-		}
+		let style = [styles.overlay, outerStyle]
 
 		return (
 			<View pointerEvents="box-none" style={styles.panelContainer}>
@@ -113,7 +77,10 @@ export class Overlay extends React.Component<Props> {
 					]}
 					verticalOnly={true}
 				>
-					<View style={style}>{contents}</View>
+					<View style={style}>
+						<GrabberBar />
+						{this.props.children}
+					</View>
 				</Interactable.View>
 			</View>
 		)

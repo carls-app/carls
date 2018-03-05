@@ -90,20 +90,10 @@ export class BuildingPicker extends React.Component<Props, State> {
 		matches = sortBy(matches, m => m.name)
 
 		return (
-			<Overlay
-				onSizeChange={this.onOverlaySizeChange}
-				renderCollapsed={() => <React.Fragment>{search}</React.Fragment>}
-				renderExpanded={() => (
-					<React.Fragment>
-						{search}
-						<BuildingList
-							buildings={matches}
-							onSelect={this.onSelectBuilding}
-						/>
-					</React.Fragment>
-				)}
-				size={overlaySize}
-			/>
+			<Overlay onSizeChange={this.onOverlaySizeChange} size={overlaySize}>
+				{search}
+				<BuildingList buildings={matches} onSelect={this.onSelectBuilding} />
+			</Overlay>
 		)
 	}
 }

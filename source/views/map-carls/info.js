@@ -51,23 +51,6 @@ export class BuildingInfo extends React.Component<Props, State> {
 			.join(' • ')
 	}
 
-	renderCollapsed = () => {
-		const {building} = this.props
-		const category = this.makeBuildingCategory(building)
-
-		return (
-			<React.Fragment>
-				<Row>
-					<Column>
-						<PlaceTitle>{building.name}</PlaceTitle>
-						<PlaceSubtitle>{category}</PlaceSubtitle>
-					</Column>
-					<CloseButton onPress={this.onClose} />
-				</Row>
-			</React.Fragment>
-		)
-	}
-
 	renderExpanded = () => {
 		const {building} = this.props
 		const category = this.makeBuildingCategory(building)
@@ -133,11 +116,11 @@ export class BuildingInfo extends React.Component<Props, State> {
 		return (
 			<Overlay
 				onSizeChange={this.onOverlaySizeChange}
-				renderCollapsed={this.renderCollapsed}
-				renderExpanded={this.renderExpanded}
 				size={this.state.overlaySize}
 				style={styles.overlay}
-			/>
+			>
+				{this.renderExpanded()}
+			</Overlay>
 		)
 	}
 }
