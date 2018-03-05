@@ -43,14 +43,18 @@ export class BuildingInfo extends React.Component<Props, State> {
 		})
 	}
 
-	renderCollapsed = () => {
-		const {building} = this.props
-
+	makeBuildingCategory = (building: Building) => {
 		const blacklist = ['hall', 'house', 'building']
-		const category = Object.keys(building.categories)
+		return Object.keys(building.categories)
 			.filter(name => !blacklist.includes(name))
 			.map(name => startCase(name))
 			.join(' • ')
+	}
+
+	renderCollapsed = () => {
+		const {building} = this.props
+		const category = this.makeBuildingCategory(building)
+
 		return (
 			<React.Fragment>
 				<Row>
@@ -66,13 +70,7 @@ export class BuildingInfo extends React.Component<Props, State> {
 
 	renderExpanded = () => {
 		const {building} = this.props
-
-		const blacklist = ['hall', 'house', 'building']
-		const category = Object.keys(building.categories)
-			.filter(name => !blacklist.includes(name))
-			.map(name => startCase(name))
-			.join(' • ')
-
+		const category = this.makeBuildingCategory(building)
 		const photo = building.photo
 			? `https://carls-app.github.io/map-data/cache/img/${building.photo}`
 			: null
