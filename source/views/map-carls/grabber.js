@@ -1,13 +1,13 @@
 // @flow
 
 import * as React from 'react'
-import {View, StyleSheet, TouchableWithoutFeedback} from 'react-native'
+import {View, StyleSheet} from 'react-native'
 import * as c from '../components/colors'
 
-export const GrabberBar = ({onPress}: {onPress: () => any}) => (
-	<TouchableWithoutFeedback onPress={onPress}>
+export const GrabberBar = () => (
+	<View>
 		<View style={styles.grabber} />
-	</TouchableWithoutFeedback>
+	</View>
 )
 
 const styles = StyleSheet.create({

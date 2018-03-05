@@ -64,21 +64,21 @@ export class Overlay extends React.Component<Props> {
 		if (viewState === 'min') {
 			contents = (
 				<React.Fragment>
-					<GrabberBar onPress={this.resizeMax} />
+					<GrabberBar />
 					{renderCollapsed()}
 				</React.Fragment>
 			)
 		} else if (viewState === 'mid') {
 			contents = (
 				<React.Fragment>
-					<GrabberBar onPress={this.resizeMax} />
+					<GrabberBar />
 					{renderExpanded()}
 				</React.Fragment>
 			)
 		} else if (viewState === 'max') {
 			contents = (
 				<React.Fragment>
-					<GrabberBar onPress={this.resizeMin} />
+					<GrabberBar />
 					{renderExpanded()}
 				</React.Fragment>
 			)
