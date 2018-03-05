@@ -108,13 +108,6 @@ export class MapView extends React.Component<Props, State> {
 			return
 		}
 
-		const newRegion = {
-			latitude: match.center[0],
-			longitude: match.center[1],
-			latitudeDelta: 0.002252,
-			longitudeDelta: 0.001962,
-		}
-
 		this.setState(
 			() => ({
 				visibleMarkers: [id],
@@ -124,6 +117,21 @@ export class MapView extends React.Component<Props, State> {
 			() => {
 				if (!this._mapRef) {
 					return
+				}
+				if (!match || !match.center) {
+					return
+				}
+				const latitude =
+					this.state.overlaySize === 'min'
+						? // case 1: overlay is collapsed; center in viewport
+							match.center[0]
+						: // case 2: overlay is open; center above overlay
+							match.center[0] - 0.002252 / 4
+				const newRegion = {
+					latitude: latitude,
+					longitude: match.center[1],
+					latitudeDelta: 0.002252,
+					longitudeDelta: 0.001962,
 				}
 				this._mapRef.animateToRegion(newRegion)
 			},
