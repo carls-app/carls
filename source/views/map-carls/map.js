@@ -99,7 +99,10 @@ export class MapView extends React.Component<Props, State> {
 	buildingToHighlightedOutline = (b: Building) =>
 		this.buildingToOutline(b, true)
 
-	onTouchOutline = (id: string) => this.highlightBuildingById(id)
+	onTouchOutline = (id: string) => {
+		this.highlightBuildingById(id)
+		this.setOverlayMid()
+	}
 
 	highlightBuildingById = (id: string) => {
 		const match = this.state.buildings.find(b => b.id === id)
@@ -138,7 +141,10 @@ export class MapView extends React.Component<Props, State> {
 		)
 	}
 
-	onPickerSelect = (id: string) => this.highlightBuildingById(id)
+	onPickerSelect = (id: string) => {
+		this.highlightBuildingById(id)
+		this.setOverlayMid()
+	}
 	onPickerFocus = () => this.setOverlayMax()
 	onPickerCancel = () => this.setOverlayMid()
 
