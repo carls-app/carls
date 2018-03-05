@@ -1,7 +1,7 @@
 // @flow
 
 import * as React from 'react'
-import {View, StyleSheet, Animated, Dimensions} from 'react-native'
+import {View, StyleSheet, Animated, Dimensions, Platform} from 'react-native'
 import * as c from '../components/colors'
 import {GrabberBar} from './grabber'
 import Interactable from 'react-native-interactable'
@@ -14,6 +14,20 @@ type Props = {
 	size: ViewState,
 	onSizeChange: ViewState => any,
 }
+
+// See https://mydevice.io/devices/ for device dimensions
+const X_WIDTH = 375
+const X_HEIGHT = 812
+
+const {height: D_HEIGHT, width: D_WIDTH} = Dimensions.get('window')
+
+const isIPhoneX = (() => {
+	return (
+		Platform.OS === 'ios' &&
+		((D_HEIGHT === X_HEIGHT && D_WIDTH === X_WIDTH) ||
+			(D_HEIGHT === X_WIDTH && D_WIDTH === X_HEIGHT))
+	)
+})()
 
 const screenHeight = Dimensions.get('window').height - 75
 
@@ -31,8 +45,8 @@ export class Overlay extends React.Component<Props> {
 	positionsOrder = ['max', 'mid', 'min']
 	positions = {
 		max: 40,
-		mid: screenHeight - 300,
-		min: screenHeight - 58,
+		mid: isIPhoneX ? screenHeight - 370 : screenHeight - 300,
+		min: isIPhoneX ? screenHeight - 120 : screenHeight - 58,
 	}
 
 	lookupPosition = (size: ViewState) => this.positions[size]
