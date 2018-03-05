@@ -14,8 +14,8 @@ const styles = StyleSheet.create({
 	grabber: {
 		backgroundColor: c.iosGray,
 		borderRadius: 4,
-		height: 4,
-		width: 30,
+		height: 6,
+		width: 40,
 		alignSelf: 'center',
 		marginBottom: 1,
 		marginTop: 6,
