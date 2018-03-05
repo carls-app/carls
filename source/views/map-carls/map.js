@@ -2,7 +2,6 @@
 
 import * as React from 'react'
 import {View, StyleSheet} from 'react-native'
-import {SafeAreaView} from 'react-native'
 import Map, {Marker, Polygon, UrlTile} from 'react-native-maps'
 import * as c from '../components/colors'
 import type {TopLevelViewPropsType} from '../types'
@@ -11,7 +10,6 @@ import {MAP_DATA_URL, GITHUB_TILE_TEMPLATE} from './urls'
 import {BuildingPicker} from './picker'
 import {BuildingInfo} from './info'
 import {Overlay} from './overlay'
-// import {SafeAreaView} from 'react-navigation'
 
 type Props = TopLevelViewPropsType
 
