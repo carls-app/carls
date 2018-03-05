@@ -123,7 +123,11 @@ export class BuildingPicker extends React.Component<Props, State> {
 			<React.Fragment>
 				{search}
 				{picker}
-				<BuildingList buildings={matches} onSelect={this.onSelectBuilding} />
+				<BuildingList
+					buildings={matches}
+					onSelect={this.onSelectBuilding}
+					scrollEnabled={this.props.overlaySize === 'max'}
+				/>
 			</React.Fragment>
 		)
 	}

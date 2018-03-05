@@ -201,6 +201,7 @@ export class MapView extends React.Component<Props, State> {
 						<BuildingInfo
 							building={this.state.selectedBuilding}
 							onClose={this.onInfoOverlayClose}
+							overlaySize={this.state.overlaySize}
 						/>
 					) : (
 						<BuildingPicker
