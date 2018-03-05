@@ -89,14 +89,13 @@ export class MapView extends React.Component<Props, State> {
 		)
 	}
 
-	onTouchOutline = (id: string) => {
-		this.highlightBuildingById(id)
-	}
-
 	buildingToUnhightlightedOutline = (b: Building) =>
 		this.buildingToOutline(b, false)
 	buildingToHighlightedOutline = (b: Building) =>
 		this.buildingToOutline(b, true)
+
+	onTouchOutline = (id: string) =>
+		this.highlightBuildingById(id)
 
 	highlightBuildingById = (id: string) => {
 		const match = this.state.buildings.find(b => b.id === id)
