@@ -89,8 +89,7 @@ export class Overlay extends React.Component<Props> {
 				{/* <Animated.View
 					pointerEvents="box-none"
 					style={[
-						styles.panelContainer,
-						{backgroundColor: 'black'},
+						styles.overlayBackground,
 						{
 							opacity: this._deltaY.interpolate({
 								inputRange: [0, screenHeight - 100],
@@ -123,6 +122,10 @@ export class Overlay extends React.Component<Props> {
 
 const styles = StyleSheet.create({
 	panelContainer: StyleSheet.absoluteFillObject,
+	// overlayBackground: {
+	// 	...StyleSheet.absoluteFillObject,
+	// 	backgroundColor: c.black,
+	// },
 	overlay: {
 		backgroundColor: c.white,
 		height: screenHeight + 300,
