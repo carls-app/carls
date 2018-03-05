@@ -19,11 +19,18 @@ const screenHeight = Dimensions.get('window').height - 75
 
 export class Overlay extends React.Component<Props> {
 	componentWillReceiveProps(nextProps: Props) {
-		Animated.timing(this._deltaY, {
-			toValue: this.lookupPosition(nextProps.size),
-		}).start()
+		if (!this._view) {
+			return
+		}
+
+		if (this.props.size === nextProps.size) {
+			return
+		}
+
+		this._view.snapTo({index: this.positionsOrder.indexOf(nextProps.size)})
 	}
 
+	positionsOrder = ['max', 'mid', 'min']
 	positions = {
 		max: 40,
 		mid: screenHeight - 300,
@@ -35,6 +42,7 @@ export class Overlay extends React.Component<Props> {
 	resizeMid = () => this.props.onSizeChange('mid')
 	resizeMax = () => this.props.onSizeChange('max')
 
+	_view: any = null
 	_deltaY = new Animated.Value(this.lookupPosition(this.props.size))
 
 	onSnap = (ev: {nativeEvent: {index: number, id: ViewState}}) => {
@@ -65,6 +73,7 @@ export class Overlay extends React.Component<Props> {
 				/> */}
 
 				<Interactable.View
+					ref={ref => this._view = ref}
 					// to play with the darkening bg, uncomment the following line as well
 					animatedValueY={this._deltaY}
 					boundaries={{top: -300}}
