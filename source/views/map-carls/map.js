@@ -69,6 +69,7 @@ export class MapView extends React.Component<Props, State> {
 				key={b.id}
 				coordinate={coord}
 				description={b.address || ''}
+				pinColor={c.carletonBlue}
 				title={b.name}
 			/>
 		)
