@@ -69,6 +69,7 @@ export class MapView extends React.Component<Props, State> {
 				key={b.id}
 				coordinate={coord}
 				description={b.address || ''}
+				pinColor={c.carletonBlue}
 				title={b.name}
 			/>
 		)
@@ -84,7 +85,7 @@ export class MapView extends React.Component<Props, State> {
 			<Polygon
 				key={b.id}
 				coordinates={coords}
-				fillColor={highlighted ? c.brickRed : c.black75Percent}
+				fillColor={highlighted ? c.carletonBlue : c.black75Percent}
 				onPress={() => this.onTouchOutline(b.id)}
 				strokeColor={highlighted ? c.maroon : c.black50Percent}
 				strokeWidth={StyleSheet.hairlineWidth}
