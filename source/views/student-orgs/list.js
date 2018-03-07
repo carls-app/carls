@@ -122,9 +122,8 @@ export class StudentOrgsView extends React.PureComponent<Props, State> {
 		contacts = contacts.replace(/^Contact: /, '')
 		contacts = contacts ? contacts.split(', ') : []
 
-		const websiteEls = cssSelect('.site a', orgNode)
-		const website =
-			websiteEls && websiteEls.length ? websiteEls[0].attribs.href : ''
+		const websiteEls = cssSelect('.site a', orgNode).map(n => n.attribs.href)
+		const website = websiteEls.length ? websiteEls[0] : ''
 
 		return {
 			contacts,
