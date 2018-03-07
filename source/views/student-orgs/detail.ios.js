@@ -80,7 +80,7 @@ export class StudentOrgsDetailView extends React.PureComponent<Props> {
 					</Text>
 
 					{category ? (
-						<Section header="CATEGORY">
+						<Section header="CATEGORIES">
 							<Cell cellStyle="Basic" title={category} />
 						</Section>
 					) : null}
