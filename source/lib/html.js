@@ -20,7 +20,7 @@ export function getText(elem: Object | Object[]): string {
 	return ''
 }
 
-function getTextWithSpaces(elem: Object | Object[]): string {
+export function getTextWithSpaces(elem: Object | Object[]): string {
 	if (Array.isArray(elem)) return elem.map(getTextWithSpaces).join(' ')
 	if (elem.type === 'tag') return getTextWithSpaces(elem.children)
 	if (elem.type === 'text') return elem.data
