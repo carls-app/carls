@@ -51,13 +51,9 @@ export class StudentOrgsDetailView extends React.PureComponent<Props> {
 	}
 
 	render() {
-		const {
-			name: orgName,
-			category,
-			website,
-			contacts,
-			description,
-		} = cleanOrg(this.props.navigation.state.params.org)
+		const {name: orgName, category, website, contacts, description} = cleanOrg(
+			this.props.navigation.state.params.org,
+		)
 
 		return (
 			<ScrollView>
