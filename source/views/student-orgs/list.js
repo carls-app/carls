@@ -114,13 +114,16 @@ export class StudentOrgsView extends React.PureComponent<Props, State> {
 			.replace(/ Manage$/, '')
 			.trim()
 
-		const description = getTrimmedTextWithSpaces(cssSelect('.orgDescription', orgNode))
+		const description = getTrimmedTextWithSpaces(
+			cssSelect('.orgDescription', orgNode),
+		)
 
 		let contacts = getTrimmedTextWithSpaces(cssSelect('.contacts', orgNode))
 		contacts = contacts.replace(/^Contact: /, '').split(', ')
 
 		const websiteEls = cssSelect('.site a', orgNode)
-		const website = websiteEls && websiteEls.length ? websiteEls[0].attribs.href : ''
+		const website =
+			websiteEls && websiteEls.length ? websiteEls[0].attribs.href : ''
 
 		return {
 			contacts,
