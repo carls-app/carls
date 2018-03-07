@@ -27,9 +27,13 @@ import filter from 'lodash/filter'
 import startCase from 'lodash/startCase'
 import * as c from '../components/colors'
 import type {StudentOrgType} from './types'
+import {
+	parseHtml,
+	cssSelect,
+	getTrimmedTextWithSpaces as getText,
+} from '../../lib/html'
 
-const orgsUrl =
-	'https://www.stolaf.edu/orgs/list/index.cfm?fuseaction=getall&nostructure=1'
+const orgsUrl = 'https://apps.carleton.edu/student/orgs/'
 const leftSideSpacing = 20
 const ROW_HEIGHT = Platform.OS === 'ios' ? 58 : 74
 const SECTION_HEADER_HEIGHT = Platform.OS === 'ios' ? 33 : 41
@@ -39,7 +43,7 @@ const splitToArray = (str: string) => words(deburr(str.toLowerCase()))
 const orgToArray = (term: StudentOrgType) =>
 	uniq([
 		...splitToArray(term.name),
-		...splitToArray(term.category),
+		//...splitToArray(term.category),
 		...splitToArray(term.description),
 	])
 
@@ -50,6 +54,9 @@ const styles = StyleSheet.create({
 	row: {
 		height: ROW_HEIGHT,
 		paddingRight: 2,
+	},
+	rowDetailText: {
+		fontSize: 14,
 	},
 	rowSectionHeader: {
 		height: SECTION_HEADER_HEIGHT,
@@ -99,15 +106,36 @@ export class StudentOrgsView extends React.PureComponent<Props, State> {
 	}
 
 	fetchData = async () => {
-		const responseData: StudentOrgType[] = await fetchJson(orgsUrl).catch(
-			err => {
-				reportNetworkProblem(err)
-				this.setState(() => ({error: true}))
-				return []
-			},
-		)
+		const page: StudentOrgType[] = await fetch(orgsUrl).then(r => r.text())
+		const dom = parseHtml(page)
 
-		const sortableRegex = /^(St\.? Olaf(?: College)?|The) +/i
+		const orgsList = cssSelect('#orgsList', dom)
+		const allOrgs = cssSelect('.orgContainer', orgsList)
+
+		let responseData = []
+		allOrgs.map(org => {
+			// todo:
+			//  * cleanup this whole function
+			//  * remove the hyperlink that is stripped down to 'manage'
+			//  * don't strip links from 'site'
+      //  * plumb the detail view
+			let name = getText(cssSelect('h4:first-of-type', org)).trim()
+			let description = getText(
+				cssSelect('div.orgBody > div.orgDescription', org),
+			).trim()
+			let contacts = getText(cssSelect('div.orgBody > p.contacts', org)).trim()
+			let site = getText(cssSelect('div.orgBody > p.site', org)).trim()
+
+			const group = {
+				name: name,
+				description: description,
+				contacts: contacts,
+				site: site,
+			}
+			responseData.push(group)
+		})
+
+		const sortableRegex = /^(Carleton(?: College)?|The) +/i
 		const withSortableNames = responseData.map(item => {
 			const sortableName = item.name.replace(sortableRegex, '')
 
@@ -157,9 +185,11 @@ export class StudentOrgsView extends React.PureComponent<Props, State> {
 					<Text style={styles.badge}>•</Text>
 				</View>
 
-				<Column flex={1}>
+				<Column>
 					<Title lines={1}>{item.name}</Title>
-					<Detail lines={1}>{item.category}</Detail>
+					<Detail lines={1} style={styles.rowDetailText}>
+						{item.description}
+					</Detail>
 				</Column>
 			</Row>
 		</ListRow>
