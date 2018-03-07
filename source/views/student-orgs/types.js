@@ -1,7 +1,7 @@
 // @flow
 
 export type StudentOrgType = {
-    id: string,
+	id: string,
 	contacts: Array<string>,
 	description: string,
 	categories: Array<string>,

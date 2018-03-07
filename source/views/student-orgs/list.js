@@ -1,13 +1,12 @@
 // @flow
 
 import * as React from 'react'
-import {StyleSheet, View, Text, Platform, RefreshControl} from 'react-native'
+import {StyleSheet, Platform, RefreshControl} from 'react-native'
 import {SearchableAlphabetListView} from '../components/searchable-alphabet-listview'
 import type {TopLevelViewPropsType} from '../types'
 import LoadingView from '../components/loading'
 import delay from 'delay'
 import {NoticeView} from '../components/notice'
-import {Row, Column} from '../components/layout'
 import {
 	ListRow,
 	ListSectionHeader,
@@ -16,7 +15,6 @@ import {
 	Title,
 } from '../components/list'
 import {trackOrgOpen} from '../../analytics'
-import {reportNetworkProblem} from '../../lib/report-network-problem'
 import size from 'lodash/size'
 import sortBy from 'lodash/sortBy'
 import groupBy from 'lodash/groupBy'
@@ -25,7 +23,6 @@ import words from 'lodash/words'
 import deburr from 'lodash/deburr'
 import filter from 'lodash/filter'
 import startCase from 'lodash/startCase'
-import * as c from '../components/colors'
 import type {StudentOrgType} from './types'
 import {
 	parseHtml,
@@ -35,7 +32,6 @@ import {
 } from '../../lib/html'
 
 const orgsUrl = 'https://apps.carleton.edu/student/orgs/'
-const leftSideSpacing = 20
 const ROW_HEIGHT = Platform.OS === 'ios' ? 58 : 74
 const SECTION_HEADER_HEIGHT = Platform.OS === 'ios' ? 33 : 41
 
@@ -61,16 +57,6 @@ const styles = StyleSheet.create({
 	},
 	rowSectionHeader: {
 		height: SECTION_HEADER_HEIGHT,
-	},
-	badgeContainer: {
-		alignItems: 'center',
-		justifyContent: 'center',
-		alignSelf: 'flex-start',
-		width: leftSideSpacing,
-	},
-	badge: {
-		fontSize: Platform.OS === 'ios' ? 24 : 28,
-		color: c.transparent,
 	},
 })
 
