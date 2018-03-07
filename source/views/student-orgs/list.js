@@ -158,7 +158,9 @@ export class StudentOrgsView extends React.PureComponent<Props, State> {
 			if (!stored || !currentCategory) {
 				continue
 			}
-			stored.categories.push(currentCategory)
+			if (!stored.categories.includes(currentCategory)) {
+				stored.categories.push(currentCategory)
+			}
 		}
 
 		const sortableRegex = /^(Carleton( College)?|The) +/i
