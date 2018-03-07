@@ -111,19 +111,21 @@ export class StudentOrgsView extends React.PureComponent<Props, State> {
 
 		const orgsList = cssSelect('#orgsList', dom)
 		const allOrgs = cssSelect('.orgContainer', orgsList)
+		const manageLinkRegex = / Manage$/
 
 		let responseData = []
 		allOrgs.forEach(org => {
 			// todo:
 			//  * cleanup this whole function
 			//  * remove duplicate org entries from the scraping...
-			//  * remove the 'manage' hyperlink from the org name
 			//  * don't strip links from 'site'
 			//  * plumb-in the detail view
 			//  * get categories
 			//  * replace description on rows with category
 			//  * harvest social links (FB, Instagram, Twitter, etc)
-			let name = getText(cssSelect('h4', org)).trim()
+			let name = getText(cssSelect('h4', org))
+				.replace(manageLinkRegex, '')
+				.trim()
 			let description = getText(cssSelect('.orgDescription', org)).trim()
 			let contacts = getText(cssSelect('.contacts', org)).trim()
 			let site = getText(cssSelect('.site', org)).trim()
