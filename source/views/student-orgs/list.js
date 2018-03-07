@@ -116,9 +116,12 @@ export class StudentOrgsView extends React.PureComponent<Props, State> {
 		allOrgs.map(org => {
 			// todo:
 			//  * cleanup this whole function
-			//  * remove the hyperlink that is stripped down to 'manage'
+			//  * remove the 'manage' hyperlink from the org name
 			//  * don't strip links from 'site'
-      //  * plumb the detail view
+			//  * plumb-in the detail view
+			//  * get categories
+			//  * replace description on rows with category
+			//  * harvest social links (FB, Instagram, Twitter, etc)
 			let name = getText(cssSelect('h4:first-of-type', org)).trim()
 			let description = getText(
 				cssSelect('div.orgBody > div.orgDescription', org),
