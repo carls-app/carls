@@ -75,7 +75,7 @@ export class StudentOrgsDetailView extends React.PureComponent<Props> {
 						{orgName}
 					</Text>
 
-{/* 					{category ? (
+					{/* 					{category ? (
 						<Section header="CATEGORY">
 							<Cell cellStyle="Basic" title={category} />
 						</Section>
@@ -92,14 +92,10 @@ export class StudentOrgsDetailView extends React.PureComponent<Props> {
 						</Section>
 					) : null}
 
-          {contacts.length ? (
+					{contacts.length && contacts != null ? (
 						<Section header="CONTACT">
 							{contacts.map((c, i) => (
-								<Cell
-									key={i}
-                  cellStyle="Basic"
-									title={c}
-								/>
+								<Cell key={i} cellStyle="Basic" title={c} />
 							))}
 						</Section>
 					) : null}

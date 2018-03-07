@@ -119,7 +119,6 @@ export class StudentOrgsView extends React.PureComponent<Props, State> {
 			//  * cleanup this whole function
 			//  * remove duplicate org entries from the scraping...
 			//  * don't strip links from 'site'
-			//  * plumb-in the detail view
 			//  * get categories
 			//  * replace description on rows with category
 			//  * harvest social links (FB, Instagram, Twitter, etc)

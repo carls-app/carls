@@ -5,14 +5,11 @@ import {fastGetTrimmedText} from '../../lib/html'
 export function cleanOrg(org: StudentOrgType): StudentOrgType {
 	const name = org.name.trim()
 
-	const contacts = org.contacts.map(c => ({
-		...c,
-		title: c.trim(),
-	}))
+	const contacts = org.contacts.replace(/^Contact: /, '').split(', ')
 
 	// const category = org.category.trim()
 	const description = fastGetTrimmedText(org.description)
-	let website = org.website.trim()
+	let website = org.website ? org.website.trim() : null
 	if (website && !/^https?:\/\//.test(website)) {
 		website = `http://${website}`
 	}
@@ -21,9 +18,8 @@ export function cleanOrg(org: StudentOrgType): StudentOrgType {
 		...org,
 		name,
 		contacts,
-		category,
+		//category,
 		description,
 		website,
 	}
 }
-
