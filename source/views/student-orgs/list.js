@@ -111,6 +111,9 @@ export class StudentOrgsView extends React.PureComponent<Props, State> {
 			.replace(/ Manage$/, '')
 			.trim()
 
+		const ids = cssSelect('a[name]', orgNode).map(n => n.attribs.name)
+		const id = ids.length ? ids[0] : name
+
 		const description = getTrimmedTextWithSpaces(
 			cssSelect('.orgDescription', orgNode),
 		)
@@ -126,6 +129,7 @@ export class StudentOrgsView extends React.PureComponent<Props, State> {
 		const socialLinks = cssSelect('img < a', orgNode).map(n => n.attribs.href)
 
 		return {
+			id,
 			contacts,
 			description,
 			name,
@@ -150,11 +154,11 @@ export class StudentOrgsView extends React.PureComponent<Props, State> {
 			}
 
 			const org = this.domToOrg(orgNode)
-			if (!orgs.has(org.name)) {
-				orgs.set(org.name, org)
+			if (!orgs.has(org.id)) {
+				orgs.set(org.id, org)
 			}
 
-			const stored = orgs.get(org.name)
+			const stored = orgs.get(org.id)
 			if (!stored || !currentCategory) {
 				continue
 			}

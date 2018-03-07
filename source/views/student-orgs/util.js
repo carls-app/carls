@@ -11,6 +11,7 @@ export function cleanOrg(org: StudentOrgType): StudentOrgType {
 	}
 
 	return {
+		id: org.id,
 		name: org.name.trim(),
 		contacts: org.contacts,
 		categories: org.categories,
