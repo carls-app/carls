@@ -188,40 +188,24 @@ export class StudentOrgsView extends React.PureComponent<Props, State> {
 	}
 
 	renderSectionHeader = ({title}: {title: string}) => (
-		<ListSectionHeader
-			spacing={{left: leftSideSpacing}}
-			style={styles.rowSectionHeader}
-			title={title}
-		/>
+		<ListSectionHeader style={styles.rowSectionHeader} title={title} />
 	)
 
 	renderRow = ({item}: {item: StudentOrgType}) => (
 		<ListRow
 			arrowPosition="none"
 			contentContainerStyle={styles.row}
-			fullWidth={true}
 			onPress={() => this.onPressRow(item)}
 		>
-			<Row alignItems="flex-start">
-				<View style={styles.badgeContainer}>
-					<Text style={styles.badge}>•</Text>
-				</View>
-
-				<Column>
-					<Title lines={1}>{item.name}</Title>
-					<Detail lines={1} style={styles.rowDetailText}>
-						{item.categories.join(', ')}
-					</Detail>
-				</Column>
-			</Row>
+			<Title lines={1}>{item.name}</Title>
+			<Detail lines={1} style={styles.rowDetailText}>
+				{item.categories.join(', ')}
+			</Detail>
 		</ListRow>
 	)
 
 	renderSeparator = (sectionId: string, rowId: string) => (
-		<ListSeparator
-			key={`${sectionId}-${rowId}`}
-			spacing={{left: leftSideSpacing}}
-		/>
+		<ListSeparator key={`${sectionId}-${rowId}`} />
 	)
 
 	onPressRow = (data: StudentOrgType) => {
