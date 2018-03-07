@@ -1,0 +1,316 @@
+- position = (44.460106, -93.158276);
+  title = @"Allen House";
+  allen = "Allen House"
+
+- position = (44.459241,  -93.155846);
+  title = @"Alumni Guest House";
+  alumni = "Alumni Guest House"
+
+- position = (44.465027, -93.153251);
+  arker.title = @"Lower Arboretum";
+  lowerArb = "Arboretum, Lower"
+
+- position = (44.462523, -93.148198);
+  arker.title = @"Upper Arboretum";
+  upperArb = "Arboretum, Upper"
+
+- position = (44.461068, -93.154587);
+  arker.title = @"The Bald Spot";
+  baldSpot = "The Bald Spot"
+
+- position = (44.466633, -93.147234);
+  arker.title = @"Baseball Field";
+  baseballField = "Baseball field"
+
+- position = (44.460195, -93.148842);
+  itle = @"Bell Field";
+  bell = "Bell Field"
+
+- position = (44.458730, -93.154315);
+  title = @"Benton House (Sci-Fi)";
+  benton = "Benton (Sci-Fi) House"
+
+- position = (44.458782, -93.157437);
+  title = @"Berg House (WA House)";
+  berg = "Berg (WA) House"
+
+- position = (44.459509, -93.155248);
+  title = @"Bird House";
+  bird = "Bird Hourse"
+
+- position = (44.462398, -93.152998);
+  title = @"Boliou hall";
+  boliou = "Boliou Hall"
+
+- position = (44.459607, -93.157974);
+  title = @"Brooks House";
+  brooks = "Brooks House"
+
+- position = (44.460560, -93.156772);
+  title = @"Burton Hall";
+  burton = "Burton Hall"
+
+- position = (44.460041, -93.151038);
+  title = @"Cassat Hall";
+  cassat = "Cassat Hall"
+
+- position = (44.456829, -93.154704);
+  arker.title = @"Central Park";
+  centralPark = "Central Park"
+
+- position = (44.458786, -93.150567);
+  title = @"Chaney House (CANOE House)";
+  chaney = "Chaney (CANOE) House"
+
+- position = (44.460170, -93.154838);
+  title = @"Skinner Memorial Chapel";
+  chapel = "Chapel"
+
+- position = (44.458692, -93.157743);
+  title = @"Clader House";
+  clader = "Clader House"
+
+- position = (44.462463, -93.153519);
+  title = @"Center for Mathematics and Computing";
+  cmc = "CMC"
+
+- position = (44.459281, -93.158174);
+  title = @"Collier House";
+  collier = "Collier House"
+
+- position = (44.458798, -93.158599);
+  title = @"Colwell House";
+  colwell = "Colwell House"
+
+- position = (44.460241, -93.153326);
+  title = @"Concert Hall";
+  concert = "Concert Hall"
+
+- position = (44.459896, -93.149963);
+  title = @"Cowling Gymnasium";
+  cowling = "Cowling Gymnasium"
+
+- position = (44.459047, -93.157389);
+  title = @"Dacie Moses House";
+  dacie = "Dacie Moses House"
+
+- position = (44.460083, -93.156764);
+  title = @"Davis Hall";
+  davis = "Davis Hall"
+
+- position = (44.459147, -93.158261);
+  title = @"Dixon House";
+  dixon = "Dixon House"
+
+- position = (44.457572,  -93.155313);
+  title = @"Douglas House (F.I.S.H. House)";
+  douglas = "Douglas (F.I.S.H.) House"
+
+- position = (44.459012, -93.158340);
+  title = @"Dow House";
+  dow = "Dow House"
+
+- position = (44.459982, -93.157742);
+  title = @"Eugster House";
+  eugster = "Eugster House"
+
+- position = (44.460367, -93.149829);
+  title = @"Evans Hall";
+  evans = "Evans Hall"
+
+- position = (44.458725, -93.149517);
+  title = @"Faculty Club";
+  faculty = "Faculty Club"
+
+- position = (44.466051, -93.149448);
+  title = @"Farm House";
+  farm = "Farm House"
+
+- position = (44.458901, -93.158990);
+  title = @"Geffert House (Fitness House)";
+  geffert = "Geffert (Fitness) House"
+
+- position = (44.462455, -93.149728);
+  title = @"Goodhue Hall";
+  goodhue = "Goodhue Hall"
+
+- position = (44.461856, -93.152440);
+  title = @"Goodsell Observatory";
+  goodsell = "Goodsell Observatory"
+
+- position = (44.459512, -93.157912);
+  title = @"Hall House (Asia House)";
+  hall = "Hall House (Asia House)"
+
+- position = (44.458617, -93.158195);
+  title = @"Henrickson House";
+  henrickson = "Henrickson House"
+
+- position = (44.459541, -93.154317);
+  title = @"Hoppin House";
+  hoppin = "Hoppin House"
+
+
+- position = (44.460928, -93.153460);
+  title = @"Hulings Hall";
+  hulings = "Hulings Hall"
+
+- position = (44.458083, -93.155302);
+  title = @"Hill House";
+  hill = "Hill House"
+
+- position = (44.463266, -93.147314);
+  title = @"Hill of Three Oaks";
+  hillThreeOaks = "Hill of Three Oaks"
+
+- position = (44.459257, -93.157413);
+  arker.title = @"Hunt Cottage (La Casa de Sol)";
+  huntCottage = "Hunt Cottage (La Casa de Sol)"
+
+- position = (44.458623, -93.158451);
+  arker.title = @"Hunt House";
+  huntHouse = "Hunt House"
+
+- position = (44.458751, -93.155342);
+  title = @"Huntington House";
+  huntington = "Huntington House"
+
+- position = (44.460025, -93.151773);
+  title = @"James Hall";
+  james = "James Hall"
+
+- position = (44.457677, -93.157513);
+  title = @"Jewett House (Culinary House)";
+  jewett = "Jewett (Culinary) House"
+
+- position = (44.459472, -93.155970);
+  title = @"Johnson House";
+  johnson = "Johnson House"
+
+- position = (44.462103, -93.154052);
+  arker.title = @"Laird Hall";
+  lairdHall = "Laird Hall"
+
+stadiumMarker.title = @"Laird Stadium";
+- position = (44.461516, -93.157987);
+  = "Stadium"
+
+- position = (44.461026, -93.151374);
+  title = @"Language and Dining Center";
+  ldc = "Language and Dining Center (LDC)"
+
+- position = (44.462114, -93.155643);
+  title = @"Leighton Hall";
+  leighton = "Leighton Hall"
+
+- position = (44.462232, -93.154774);
+  title = @"Gould Library";
+  libe = "Libe"
+
+- position = (44.460953, -93.152479);
+  title = @"Mudd Hall of Science";
+  mudd = "Mudd Hall"
+
+- position = (44.461376, -93.153583);
+  title = @"Music Hall";
+  music = "Music Hall"
+
+- position = (44.459934, -93.157050);
+  title = @"Musser Hall";
+  musser = "Musser Hall"
+
+- position = (44.460721, -93.150870);
+  title = @"Myers Hall";
+  myers = "Myers Hall"
+
+- position = (44.459740, -93.157676);
+  title = @"Nason House";
+  nason = "Nason House"
+
+- position = (44.460491, -93.152017);
+  title = @"Nourse Hall";
+  nourse = "Nourse Hall"
+
+- position = (44.461370, -93.152897);
+  title = @"Olin Hall of Science";
+  olin = "Olin Hall"
+
+- position = (44.459443, -93.158074);
+  title = @"Owens House";
+  owens = "Owens House"
+
+- position = (44.457587, -93.155817);
+  title = @"Page House (Jewish Interest)";
+  page = "Page House (Jewish Interest)"
+
+- position = (44.457589, -93.154857);
+  title = @"Parish House";
+  parish = "Parish House"
+
+- position = (44.466390, -93.149292);
+  title = @"Parr House";
+  parr = "Parr House"
+
+- position = (44.459940, -93.158371);
+  title = @"Prentice House (Q&A House)";
+  prentice = "Prentice (Q&A) House"
+
+- position = (44.463985, -93.149614);
+  title = @"Recreation Center";
+  rec = "Rec Center"
+
+- position = (44.457976, -93.155882);
+  title = @"Rice House";
+  rice = "Rice House"
+
+- position = (44.461259, -93.156159);
+  title = @"Sayles Hill";
+  sayles = "Sayles Hill"
+
+- position = (44.459825, -93.157787);
+  title = @"Scott House";
+  scott = "Scott House"
+
+- position = (44.460127, -93.155928);
+  title = @"Scoville hall";
+  scoville = "Scoville Hall"
+
+- position = (44.460972, -93.156760);
+  .title = @"Severance Hall";
+  severance = "Severance Hall"
+
+- position = (44.465616, -93.146882);
+  arker.title = @"Softball Field";
+  softballField = "Softball Field"
+
+- position = (44.459488, -93.156788);
+  title = @"Stimson House (Multicultural Center)";
+  stimson = "Stimson House (Multicultural Center)"
+
+- position = (44.458728, -93.155846);
+  title = @"Strong House";
+  strong = "Strong House"
+
+- position = (44.459390, -93.150524);
+  title = @"Watson Hall";
+  watson = "Watson Hall"
+
+- position = (44.462856, -93.156925);
+  title = @"West Gym";
+  westGym = "West Gym"
+
+- position = (44.457037, -93.156035);
+  title = @"Weitz Center";
+  weitz = "Weitz Center"
+
+- position = (44.459111, -93.156947);
+  .title = @"Williams House (Freedom House)";
+  williams = "Williams (Freedom) House"
+
+- position = (44.460735, -93.155987);
+  .title = @"Willis Hall";
+  willis = "Willis Hall"
+
+- position = (44.460252, -93.158135);
+  title = @"Wilson House";
+  wilson = "Wilson House"
