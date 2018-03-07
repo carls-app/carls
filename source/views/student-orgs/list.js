@@ -119,7 +119,8 @@ export class StudentOrgsView extends React.PureComponent<Props, State> {
 		)
 
 		let contacts = getTrimmedTextWithSpaces(cssSelect('.contacts', orgNode))
-		contacts = contacts.replace(/^Contact: /, '').split(', ')
+		contacts = contacts.replace(/^Contact: /, '')
+		contacts = contacts ? contacts.split(', ') : []
 
 		const websiteEls = cssSelect('.site a', orgNode)
 		const website =
