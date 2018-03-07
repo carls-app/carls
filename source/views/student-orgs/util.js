@@ -1,8 +1,8 @@
 // @flow
-import type {StudentOrgType, CleanedStudentOrgType} from './types'
+import type {StudentOrgType} from './types'
 import {fastGetTrimmedText} from '../../lib/html'
 
-export function cleanOrg(org: StudentOrgType): CleanedStudentOrgType {
+export function cleanOrg(org: StudentOrgType): StudentOrgType {
 	const description = fastGetTrimmedText(org.description)
 
 	let website = org.website.trim()
@@ -13,8 +13,9 @@ export function cleanOrg(org: StudentOrgType): CleanedStudentOrgType {
 	return {
 		name: org.name.trim(),
 		contacts: org.contacts,
-		category: org.categories.join(', '),
+		categories: org.categories,
 		description,
 		website,
+		socialLinks: org.socialLinks,
 	}
 }

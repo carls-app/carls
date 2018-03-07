@@ -6,12 +6,5 @@ export type StudentOrgType = {
 	categories: Array<string>,
 	website: string,
 	name: string,
-}
-
-export type CleanedStudentOrgType = {
-	contacts: Array<string>,
-	description: string,
-	category: string,
-	website: string,
-	name: string,
+	socialLinks: Array<string>,
 }
