@@ -1,14 +1,12 @@
 // @flow
 import * as React from 'react'
 import {ScrollView, Text, View, StyleSheet} from 'react-native'
-import moment from 'moment'
 import {Card} from '../components/card'
 import * as c from '../components/colors'
 import type {StudentOrgType} from './types'
 import type {TopLevelViewPropsType} from '../types'
-import {sendEmail} from '../components/send-email'
 import {openUrl} from '../components/open-url'
-import {cleanOrg, showNameOrEmail} from './util'
+import {cleanOrg} from './util'
 
 const styles = StyleSheet.create({
 	name: {
@@ -46,9 +44,6 @@ const styles = StyleSheet.create({
 		color: c.iosDisabledText,
 		textAlign: 'center',
 	},
-	lastUpdated: {
-		paddingBottom: 10,
-	},
 	poweredBy: {
 		paddingBottom: 20,
 	},
@@ -70,12 +65,9 @@ export class StudentOrgsDetailView extends React.PureComponent<Props> {
 		const {
 			name: orgName,
 			category,
-			meetings,
 			website,
 			contacts,
-			advisors,
 			description,
-			lastUpdated: orgLastUpdated,
 		} = cleanOrg(this.props.navigation.state.params.org)
 
 		return (
@@ -85,12 +77,6 @@ export class StudentOrgsDetailView extends React.PureComponent<Props> {
 				{category ? (
 					<Card header="Category" style={styles.card}>
 						<Text style={styles.cardBody}>{category}</Text>
-					</Card>
-				) : null}
-
-				{meetings ? (
-					<Card header="Meetings" style={styles.card}>
-						<Text style={styles.cardBody}>{meetings}</Text>
 					</Card>
 				) : null}
 
@@ -107,30 +93,10 @@ export class StudentOrgsDetailView extends React.PureComponent<Props> {
 						{contacts.map((c, i) => (
 							<Text
 								key={i}
-								onPress={() => sendEmail({to: [c.email], subject: orgName})}
 								selectable={true}
 								style={styles.cardBody}
 							>
-								{c.title ? c.title + ': ' : ''}
-								{showNameOrEmail(c)}
-							</Text>
-						))}
-					</Card>
-				) : null}
-
-				{advisors.length ? (
-					<Card
-						header={advisors.length === 1 ? 'Advisor' : 'Advisors'}
-						style={styles.card}
-					>
-						{advisors.map((c, i) => (
-							<Text
-								key={i}
-								onPress={() => sendEmail({to: [c.email], subject: orgName})}
-								selectable={true}
-								style={styles.cardBody}
-							>
-								{c.name} ({c.email})
+								{c}
 							</Text>
 						))}
 					</Card>
@@ -144,13 +110,8 @@ export class StudentOrgsDetailView extends React.PureComponent<Props> {
 					</Card>
 				) : null}
 
-				<Text selectable={true} style={[styles.footer, styles.lastUpdated]}>
-					Last updated:{' '}
-					{moment(orgLastUpdated, 'MMMM, DD YYYY HH:mm:ss').calendar()}
-				</Text>
-
 				<Text selectable={true} style={[styles.footer, styles.poweredBy]}>
-					Powered by the St. Olaf Student Orgs Database
+					Powered by the Carleton Student Orgs Database
 				</Text>
 			</ScrollView>
 		)
