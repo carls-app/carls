@@ -86,11 +86,23 @@ export class StudentOrgsDetailView extends React.PureComponent<Props> {
 						</Section>
 					) : null}
 
-					{contacts && contacts.length ? (
-						<Section header="CONTACT">
-							{contacts.map((c, i) => (
-								<Cell key={i} cellStyle="Basic" title={c} />
+					{socialLinks.length ? (
+						<Section header="SOCIAL">
+							{socialLinks.map(link => (
+								<Cell
+									key={link}
+									accessory="DisclosureIndicator"
+									cellStyle="Basic"
+									onPress={() => openUrl(link)}
+									title={link}
+								/>
 							))}
+						</Section>
+					) : null}
+
+					{contacts.length ? (
+						<Section header="CONTACT">
+							{contacts.map(c => <Cell key={c} cellStyle="Basic" title={c} />)}
 						</Section>
 					) : null}
 

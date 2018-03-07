@@ -93,14 +93,24 @@ export class StudentOrgsDetailView extends React.PureComponent<Props> {
 					</Card>
 				) : null}
 
-				{contacts.length ? (
-					<Card header="Contact" style={styles.card}>
-						{contacts.map((c, i) => (
+				{socialLinks.length ? (
+					<Card header="Social" style={styles.card}>
+						{socialLinks.map(link => (
 							<Text
-								key={i}
-								selectable={true}
+								key={link}
+								onPress={() => openUrl(link)}
 								style={styles.cardBody}
 							>
+								{link}
+							</Text>
+						))}
+					</Card>
+				) : null}
+
+				{contacts.length ? (
+					<Card header="Contact" style={styles.card}>
+						{contacts.map(c => (
+							<Text key={c} selectable={true} style={styles.cardBody}>
 								{c}
 							</Text>
 						))}
