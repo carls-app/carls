@@ -30,7 +30,8 @@ import type {StudentOrgType} from './types'
 import {
 	parseHtml,
 	cssSelect,
-	getTrimmedTextWithSpaces as getText,
+	getTrimmedTextWithSpaces,
+	getTextWithSpaces,
 } from '../../lib/html'
 
 const orgsUrl = 'https://apps.carleton.edu/student/orgs/'
@@ -105,42 +106,58 @@ export class StudentOrgsView extends React.PureComponent<Props, State> {
 		})
 	}
 
+	domToOrg = (orgNode: any): StudentOrgType => {
+		// todo:
+		//  * replace description on rows with category
+		//  * harvest social links (FB, Instagram, Twitter, etc)
+
+		const name = getTextWithSpaces(cssSelect('h4', orgNode))
+			.replace(/ Manage$/, '')
+			.trim()
+
+		const description = getTrimmedTextWithSpaces(cssSelect('.orgDescription', orgNode))
+		const contacts = getTrimmedTextWithSpaces(cssSelect('.contacts', orgNode))
+
+		const websiteEls = cssSelect('.site a', orgNode)
+		const website = websiteEls && websiteEls.length ? websiteEls[0].attribs.href : ''
+
+		return {
+			contacts: [],
+			description,
+			name,
+			website,
+			categories: [],
+		}
+	}
+
 	fetchData = async () => {
-		const page: StudentOrgType[] = await fetch(orgsUrl).then(r => r.text())
+		const page = await fetch(orgsUrl).then(r => r.text())
 		const dom = parseHtml(page)
 
-		const orgsList = cssSelect('#orgsList', dom)
-		const allOrgs = cssSelect('.orgContainer', orgsList)
-		const manageLinkRegex = / Manage$/
+		const allOrgWrappers = cssSelect('.orgContainer,.careerField', dom)
+		const orgs = new Map()
 
-		let responseData = []
-		allOrgs.forEach(org => {
-			// todo:
-			//  * cleanup this whole function
-			//  * remove duplicate org entries from the scraping...
-			//  * don't strip links from 'site'
-			//  * plumb-in the detail view
-			//  * get categories
-			//  * replace description on rows with category
-			//  * harvest social links (FB, Instagram, Twitter, etc)
-			let name = getText(cssSelect('h4', org))
-				.replace(manageLinkRegex, '')
-				.trim()
-			let description = getText(cssSelect('.orgDescription', org)).trim()
-			let contacts = getText(cssSelect('.contacts', org)).trim()
-			let site = getText(cssSelect('.site', org)).trim()
-
-			const group = {
-				contacts: contacts,
-				description: description,
-				name: name,
-				site: site,
+		let currentCategory = null
+		for (const orgNode of allOrgWrappers) {
+			if (orgNode.attribs.class && orgNode.name === 'h3') {
+				currentCategory = getTextWithSpaces(orgNode).trim()
+				continue
 			}
-			responseData.push(group)
-		})
 
-		const sortableRegex = /^(Carleton(?: College)?|The) +/i
-		const withSortableNames = responseData.map(item => {
+			const org = this.domToOrg(orgNode)
+			if (!orgs.has(org.name)) {
+				orgs.set(org.name, org)
+			}
+
+			const stored = orgs.get(org.name)
+			if (!stored || !currentCategory) {
+				continue
+			}
+			stored.categories.push(currentCategory)
+		}
+
+		const sortableRegex = /^(Carleton( College)?|The) +/i
+		const withSortableNames = Array.from(orgs.values()).map(item => {
 			const sortableName = item.name.replace(sortableRegex, '')
 
 			return {
@@ -180,7 +197,7 @@ export class StudentOrgsView extends React.PureComponent<Props, State> {
 	renderRow = ({item}: {item: StudentOrgType}) => (
 		<ListRow
 			arrowPosition="none"
-			contentContainerStyle={[styles.row]}
+			contentContainerStyle={styles.row}
 			fullWidth={true}
 			onPress={() => this.onPressRow(item)}
 		>
@@ -192,7 +209,7 @@ export class StudentOrgsView extends React.PureComponent<Props, State> {
 				<Column>
 					<Title lines={1}>{item.name}</Title>
 					<Detail lines={1} style={styles.rowDetailText}>
-						{item.description}
+						{item.categories.join(', ')}
 					</Detail>
 				</Column>
 			</Row>
