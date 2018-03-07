@@ -124,16 +124,14 @@ export class StudentOrgsView extends React.PureComponent<Props, State> {
 			//  * replace description on rows with category
 			//  * harvest social links (FB, Instagram, Twitter, etc)
 			let name = getText(cssSelect('h4', org)).trim()
-			let description = getText(
-				cssSelect('.orgDescription', org),
-			).trim()
+			let description = getText(cssSelect('.orgDescription', org)).trim()
 			let contacts = getText(cssSelect('.contacts', org)).trim()
 			let site = getText(cssSelect('.site', org)).trim()
 
 			const group = {
-				name: name,
-				description: description,
 				contacts: contacts,
+				description: description,
+				name: name,
 				site: site,
 			}
 			responseData.push(group)
