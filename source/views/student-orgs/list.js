@@ -206,7 +206,7 @@ export class StudentOrgsView extends React.PureComponent<Props, State> {
 		>
 			<Title lines={1}>{item.name}</Title>
 			<Detail lines={1} style={styles.rowDetailText}>
-				{item.categories.join(', ')}
+				{item.categories.join(' • ')}
 			</Detail>
 		</ListRow>
 	)
