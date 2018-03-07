@@ -116,6 +116,7 @@ export class StudentOrgsView extends React.PureComponent<Props, State> {
 		allOrgs.map(org => {
 			// todo:
 			//  * cleanup this whole function
+			//  * remove duplicate org entries from the scraping...
 			//  * remove the 'manage' hyperlink from the org name
 			//  * don't strip links from 'site'
 			//  * plumb-in the detail view
