@@ -109,8 +109,8 @@ export class StudentOrgsDetailView extends React.PureComponent<Props> {
 
 				{contacts.length ? (
 					<Card header="Contact" style={styles.card}>
-						{contacts.map(c => (
-							<Text key={c} selectable={true} style={styles.cardBody}>
+						{contacts.map((c, i) => (
+							<Text key={i} selectable={true} style={styles.cardBody}>
 								{c}
 							</Text>
 						))}

@@ -102,7 +102,9 @@ export class StudentOrgsDetailView extends React.PureComponent<Props> {
 
 					{contacts.length ? (
 						<Section header="CONTACT">
-							{contacts.map(c => <Cell key={c} cellStyle="Basic" title={c} />)}
+							{contacts.map((c, i) => (
+								<Cell key={i} cellStyle="Basic" title={c} />
+							))}
 						</Section>
 					) : null}
 
