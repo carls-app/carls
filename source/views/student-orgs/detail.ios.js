@@ -51,9 +51,14 @@ export class StudentOrgsDetailView extends React.PureComponent<Props> {
 	}
 
 	render() {
-		const {name: orgName, category, website, contacts, description} = cleanOrg(
-			this.props.navigation.state.params.org,
-		)
+		const {
+			name: orgName,
+			categories,
+			website,
+			contacts,
+			description,
+			socialLinks,
+		} = cleanOrg(this.props.navigation.state.params.org)
 
 		return (
 			<ScrollView>
@@ -62,9 +67,11 @@ export class StudentOrgsDetailView extends React.PureComponent<Props> {
 						{orgName}
 					</Text>
 
-					{category ? (
+					{categories.length ? (
 						<Section header="CATEGORIES">
-							<Cell cellStyle="Basic" title={category} />
+							{categories.map(cat => (
+								<Cell key={cat} cellStyle="Basic" title={cat} />
+							))}
 						</Section>
 					) : null}
 

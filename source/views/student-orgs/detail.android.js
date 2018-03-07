@@ -64,19 +64,24 @@ export class StudentOrgsDetailView extends React.PureComponent<Props> {
 	render() {
 		const {
 			name: orgName,
-			category,
+			categories,
 			website,
 			contacts,
 			description,
+			socialLinks,
 		} = cleanOrg(this.props.navigation.state.params.org)
 
 		return (
 			<ScrollView>
 				<Text style={styles.name}>{orgName}</Text>
 
-				{category ? (
+				{categories.length ? (
 					<Card header="Category" style={styles.card}>
-						<Text style={styles.cardBody}>{category}</Text>
+						{categories.map(cat => (
+							<Text key={cat} style={styles.cardBody}>
+								{cat}
+							</Text>
+						))}
 					</Card>
 				) : null}
 
