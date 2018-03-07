@@ -153,8 +153,7 @@ export const allViews: ViewType[] = [
 		gradient: c.pinkToHotpink,
 	},
 	{
-		type: 'url',
-		url: 'https://apps.carleton.edu/student/orgs/',
+		type: 'view',
 		view: 'StudentOrgsView',
 		title: 'Student Orgs',
 		icon: 'globe',

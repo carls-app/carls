@@ -57,7 +57,6 @@ const styles = StyleSheet.create({
 
 export const AppNavigator = StackNavigator(
 	{
-		StudentOrgsView: {screen: StudentOrgsView},
 		HomeView: {screen: HomeView},
 		BuildingHoursDetailView: {screen: BuildingHoursDetailView},
 		BuildingHoursView: {screen: BuildingHoursView},
@@ -88,6 +87,7 @@ export const AppNavigator = StackNavigator(
 		KSTOScheduleView: {screen: KSTOScheduleView},
 		KRLXScheduleView: {screen: KRLXScheduleView},
 		StudentOrgsDetailView: {screen: StudentOrgsDetailView},
+		StudentOrgsView: {screen: StudentOrgsView},
 		StudentWorkDetailView: {screen: StudentWorkDetailView},
 		TransportationView: {screen: TransportationView},
 		OtherModesDetailView: {screen: OtherModesDetailView},
