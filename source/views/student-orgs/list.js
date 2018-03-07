@@ -113,7 +113,7 @@ export class StudentOrgsView extends React.PureComponent<Props, State> {
 		const allOrgs = cssSelect('.orgContainer', orgsList)
 
 		let responseData = []
-		allOrgs.map(org => {
+		allOrgs.forEach(org => {
 			// todo:
 			//  * cleanup this whole function
 			//  * remove duplicate org entries from the scraping...
@@ -123,12 +123,12 @@ export class StudentOrgsView extends React.PureComponent<Props, State> {
 			//  * get categories
 			//  * replace description on rows with category
 			//  * harvest social links (FB, Instagram, Twitter, etc)
-			let name = getText(cssSelect('h4:first-of-type', org)).trim()
+			let name = getText(cssSelect('h4', org)).trim()
 			let description = getText(
-				cssSelect('div.orgBody > div.orgDescription', org),
+				cssSelect('.orgDescription', org),
 			).trim()
-			let contacts = getText(cssSelect('div.orgBody > p.contacts', org)).trim()
-			let site = getText(cssSelect('div.orgBody > p.site', org)).trim()
+			let contacts = getText(cssSelect('.contacts', org)).trim()
+			let site = getText(cssSelect('.site', org)).trim()
 
 			const group = {
 				name: name,
