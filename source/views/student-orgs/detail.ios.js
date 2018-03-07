@@ -83,16 +83,10 @@ export class StudentOrgsDetailView extends React.PureComponent<Props> {
 						</Section>
 					) : null}
 
-					{contacts.length ? (
+					{contacts && contacts.length ? (
 						<Section header="CONTACT">
 							{contacts.map((c, i) => (
-								<Cell
-									key={i}
-									accessory="DisclosureIndicator"
-									cellStyle="Basic"
-									detail={c}
-									title={c}
-								/>
+								<Cell key={i} cellStyle="Basic" title={c} />
 							))}
 						</Section>
 					) : null}
@@ -106,7 +100,7 @@ export class StudentOrgsDetailView extends React.PureComponent<Props> {
 					) : null}
 
 					<Text selectable={true} style={[styles.footer, styles.poweredBy]}>
-						Powered by the St. Olaf Student Orgs Database
+						Powered by the Carleton Student Orgs Database
 					</Text>
 				</TableView>
 			</ScrollView>

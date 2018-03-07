@@ -108,7 +108,6 @@ export class StudentOrgsView extends React.PureComponent<Props, State> {
 
 	domToOrg = (orgNode: any): StudentOrgType => {
 		// todo:
-		//  * replace description on rows with category
 		//  * harvest social links (FB, Instagram, Twitter, etc)
 
 		const name = getTextWithSpaces(cssSelect('h4', orgNode))
@@ -116,13 +115,15 @@ export class StudentOrgsView extends React.PureComponent<Props, State> {
 			.trim()
 
 		const description = getTrimmedTextWithSpaces(cssSelect('.orgDescription', orgNode))
-		const contacts = getTrimmedTextWithSpaces(cssSelect('.contacts', orgNode))
+
+		let contacts = getTrimmedTextWithSpaces(cssSelect('.contacts', orgNode))
+		contacts = contacts.replace(/^Contact: /, '').split(', ')
 
 		const websiteEls = cssSelect('.site a', orgNode)
 		const website = websiteEls && websiteEls.length ? websiteEls[0].attribs.href : ''
 
 		return {
-			contacts: [],
+			contacts,
 			description,
 			name,
 			website,
