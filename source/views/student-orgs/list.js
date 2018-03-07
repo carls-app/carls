@@ -107,9 +107,6 @@ export class StudentOrgsView extends React.PureComponent<Props, State> {
 	}
 
 	domToOrg = (orgNode: any): StudentOrgType => {
-		// todo:
-		//  * harvest social links (FB, Instagram, Twitter, etc)
-
 		const name = getTextWithSpaces(cssSelect('h4', orgNode))
 			.replace(/ Manage$/, '')
 			.trim()
