@@ -22,11 +22,18 @@ type ReactProps = TopLevelViewPropsType & {
 type ReduxStateProps = {
 	order: Array<string>,
 	inactiveViews: Array<string>,
+	loadEasterEggStatus: boolean,
 }
 
 type Props = ReactProps & ReduxStateProps
 
-function HomePage({navigation, order, inactiveViews, views = allViews}: Props) {
+function HomePage({
+	navigation,
+	order,
+	loadEasterEggStatus,
+	inactiveViews,
+	views = allViews,
+}: Props) {
 	const sortedViews = sortBy(views, view => order.indexOf(view.view))
 
 	const enabledViews = sortedViews.filter(
@@ -34,7 +41,6 @@ function HomePage({navigation, order, inactiveViews, views = allViews}: Props) {
 	)
 
 	const columns = partitionByIndex(enabledViews)
-
 	return (
 		<ScrollView
 			alwaysBounceHorizontal={false}
@@ -49,6 +55,7 @@ function HomePage({navigation, order, inactiveViews, views = allViews}: Props) {
 				<Column key={i} style={styles.column}>
 					{contents.map(view => (
 						<HomeScreenButton
+							visibility={view.hidden && !loadEasterEggStatus ? 'none' : 'flex'}
 							key={view.view}
 							onPress={() => {
 								if (view.type === 'url') {
@@ -82,6 +89,9 @@ function mapStateToProps(state: ReduxState): ReduxStateProps {
 	return {
 		order: state.homescreen.order,
 		inactiveViews: state.homescreen.inactiveViews,
+		loadEasterEggStatus: state.settings.easterEggEnabled
+			? state.settings.easterEggEnabled
+			: false,
 	}
 }
 
