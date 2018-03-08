@@ -1,11 +1,24 @@
 // @flow
 
+export type ContactPersonType = {
+	lastName: string,
+	title: string,
+	firstName: string,
+	email: string,
+}
+
+export type AdvisorType = {
+	email: string,
+	name: string,
+}
+
 export type StudentOrgType = {
-	id: string,
-	contacts: Array<string>,
+	meetings: string,
+	contacts: ContactPersonType[],
+	advisors: AdvisorType[],
 	description: string,
-	categories: Array<string>,
+	category: string,
+	lastUpdated: string,
 	website: string,
 	name: string,
-	socialLinks: Array<string>,
 }
