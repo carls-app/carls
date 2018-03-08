@@ -31,7 +31,10 @@ import CreditsView from './views/settings/credits'
 import PrivacyView from './views/settings/privacy'
 import LegalView from './views/settings/legal'
 import {IconSettingsView} from './views/settings/icon'
-import {StudentOrgsView, StudentOrgsDetailView} from './views/student-orgs'
+import {
+	StudentOrgsView,
+	StudentOrgsDetailView,
+} from './views/student-orgs-carls'
 import {FaqView} from './views/faqs'
 import HelpView from './views/help'
 import {
