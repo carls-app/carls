@@ -31,6 +31,7 @@ const styles = StyleSheet.create({
 type ReduxStateProps = {
 	order: string[],
 	inactiveViews: string[],
+	loadEasterEggStatus: boolean,
 }
 
 type ReduxDispatchProps = {
@@ -48,11 +49,14 @@ class EditHomeView extends React.PureComponent<Props> {
 	renderRow = (args: {data: ViewType, active: boolean, width: number}) => {
 		const {data, active, width} = args
 		const enabled = !this.props.inactiveViews.includes(data.view)
+		const hidden = data.hidden && !this.props.loadEasterEggStatus
+
 		return (
 			<EditHomeRow
 				active={active}
 				data={data}
 				isEnabled={enabled}
+				isHidden={hidden}
 				onToggle={this.props.onToggleViewDisabled}
 				width={width}
 			/>
@@ -82,6 +86,9 @@ function mapState(state: ReduxState): ReduxStateProps {
 	return {
 		order: state.homescreen ? state.homescreen.order : [],
 		inactiveViews: state.homescreen ? state.homescreen.inactiveViews : [],
+		loadEasterEggStatus: state.settings.easterEggEnabled
+			? state.settings.easterEggEnabled
+			: false,
 	}
 }
 

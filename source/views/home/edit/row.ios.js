@@ -1,7 +1,7 @@
 // @flow
 
 import * as React from 'react'
-import {Animated, Easing, StyleSheet, Text, Switch} from 'react-native'
+import {Animated, View, Easing, StyleSheet, Text, Switch} from 'react-native'
 
 import * as c from '../../components/colors'
 
@@ -52,6 +52,7 @@ type Props = {
 	active: boolean,
 	data: ViewType,
 	isEnabled: boolean,
+	isHidden: boolean,
 	onToggle: string => any,
 	width: number,
 }
@@ -166,26 +167,30 @@ export class EditHomeRow extends React.Component<Props, State> {
 			? this.props.data.gradient[0]
 			: this.props.data.tint
 
+		const visibility = this.props.isHidden ? 'none' : 'flex'
+
 		return (
-			<Animated.View style={[styles.row, this.state.style, {width}]}>
-				<MenuIcon icon={this.props.data.icon} tint={tint} />
+			<View style={{display: visibility}}>
+				<Animated.View style={[styles.row, this.state.style, {width}]}>
+					<MenuIcon icon={this.props.data.icon} tint={tint} />
 
-				<Text style={[styles.text, {color: tint}]}>
-					{this.props.data.title}
-				</Text>
+					<Text style={[styles.text, {color: tint}]}>
+						{this.props.data.title}
+					</Text>
 
-				<Switch
-					onTintColor={tint}
-					onValueChange={this.onToggleSwitch}
-					value={this.props.isEnabled}
-				/>
+					<Switch
+						onTintColor={tint}
+						onValueChange={this.onToggleSwitch}
+						value={this.props.isEnabled}
+					/>
 
-				<IonIcon
-					name="ios-reorder"
-					size={32}
-					style={[styles.icon, {color: tint}]}
-				/>
-			</Animated.View>
+					<IonIcon
+						name="ios-reorder"
+						size={32}
+						style={[styles.icon, {color: tint}]}
+					/>
+				</Animated.View>
+			</View>
 		)
 	}
 }
