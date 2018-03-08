@@ -6,6 +6,19 @@ import glamorous from 'glamorous-native'
 import {Platform} from 'react-native'
 import {iOSUIKit, material} from 'react-native-typography'
 import {AppLogo} from '../components/logo'
+import {Touchable} from '../components/touchable'
+import {connect} from 'react-redux'
+import {hasEnabledEasterEgg} from '../../flux/parts/settings'
+import type {TopLevelViewPropsType} from '../../types'
+
+type Props = TopLevelViewPropsType & {
+	onShowEasterEgg: (easterEggEnabled: boolean) => any,
+	easterEggEnabled: boolean,
+}
+
+type ReduxDispatchProps = {
+	hasEnabledEasterEgg: (e: boolean) => any,
+}
 
 const Container = glamorous.scrollView({
 	backgroundColor: c.white,
@@ -49,22 +62,46 @@ const Contributors = glamorous(About)({
 
 const formatPeopleList = arr => arr.map(w => w.replace(' ', ' ')).join(' • ')
 
-export default function CreditsView() {
-	return (
-		<Container contentInsetAdjustmentBehavior="automatic">
-			<AppLogo />
+class CreditsView extends React.Component {
+	static navigationOptions = {
+		title: 'Credits',
+	}
 
-			<Title>{credits.name}</Title>
-			<About>{credits.content}</About>
+	render() {
+		return (
+			<Container contentInsetAdjustmentBehavior="automatic">
+				<Touchable
+					highlight={false}
+					onPress={() => this.props.onShowEasterEgg()}
+				>
+					<AppLogo />
+				</Touchable>
 
-			<Heading>Contributors</Heading>
-			<Contributors>{formatPeopleList(credits.contributors)}</Contributors>
+				<Title>{credits.name}</Title>
+				<About>{credits.content}</About>
 
-			<Heading>Acknowledgements</Heading>
-			<Contributors>{formatPeopleList(credits.acknowledgements)}</Contributors>
-		</Container>
-	)
+				<Heading>Contributors</Heading>
+				<Contributors>{formatPeopleList(credits.contributors)}</Contributors>
+
+				<Heading>Acknowledgements</Heading>
+				<Contributors>
+					{formatPeopleList(credits.acknowledgements)}
+				</Contributors>
+			</Container>
+		)
+	}
 }
-CreditsView.navigationOptions = {
-	title: 'Credits',
+
+function mapStateToProps(state) {
+	return {
+		easterEggEnabled: state.settings.onShowEasterEgg,
+	}
 }
+
+function mapDispatchToProps(dispatch) {
+	return {
+		onShowEasterEgg: () => dispatch(hasEnabledEasterEgg()),
+	}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CreditsView)
