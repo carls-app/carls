@@ -12,25 +12,36 @@ import {BuildingInfo} from './info'
 import {Overlay} from './overlay'
 import Mapbox from '@mapbox/react-native-mapbox-gl'
 import {MAPBOX_API_KEY} from '../../lib/config'
+import nearestPoint from '@turf/nearest-point'
 
 Mapbox.setAccessToken(MAPBOX_API_KEY)
+const MAPBOX_CARLETON_STYLE =
+	'mapbox://styles/hawkrives/cjelhf2kx5ezz2sp8jbgoj9gt'
+
+type MapboxEvent = {
+	geometry: {
+		coordinates: [number, number],
+		type: string,
+	},
+	properties: {
+		screenPointY: number,
+		screenPointX: number,
+	},
+	type: string,
+}
 
 type Props = TopLevelViewPropsType
 
 type State = {|
 	buildings: Array<Building>,
+	featureCollection: any,
 	visibleMarkers: Array<string>,
 	highlighted: Array<string>,
 	selectedBuilding: ?Building,
 	overlaySize: 'min' | 'mid' | 'max',
 |}
 
-const originalCenterpoint = {
-	latitude: 44.460800862266,
-	longitude: -93.15488752015,
-	latitudeDelta: 0.004617,
-	longitudeDelta: 0.004023,
-}
+const originalCenterpoint = [-93.15488752015, 44.460800862266]
 
 export class MapView extends React.Component<Props, State> {
 	static navigationOptions = {
@@ -40,6 +51,7 @@ export class MapView extends React.Component<Props, State> {
 
 	state = {
 		buildings: [],
+		featureCollection: [],
 		highlighted: [],
 		visibleMarkers: [],
 		selectedBuilding: null,
@@ -50,13 +62,29 @@ export class MapView extends React.Component<Props, State> {
 		this.fetchData()
 	}
 
-	_mapRef: ?Map = null
+	_map: ?Map = null
 
 	fetchData = async () => {
 		const data: Array<Building> = await fetchJson(MAP_DATA_URL)
 
+		const featureCollection = {
+			type: 'FeatureCollection',
+			features: data.filter(b => b.center).map(b => {
+				const [lat, lng] = b.center
+				return {
+					type: 'Feature',
+					id: b.id,
+					geometry: {
+						type: 'Point',
+						coordinates: [lng, lat],
+					},
+				}
+			}),
+		}
+
 		this.setState(() => ({
 			buildings: data,
+			featureCollection: featureCollection,
 			highlighted: [],
 			visibleMarkers: [],
 		}))
@@ -67,48 +95,35 @@ export class MapView extends React.Component<Props, State> {
 			return
 		}
 
-		const coord = [b.center[1], b.center[0]]
+		const [lat, long] = b.center
+		const coord = [long, lat]
 		return (
 			<Mapbox.PointAnnotation key={b.id} id={b.id} coordinate={coord}>
 				<View style={styles.annotationContainer}>
 					<View style={styles.annotationFill} />
 				</View>
-				<Mapbox.Callout title={b.name} />
 			</Mapbox.PointAnnotation>
 		)
-
-		// return (
-		// 	<Marker
-		// 		key={b.id}
-		// 		coordinate={coord}
-		// 		description={b.address || ''}
-		// 		title={b.name}
-		// 	/>
-		// )
 	}
 
-	buildingToOutline = (b: Building, highlighted: boolean) => {
-		const coords = b.outline.map(([latitude, longitude]) => ({
-			latitude,
-			longitude,
-		}))
+	handlePress = (ev: MapboxEvent) => {
+		const featurePoint = this.lookupBuildingByCoordinates(ev.geometry.coordinates)
 
-		return (
-			<Polygon
-				key={b.id}
-				coordinates={coords}
-				fillColor={highlighted ? c.brickRed : c.black75Percent}
-				onPress={() => this.onTouchOutline(b.id)}
-				strokeColor={highlighted ? c.maroon : c.black50Percent}
-				strokeWidth={StyleSheet.hairlineWidth}
-			/>
-		)
+		if (!featurePoint) {
+			return
+		}
+
+		this.highlightBuildingById(featurePoint.id)
 	}
 
-	buildingToUnhightlightedOutline = (b: Building) =>
-		this.buildingToOutline(b, false)
-	buildingToHighlightedOutline = (b: Building) =>
-		this.buildingToOutline(b, true)
+	lookupBuildingByCoordinates = ([lng, lat]: [number, number]) => {
+		const searchPoint = {
+			type: 'Feature',
+			geometry: {type: 'Point', coordinates: [lng, lat]},
+		}
+
+		return nearestPoint(searchPoint, this.state.featureCollection)
+	}
 
 	onTouchOutline = (id: string) => {
 		this.highlightBuildingById(id)
@@ -129,11 +144,7 @@ export class MapView extends React.Component<Props, State> {
 				selectedBuilding: match,
 			}),
 			() => {
-				if (!this._mapRef) {
-					return
-				}
-
-				if (!match || !match.center) {
+				if (!this._map || !match || !match.center) {
 					return
 				}
 
@@ -142,16 +153,12 @@ export class MapView extends React.Component<Props, State> {
 						? // case 1: overlay is collapsed; center in viewport
 							match.center[0]
 						: // case 2: overlay is open; center above overlay
-							match.center[0] - 0.002252 / 4
+							match.center[0] - 0.0005
 
-				const newRegion = {
-					latitude: latitude,
-					longitude: match.center[1],
-					latitudeDelta: 0.002252,
-					longitudeDelta: 0.001962,
-				}
-
-				this._mapRef.animateToRegion(newRegion)
+				this._map.setCamera({
+					centerCoordinate: [match.center[1], latitude],
+					zoom: 17,
+				})
 			},
 		)
 	}
@@ -183,26 +190,18 @@ export class MapView extends React.Component<Props, State> {
 		return (
 			<View style={StyleSheet.absoluteFill}>
 				<Mapbox.MapView
-					styleURL={Mapbox.StyleURL.Street}
+					ref={ref => (this._map = ref)}
+					styleURL={MAPBOX_CARLETON_STYLE}
 					zoomLevel={15}
 					showUserLocation={true}
-					centerCoordinate={[
-						originalCenterpoint.longitude,
-						originalCenterpoint.latitude,
-					]}
+					centerCoordinate={originalCenterpoint}
 					style={styles.map}
+					logoEnabled={false}
+					onPress={this.handlePress}
 				>
 					{this.state.buildings
 						.filter(b => this.state.visibleMarkers.includes(b.id))
 						.map(this.buildingToMarker)}
-
-					{/*this.state.buildings
-						.filter(b => !this.state.highlighted.includes(b.id))
-						.map(this.buildingToUnhightlightedOutline)*/}
-
-					{/*this.state.buildings
-						.filter(b => this.state.highlighted.includes(b.id))
-						.map(this.buildingToHighlightedOutline)*/}
 				</Mapbox.MapView>
 
 				<Overlay
@@ -235,18 +234,21 @@ const styles = StyleSheet.create({
 		...StyleSheet.absoluteFillObject,
 	},
 	annotationContainer: {
-    width: 30,
-    height: 30,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'white',
-    borderRadius: 15,
-  },
-  annotationFill: {
-    width: 30,
-    height: 30,
-    borderRadius: 15,
-    backgroundColor: 'orange',
-    transform: [{ scale: 0.6 }],
-  }
+		width: 20,
+		height: 20,
+		borderRadius: 10,
+		alignItems: 'center',
+		justifyContent: 'center',
+		backgroundColor: 'white',
+		shadowOffset: {width: 0, height: 1},
+		shadowColor: 'rgb(0, 0, 0)',
+		shadowOpacity: 0.2,
+	},
+	annotationFill: {
+		width: 20,
+		height: 20,
+		borderRadius: 10,
+		backgroundColor: c.olevilleGold,
+		transform: [{scale: 0.6}],
+	},
 })
