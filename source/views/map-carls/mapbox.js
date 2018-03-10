@@ -12,7 +12,7 @@ import {BuildingInfo} from './info'
 import {Overlay} from './overlay'
 import Mapbox from '@mapbox/react-native-mapbox-gl'
 import {MAPBOX_API_KEY} from '../../lib/config'
-import nearestPoint from '@turf/nearest-point'
+import pointInPolygon from '@turf/boolean-point-in-polygon'
 
 Mapbox.setAccessToken(MAPBOX_API_KEY)
 const MAPBOX_CARLETON_STYLE =
@@ -34,7 +34,7 @@ type Props = TopLevelViewPropsType
 
 type State = {|
 	buildings: Array<Building>,
-	featureCollection: any,
+	outlines: any,
 	visibleMarkers: Array<string>,
 	highlighted: Array<string>,
 	selectedBuilding: ?Building,
@@ -67,7 +67,8 @@ export class MapView extends React.Component<Props, State> {
 	fetchData = async () => {
 		const data: Array<Building> = await fetchJson(MAP_DATA_URL)
 
-		const featureCollection = {
+		/*
+		const centers = {
 			type: 'FeatureCollection',
 			features: data.filter(b => b.center).map(b => {
 				const [lat, lng] = b.center
@@ -81,10 +82,29 @@ export class MapView extends React.Component<Props, State> {
 				}
 			}),
 		}
+		*/
+
+		const outlines = {
+			type: 'FeatureCollection',
+			features: data.filter(b => b.outline && b.outline.length).map(b => {
+				const outline = b.outline.map(([lat, long]) => [long, lat])
+				outline.push(outline[0])
+
+				return {
+					type: 'Feature',
+					id: b.id,
+					geometry: {
+						type: 'Polygon',
+						coordinates: [outline],
+					},
+				}
+			}),
+		}
 
 		this.setState(() => ({
 			buildings: data,
-			featureCollection: featureCollection,
+			outlines: outlines,
+			// centers: centers,
 			highlighted: [],
 			visibleMarkers: [],
 		}))
@@ -107,7 +127,8 @@ export class MapView extends React.Component<Props, State> {
 	}
 
 	handlePress = (ev: MapboxEvent) => {
-		const featurePoint = this.lookupBuildingByCoordinates(ev.geometry.coordinates)
+		const coords = ev.geometry.coordinates
+		const featurePoint = this.lookupBuildingByCoordinates(coords)
 
 		if (!featurePoint) {
 			return
@@ -122,7 +143,9 @@ export class MapView extends React.Component<Props, State> {
 			geometry: {type: 'Point', coordinates: [lng, lat]},
 		}
 
-		return nearestPoint(searchPoint, this.state.featureCollection)
+		return this.state.outlines.features.find(feat =>
+			pointInPolygon(searchPoint, feat),
+		)
 	}
 
 	onTouchOutline = (id: string) => {
