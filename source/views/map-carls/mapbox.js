@@ -278,9 +278,9 @@ const styles = StyleSheet.create({
 		borderRadius: 10,
 		alignItems: 'center',
 		justifyContent: 'center',
-		backgroundColor: 'white',
+		backgroundColor: c.white,
 		shadowOffset: {width: 0, height: 1},
-		shadowColor: 'rgb(0, 0, 0)',
+		shadowColor: c.black,
 		shadowOpacity: 0.2,
 	},
 	annotationFill: {
