@@ -206,8 +206,9 @@ export class MapView extends React.Component<Props, State> {
 	setOverlayMid = () => this.setState(() => ({overlaySize: 'mid'}))
 	setOverlayMin = () => this.setState(() => ({overlaySize: 'min'}))
 
-	onOverlaySizeChange = (size: 'min' | 'mid' | 'max') =>
+	onOverlaySizeChange = (size: 'min' | 'mid' | 'max') => {
 		this.setState(() => ({overlaySize: size}))
+	}
 
 	render() {
 		return (
