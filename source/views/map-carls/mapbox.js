@@ -31,7 +31,7 @@ type Props = TopLevelViewPropsType
 
 type State = {|
 	buildings: Array<Building>,
-	outlines: any,
+	outlines: ?GeoJsonFeatureCollection,
 	visibleMarkers: Array<string>,
 	highlighted: Array<string>,
 	selectedBuilding: ?Building,
@@ -39,6 +39,20 @@ type State = {|
 |}
 
 const originalCenterpoint = [-93.15488752015, 44.460800862266]
+
+type GeoJsonFeature = {
+	type: 'Feature',
+	id?: string,
+	geometry: {
+		type: 'Polygon',
+		coordinates: Array<Array<[number, number]>>,
+	},
+}
+
+type GeoJsonFeatureCollection = {
+	type: 'FeatureCollection',
+	features: Array<GeoJsonFeature>,
+}
 
 export class MapView extends React.Component<Props, State> {
 	static navigationOptions = {
@@ -48,7 +62,7 @@ export class MapView extends React.Component<Props, State> {
 
 	state = {
 		buildings: [],
-		featureCollection: [],
+		outlines: null,
 		highlighted: [],
 		visibleMarkers: [],
 		selectedBuilding: null,
@@ -59,7 +73,7 @@ export class MapView extends React.Component<Props, State> {
 		this.fetchData()
 	}
 
-	_map: ?Map = null
+	_map: ?Mapbox.MapView = null
 
 	fetchData = async () => {
 		const data: Array<Building> = await fetchJson(MAP_DATA_URL)
@@ -127,7 +141,7 @@ export class MapView extends React.Component<Props, State> {
 		const coords = ev.geometry.coordinates
 		const featurePoint = this.lookupBuildingByCoordinates(coords)
 
-		if (!featurePoint) {
+		if (!featurePoint || !featurePoint.id) {
 			return
 		}
 
@@ -135,6 +149,10 @@ export class MapView extends React.Component<Props, State> {
 	}
 
 	lookupBuildingByCoordinates = ([lng, lat]: [number, number]) => {
+		if (!this.state.outlines) {
+			return
+		}
+
 		const searchPoint = {
 			type: 'Feature',
 			geometry: {type: 'Point', coordinates: [lng, lat]},
