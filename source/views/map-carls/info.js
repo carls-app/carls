@@ -111,8 +111,8 @@ export class BuildingInfo extends React.Component<Props> {
 	}
 }
 
-const PlaceTitle = glamorous.text({fontSize: 22, fontWeight: '600'})
-const PlaceSubtitle = glamorous.text({fontSize: 18})
+const PlaceTitle = glamorous.text({fontSize: 20, fontWeight: '700'})
+const PlaceSubtitle = glamorous.text({fontSize: 16})
 
 const Section = glamorous.view({
 	paddingVertical: 12,
