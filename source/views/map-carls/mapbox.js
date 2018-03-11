@@ -129,7 +129,7 @@ export class MapView extends React.Component<Props, State> {
 		const [lat, long] = b.center
 		const coord = [long, lat]
 		return (
-			<Mapbox.PointAnnotation key={b.id} id={b.id} coordinate={coord}>
+			<Mapbox.PointAnnotation key={b.id} coordinate={coord} id={b.id}>
 				<View style={styles.annotationContainer}>
 					<View style={styles.annotationFill} />
 				</View>
@@ -230,13 +230,13 @@ export class MapView extends React.Component<Props, State> {
 			<View style={StyleSheet.absoluteFill}>
 				<Mapbox.MapView
 					ref={ref => (this._map = ref)}
-					styleURL={MAPBOX_CARLETON_STYLE}
-					zoomLevel={15}
-					showUserLocation={true}
 					centerCoordinate={originalCenterpoint}
-					style={styles.map}
 					logoEnabled={false}
 					onPress={this.handlePress}
+					showUserLocation={true}
+					style={styles.map}
+					styleURL={MAPBOX_CARLETON_STYLE}
+					zoomLevel={15}
 				>
 					{this.state.buildings
 						.filter(b => this.state.visibleMarkers.includes(b.id))
