@@ -199,7 +199,7 @@ export class MapView extends React.Component<Props, State> {
 			visibleMarkers: [],
 			highlighted: [],
 		}))
-		this.setOverlayMin()
+		this.setOverlayMid()
 	}
 
 	setOverlayMax = () => this.setState(() => ({overlaySize: 'max'}))
