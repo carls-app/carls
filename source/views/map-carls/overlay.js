@@ -55,7 +55,7 @@ export class Overlay extends React.Component<Props> {
 	resizeMax = () => this.props.onSizeChange('max')
 
 	_view: any = null
-	_deltaY = new Animated.Value(this.lookupPosition(this.props.size))
+	// _deltaY = new Animated.Value(this.lookupPosition(this.props.size))
 
 	onSnap = (ev: {nativeEvent: {index: number, id: ViewState}}) => {
 		this.props.onSizeChange(ev.nativeEvent.id)
@@ -86,8 +86,7 @@ export class Overlay extends React.Component<Props> {
 
 				<Interactable.View
 					ref={ref => (this._view = ref)}
-					// to play with the darkening bg, uncomment the following line as well
-					animatedValueY={this._deltaY}
+					// animatedValueY={this._deltaY}
 					boundaries={{top: -300}}
 					initialPosition={{y: this.positions[viewState]}}
 					onSnap={this.onSnap}
