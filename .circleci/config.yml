@@ -31,6 +31,7 @@ x-config:
         touch .env.js
         echo "export const GOOGLE_CALENDAR_API_KEY = '$GCAL_KEY'" >> .env.js
         echo "export const GOOGLE_MAPS_API_KEY = '$GMAPS_KEY'" >> .env.js
+        echo "export const MAPBOX_API_KEY = '$MAPBOX_KEY'" >> .env.js
 
 workflows:
   version: 2
@@ -51,9 +52,9 @@ workflows:
       - flow:
           filters: *filters
           requires: [cache-yarn-linux]
-      - jest:
-          filters: *filters
-          requires: [cache-yarn-linux]
+      # - jest:
+      #     filters: *filters
+      #     requires: [cache-yarn-linux]
       - prettier:
           filters: *filters
           requires: [cache-yarn-linux]
@@ -65,13 +66,13 @@ workflows:
           requires: [cache-yarn-linux]
       - ios:
           filters: *filters
-          requires: [danger, flow, jest, prettier, eslint, data]
+          requires: [danger, flow, prettier, eslint, data]
       # - android:
       #     filters: *filters
       #     requires: [danger, flow, jest, prettier, eslint, data]
       - ios-bundle:
           filters: *filters
-          requires: [danger, flow, jest, prettier, eslint, data]
+          requires: [danger, flow, prettier, eslint, data]
       # - android-bundle:
       #     filters: *filters
       #     requires: [danger, flow, jest, prettier, eslint, data]
@@ -84,11 +85,10 @@ workflows:
       - cache-yarn-linux
       - danger: {requires: [cache-yarn-linux]}
       - flow: {requires: [cache-yarn-linux]}
-      - jest: {requires: [cache-yarn-linux]}
       - prettier: {requires: [cache-yarn-linux]}
       - eslint: {requires: [cache-yarn-linux]}
       - data: {requires: [cache-yarn-linux]}
-      - ios-nightly: {requires: [danger, flow, jest, prettier, eslint, data]}
+      - ios-nightly: {requires: [danger, flow, prettier, eslint, data]}
       # - android-nightly: {requires: [danger, flow, jest, prettier, eslint, data]}
 
 jobs:

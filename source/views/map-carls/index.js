@@ -1,3 +1,3 @@
 // @flow
 
-export {MapView} from './map'
+export {MapView} from './mapbox'

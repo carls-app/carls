@@ -79,6 +79,12 @@
   dependencies:
     prop-types "^15.5.10"
 
+"@mapbox/react-native-mapbox-gl@6.1.0":
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/@mapbox/react-native-mapbox-gl/-/react-native-mapbox-gl-6.1.0.tgz#111b71b532682ce786bd5c7790c43ea17700adf2"
+  dependencies:
+    "@turf/helpers" "4.6.0"
+
 "@octokit/rest@^14.0.4":
   version "14.0.4"
   resolved "https://registry.yarnpkg.com/@octokit/rest/-/rest-14.0.4.tgz#7bf3319221352f48a642ac523d2d36b370e17961"
@@ -91,6 +97,27 @@
     lodash "^4.17.4"
     proxy-from-env "^1.0.0"
     url-template "^2.0.8"
+
+"@turf/boolean-point-in-polygon@6.0.0":
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/@turf/boolean-point-in-polygon/-/boolean-point-in-polygon-6.0.0.tgz#3ddb1b8f23e52802e1df9cf04e2d29b859fb5718"
+  dependencies:
+    "@turf/helpers" "6.x"
+    "@turf/invariant" "6.x"
+
+"@turf/helpers@4.6.0":
+  version "4.6.0"
+  resolved "https://registry.yarnpkg.com/@turf/helpers/-/helpers-4.6.0.tgz#12398733b8ae28420df6166fa44c7ee8ffd6414c"
+
+"@turf/helpers@6.x":
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/@turf/helpers/-/helpers-6.0.1.tgz#625112616159e519033dc5d24c094ccbce7a457f"
+
+"@turf/invariant@6.x":
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/@turf/invariant/-/invariant-6.0.1.tgz#45581b41f82d91b682cef427e897c840d1741757"
+  dependencies:
+    "@turf/helpers" "6.x"
 
 "@types/node@*":
   version "8.5.1"
