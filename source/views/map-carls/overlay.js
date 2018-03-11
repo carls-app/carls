@@ -1,7 +1,7 @@
 // @flow
 
 import * as React from 'react'
-import {View, StyleSheet, Animated, Dimensions, Platform} from 'react-native'
+import {View, StyleSheet, Dimensions, Platform} from 'react-native'
 import * as c from '../components/colors'
 import {GrabberBar} from './grabber'
 import Interactable from 'react-native-interactable'
