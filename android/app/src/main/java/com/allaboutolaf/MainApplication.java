@@ -20,6 +20,7 @@ import com.facebook.soloader.SoLoader;
 import com.github.droibit.android.reactnative.customtabs.CustomTabsPackage;
 import com.idehub.GoogleAnalyticsBridge.GoogleAnalyticsBridgePackage;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
+import com.mapbox.rctmgl.RCTMGLPackage;
 import com.oblador.keychain.KeychainPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.pusherman.networkinfo.RNNetworkInfoPackage;
@@ -49,6 +50,7 @@ public class MainApplication extends Application implements ReactApplication {
         new KeychainPackage(),
         new LinearGradientPackage(),
         new MapsPackage(),
+        new RCTMGLPackage(),
         new ReactNativeRestartPackage(),
         new RNDeviceInfo(),
         new RNNetworkInfoPackage(),
