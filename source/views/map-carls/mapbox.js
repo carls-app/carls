@@ -2,11 +2,10 @@
 
 import * as React from 'react'
 import {View, StyleSheet} from 'react-native'
-import Map, {Marker, Polygon, UrlTile} from 'react-native-maps'
 import * as c from '../components/colors'
 import type {TopLevelViewPropsType} from '../types'
 import type {Building} from './types'
-import {MAP_DATA_URL, GITHUB_TILE_TEMPLATE} from './urls'
+import {MAP_DATA_URL, MAPBOX_CARLETON_STYLE} from './urls'
 import {BuildingPicker} from './picker'
 import {BuildingInfo} from './info'
 import {Overlay} from './overlay'
@@ -15,8 +14,6 @@ import {MAPBOX_API_KEY} from '../../lib/config'
 import pointInPolygon from '@turf/boolean-point-in-polygon'
 
 Mapbox.setAccessToken(MAPBOX_API_KEY)
-const MAPBOX_CARLETON_STYLE =
-	'mapbox://styles/hawkrives/cjelhf2kx5ezz2sp8jbgoj9gt'
 
 type MapboxEvent = {
 	geometry: {
