@@ -35,16 +35,16 @@ export class JobDetailView extends React.PureComponent<Props> {
 				<Cell
 					key="duringTerm"
 					cellStyle="RightDetail"
-					title="Position Available"
 					detail="During Term"
+					title="Position Available"
 				/>
 			) : null,
 			job.duringBreak ? (
 				<Cell
 					key="duringBreak"
 					cellStyle="RightDetail"
-					title="Position Available"
 					detail="During Break"
+					title="Position Available"
 				/>
 			) : null,
 		].filter(Boolean)
