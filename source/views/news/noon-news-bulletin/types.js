@@ -1,7 +1,7 @@
 // @flow
 
 export type NewsBulletinType = {
-	category: string,
-	description: string,
-	link: string,
+	category: Array<string>,
+	description: Array<string>,
+	link: Array<string>,
 }
