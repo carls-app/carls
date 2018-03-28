@@ -16,7 +16,7 @@ import {
 	hasSeenAcknowledgement,
 	type LoginStateType,
 } from '../../flux/parts/settings'
-import {updateBalances} from '../../flux/parts/sis'
+import {updateBalances} from '../../flux/parts/balances'
 import {type ReduxState} from '../../flux'
 import delay from 'delay'
 import * as c from '../components/colors'
@@ -180,13 +180,13 @@ class BalancesView extends React.PureComponent<Props, State> {
 
 function mapState(state: ReduxState): ReduxStateProps {
 	return {
-		schillers: state.sis ? state.sis.schillersBalance : null,
-		dining: state.sis ? state.sis.diningBalance : null,
-		print: state.sis ? state.sis.printBalance : null,
-		weeklyMeals: state.sis ? state.sis.mealsRemainingThisWeek : null,
-		dailyMeals: state.sis ? state.sis.mealsRemainingToday : null,
-		mealPlan: state.sis ? state.sis.mealPlanDescription : null,
-		message: state.sis ? state.sis.balancesErrorMessage : null,
+		schillers: state.balances ? state.balances.schillersBalance : null,
+		dining: state.balances ? state.balances.diningBalance : null,
+		print: state.balances ? state.balances.printBalance : null,
+		weeklyMeals: state.balances ? state.balances.mealsRemainingThisWeek : null,
+		dailyMeals: state.balances ? state.balances.mealsRemainingToday : null,
+		mealPlan: state.balances ? state.balances.mealPlanDescription : null,
+		message: state.balances ? state.balances.balancesErrorMessage : null,
 		alertSeen: state.settings ? state.settings.unofficiallyAcknowledged : false,
 
 		loginState: state.settings ? state.settings.loginState : 'logged-out',

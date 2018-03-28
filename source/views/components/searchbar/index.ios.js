@@ -20,6 +20,7 @@ type PropsType = {
 	onCancel?: () => any,
 	onChangeText?: string => any,
 	onSearchButtonPress: string => any,
+	text?: string,
 	textFieldBackgroundColor?: string,
 }
 
@@ -34,7 +35,8 @@ export const SearchBar = (props: PropsType) => {
 			onFocus={props.onFocus || (() => {})}
 			onSearchButtonPress={props.onSearchButtonPress || (() => {})}
 			placeholder={props.placeholder || 'Search'}
-			style={[styles.searchbar, props.style]}
+			style={styles.searchbar}
+			text={props.text || ''}
 			textFieldBackgroundColor={props.textFieldBackgroundColor || c.white}
 		/>
 	)

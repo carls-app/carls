@@ -1,14 +1,16 @@
 // @flow
 
 import * as React from 'react'
-import {StyleSheet, View, Animated, Platform} from 'react-native'
+import {StyleSheet, View, Animated, Platform, Text} from 'react-native'
 import {TabBarIcon} from '../../components/tabbar-icon'
 import * as c from '../../components/colors'
 import {SearchBar} from '../../components/searchbar'
 import {
 	updateCourseData,
 	loadCourseDataIntoMemory,
-} from '../../../flux/parts/sis'
+	updateCourseFilters,
+	updateRecentSearches,
+} from '../../../flux/parts/courses'
 import {type CourseType, areAnyTermsCached} from '../../../lib/course-search'
 import type {ReduxState} from '../../../flux'
 import type {TopLevelViewPropsType} from '../../types'
@@ -16,11 +18,16 @@ import {connect} from 'react-redux'
 import groupBy from 'lodash/groupBy'
 import sortBy from 'lodash/sortBy'
 import toPairs from 'lodash/toPairs'
+import debounce from 'lodash/debounce'
+import fuzzysearch from 'fuzzysearch'
 import {CourseSearchResultsList} from './list'
 import LoadingView from '../../components/loading'
 import {deptNum} from './lib/format-dept-num'
 import {NoticeView} from '../../components/notice'
 import {Viewport} from '../../components/viewport'
+import {applyFiltersToItem, type FilterType} from '../../components/filter'
+import {RecentSearchList} from '../components/recent-search/list'
+import {Separator} from '../../components/separator'
 
 const PROMPT_TEXT =
 	'We need to download the courses from the server. This will take a few seconds.'
@@ -32,21 +39,30 @@ type ReactProps = TopLevelViewPropsType
 type ReduxStateProps = {
 	allCourses: Array<CourseType>,
 	courseDataState: string,
+	filters: Array<FilterType>,
 	isConnected: boolean,
+	recentSearches: string[],
 }
 
 type ReduxDispatchProps = {
 	updateCourseData: () => Promise<any>,
 	loadCourseDataIntoMemory: () => Promise<any>,
+	onFiltersChange: (f: FilterType[]) => any,
+	updateRecentSearches: (query: string) => any,
 }
 
-type Props = ReactProps & ReduxStateProps & ReduxDispatchProps
+type DefaultProps = {
+	applyFilters: (filters: FilterType[], item: CourseType) => boolean,
+}
+
+type Props = ReactProps & ReduxStateProps & ReduxDispatchProps & DefaultProps
 
 type State = {
 	dataLoading: boolean,
 	searchResults: Array<{title: string, data: Array<CourseType>}>,
 	searchActive: boolean,
 	searchPerformed: boolean,
+	query: string,
 }
 
 class CourseSearchView extends React.PureComponent<Props, State> {
@@ -56,11 +72,16 @@ class CourseSearchView extends React.PureComponent<Props, State> {
 		title: 'SIS',
 	}
 
+	static defaultProps = {
+		applyFilters: applyFiltersToItem,
+	}
+
 	state = {
 		dataLoading: true,
 		searchResults: [],
 		searchActive: false,
 		searchPerformed: false,
+		query: '',
 	}
 
 	componentDidMount() {
@@ -71,6 +92,10 @@ class CourseSearchView extends React.PureComponent<Props, State> {
 				this.setState(() => ({dataLoading: false}))
 			}
 		})
+	}
+
+	componentWillReceiveProps(nextProps: Props) {
+		this.refreshResults(nextProps.filters)
 	}
 
 	animations = {
@@ -119,12 +144,21 @@ class CourseSearchView extends React.PureComponent<Props, State> {
 		this.performSearch(text)
 	}
 
-	performSearch = (text: string | Object) => {
+	_performSearch = (text: string, passedFilters?: Array<FilterType>) => {
+		const {applyFilters} = this.props
+		const filters = passedFilters || this.props.filters
+
+		this.setState(() => ({query: text}))
 		const query = text.toLowerCase()
 
-		const results = this.props.allCourses.filter(
+		const filteredCourses = this.props.allCourses.filter(course =>
+			applyFilters(filters, course),
+		)
+
+		const results = filteredCourses.filter(
 			course =>
-				course.name.toLowerCase().includes(query) ||
+				fuzzysearch(query, course.name.toLowerCase()) ||
+				fuzzysearch(query, (course.title || '').toLowerCase()) ||
 				(course.instructors || []).some(name =>
 					name.toLowerCase().includes(query),
 				) ||
@@ -146,8 +180,26 @@ class CourseSearchView extends React.PureComponent<Props, State> {
 			groupedCourses,
 			course => course.title,
 		).reverse()
-
+		if (text.length !== 0) {
+			this.props.updateRecentSearches(text)
+		}
 		this.setState(() => ({searchResults: sortedCourses, searchPerformed: true}))
+	}
+
+	performSearch = debounce(this._performSearch, 20)
+
+	refreshResults = (filters: Array<FilterType>) => {
+		if (this.state.query !== '') {
+			this.performSearch(this.state.query, filters)
+		}
+	}
+
+	onRecentSearchPress = (text: string) => {
+		this.onFocus()
+		if (Platform.OS === 'android') {
+			this.searchBar.setValue(text)
+		}
+		this.performSearch(text)
 	}
 
 	animate = (thing, args, toValue: 'start' | 'end') =>
@@ -173,7 +225,7 @@ class CourseSearchView extends React.PureComponent<Props, State> {
 	}
 
 	render() {
-		const {searchActive, searchPerformed, searchResults} = this.state
+		const {searchActive, searchPerformed, searchResults, query} = this.state
 
 		if (this.state.dataLoading) {
 			return <LoadingView text="Loading Course Data…" />
@@ -226,18 +278,28 @@ class CourseSearchView extends React.PureComponent<Props, State> {
 										onSearchButtonPress={this.onSearchButtonPress}
 										placeholder="Search Class & Lab"
 										searchActive={searchActive}
+										text={query}
 										textFieldBackgroundColor={c.sto.lightGray}
 									/>
 								</Animated.View>
 							</Animated.View>
+							<Separator />
 							{searchActive ? (
 								<CourseSearchResultsList
+									filters={this.props.filters}
 									navigation={this.props.navigation}
+									onFiltersChange={this.props.onFiltersChange}
 									searchPerformed={searchPerformed}
 									terms={searchResults}
 								/>
 							) : (
-								<View />
+								<View style={styles.common}>
+									<Text style={styles.subHeader}>Recent</Text>
+									<RecentSearchList
+										onQueryPress={this.onRecentSearchPress}
+										queries={this.props.recentSearches}
+									/>
+								</View>
 							)}
 						</View>
 					)
@@ -249,16 +311,22 @@ class CourseSearchView extends React.PureComponent<Props, State> {
 
 function mapState(state: ReduxState): ReduxStateProps {
 	return {
-		allCourses: state.sis ? state.sis.allCourses : [],
-		courseDataState: state.sis ? state.sis.courseDataState : '',
 		isConnected: state.app ? state.app.isConnected : false,
+		allCourses: state.courses ? state.courses.allCourses : [],
+		courseDataState: state.courses ? state.courses.readyState : '',
+		filters: state.courses ? state.courses.filters : [],
+		recentSearches: state.courses ? state.courses.recentSearches : [],
 	}
 }
 
 function mapDispatch(dispatch): ReduxDispatchProps {
 	return {
 		loadCourseDataIntoMemory: () => dispatch(loadCourseDataIntoMemory()),
+		onFiltersChange: (filters: FilterType[]) =>
+			dispatch(updateCourseFilters(filters)),
 		updateCourseData: () => dispatch(updateCourseData()),
+		updateRecentSearches: (query: string) =>
+			dispatch(updateRecentSearches(query)),
 	}
 }
 
@@ -280,6 +348,12 @@ let styles = StyleSheet.create({
 	},
 	header: {
 		fontSize: 30,
+		fontWeight: 'bold',
+		padding: 22,
+		paddingLeft: 17,
+	},
+	subHeader: {
+		fontSize: 20,
 		fontWeight: 'bold',
 		padding: 22,
 		paddingLeft: 17,
