@@ -14,24 +14,22 @@ type Props = {
 	onPress: () => any,
 }
 
-export function HomeScreenButton({visibility, view, onPress}: Props) {
+export function HomeScreenButton({view, onPress}: Props) {
 	const foreground =
 		view.foreground === 'light' ? styles.lightForeground : styles.darkForeground
 
 	return (
-		<View style={{display: visibility}}>
-			<TouchableButton
-				gradient={view.gradient}
-				label={view.title}
-				onPress={onPress}
-				tint={view.tint}
-			>
-				<View style={styles.contents}>
-					<Icon name={view.icon} size={32} style={[foreground, styles.icon]} />
-					<Text style={[foreground, styles.text]}>{view.title}</Text>
-				</View>
-			</TouchableButton>
-		</View>
+		<TouchableButton
+			gradient={view.gradient}
+			label={view.title}
+			onPress={onPress}
+			tint={view.tint}
+		>
+			<View style={styles.contents}>
+				<Icon name={view.icon} size={32} style={[foreground, styles.icon]} />
+				<Text style={[foreground, styles.text]}>{view.title}</Text>
+			</View>
+		</TouchableButton>
 	)
 }
 
