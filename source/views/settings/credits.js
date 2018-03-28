@@ -62,34 +62,32 @@ const Contributors = glamorous(About)({
 
 const formatPeopleList = arr => arr.map(w => w.replace(' ', ' ')).join(' • ')
 
-class CreditsView extends React.Component {
-	static navigationOptions = {
-		title: 'Credits',
-	}
+function CreditsView(props: Props) {
+	return (
+		<Container contentInsetAdjustmentBehavior="automatic">
+			<Touchable
+				highlight={false}
+				onPress={props.onShowEasterEgg}
+			>
+				<AppLogo />
+			</Touchable>
 
-	render() {
-		return (
-			<Container contentInsetAdjustmentBehavior="automatic">
-				<Touchable
-					highlight={false}
-					onPress={() => this.props.onShowEasterEgg()}
-				>
-					<AppLogo />
-				</Touchable>
+			<Title>{credits.name}</Title>
+			<About>{credits.content}</About>
 
-				<Title>{credits.name}</Title>
-				<About>{credits.content}</About>
+			<Heading>Contributors</Heading>
+			<Contributors>{formatPeopleList(credits.contributors)}</Contributors>
 
-				<Heading>Contributors</Heading>
-				<Contributors>{formatPeopleList(credits.contributors)}</Contributors>
+			<Heading>Acknowledgements</Heading>
+			<Contributors>
+				{formatPeopleList(credits.acknowledgements)}
+			</Contributors>
+		</Container>
+	)
+}
 
-				<Heading>Acknowledgements</Heading>
-				<Contributors>
-					{formatPeopleList(credits.acknowledgements)}
-				</Contributors>
-			</Container>
-		)
-	}
+CreditsView.navigationOptions = {
+	title: 'Credits',
 }
 
 function mapStateToProps(state) {
