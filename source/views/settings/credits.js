@@ -9,16 +9,17 @@ import {AppLogo} from '../components/logo'
 import {Touchable} from '../components/touchable'
 import {connect} from 'react-redux'
 import {hasEnabledEasterEgg} from '../../flux/parts/settings'
-import type {TopLevelViewPropsType} from '../../types'
+import type {TopLevelViewPropsType} from '../types'
 
-type Props = TopLevelViewPropsType & {
-	onShowEasterEgg: (easterEggEnabled: boolean) => any,
+type ReduxStateProps = {
 	easterEggEnabled: boolean,
 }
 
 type ReduxDispatchProps = {
-	hasEnabledEasterEgg: (e: boolean) => any,
+	onShowEasterEgg: (e: boolean) => any,
 }
+
+type Props = TopLevelViewPropsType & ReduxStateProps & ReduxDispatchProps
 
 const Container = glamorous.scrollView({
 	backgroundColor: c.white,
@@ -90,16 +91,16 @@ CreditsView.navigationOptions = {
 	title: 'Credits',
 }
 
-function mapStateToProps(state) {
+function mapState(state): ReduxStateProps {
 	return {
-		easterEggEnabled: state.settings.onShowEasterEgg,
+		easterEggEnabled: state.settings.onShowEasterEgg || false,
 	}
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatch(dispatch): ReduxDispatchProps {
 	return {
 		onShowEasterEgg: () => dispatch(hasEnabledEasterEgg()),
 	}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CreditsView)
+export default connect(mapState, mapDispatch)(CreditsView)

@@ -68,11 +68,11 @@ export async function hasSeenAcknowledgement(): Promise<SisAlertSeenAction> {
 }
 
 type EasterEggAction = {|type: 'settings/EASTER_EGG_ENABLED', payload: boolean|}
-export async function loadEasterEggStatus(): Promise<EasterEggEnabledAction> {
+export async function loadEasterEggStatus(): Promise<EasterEggAction> {
 	return {type: EASTER_EGG_ENABLED, payload: await getEasterEggStatus()}
 }
 
-export async function hasEnabledEasterEgg(): Promise<EasterEggEnabledAction> {
+export async function hasEnabledEasterEgg(): Promise<EasterEggAction> {
 	await setEasterEggStatus(true)
 	return {type: EASTER_EGG_ENABLED, payload: true}
 }

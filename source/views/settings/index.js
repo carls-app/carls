@@ -4,7 +4,7 @@ import * as React from 'react'
 import {StyleSheet, ScrollView} from 'react-native'
 import {TableView} from 'react-native-tableview-simple'
 import {connect} from 'react-redux'
-import {type ReduxState} from '../../flux'
+import type {ReduxState} from '../../flux'
 import type {TopLevelViewPropsType} from '../types'
 
 import CredentialsLoginSection from './sections/login-credentials'
@@ -12,8 +12,14 @@ import OddsAndEndsSection from './sections/odds-and-ends'
 import SupportSection from './sections/support'
 
 type ReduxStateProps = {
-	loadEasterEggStatus: boolean,
+	easterEggEnabled: boolean,
 }
+
+type ReduxDispatchProps = {
+	onShowEasterEgg: (e: boolean) => any,
+}
+
+type Props = TopLevelViewPropsType & ReduxStateProps & ReduxDispatchProps
 
 const styles = StyleSheet.create({
 	container: {
@@ -21,7 +27,7 @@ const styles = StyleSheet.create({
 	},
 })
 
-function SettingsView(props: TopLevelViewPropsType) {
+function SettingsView(props: Props) {
 	return (
 		<ScrollView
 			contentContainerStyle={styles.container}
@@ -29,7 +35,7 @@ function SettingsView(props: TopLevelViewPropsType) {
 			keyboardShouldPersistTaps="always"
 		>
 			<TableView>
-				{props.loadEasterEggStatus ? <CredentialsLoginSection /> : null}
+				{props.easterEggEnabled ? <CredentialsLoginSection /> : null}
 
 				<SupportSection navigation={props.navigation} />
 
@@ -42,11 +48,10 @@ SettingsView.navigationOptions = {
 	title: 'Settings',
 }
 
-function mapStateToProps(state) {
+function mapState(state) {
 	return {
-		loadEasterEggStatus: state.settings.easterEggEnabled
-			? state.settings.easterEggEnabled
-			: false,
+		easterEggEnabled: state.settings.easterEggEnabled || false,
 	}
 }
-export default connect(mapStateToProps)(SettingsView)
+
+export default connect(mapState)(SettingsView)
