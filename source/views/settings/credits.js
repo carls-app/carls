@@ -67,10 +67,7 @@ const formatPeopleList = arr => arr.map(w => w.replace(' ', ' ')).join(' • ')
 function CreditsView(props: Props) {
 	return (
 		<Container contentInsetAdjustmentBehavior="automatic">
-			<Touchable
-				highlight={false}
-				onPress={props.showEasterEgg}
-			>
+			<Touchable highlight={false} onPress={props.showEasterEgg}>
 				<AppLogo />
 			</Touchable>
 
@@ -81,9 +78,7 @@ function CreditsView(props: Props) {
 			<Contributors>{formatPeopleList(credits.contributors)}</Contributors>
 
 			<Heading>Acknowledgements</Heading>
-			<Contributors>
-				{formatPeopleList(credits.acknowledgements)}
-			</Contributors>
+			<Contributors>{formatPeopleList(credits.acknowledgements)}</Contributors>
 		</Container>
 	)
 }
