@@ -23,7 +23,7 @@ function json(response) {
 
 async function xml(response) {
 	const body = await response.text()
-	return parseXml(body, {explicitArray: false})
+	return parseXml(body, {explicitArray: true})
 }
 
 // make fetch() calls throw if the server returns a non-200 status code
