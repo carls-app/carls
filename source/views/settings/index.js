@@ -48,9 +48,9 @@ SettingsView.navigationOptions = {
 	title: 'Settings',
 }
 
-function mapState(state) {
+function mapState(state: ReduxState): ReduxStateProps {
 	return {
-		easterEggEnabled: state.settings.easterEggEnabled || false,
+		easterEggEnabled: state.settings ? state.settings.easterEggEnabled : false,
 	}
 }
 

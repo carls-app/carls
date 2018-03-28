@@ -72,7 +72,7 @@ export async function loadEasterEggStatus(): Promise<EasterEggAction> {
 	return {type: EASTER_EGG_ENABLED, payload: await getEasterEggStatus()}
 }
 
-export async function hasEnabledEasterEgg(): Promise<EasterEggAction> {
+export async function showEasterEgg(): Promise<EasterEggAction> {
 	await setEasterEggStatus(true)
 	return {type: EASTER_EGG_ENABLED, payload: true}
 }

@@ -8,15 +8,16 @@ import {iOSUIKit, material} from 'react-native-typography'
 import {AppLogo} from '../components/logo'
 import {Touchable} from '../components/touchable'
 import {connect} from 'react-redux'
-import {hasEnabledEasterEgg} from '../../flux/parts/settings'
+import {showEasterEgg} from '../../flux/parts/settings'
 import type {TopLevelViewPropsType} from '../types'
+import type {ReduxState} from '../../flux'
 
 type ReduxStateProps = {
 	easterEggEnabled: boolean,
 }
 
 type ReduxDispatchProps = {
-	onShowEasterEgg: (e: boolean) => any,
+	showEasterEgg: () => any,
 }
 
 type Props = TopLevelViewPropsType & ReduxStateProps & ReduxDispatchProps
@@ -68,7 +69,7 @@ function CreditsView(props: Props) {
 		<Container contentInsetAdjustmentBehavior="automatic">
 			<Touchable
 				highlight={false}
-				onPress={props.onShowEasterEgg}
+				onPress={props.showEasterEgg}
 			>
 				<AppLogo />
 			</Touchable>
@@ -91,15 +92,15 @@ CreditsView.navigationOptions = {
 	title: 'Credits',
 }
 
-function mapState(state): ReduxStateProps {
+function mapState(state: ReduxState): ReduxStateProps {
 	return {
-		easterEggEnabled: state.settings.onShowEasterEgg || false,
+		easterEggEnabled: state.settings ? state.settings.easterEggEnabled : false,
 	}
 }
 
 function mapDispatch(dispatch): ReduxDispatchProps {
 	return {
-		onShowEasterEgg: () => dispatch(hasEnabledEasterEgg()),
+		showEasterEgg: () => dispatch(showEasterEgg()),
 	}
 }
 
