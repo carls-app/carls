@@ -16,7 +16,7 @@ import {
 	loadAcknowledgement,
 } from './parts/settings'
 import {updateBalances} from './parts/balances'
-import {loadRecentSearches} from './parts/courses'
+import {loadRecentSearches, loadRecentFilters} from './parts/courses'
 
 function tickTock(store) {
 	return setInterval(() => store.dispatch(tick()), 10000)
@@ -62,6 +62,7 @@ export async function init(store: {dispatch: any => any}) {
 		store.dispatch(loadAcknowledgement()),
 		store.dispatch(loadFavoriteBuildings()),
 		store.dispatch(loadRecentSearches()),
+		store.dispatch(loadRecentFilters()),
 		loginCredentials(store),
 		tickTock(store),
 	])

@@ -72,9 +72,9 @@ workflows:
       - ios:
           filters: *filters
           requires: [danger, flow, jest, prettier, eslint, data]
-      - android:
-          filters: *filters
-          requires: [danger, flow, jest, prettier, eslint, data, cache-bundler-linux]
+      # - android:
+      #     filters: *filters
+      #     requires: [danger, flow, jest, prettier, eslint, data, cache-bundler-linux]
       - ios-bundle:
           filters: *filters
           requires: [danger, flow, jest, prettier, eslint, data]
@@ -84,7 +84,7 @@ workflows:
   nightly:
     triggers:
       - schedule:
-          cron: 0 6 * * *
+          cron: 0 10 * * *
           filters: {branches: {only: [master]}}
     jobs:
       - cache-yarn-linux
