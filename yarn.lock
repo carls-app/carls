@@ -5000,6 +5000,10 @@ react-native-google-analytics-bridge@5.6.3:
   version "5.6.3"
   resolved "https://registry.yarnpkg.com/react-native-google-analytics-bridge/-/react-native-google-analytics-bridge-5.6.3.tgz#7fb38cc9a596b3e3493bac92aefdd45bfcec6a2d"
 
+react-native-interactable@0.1.10:
+  version "0.1.10"
+  resolved "https://registry.yarnpkg.com/react-native-interactable/-/react-native-interactable-0.1.10.tgz#65b9a68f6a84ba1c0e2ad5478b1f22ffb29c0526"
+
 react-native-keychain@2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/react-native-keychain/-/react-native-keychain-2.0.0.tgz#5e6ae75d66d2737a0b38a95c903b6d6f966dd475"
