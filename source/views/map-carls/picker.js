@@ -109,7 +109,7 @@ export class BuildingPicker extends React.Component<Props, State> {
 		let matches = this.state.query
 			? this.props.buildings.filter(b =>
 					b.name.toLowerCase().startsWith(this.state.query),
-				)
+			  )
 			: this.props.buildings
 
 		if (!this.state.query) {
