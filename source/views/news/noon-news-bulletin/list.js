@@ -64,7 +64,7 @@ export class NoonNewsView extends React.PureComponent<Props, State> {
 
 	fetchData = async () => {
 		const bulletins = await fetchXml(this.props.url)
-			.then(resp => resp.rss.channel.item)
+			.then(resp => resp.rss.channel[0].item)
 			.catch(err => {
 				reportNetworkProblem(err)
 				return []

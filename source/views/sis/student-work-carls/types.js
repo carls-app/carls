@@ -12,7 +12,7 @@ export type FullJobType = {
 }
 
 export type ThinJobType = {
-	title: string,
-	pubDate: string, // sadly, this is just the date published
-	link: string,
+	title: Array<string>,
+	pubDate: Array<string>, // sadly, this is just the date published
+	link: Array<string>,
 }
