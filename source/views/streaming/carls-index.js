@@ -1,4 +1,4 @@
 // @flow
 
-export {SumoTabView} from './view-sumo'
+export {SumoUpcomingView} from './view-sumo'
 export {RadioTabView} from './view-radio'
