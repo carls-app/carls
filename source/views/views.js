@@ -90,7 +90,7 @@ export const allViews: ViewType[] = [
 	},
 	{
 		type: 'view',
-		view: 'SumoTabView',
+		view: 'SumoUpcomingView',
 		title: 'SUMO',
 		icon: 'video',
 		foreground: 'light',
