@@ -42,7 +42,7 @@ export class ArchivedConvocationsView extends React.PureComponent<
 		error: null,
 	}
 
-	componentWillMount() {
+	componentDidMount() {
 		this.refresh()
 	}
 

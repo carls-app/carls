@@ -14,13 +14,13 @@ type State = {
 }
 
 export class CategoryPicker extends React.Component<Props, State> {
-	state = {
-		selectedIndex: this.props.categories.indexOf(this.props.selected),
+	static getDerivedStateFromProps(nextProps: Props) {
+		const index = nextProps.categories.indexOf(nextProps.selected)
+		return {selectedIndex: index}
 	}
 
-	componentWillReceiveProps(nextProps: Props) {
-		const index = this.props.categories.indexOf(nextProps.selected)
-		this.setState(() => ({selectedIndex: index}))
+	state = {
+		selectedIndex: this.props.categories.indexOf(this.props.selected),
 	}
 
 	render() {
