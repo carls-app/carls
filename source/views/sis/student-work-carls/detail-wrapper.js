@@ -25,7 +25,7 @@ export class StudentWorkDetailView extends React.PureComponent<Props, State> {
 		loading: true,
 	}
 
-	componentWillMount() {
+	componentDidMount() {
 		this.fetch()
 	}
 

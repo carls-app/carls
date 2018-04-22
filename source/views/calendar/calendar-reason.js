@@ -36,7 +36,7 @@ export class ReasonCalendarView extends React.Component<Props, State> {
 		now: moment.tz(TIMEZONE),
 	}
 
-	componentWillMount() {
+	componentDidMount() {
 		this.refresh()
 	}
 

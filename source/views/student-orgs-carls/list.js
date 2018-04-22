@@ -86,7 +86,7 @@ export class StudentOrgsView extends React.PureComponent<Props, State> {
 		error: false,
 	}
 
-	componentWillMount() {
+	componentDidMount() {
 		this.fetchData().then(() => {
 			this.setState(() => ({loading: false}))
 		})

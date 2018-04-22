@@ -48,7 +48,7 @@ export class StudentWorkView extends React.PureComponent<Props, State> {
 		error: false,
 	}
 
-	componentWillMount() {
+	componentDidMount() {
 		this.refresh()
 	}
 

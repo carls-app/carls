@@ -32,13 +32,13 @@ const isIPhoneX = (() => {
 const screenHeight = Dimensions.get('window').height - 75
 
 export class Overlay extends React.Component<Props> {
-	componentWillReceiveProps(nextProps: Props) {
-		if (this.props.size !== nextProps.size) {
+	componentDidUpdate(prevProps: Props) {
+		if (prevProps.size !== this.props.size) {
 			if (!this._view) {
 				return
 			}
 
-			this._view.snapTo({index: this.positionsOrder.indexOf(nextProps.size)})
+			this._view.snapTo({index: this.positionsOrder.indexOf(this.props.size)})
 		}
 	}
 
