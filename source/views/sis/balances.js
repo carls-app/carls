@@ -154,7 +154,9 @@ class BalancesView extends React.PureComponent<Props, State> {
 						)}
 					</Section>
 
-					{this.props.loginState !== 'logged-in' || this.props.message ? (
+					{(this.props.loginState !== 'checking' &&
+						this.props.loginState !== 'logged-in') ||
+					this.props.message ? (
 						<Section footer="You'll need to log in again so we can update these numbers.">
 							{this.props.loginState !== 'logged-in' ? (
 								<Cell
