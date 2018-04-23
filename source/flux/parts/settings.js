@@ -156,6 +156,8 @@ export async function logOutViaCredentials(): Promise<CredentialsLogOutAction> {
 type TokenLogOutAction = {|type: 'settings/TOKEN_LOGOUT'|}
 export async function logOutViaToken(): Promise<TokenLogOutAction> {
 	trackLogOut()
+	// actually log out and clear the cookie
+	await fetch('https://apps.carleton.edu/login/?logout=1')
 	await clearTokenValid()
 	return {type: TOKEN_LOGOUT}
 }
