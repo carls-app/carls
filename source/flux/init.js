@@ -4,15 +4,14 @@
  */
 
 import {NetInfo} from 'react-native'
-import {loadLoginCredentials} from '../lib/login'
+import {getTokenValid} from '../lib/storage'
 import {updateOnlineStatus, tick} from './parts/app'
 import {loadHomescreenOrder, loadDisabledViews} from './parts/homescreen'
 import {getEnabledTools} from './parts/help'
 import {loadFavoriteBuildings} from './parts/buildings'
 import {
-	setLoginCredentials,
-	validateLoginCredentials,
 	loadFeedbackStatus,
+	setTokenValidity,
 	loadAcknowledgement,
 } from './parts/settings'
 import {updateBalances} from './parts/balances'
@@ -23,19 +22,8 @@ function tickTock(store) {
 }
 
 async function loginCredentials(store) {
-	const {username, password} = await loadLoginCredentials()
-	if (!username || !password) {
-		return
-	}
-	store.dispatch(setLoginCredentials({username, password}))
-}
-
-async function validateOlafCredentials(store) {
-	const {username, password} = await loadLoginCredentials()
-	if (!username || !password) {
-		return
-	}
-	store.dispatch(validateLoginCredentials({username, password}))
+	const wasValid = await getTokenValid()
+	store.dispatch(setTokenValidity(wasValid))
 }
 
 function netInfoIsConnected(store) {
@@ -72,7 +60,6 @@ export async function init(store: {dispatch: any => any}) {
 
 	// then go do the network stuff in parallel
 	await Promise.all([
-		validateOlafCredentials(store),
 		store.dispatch(updateBalances(false)),
 		store.dispatch(getEnabledTools()),
 	])

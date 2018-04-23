@@ -12,6 +12,8 @@ import {
 	getAnalyticsOptOut,
 	getAcknowledgementStatus,
 	setAcknowledgementStatus,
+	setTokenValid,
+	clearTokenValid,
 } from '../../lib/storage'
 
 import {trackLogOut, trackLogIn, trackLoginFailure} from '../../analytics'
@@ -37,6 +39,8 @@ const CREDENTIALS_VALIDATE_FAILURE = 'settings/CREDENTIALS_VALIDATE_FAILURE'
 const SET_FEEDBACK = 'settings/SET_FEEDBACK'
 const CHANGE_THEME = 'settings/CHANGE_THEME'
 const SIS_ALERT_SEEN = 'settings/SIS_ALERT_SEEN'
+const TOKEN_LOGIN = 'settings/TOKEN_LOGIN'
+const TOKEN_LOGOUT = 'settings/TOKEN_LOGOUT'
 
 type SetFeedbackStatusAction = {|
 	type: 'settings/SET_FEEDBACK',
@@ -124,12 +128,39 @@ export function logInViaCredentials(
 	}
 }
 
-type LogOutAction = {|type: 'settings/CREDENTIALS_LOGOUT'|}
-export async function logOutViaCredentials(): Promise<LogOutAction> {
+export function logInViaToken(
+	tokenStatus: boolean,
+): ThunkAction<LogInActions | UpdateBalancesType> {
+	return async (dispatch: any => any) => {
+		await setTokenValid(tokenStatus)
+		dispatch({type: TOKEN_LOGIN, payload: tokenStatus})
+
+		if (tokenStatus) {
+			// since we logged in successfully, go ahead and fetch the meal info
+			dispatch(updateBalances())
+		}
+	}
+}
+
+export function setTokenValidity(isTokenValid: boolean) {
+	return {type: TOKEN_LOGIN, payload: isTokenValid}
+}
+
+type CredentialsLogOutAction = {|type: 'settings/CREDENTIALS_LOGOUT'|}
+export async function logOutViaCredentials(): Promise<CredentialsLogOutAction> {
 	trackLogOut()
 	await clearLoginCredentials()
 	return {type: CREDENTIALS_LOGOUT}
 }
+
+type TokenLogOutAction = {|type: 'settings/TOKEN_LOGOUT'|}
+export async function logOutViaToken(): Promise<TokenLogOutAction> {
+	trackLogOut()
+	await clearTokenValid()
+	return {type: TOKEN_LOGOUT}
+}
+
+type LogOutAction = CredentialsLogOutAction | TokenLogOutAction
 
 type ValidateStartAction = {|type: 'settings/CREDENTIALS_VALIDATE_START'|}
 type ValidateSuccessAction = {|type: 'settings/CREDENTIALS_VALIDATE_SUCCESS'|}
@@ -181,6 +212,9 @@ export type State = {
 	+username: string,
 	+password: string,
 	+loginState: LoginStateType,
+
+	+tokenError: ?Error,
+	+tokenValid: boolean,
 }
 
 const initialState = {
@@ -193,6 +227,9 @@ const initialState = {
 	username: '',
 	password: '',
 	loginState: 'logged-out',
+
+	tokenError: null,
+	tokenValid: false,
 }
 
 export function settings(state: State = initialState, action: Action) {
@@ -244,6 +281,33 @@ export function settings(state: State = initialState, action: Action) {
 				...state,
 				username: action.payload.username,
 				password: action.payload.password,
+			}
+		}
+
+		case TOKEN_LOGIN: {
+			if (action.error === true) {
+				return {
+					...state,
+					tokenValid: false,
+					tokenError: action.payload,
+					loginState: 'invalid',
+				}
+			}
+
+			return {
+				...state,
+				tokenValid: action.payload === true,
+				tokenError: null,
+				loginState: 'logged-in',
+			}
+		}
+
+		case TOKEN_LOGOUT: {
+			return {
+				...state,
+				tokenValid: false,
+				tokenError: null,
+				loginState: 'logged-out',
 			}
 		}
 
