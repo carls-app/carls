@@ -4,6 +4,7 @@
  */
 
 import {NetInfo} from 'react-native'
+import {checkToken} from '../lib/login'
 import {getTokenValid} from '../lib/storage'
 import {updateOnlineStatus, tick} from './parts/app'
 import {loadHomescreenOrder, loadDisabledViews} from './parts/homescreen'
@@ -19,6 +20,11 @@ import {loadRecentSearches, loadRecentFilters} from './parts/courses'
 
 function tickTock(store) {
 	return setInterval(() => store.dispatch(tick()), 10000)
+}
+
+async function checkTokenValidity(store) {
+	let status = await checkToken()
+	store.dispatch(setTokenValidity(status))
 }
 
 async function loginCredentials(store) {
@@ -60,6 +66,7 @@ export async function init(store: {dispatch: any => any}) {
 
 	// then go do the network stuff in parallel
 	await Promise.all([
+		checkTokenValidity(store),
 		store.dispatch(updateBalances(false)),
 		store.dispatch(getEnabledTools()),
 	])

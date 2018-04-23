@@ -51,6 +51,11 @@ export async function getBalances(
 async function fetchBalancesFromServer(): Promise<BalancesOrErrorType> {
 	const result = await fetch(ONECARD_DASHBOARD, {credentials: 'include'})
 	const page = await result.text()
+
+	if (page.contains('Please Sign In')) {
+		return {error: true, value: new Error('not logged in!')}
+	}
+
 	const dom = parseHtml(page)
 
 	return parseBalancesFromDom(dom)
