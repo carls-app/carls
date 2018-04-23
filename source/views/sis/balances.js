@@ -154,7 +154,9 @@ class BalancesView extends React.PureComponent<Props, State> {
 						)}
 					</Section>
 
-					{this.props.loginState !== 'logged-in' || this.props.message ? (
+					{(this.props.loginState !== 'checking' &&
+						this.props.loginState !== 'logged-in') ||
+					this.props.message ? (
 						<Section footer="You'll need to log in again so we can update these numbers.">
 							{this.props.loginState !== 'logged-in' ? (
 								<Cell
@@ -265,19 +267,14 @@ function getValueOrNa(value: ?string): string {
 	return value
 }
 
-function FormattedValueCell({
-	indeterminate,
-	label,
-	value,
-	style,
-	formatter,
-}: {
+function FormattedValueCell(props: {
 	indeterminate: boolean,
 	label: string,
 	value: ?string,
 	style?: any,
 	formatter: (?string) => string,
 }) {
+	let {indeterminate, label, value, style, formatter} = props
 	return (
 		<View style={[styles.rectangle, styles.common, styles.balances, style]}>
 			<Text

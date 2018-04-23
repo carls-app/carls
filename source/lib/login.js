@@ -67,3 +67,14 @@ export async function performLogin(
 
 	return true
 }
+
+export async function checkToken() {
+	const result = await fetch(CARLETON_LOGIN, {credentials: 'include'})
+	const page = await result.text()
+
+	if (page.contains('Please Sign In')) {
+		return false
+	}
+
+	return true
+}
