@@ -52,7 +52,7 @@ async function fetchBalancesFromServer(): Promise<BalancesOrErrorType> {
 	const result = await fetch(ONECARD_DASHBOARD, {credentials: 'include'})
 	const page = await result.text()
 
-	if (page.contains('Please Sign In')) {
+	if (page.includes('Please Sign In')) {
 		return {error: true, value: new Error('not logged in!')}
 	}
 
