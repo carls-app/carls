@@ -6,13 +6,9 @@ import * as c from '../components/colors'
 import sample from 'lodash/sample'
 
 const messages = [
-	'☃️ An Unofficial App Project ☃️',
-	'For students, by students',
-	'By students, for students',
-	'An unofficial St. Olaf app',
-	'For Oles, by Oles',
-	'☃️',
-	'🦁',
+	'☃️🍃 An Unofficial App Project ⛱🍂',
+	'An unofficial Carleton app',
+	'🐧',
 ]
 
 export function UnofficialAppNotice() {
