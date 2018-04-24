@@ -41,7 +41,8 @@ export class DictionaryDetailView extends React.PureComponent<Props> {
 		}
 	}
 
-	handleEditButtonPress = (item: WordType) => {
+	handleEditButtonPress = () => {
+		const item = this.props.navigation.state.params.item
 		this.props.navigation.navigate('DictionaryEditorView', {
 			word: item,
 		})
@@ -58,7 +59,7 @@ export class DictionaryDetailView extends React.PureComponent<Props> {
 				/>
 
 				<Button
-					onPress={() => this.handleEditButtonPress(item)}
+					onPress={this.handleEditButtonPress}
 					title="Suggest an Edit"
 				/>
 
