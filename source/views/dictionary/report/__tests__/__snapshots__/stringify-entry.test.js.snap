@@ -1,5 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`handles a basic term 1`] = `
+"word: A Word
+definition: |
+  My Long-ish Definition
+"
+`;
+
 exports[`handles long definitions 1`] = `
 "word: ACE
 definition: |
@@ -17,9 +24,17 @@ definition: |
 "
 `;
 
-exports[`stringifyDictionaryEntry 1`] = `
-"word: A Word
+exports[`handles newlines in the definition 1`] = `
+"word: ACE
 definition: |
-  My Long-ish Definition
+  Academic Civic Engagement.
+  
+  These are courses that include
+  
+  a component of learning in the
+  
+  community with non-profit or
+  
+  governmental partners.
 "
 `;
