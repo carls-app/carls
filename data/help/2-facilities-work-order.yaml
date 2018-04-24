@@ -19,4 +19,4 @@ buttons:
   - title: Open the Form
     action: open-url
     params:
-      url: https://facwiz2017.ads.carleton.edu/fmi/webd/?homeurl=http://go.carleton.edu#PMO_REQUEST_CCv9?script=opening_closing_script
+      url: 'https://facwiz2017.ads.carleton.edu/fmi/webd/?homeurl=http://go.carleton.edu#PMO_REQUEST_CCv9?script=opening_closing_script'
