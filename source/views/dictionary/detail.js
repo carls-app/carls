@@ -3,6 +3,7 @@ import * as React from 'react'
 import {StyleSheet} from 'react-native'
 import {Markdown} from '../components/markdown'
 import {ListFooter} from '../components/list'
+import {Button} from '../components/button'
 import glamorous from 'glamorous-native'
 import type {WordType} from './types'
 import {GH_NEW_ISSUE_URL} from '../../globals'
@@ -40,6 +41,12 @@ export class DictionaryDetailView extends React.PureComponent<Props> {
 		}
 	}
 
+	handleEditButtonPress = (item: WordType) => {
+		this.props.navigation.navigate('DictionaryEditorView', {
+			word: item,
+		})
+	}
+
 	render() {
 		const item = this.props.navigation.state.params.item
 		return (
@@ -48,6 +55,11 @@ export class DictionaryDetailView extends React.PureComponent<Props> {
 				<Markdown
 					source={item.definition}
 					styles={{Paragraph: styles.paragraph}}
+				/>
+
+				<Button
+					onPress={() => this.handleEditButtonPress(item)}
+					title="Suggest an Edit"
 				/>
 
 				<ListFooter
