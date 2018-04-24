@@ -12,9 +12,9 @@ type State = {
 }
 
 export class DictionaryEditorView extends React.PureComponent<Props> {
-	static navigationOptions = ({navigation}: any) => {
+	static navigationOptions = () => {
 		return {
-			title: navigation.state.params.word.word,
+			title: 'Suggest an Edit',
 		}
 	}
 
