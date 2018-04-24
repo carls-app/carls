@@ -5,6 +5,7 @@ import type {WordType} from '../types'
 import {sendEmail} from '../../components/send-email'
 import querystring from 'querystring'
 import {GH_NEW_ISSUE_URL} from '../../../globals'
+import wrap from 'wordwrap'
 
 export function submitReport(current: WordType, suggestion: WordType) {
 	// calling trim() on these to remove the trailing newlines
@@ -66,19 +67,13 @@ function makeIssueLink(before: string, after: string, title: string): string {
 	return `${GH_NEW_ISSUE_URL}?${q}`
 }
 
-function stringifyDictionaryEntry(entry: WordType): string {
-	let res = ''
-	let prev = null
-	let data = jsYaml.safeDump(entry, {flowLevel: 4}).split('\n')
-	for (let line of data) {
-		if (['word:', 'definition:'].includes(line)) {
-			res += `\n\n${line}`
-			// } else if (line.startsWith('  - title:') && prev !== 'schedule:') {
-			// 	res += `\n\n${line}`
-		} else {
-			res += `\n${line}`
-		}
-		prev = line
-	}
-	return res
+export function stringifyDictionaryEntry(entry: WordType): string {
+	// let js-yaml handle dumping the word, just in case
+	let initialData = jsYaml.safeDump({word: entry.word}, {flowLevel: 4})
+
+	let definition = `definition: |
+${wrap(2, 80)(entry.definition)}
+`
+
+	return `${initialData}${definition}`
 }
