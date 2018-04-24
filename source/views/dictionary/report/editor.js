@@ -43,13 +43,13 @@ export class DictionaryEditorView extends React.PureComponent<Props> {
 
 				<TableView>
 					<Section header="WORD">
-						<TitleCell onChange={this.editTitle} text={item.word || ''} />
+						<TitleCell onChange={this.editTitle} text={item.word ? item.word.trim() : ''} />
 					</Section>
 
 					<Section header="DEFINITION">
 						<DefinitionCell
 							onChange={this.editTitle}
-							text={item.definition || ''}
+							text={item.definition ? item.definition.trim() : ''}
 						/>
 					</Section>
 
