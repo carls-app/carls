@@ -84,3 +84,7 @@ export const SumoUpcomingView = ({navigation}: TopLevelViewPropsType) => (
 		}}
 	/>
 )
+
+SumoUpcomingView.navigationOptions = {
+	title: 'SUMO',
+}
