@@ -3,8 +3,7 @@
 import * as React from 'react'
 import {StyleSheet, SectionList} from 'react-native'
 import * as c from '../../components/colors'
-import {connect} from 'react-redux'
-import {updateMenuFilters, type ReduxState} from '../../../flux'
+import {trackMenuFilters} from '../../../analytics'
 import {type TopLevelViewPropsType} from '../../types'
 import type momentT from 'moment'
 import type {
@@ -35,11 +34,7 @@ type ReactProps = TopLevelViewPropsType & {
 	refreshing?: ?boolean,
 }
 
-type ReduxDispatchProps = {
-	onFiltersChange: (f: FilterType[]) => any,
-}
-
-type ReduxStateProps = {
+type State = {
 	filters: FilterType[],
 }
 
@@ -47,7 +42,7 @@ type DefaultProps = {
 	applyFilters: (filters: FilterType[], item: MenuItemType) => boolean,
 }
 
-type Props = ReactProps & ReduxStateProps & ReduxDispatchProps & DefaultProps
+type Props = ReactProps & DefaultProps
 
 const styles = StyleSheet.create({
 	inner: {
@@ -61,63 +56,78 @@ const styles = StyleSheet.create({
 const LEFT_MARGIN = 28
 const Separator = () => <ListSeparator spacing={{left: LEFT_MARGIN}} />
 
-class FancyMenu extends React.PureComponent<Props> {
+type GroupMenuDataArgs = {
+	stations: Array<StationMenuType>,
+	applyFilters: (filters: FilterType[], item: MenuItemType) => boolean,
+	foodItems: MenuItemContainerType,
+	filters: FilterType[],
+}
+
+function groupMenuData(args: GroupMenuDataArgs) {
+	const {applyFilters, foodItems, filters, stations} = args
+
+	const derefrenceMenuItems = menu =>
+		menu.items
+			// Dereference each menu item
+			.map(id => foodItems[id])
+			// Ensure that the referenced menu items exist,
+			// and apply the selected filters to the items in the menu
+			.filter(item => item && applyFilters(filters, item))
+
+	const menusWithItems = stations
+		// We're grouping the menu items in a [label, Array<items>] tuple.
+		.map(menu => [menu.label, derefrenceMenuItems(menu)])
+		// We only want to show stations with at least one item in them
+		.filter(([_, items]) => items.length)
+		// We need to map the tuples into objects for SectionList
+		.map(([title, data]) => ({title, data}))
+
+	return menusWithItems
+}
+
+function areSpecialsFiltered(filters: FilterType[]) {
+	return Boolean(filters.find(isSpecialsFilter))
+}
+
+function isSpecialsFilter(f: FilterType) {
+	return (
+		f.enabled && f.type === 'toggle' && f.spec.label === 'Only Show Specials'
+	)
+}
+
+export class FancyMenu extends React.Component<Props, State> {
 	static defaultProps = {
 		applyFilters: applyFiltersToItem,
 	}
 
-	componentDidMount() {
-		const {foodItems, menuCorIcons, meals, now, onFiltersChange} = this.props
-		const newFilters = buildFilters(values(foodItems), menuCorIcons, meals, now)
-		onFiltersChange(newFilters)
-	}
-
-	componentDidUpdate() {
-		if (this.props.filters.length) {
-			return null
+	static getDerivedStateFromProps(nextProps: Props, prevState: State) {
+		if (prevState.filters.length) {
+			return
 		}
 
-		const {foodItems, menuCorIcons, meals, now, onFiltersChange} = this.props
+		const {foodItems, menuCorIcons, meals, now} = nextProps
 		const newFilters = buildFilters(values(foodItems), menuCorIcons, meals, now)
-		onFiltersChange(newFilters)
+
+		// we don't bother tracking the filters in here, since this isn't where they change
+		return {filters: newFilters}
 	}
 
-	areSpecialsFiltered = filters => Boolean(filters.find(this.isSpecialsFilter))
-	isSpecialsFilter = f =>
-		f.enabled && f.type === 'toggle' && f.spec.label === 'Only Show Specials'
+	updateMenuFilters = (filters: Array<FilterType>) => {
+		trackMenuFilters(this.props.name, filters)
+		this.setState(() => ({filters: filters}))
+	}
 
 	openFilterView = () => {
 		this.props.navigation.navigate('FilterView', {
 			title: `Filter ${this.props.name} Menu`,
-			pathToFilters: ['menus', this.props.name],
-			onChange: filters => this.props.onFiltersChange(filters),
+			initialFilters: this.state.filters,
+			onChange: filters => this.updateMenuFilters(filters),
 		})
 	}
 
-	groupMenuData = (props: Props, stations: Array<StationMenuType>) => {
-		const {applyFilters, filters, foodItems} = props
-
-		const derefrenceMenuItems = menu =>
-			menu.items
-				// Dereference each menu item
-				.map(id => foodItems[id])
-				// Ensure that the referenced menu items exist,
-				// and apply the selected filters to the items in the menu
-				.filter(item => item && applyFilters(filters, item))
-
-		const menusWithItems = stations
-			// We're grouping the menu items in a [label, Array<items>] tuple.
-			.map(menu => [menu.label, derefrenceMenuItems(menu)])
-			// We only want to show stations with at least one item in them
-			.filter(([_, items]) => items.length)
-			// We need to map the tuples into objects for SectionList
-			.map(([title, data]) => ({title, data}))
-
-		return menusWithItems
-	}
-
 	renderSectionHeader = ({section: {title}}: any) => {
-		const {filters, now, meals} = this.props
+		const {now, meals} = this.props
+		const {filters} = this.state
 		const {stations} = chooseMeal(meals, filters, now)
 		const menu = stations.find(m => m.label === title)
 
@@ -131,7 +141,7 @@ class FancyMenu extends React.PureComponent<Props> {
 	}
 
 	renderItem = ({item}: {item: MenuItemType}) => {
-		const specialsFilterEnabled = this.areSpecialsFiltered(this.props.filters)
+		const specialsFilterEnabled = areSpecialsFiltered(this.state.filters)
 		return (
 			<FoodItemRow
 				badgeSpecials={!specialsFilterEnabled}
@@ -142,15 +152,21 @@ class FancyMenu extends React.PureComponent<Props> {
 		)
 	}
 
-	keyExtractor = (item, index) => index.toString()
+	keyExtractor = (item: MenuItemType, index: number) => index.toString()
 
 	render() {
-		const {filters, now, meals, cafeMessage} = this.props
+		const {now, meals, cafeMessage} = this.props
+		const {filters} = this.state
 
 		const {label: mealName, stations} = chooseMeal(meals, filters, now)
 		const anyFiltersEnabled = filters.some(f => f.enabled)
-		const specialsFilterEnabled = this.areSpecialsFiltered(filters)
-		const groupedMenuData = this.groupMenuData(this.props, stations)
+		const specialsFilterEnabled = areSpecialsFiltered(filters)
+		const groupedMenuData = groupMenuData({
+			foodItems: this.props.foodItems,
+			applyFilters: this.props.applyFilters,
+			stations,
+			filters,
+		})
 
 		let message = 'No items to show.'
 		if (cafeMessage) {
@@ -190,24 +206,3 @@ class FancyMenu extends React.PureComponent<Props> {
 		)
 	}
 }
-
-const mapState = (
-	state: ReduxState,
-	actualProps: ReactProps,
-): ReduxStateProps => {
-	if (!state.menus) {
-		return {filters: []}
-	}
-	return {
-		filters: state.menus[actualProps.name] || [],
-	}
-}
-
-const mapDispatch = (dispatch, actualProps: ReactProps): ReduxDispatchProps => {
-	return {
-		onFiltersChange: (filters: FilterType[]) =>
-			dispatch(updateMenuFilters(actualProps.name, filters)),
-	}
-}
-
-export const ConnectedFancyMenu = connect(mapState, mapDispatch)(FancyMenu)

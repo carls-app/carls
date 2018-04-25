@@ -11,7 +11,6 @@ import {buildings, type State as BuildingsState} from './parts/buildings'
 import {courses, type State as CoursesState} from './parts/courses'
 import {help, type State as HelpState} from './parts/help'
 import {homescreen, type State as HomescreenState} from './parts/homescreen'
-import {menus, type State as MenusState} from './parts/menus'
 import {settings, type State as SettingsState} from './parts/settings'
 
 export {init as initRedux} from './init'
@@ -36,7 +35,6 @@ export const makeStore = () => {
 		courses,
 		help,
 		homescreen,
-		menus,
 		settings,
 	})
 
