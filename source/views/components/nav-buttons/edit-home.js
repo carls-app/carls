@@ -1,29 +1,20 @@
-/**
- * @flow
- * Exports a button that opens the Edit Home screen
- */
+// @flow
 
 import * as React from 'react'
-import {Text} from 'react-native'
-import {Touchable} from '../touchable'
 import type {NavType} from '../../types'
-import {commonStyles} from './styles'
+import {TextButton} from './text'
 
-export function EditHomeButton({
-	navigation,
-	buttonStyle,
-}: {
+type Props = {
 	navigation: NavType,
 	buttonStyle?: any,
-}) {
+}
+
+export function EditHomeButton({navigation, buttonStyle}: Props) {
 	return (
-		<Touchable
-			borderless={true}
-			highlight={false}
+		<TextButton
 			onPress={() => navigation.navigate('EditHomeView')}
-			style={[commonStyles.button, buttonStyle]}
-		>
-			<Text style={commonStyles.text}>Edit</Text>
-		</Touchable>
+			style={buttonStyle}
+			title="Edit"
+		/>
 	)
 }
