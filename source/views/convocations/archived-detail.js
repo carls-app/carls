@@ -4,6 +4,10 @@ import React from 'react'
 import {StyleSheet, WebView, ScrollView} from 'react-native'
 import {Title} from '../components/list'
 import type {PodcastEpisode} from './types'
+import {AllHtmlEntities} from 'html-entities'
+import qs from 'querystring'
+import {TextButton} from '../components/nav-buttons'
+import {openUrl} from '../components/open-url'
 
 const styles = StyleSheet.create({
 	audio: {
@@ -42,7 +46,36 @@ type Props = {
 	},
 }
 
-export class ArchivedConvocationDetailView extends React.PureComponent<Props> {
+function getConvoUrlParams(mediaUrl: string) {
+	return mediaUrl.split('?')[1]
+}
+
+function getConvoId(mediaUrl: string) {
+	return qs.parse(entities.decode(getConvoUrlParams(mediaUrl))).media_work_id
+}
+
+function getConvoLink(mediaUrl: string) {
+	let convoId = getConvoId(mediaUrl)
+	return `https://apps.carleton.edu/events/convocations/audio_video/?item_id=${convoId}`
+}
+
+export class ArchivedConvocationDetailView extends React.Component<Props> {
+	static navigationOptions = ({navigation}: any) => {
+		const {params: {event} = {}} = navigation.state
+
+		if (!event.enclosure) {
+			return {}
+		}
+
+		let link = getConvoLink(event.enclosure.url)
+
+		return {
+			headerRight: (
+				<TextButton onPress={() => openUrl(link)} title="Open on carleton.edu" />
+			),
+		}
+	}
+
 	render() {
 		const {navigation: {state: {params: {event}}}} = this.props
 
