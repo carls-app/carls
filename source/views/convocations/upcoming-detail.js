@@ -102,7 +102,7 @@ async function fetchEventHtml(eventId: number) {
 	}
 }
 
-export class UpcomingConvocationsDetailView extends React.Component<Props, State> {
+class DetailView extends React.Component<Props, State> {
 	static navigationOptions = ({navigation}: any) => {
 		const {event} = navigation.state.params
 		return {
@@ -185,3 +185,5 @@ export class UpcomingConvocationsDetailView extends React.Component<Props, State
 		)
 	}
 }
+
+export {DetailView as UpcomingConvocationsDetailView}
