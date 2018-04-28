@@ -110,7 +110,7 @@ const DefinitionCell = ({text, onChange = () => {}}: TextFieldProps) => (
 		onChangeText={onChange}
 		onSubmitEditing={onChange}
 		placeholder="Definition"
-		returnKeyType="done"
+		returnKeyType="default"
 		value={text}
 	/>
 )
