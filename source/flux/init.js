@@ -23,11 +23,6 @@ function tickTock(store) {
 	return setInterval(() => store.dispatch(tick()), 10000)
 }
 
-async function checkTokenValidity(store) {
-	let status = await checkToken()
-	store.dispatch(setTokenValidity(status))
-}
-
 async function loginCredentials(store) {
 	const {username, password} = await loadLoginCredentials()
 	if (!username || !password) {
