@@ -11,11 +11,10 @@ import {ButtonCell} from '../components/cells/button'
 import {parseHtml, cssSelect, toMarkdown, resolveLink} from '../../lib/html'
 import {
 	getLinksFromEvent,
-	addToCalendar,
 	shareEvent,
 	getTimes,
 } from '../calendar/calendar-util'
-import delay from 'delay'
+import {AddToCalendar} from '../components/add-to-calendar'
 import {Markdown} from '../components/markdown'
 
 const styles = StyleSheet.create({
@@ -55,18 +54,6 @@ function Links({header, event}: {header: string, event: EventType}) {
 	) : null
 }
 
-const CalendarButton = ({message, disabled, onPress}) => {
-	return (
-		<Section footer={message}>
-			<ButtonCell
-				disabled={disabled}
-				onPress={onPress}
-				title="Add to calendar"
-			/>
-		</Section>
-	)
-}
-
 type Props = TopLevelViewPropsType & {
 	navigation: {
 		state: {params: {event: EventType, poweredBy: ?PoweredBy}},
@@ -74,8 +61,6 @@ type Props = TopLevelViewPropsType & {
 }
 
 type State = {
-	message: string,
-	disabled: boolean,
 	images: Array<string>,
 	sponsor: string,
 	content: string,
@@ -127,8 +112,6 @@ export class UpcomingConvocationsDetailView extends React.Component<Props, State
 	}
 
 	state = {
-		message: '',
-		disabled: false,
 		images: [],
 		content: '',
 		sponsor: '',
@@ -152,33 +135,6 @@ export class UpcomingConvocationsDetailView extends React.Component<Props, State
 			sponsor: eventData.sponsor,
 		}))
 	}
-
-	addEvent = async (event: EventType) => {
-		const start = Date.now()
-		this.setState(() => ({message: 'Adding event to calendar…'}))
-
-		// wait 0.5 seconds – if we let it go at normal speed, it feels broken.
-		const elapsed = Date.now() - start
-		if (elapsed < 500) {
-			await delay(500 - elapsed)
-		}
-
-		const result = await addToCalendar(event)
-
-		if (result) {
-			this.setState(() => ({
-				message: 'Event has been added to your calendar',
-				disabled: true,
-			}))
-		} else {
-			this.setState(() => ({
-				message: 'Could not add event to your calendar',
-				disabled: false,
-			}))
-		}
-	}
-
-	onPressButton = () => this.addEvent(this.props.navigation.state.params.event)
 
 	render() {
 		const {event, poweredBy} = this.props.navigation.state.params
@@ -207,10 +163,18 @@ export class UpcomingConvocationsDetailView extends React.Component<Props, State
 					<MaybeSection content={event.location} header="LOCATION" />
 					<MaybeSection content={event.description} header="DESCRIPTION" />
 					<Links event={event} header="LINKS" />
-					<CalendarButton
-						disabled={this.state.disabled}
-						message={this.state.message}
-						onPress={this.onPressButton}
+
+					<AddToCalendar
+						event={event}
+						render={({message, disabled, onPress}) => (
+							<Section footer={message}>
+								<ButtonCell
+									disabled={disabled}
+									onPress={onPress}
+									title="Add to calendar"
+								/>
+							</Section>
+						)}
 					/>
 
 					{poweredBy.title ? (
