@@ -8,9 +8,8 @@ import {GH_NEW_ISSUE_URL} from '../../../globals'
 import wrap from 'wordwrap'
 
 export function submitReport(current: WordType, suggestion: WordType) {
-	// calling trim() on these to remove the trailing newlines
-	const before = stringifyDictionaryEntry(current).trim()
-	const after = stringifyDictionaryEntry(suggestion).trim()
+	const before = stringifyDictionaryEntry(current)
+	const after = stringifyDictionaryEntry(suggestion)
 
 	const body = makeEmailBody(before, after, current.word)
 
