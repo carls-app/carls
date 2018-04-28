@@ -21,7 +21,7 @@ type Props = {
 
 type Callback = ({title?: string, href: string}) => any
 
-export class Link extends React.PureComponent<Props> {
+export class Link extends React.Component<Props> {
 	options: Array<[string, Callback]> = [
 		['Open', ({href}: {href: string}) => openUrl(href)],
 		[

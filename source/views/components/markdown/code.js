@@ -9,7 +9,7 @@ export const CodeBlock = glamorous.text({})
 
 type Props = {nodeKey: any, language?: string, literal: string}
 
-export class HighlightedCodeBlock extends React.PureComponent<Props> {
+export class HighlightedCodeBlock extends React.Component<Props> {
 	render() {
 		const {nodeKey, language, literal} = this.props
 		return (

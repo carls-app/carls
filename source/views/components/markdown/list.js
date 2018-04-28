@@ -17,7 +17,7 @@ type Props = {
 	children?: React.Node,
 }
 
-export class ListItem extends React.PureComponent<Props> {
+export class ListItem extends React.Component<Props> {
 	render() {
 		return (
 			<View alignItems="center" flexDirection="row">
