@@ -69,10 +69,7 @@ export class DictionaryEditorView extends React.PureComponent<Props, State> {
 
 				<TableView>
 					<Section header="WORD">
-						<TitleCell
-							onChange={this.onChangeTitle}
-							text={term}
-						/>
+						<TitleCell onChange={this.onChangeTitle} text={term} />
 					</Section>
 
 					<Section header="DEFINITION">
