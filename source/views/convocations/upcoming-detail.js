@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react'
-import {Text, ScrollView, StyleSheet} from 'react-native'
+import {Text, ScrollView, StyleSheet, Image} from 'react-native'
 import {Cell, Section, TableView} from 'react-native-tableview-simple'
 import type {EventType, PoweredBy} from '../calendar/types'
 import type {TopLevelViewPropsType} from '../types'
@@ -8,6 +8,7 @@ import {ShareButton} from '../components/nav-buttons'
 import openUrl from '../components/open-url'
 import {ListFooter} from '../components/list'
 import {ButtonCell} from '../components/cells/button'
+import {parseHtml, cssSelect, toMarkdown, resolveLink} from '../../lib/html'
 import {
 	getLinksFromEvent,
 	addToCalendar,
@@ -15,6 +16,7 @@ import {
 	getTimes,
 } from '../calendar/calendar-util'
 import delay from 'delay'
+import {Markdown} from '../components/markdown'
 
 const styles = StyleSheet.create({
 	chunk: {
@@ -74,6 +76,45 @@ type Props = TopLevelViewPropsType & {
 type State = {
 	message: string,
 	disabled: boolean,
+	images: Array<string>,
+	sponsor: string,
+	content: string,
+}
+
+async function fetchEventHtml(eventId: number) {
+	let body = await fetch(
+		`https://apps.carleton.edu/events/convocations/?event_id=${String(
+			eventId,
+		)}`,
+	).then(r => r.text())
+
+	let dom = parseHtml(body)
+
+	let eventEl = cssSelect('.eventItemMain', dom)
+
+	let descEl = cssSelect('.eventContent', eventEl)
+	let descText = descEl.length
+		? toMarkdown(descEl[0], 'https://apps.carleton.edu/events/convocations/')
+		: ''
+
+	let images = cssSelect('.media a', eventEl).map(imgLink =>
+		resolveLink(
+			imgLink.attribs.href,
+			'https://apps.carleton.edu/events/convocations/',
+			'https://apps.carleton.edu',
+		),
+	)
+
+	let sponsor = cssSelect('.sponsorContactInfo', eventEl)
+	let sponsorText = sponsor.length
+		? toMarkdown(sponsor[0], 'https://apps.carleton.edu/events/convocations/')
+		: ''
+
+	return {
+		images,
+		content: descText,
+		sponsor: sponsorText,
+	}
 }
 
 export class UpcomingConvocationsDetailView extends React.Component<Props, State> {
@@ -88,6 +129,24 @@ export class UpcomingConvocationsDetailView extends React.Component<Props, State
 	state = {
 		message: '',
 		disabled: false,
+		images: [],
+		content: '',
+		sponsor: '',
+	}
+
+	async componentDidMount() {
+		let {event} = this.props.navigation.state.params
+		if (!event.metadata) {
+			return
+		}
+
+		let eventData = await fetchEventHtml(event.metadata.reasonId)
+
+		this.setState(() => ({
+			images: eventData.images,
+			content: eventData.content,
+			sponsor: eventData.sponsor,
+		}))
 	}
 
 	addEvent = async (event: EventType) => {
@@ -119,13 +178,25 @@ export class UpcomingConvocationsDetailView extends React.Component<Props, State
 
 	render() {
 		const {event, poweredBy} = this.props.navigation.state.params
-		console.log(event.metadata.reasonId)
 
 		return (
 			<ScrollView>
 				<TableView>
+					<Section header="IMAGE">
+						{this.state.images.map(imgUrl => (
+							<Cell
+								key={imgUrl}
+								cellContentView={
+									<Image
+										source={{uri: imgUrl}}
+										style={{width: 200, height: 300}}
+									/>
+								}
+							/>
+						))}
+					</Section>
 					<Section header="TEST">
-						<Cell title="test view" />
+						<Cell cellContentView={<Markdown source={this.state.content} />} />
 					</Section>
 					<MaybeSection content={event.title} header="EVENT" />
 					<MaybeSection content={getTimes(event)} header="TIME" />
