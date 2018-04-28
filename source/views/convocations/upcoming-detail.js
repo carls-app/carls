@@ -1,58 +1,75 @@
 // @flow
 import * as React from 'react'
-import {Text, ScrollView, StyleSheet, Image} from 'react-native'
-import {Cell, Section, TableView} from 'react-native-tableview-simple'
+import {StyleSheet, ActivityIndicator, Text} from 'react-native'
+import {Section} from 'react-native-tableview-simple'
 import type {EventType, PoweredBy} from '../calendar/types'
 import type {TopLevelViewPropsType} from '../types'
 import {ShareButton} from '../components/nav-buttons'
 import openUrl from '../components/open-url'
-import {ListFooter} from '../components/list'
 import {ButtonCell} from '../components/cells/button'
 import {parseHtml, cssSelect, toMarkdown, resolveLink} from '../../lib/html'
-import {
-	getLinksFromEvent,
-	shareEvent,
-	getTimes,
-} from '../calendar/calendar-util'
+import {shareEvent, getTimes} from '../calendar/calendar-util'
 import {AddToCalendar} from '../components/add-to-calendar'
 import {Markdown} from '../components/markdown'
+import glamorous from 'glamorous-native'
+import * as c from '../components/colors'
 
 const styles = StyleSheet.create({
-	chunk: {
-		paddingVertical: 10,
+	spinner: {
+		alignItems: 'center',
+		justifyContent: 'center',
+		padding: 8,
+	},
+	text: {
+		textAlign: 'center',
 	},
 })
 
-function MaybeSection({header, content}: {header: string, content: string}) {
-	return content.trim() ? (
-		<Section header={header}>
-			<Cell
-				cellContentView={
-					<Text selectable={true} style={styles.chunk}>
-						{content}
-					</Text>
-				}
-			/>
-		</Section>
-	) : null
-}
+const Container = glamorous.scrollView({
+	backgroundColor: c.white,
+})
 
-function Links({header, event}: {header: string, event: EventType}) {
-	const links = getLinksFromEvent(event)
+const Padding = glamorous.view({
+	paddingHorizontal: 18,
+	paddingVertical: 6,
+})
 
-	return links.length ? (
-		<Section header={header}>
-			{links.map(url => (
-				<Cell
-					key={url}
-					accessory="DisclosureIndicator"
-					onPress={() => openUrl(url)}
-					title={url}
-				/>
-			))}
-		</Section>
-	) : null
-}
+const Title = glamorous.text({
+	fontSize: 36,
+	textAlign: 'center',
+	marginHorizontal: 18,
+	marginVertical: 10,
+})
+const Description = glamorous.text({
+	fontSize: 16,
+	fontStyle: 'italic',
+})
+
+const WhenWhereBlock = glamorous.view({
+	marginTop: 8,
+	backgroundColor: c.sto.lightGray,
+	paddingVertical: 4,
+	paddingHorizontal: 8,
+	borderRadius: 4,
+})
+
+const When = glamorous.text({
+	fontSize: 16,
+})
+const Where = glamorous.text({
+	fontSize: 16,
+})
+
+const PosterContainer = glamorous.view({
+	flexDirection: 'column',
+	alignItems: 'center',
+	marginVertical: 20,
+})
+
+const Poster = glamorous.image({
+	width: 200,
+	height: 300,
+})
 
 type Props = TopLevelViewPropsType & {
 	navigation: {
@@ -64,6 +81,7 @@ type State = {
 	images: Array<string>,
 	sponsor: string,
 	content: string,
+	loading: boolean,
 }
 
 async function fetchEventHtml(eventId: number) {
@@ -115,6 +133,7 @@ class DetailView extends React.Component<Props, State> {
 		images: [],
 		content: '',
 		sponsor: '',
+		loading: true,
 	}
 
 	componentDidMount() {
@@ -133,55 +152,70 @@ class DetailView extends React.Component<Props, State> {
 			images: eventData.images,
 			content: eventData.content,
 			sponsor: eventData.sponsor,
+			loading: false,
 		}))
 	}
 
 	render() {
-		const {event, poweredBy} = this.props.navigation.state.params
+		const {event} = this.props.navigation.state.params
+
+		let id = event.metadata.reasonId
+		let eventLink = `https://apps.carleton.edu/events/convocations/?event_id=${id}`
 
 		return (
-			<ScrollView>
-				<TableView>
-					<Section header="IMAGE">
-						{this.state.images.map(imgUrl => (
-							<Cell
-								key={imgUrl}
-								cellContentView={
-									<Image
-										source={{uri: imgUrl}}
-										style={{width: 200, height: 300}}
-									/>
-								}
-							/>
-						))}
-					</Section>
-					<Section header="TEST">
-						<Cell cellContentView={<Markdown source={this.state.content} />} />
-					</Section>
-					<MaybeSection content={event.title} header="EVENT" />
-					<MaybeSection content={getTimes(event)} header="TIME" />
-					<MaybeSection content={event.location} header="LOCATION" />
-					<MaybeSection content={event.description} header="DESCRIPTION" />
-					<Links event={event} header="LINKS" />
+			<Container>
+				<Padding>
+					<Title>{event.title}</Title>
 
+					<Description>{event.description}</Description>
+
+					<WhenWhereBlock>
+						<When>{getTimes(event)}</When>
+						<Where>{event.location}</Where>
+					</WhenWhereBlock>
+
+					{this.state.loading ? (
+						<React.Fragment>
+							<ActivityIndicator style={styles.spinner} />
+							<Text selectable={true} style={[styles.text]}>
+								{'Loading details…'}
+							</Text>
+						</React.Fragment>
+					) : (
+						<Markdown source={this.state.content} />
+					)}
+
+					{this.state.images.length ? (
+						<PosterContainer>
+							{this.state.images.map(imgUrl => (
+								<Poster key={imgUrl} source={{uri: imgUrl}} />
+							))}
+						</PosterContainer>
+					) : null}
+				</Padding>
+
+				<Section sectionTintColor={c.white}>
 					<AddToCalendar
+						compactMessages={true}
 						event={event}
 						render={({message, disabled, onPress}) => (
-							<Section footer={message}>
-								<ButtonCell
-									disabled={disabled}
-									onPress={onPress}
-									title="Add to calendar"
-								/>
-							</Section>
+							<ButtonCell
+								disabled={disabled}
+								onPress={onPress}
+								title={
+									'Add to calendar' + (message.trim() ? ` (${message})` : '')
+								}
+							/>
 						)}
 					/>
-
-					{poweredBy.title ? (
-						<ListFooter href={poweredBy.href} title={poweredBy.title} />
+					{event.metadata && event.metadata.reasonId ? (
+						<ButtonCell
+							onPress={() => openUrl(eventLink)}
+							title="Open on carleton.edu"
+						/>
 					) : null}
-				</TableView>
-			</ScrollView>
+				</Section>
+			</Container>
 		)
 	}
 }
