@@ -12,6 +12,8 @@ import {
 	getAnalyticsOptOut,
 	getAcknowledgementStatus,
 	setAcknowledgementStatus,
+	getEasterEggStatus,
+	setEasterEggStatus,
 	setTokenValid,
 	clearTokenValid,
 } from '../../lib/storage'
@@ -39,6 +41,7 @@ const CREDENTIALS_VALIDATE_FAILURE = 'settings/CREDENTIALS_VALIDATE_FAILURE'
 const SET_FEEDBACK = 'settings/SET_FEEDBACK'
 const CHANGE_THEME = 'settings/CHANGE_THEME'
 const SIS_ALERT_SEEN = 'settings/SIS_ALERT_SEEN'
+const EASTER_EGG_ENABLED = 'settings/EASTER_EGG_ENABLED'
 const TOKEN_LOGIN = 'settings/TOKEN_LOGIN'
 const TOKEN_LOGOUT = 'settings/TOKEN_LOGOUT'
 
@@ -65,6 +68,16 @@ export async function loadAcknowledgement(): Promise<SisAlertSeenAction> {
 export async function hasSeenAcknowledgement(): Promise<SisAlertSeenAction> {
 	await setAcknowledgementStatus(true)
 	return {type: SIS_ALERT_SEEN, payload: true}
+}
+
+type EasterEggAction = {|type: 'settings/EASTER_EGG_ENABLED', payload: boolean|}
+export async function loadEasterEggStatus(): Promise<EasterEggAction> {
+	return {type: EASTER_EGG_ENABLED, payload: await getEasterEggStatus()}
+}
+
+export async function showEasterEgg(): Promise<EasterEggAction> {
+	await setEasterEggStatus(true)
+	return {type: EASTER_EGG_ENABLED, payload: true}
 }
 
 type SetCredentialsAction = {|
@@ -198,6 +211,7 @@ type Action =
 	| SisAlertSeenAction
 	| CredentialsActions
 	| UpdateBalancesType
+	| EasterEggAction
 
 type CredentialsActions =
 	| LogInActions
@@ -210,6 +224,7 @@ export type State = {
 	+dietaryPreferences: [],
 	+feedbackDisabled: boolean,
 	+unofficiallyAcknowledged: boolean,
+	+easterEggEnabled: boolean,
 
 	+username: string,
 	+password: string,
@@ -225,6 +240,7 @@ const initialState = {
 
 	feedbackDisabled: false,
 	unofficiallyAcknowledged: false,
+	easterEggEnabled: false,
 
 	username: '',
 	password: '',
@@ -285,6 +301,9 @@ export function settings(state: State = initialState, action: Action) {
 				password: action.payload.password,
 			}
 		}
+
+		case EASTER_EGG_ENABLED:
+			return {...state, easterEggEnabled: action.payload}
 
 		case TOKEN_LOGIN: {
 			if (action.error === true) {

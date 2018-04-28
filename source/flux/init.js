@@ -14,6 +14,7 @@ import {
 	loadFeedbackStatus,
 	setTokenValidity,
 	loadAcknowledgement,
+	loadEasterEggStatus,
 } from './parts/settings'
 import {updateBalances} from './parts/balances'
 import {loadRecentSearches, loadRecentFilters} from './parts/courses'
@@ -54,6 +55,7 @@ export async function init(store: {dispatch: any => any}) {
 		store.dispatch(loadDisabledViews()),
 		store.dispatch(loadFeedbackStatus()),
 		store.dispatch(loadAcknowledgement()),
+		store.dispatch(loadEasterEggStatus()),
 		store.dispatch(loadFavoriteBuildings()),
 		store.dispatch(loadRecentSearches()),
 		store.dispatch(loadRecentFilters()),
