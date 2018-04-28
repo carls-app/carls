@@ -5,7 +5,7 @@
 
 import {NetInfo} from 'react-native'
 import {loadLoginCredentials} from '../lib/login'
-import {updateOnlineStatus, tick} from './parts/app'
+import {updateOnlineStatus} from './parts/app'
 import {loadHomescreenOrder, loadDisabledViews} from './parts/homescreen'
 import {getEnabledTools} from './parts/help'
 import {loadFavoriteBuildings} from './parts/buildings'
@@ -18,10 +18,6 @@ import {
 } from './parts/settings'
 import {updateBalances} from './parts/balances'
 import {loadRecentSearches, loadRecentFilters} from './parts/courses'
-
-function tickTock(store) {
-	return setInterval(() => store.dispatch(tick()), 10000)
-}
 
 async function loginCredentials(store) {
 	const {username, password} = await loadLoginCredentials()
@@ -66,7 +62,6 @@ export async function init(store: {dispatch: any => any}) {
 		store.dispatch(loadRecentSearches()),
 		store.dispatch(loadRecentFilters()),
 		loginCredentials(store),
-		tickTock(store),
 	])
 
 	// wait for our first connection check to happen

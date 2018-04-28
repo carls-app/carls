@@ -17,6 +17,11 @@ export class UpcomingConvocationsView extends React.PureComponent<Props> {
 		return (
 			<ReasonCalendarView
 				calendarUrl="https://apps.carleton.edu/events/convocations/"
+				detailView="UpcomingConvocationsDetailView"
+				eventMapper={event => ({
+					...event,
+					title: event.title.replace(/^Convocation: /, ''),
+				})}
 				navigation={this.props.navigation}
 				poweredBy={{
 					title: 'Powered by the Carleton Calendar',

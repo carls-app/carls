@@ -75,6 +75,9 @@ export type EventType = {|
 	startTime: moment,
 	endTime: moment,
 	isOngoing: boolean,
+	metadata?: {
+		reasonId?: number,
+	},
 	config: {
 		startTime: boolean,
 		endTime: boolean,

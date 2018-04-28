@@ -34,6 +34,8 @@ export class ArchivedConvocationRow extends React.PureComponent<Props> {
 			annotation = '📺'
 		}
 
+		let title = event.title.replace(/^Convocation: /, '')
+
 		return (
 			<ListRow
 				arrowPosition="center"
@@ -41,7 +43,7 @@ export class ArchivedConvocationRow extends React.PureComponent<Props> {
 				onPress={this._onPress}
 			>
 				<Title>
-					{annotation} {event.title}
+					{annotation} {title}
 				</Title>
 				<Detail lines={4}>
 					{entities.decode(fastGetTrimmedText(event.description))}
