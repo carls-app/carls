@@ -1,12 +1,19 @@
 // @flow
 
 import * as React from 'react'
-import {Text} from 'react-native'
+import {TextInput} from 'react-native'
 
 type Props = {}
 
 export class SelectableText extends React.Component<Props> {
 	render() {
-		return <Text selectable={true} {...this.props} />
+		return (
+			<TextInput
+				dataDetectorTypes="all"
+				editable={false}
+				multiline={true}
+				{...this.props}
+			/>
+		)
 	}
 }
