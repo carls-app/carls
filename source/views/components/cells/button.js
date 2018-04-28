@@ -17,17 +17,14 @@ const styles = StyleSheet.create({
 	},
 })
 
-export function ButtonCell({
-	indeterminate,
-	disabled,
-	onPress,
-	title,
-}: {
+type Props = {
 	indeterminate?: boolean,
 	disabled?: boolean,
 	onPress: () => any,
 	title: string,
-}) {
+}
+
+export function ButtonCell({indeterminate, disabled, onPress, title}: Props) {
 	return (
 		<Cell
 			isDisabled={indeterminate || disabled}
