@@ -2,13 +2,13 @@
 
 import {TabNavigator} from '../components/tabbed-view'
 
-import {NextConvocationView} from './next'
+// import {NextConvocationView} from './next'
 import {UpcomingConvocationsView} from './upcoming'
 import {ArchivedConvocationsView} from './archived'
 
 export default TabNavigator(
 	{
-		NextConvocationView: {screen: NextConvocationView},
+		// NextConvocationView: {screen: NextConvocationView},
 		UpcomingConvocationsView: {screen: UpcomingConvocationsView},
 		ArchivedConvocationsView: {screen: ArchivedConvocationsView},
 	},
