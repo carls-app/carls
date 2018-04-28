@@ -6,6 +6,7 @@ import {ListFooter} from '../components/list'
 import {Button} from '../components/button'
 import glamorous from 'glamorous-native'
 import type {WordType} from './types'
+import type {TopLevelViewPropsType} from '../types'
 import {GH_NEW_ISSUE_URL} from '../../globals'
 
 // TODO: This doesn't point at the SA dictionary because they don't have an
@@ -30,7 +31,7 @@ const styles = StyleSheet.create({
 	},
 })
 
-type Props = {
+type Props = TopLevelViewPropsType & {
 	navigation: {state: {params: {item: WordType}}},
 }
 
@@ -58,10 +59,7 @@ export class DictionaryDetailView extends React.PureComponent<Props> {
 					styles={{Paragraph: styles.paragraph}}
 				/>
 
-				<Button
-					onPress={this.handleEditButtonPress}
-					title="Suggest an Edit"
-				/>
+				<Button onPress={this.handleEditButtonPress} title="Suggest an Edit" />
 
 				<ListFooter
 					href={STO_SA_DICT_URL}
