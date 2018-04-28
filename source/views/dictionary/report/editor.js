@@ -58,7 +58,10 @@ export class DictionaryEditorView extends React.PureComponent<Props, State> {
 		let definition = this.state.definition ? this.state.definition.trim() : ''
 
 		return (
-			<ScrollView>
+			<ScrollView
+				keyboardDismissMode="on-drag"
+				keyboardShouldPersistTaps="always"
+			>
 				<View style={styles.helpWrapper}>
 					<Text style={styles.helpTitle}>Thanks for spotting a problem!</Text>
 					<Text style={styles.helpDescription}>
