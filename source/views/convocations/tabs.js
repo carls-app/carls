@@ -8,7 +8,7 @@ import {ArchivedConvocationsView} from './archived'
 
 export default TabNavigator(
 	{
-		NextConvocationView: {screen: NextConvocationView},
+		// NextConvocationView: {screen: NextConvocationView},
 		UpcomingConvocationsView: {screen: UpcomingConvocationsView},
 		ArchivedConvocationsView: {screen: ArchivedConvocationsView},
 	},
