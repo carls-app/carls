@@ -23,8 +23,9 @@ type State = {
 type Props = TopLevelViewPropsType & {
 	calendarUrl: string,
 	calendarProps?: any,
-	poweredBy: {title: string, href: string},
+	detailView?: string,
 	eventMapper?: EventType => EventType,
+	poweredBy: {title: string, href: string},
 }
 
 export class ReasonCalendarView extends React.Component<Props, State> {
@@ -70,6 +71,9 @@ export class ReasonCalendarView extends React.Component<Props, State> {
 				description: event.description || '',
 				location: event.location || '',
 				isOngoing: startTime.isBefore(now, 'day') && endTime.isSameOrAfter(now),
+				metadata: {
+					reasonId: event.id,
+				},
 				config: {
 					startTime: true,
 					endTime: true,
@@ -131,6 +135,7 @@ export class ReasonCalendarView extends React.Component<Props, State> {
 
 		return (
 			<EventList
+				detailView={this.props.detailView}
 				events={this.state.events}
 				message={this.state.error ? this.state.error.message : null}
 				navigation={this.props.navigation}

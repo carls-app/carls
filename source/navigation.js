@@ -40,6 +40,7 @@ import HelpView from './views/help'
 import {
 	ConvocationsView,
 	ArchivedConvocationDetailView,
+	UpcomingConvocationsDetailView,
 } from './views/convocations'
 
 const styles = StyleSheet.create({
@@ -70,6 +71,7 @@ export const AppNavigator = StackNavigator(
 		ContactsDetailView: {screen: ContactsDetailView},
 		ConvocationsView: {screen: ConvocationsView},
 		ArchivedConvocationDetailView: {screen: ArchivedConvocationDetailView},
+		UpcomingConvocationsDetailView: {screen: UpcomingConvocationsDetailView},
 		CreditsView: {screen: CreditsView},
 		DictionaryDetailView: {screen: DictionaryDetailView},
 		DictionaryView: {screen: DictionaryView},

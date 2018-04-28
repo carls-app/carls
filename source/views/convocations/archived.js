@@ -66,7 +66,7 @@ export class ArchivedConvocationsView extends React.PureComponent<
 
 	refresh = async (): any => {
 		let start = Date.now()
-		this.setState({refreshing: true})
+		this.setState(() => ({refreshing: true}))
 
 		await this.getEvents()
 
@@ -76,7 +76,7 @@ export class ArchivedConvocationsView extends React.PureComponent<
 			await delay(500 - elapsed)
 		}
 
-		this.setState({refreshing: false})
+		this.setState(() => ({refreshing: false}))
 	}
 
 	groupEvents = (events: PodcastEpisode[]): any => {

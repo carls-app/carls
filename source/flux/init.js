@@ -6,7 +6,7 @@
 import {NetInfo} from 'react-native'
 import {checkToken} from '../lib/login'
 import {getTokenValid} from '../lib/storage'
-import {updateOnlineStatus, tick} from './parts/app'
+import {updateOnlineStatus} from './parts/app'
 import {loadHomescreenOrder, loadDisabledViews} from './parts/homescreen'
 import {getEnabledTools} from './parts/help'
 import {loadFavoriteBuildings} from './parts/buildings'
@@ -17,10 +17,6 @@ import {
 } from './parts/settings'
 import {updateBalances} from './parts/balances'
 import {loadRecentSearches, loadRecentFilters} from './parts/courses'
-
-function tickTock(store) {
-	return setInterval(() => store.dispatch(tick()), 10000)
-}
 
 async function checkTokenValidity(store) {
 	let status = await checkToken()
@@ -58,7 +54,6 @@ export async function init(store: {dispatch: any => any}) {
 		store.dispatch(loadRecentSearches()),
 		store.dispatch(loadRecentFilters()),
 		loginCredentials(store),
-		tickTock(store),
 	])
 
 	// wait for our first connection check to happen
