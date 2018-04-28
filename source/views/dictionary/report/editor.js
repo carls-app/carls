@@ -5,32 +5,58 @@ import {CellTextField} from '../../components/cells/textfield'
 import {ButtonCell} from '../../components/cells/button'
 import {TableView, Section} from 'react-native-tableview-simple'
 import {submitReport} from './submit'
+import type {WordType} from '../types'
 import * as c from '../../components/colors'
+import type {TopLevelViewPropsType} from '../../types'
 
-type State = {
-	dictionaryEntry: WordType,
+type Props = TopLevelViewPropsType & {
+	navigation: {state: {params: {item: WordType}}},
 }
 
-export class DictionaryEditorView extends React.PureComponent<Props> {
+type State = {
+	term: string,
+	definition: string,
+}
+
+export class DictionaryEditorView extends React.PureComponent<Props, State> {
 	static navigationOptions = () => {
 		return {
 			title: 'Suggest an Edit',
 		}
 	}
 
+	static getDerivedStateFromProps(nextProps: Props) {
+		let entry = nextProps.navigation.state.params.word
+		return {
+			term: entry.word,
+			definition: entry.definition,
+		}
+	}
+
 	state = {
-		dictionaryEntry: this.props.navigation.state.params.word,
+		term: this.props.navigation.state.params.word.word,
+		definition: this.props.navigation.state.params.word.definition,
 	}
 
 	submit = () => {
-		submitReport(
-			this.props.navigation.state.params.word,
-			this.state.dictionaryEntry,
-		)
+		submitReport(this.props.navigation.state.params.word, {
+			word: this.state.term,
+			definition: this.state.definition,
+		})
+	}
+
+	onChangeTitle = (newTitle: string) => {
+		this.setState(() => ({term: newTitle}))
+	}
+
+	onChangeDefinition = (newDefinition: string) => {
+		this.setState(() => ({definition: newDefinition}))
 	}
 
 	render() {
-		const item = this.props.navigation.state.params.word
+		let term = this.state.term ? this.state.term.trim() : ''
+		let definition = this.state.definition ? this.state.definition.trim() : ''
+
 		return (
 			<ScrollView>
 				<View style={styles.helpWrapper}>
@@ -43,13 +69,16 @@ export class DictionaryEditorView extends React.PureComponent<Props> {
 
 				<TableView>
 					<Section header="WORD">
-						<TitleCell onChange={this.editTitle} text={item.word ? item.word.trim() : ''} />
+						<TitleCell
+							onChange={this.onChangeTitle}
+							text={term}
+						/>
 					</Section>
 
 					<Section header="DEFINITION">
 						<DefinitionCell
-							onChange={this.editTitle}
-							text={item.definition ? item.definition.trim() : ''}
+							onChange={this.onChangeDefinition}
+							text={definition}
 						/>
 					</Section>
 
