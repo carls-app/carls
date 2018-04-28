@@ -134,7 +134,11 @@ export class UpcomingConvocationsDetailView extends React.Component<Props, State
 		sponsor: '',
 	}
 
-	async componentDidMount() {
+	componentDidMount() {
+		this.fetchEvent()
+	}
+
+	fetchEvent = async () => {
 		let {event} = this.props.navigation.state.params
 		if (!event.metadata) {
 			return
