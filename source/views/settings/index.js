@@ -15,11 +15,7 @@ type ReduxStateProps = {
 	easterEggEnabled: boolean,
 }
 
-type ReduxDispatchProps = {
-	onShowEasterEgg: (e: boolean) => any,
-}
-
-type Props = TopLevelViewPropsType & ReduxStateProps & ReduxDispatchProps
+type Props = TopLevelViewPropsType & ReduxStateProps
 
 const styles = StyleSheet.create({
 	container: {
