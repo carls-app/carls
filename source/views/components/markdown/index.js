@@ -17,7 +17,7 @@ import {List, ListItem} from './list'
 
 // eslint-disable-next-line react/self-closing-comp
 const Softbreak = () => <Text>{'\n'}</Text>
-const Hardbreak = () => <Text>&lt;br&gt;</Text>
+const Hardbreak = () => <Text>{'\n\n'}</Text>
 const HorizontalRule = glamorous.view({
 	width: '100%',
 	height: 1,
