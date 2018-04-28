@@ -6,7 +6,11 @@ import * as c from './views/components/colors'
 
 import CalendarView, {EventDetail as EventDetailView} from './views/calendar'
 import {ContactsView, ContactsDetailView} from './views/contacts'
-import {DictionaryView, DictionaryDetailView} from './views/dictionary'
+import {
+	DictionaryView,
+	DictionaryDetailView,
+	DictionaryEditorView,
+} from './views/dictionary'
 import {HomeView, EditHomeView} from './views/home'
 import {KSTOScheduleView, KRLXScheduleView} from './views/streaming'
 import {SumoUpcomingView, RadioTabView} from './views/streaming/carls-index'
@@ -75,6 +79,7 @@ export const AppNavigator = StackNavigator(
 		CreditsView: {screen: CreditsView},
 		DictionaryDetailView: {screen: DictionaryDetailView},
 		DictionaryView: {screen: DictionaryView},
+		DictionaryEditorView: {screen: DictionaryEditorView},
 		EditHomeView: {screen: EditHomeView},
 		EventDetailView: {screen: EventDetailView},
 		FaqView: {screen: FaqView},
