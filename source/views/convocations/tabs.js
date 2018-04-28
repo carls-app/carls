@@ -2,7 +2,7 @@
 
 import {TabNavigator} from '../components/tabbed-view'
 
-import {NextConvocationView} from './next'
+// import {NextConvocationView} from './next'
 import {UpcomingConvocationsView} from './upcoming'
 import {ArchivedConvocationsView} from './archived'
 
