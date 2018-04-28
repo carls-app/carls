@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
 })
 
 const fetchJobs = (): Array<ThinJobType> =>
-	fetchXml(jobsUrl).then(resp => resp.rss.channel.item)
+	fetchXml(jobsUrl).then(resp => resp.rss.channel[0].item)
 
 type State = {
 	jobs: Array<ThinJobType>,
@@ -48,7 +48,7 @@ export class StudentWorkView extends React.PureComponent<Props, State> {
 		error: false,
 	}
 
-	componentWillMount() {
+	componentDidMount() {
 		this.refresh()
 	}
 

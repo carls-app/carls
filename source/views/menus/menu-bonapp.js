@@ -30,8 +30,8 @@ import delay from 'delay'
 import retry from 'p-retry'
 const CENTRAL_TZ = 'America/Winnipeg'
 
-const bonappMenuBaseUrl = 'http://legacy.cafebonappetit.com/api/2/menus'
-const bonappCafeBaseUrl = 'http://legacy.cafebonappetit.com/api/2/cafes'
+const bonappMenuBaseUrl = 'https://legacy.cafebonappetit.com/api/2/menus'
+const bonappCafeBaseUrl = 'https://legacy.cafebonappetit.com/api/2/cafes'
 const fetchJsonQuery = (url, query) =>
 	fetchJson(`${url}?${qs.stringify(query)}`)
 const entities = new AllHtmlEntities()
@@ -56,6 +56,7 @@ type Props = TopLevelViewPropsType & {
 	name: string,
 }
 type State = {
+	cachedCafeId: string,
 	errormsg: ?string,
 	loading: boolean,
 	refreshing: boolean,
@@ -66,6 +67,7 @@ type State = {
 
 export class BonAppHostedMenu extends React.PureComponent<Props, State> {
 	state = {
+		cachedCafeId: this.props.cafeId,
 		errormsg: null,
 		loading: true,
 		refreshing: false,
@@ -74,15 +76,15 @@ export class BonAppHostedMenu extends React.PureComponent<Props, State> {
 		cafeInfo: null,
 	}
 
-	componentWillMount() {
+	componentDidMount() {
 		this.fetchData(this.props).then(() => {
 			this.setState(() => ({loading: false}))
 		})
 	}
 
-	componentWillReceiveProps(newProps: Props) {
-		if (this.props.cafeId !== newProps.cafeId) {
-			this.fetchData(newProps)
+	componentDidUpdate() {
+		if (this.state.cachedCafeId !== this.props.cafeId) {
+			this.fetchData(this.props)
 		}
 	}
 

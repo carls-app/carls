@@ -18,6 +18,9 @@ export class NoonNewsRowView extends React.PureComponent<Props> {
 	render() {
 		const {bulletin} = this.props
 
+		const description = bulletin.description.join('\n')
+		const content = entities.decode(fastGetTrimmedText(description))
+
 		return (
 			<ListRow arrowPosition="none">
 				<TextInput
@@ -25,7 +28,7 @@ export class NoonNewsRowView extends React.PureComponent<Props> {
 					editable={false}
 					multiline={true}
 					style={styles.title}
-					value={entities.decode(fastGetTrimmedText(bulletin.description))}
+					value={content}
 				/>
 			</ListRow>
 		)

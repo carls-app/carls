@@ -14,13 +14,14 @@ import {
 	setAcknowledgementStatus,
 	getEasterEggStatus,
 	setEasterEggStatus,
+	setTokenValid,
+	clearTokenValid,
 } from '../../lib/storage'
 
 import {trackLogOut, trackLogIn, trackLoginFailure} from '../../analytics'
 
 import {type ReduxState} from '../index'
-import {type UpdateBalancesType} from './sis'
-import {updateBalances} from './sis'
+import {type UpdateBalancesType, updateBalances} from './balances'
 import {Alert} from 'react-native'
 
 export type LoginStateType = 'logged-out' | 'logged-in' | 'checking' | 'invalid'
@@ -41,6 +42,8 @@ const SET_FEEDBACK = 'settings/SET_FEEDBACK'
 const CHANGE_THEME = 'settings/CHANGE_THEME'
 const SIS_ALERT_SEEN = 'settings/SIS_ALERT_SEEN'
 const EASTER_EGG_ENABLED = 'settings/EASTER_EGG_ENABLED'
+const TOKEN_LOGIN = 'settings/TOKEN_LOGIN'
+const TOKEN_LOGOUT = 'settings/TOKEN_LOGOUT'
 
 type SetFeedbackStatusAction = {|
 	type: 'settings/SET_FEEDBACK',
@@ -138,12 +141,41 @@ export function logInViaCredentials(
 	}
 }
 
-type LogOutAction = {|type: 'settings/CREDENTIALS_LOGOUT'|}
-export async function logOutViaCredentials(): Promise<LogOutAction> {
+export function logInViaToken(
+	tokenStatus: boolean,
+): ThunkAction<LogInActions | UpdateBalancesType> {
+	return async (dispatch: any => any) => {
+		await setTokenValid(tokenStatus)
+		dispatch({type: TOKEN_LOGIN, payload: tokenStatus})
+
+		if (tokenStatus) {
+			// since we logged in successfully, go ahead and fetch the meal info
+			dispatch(updateBalances())
+		}
+	}
+}
+
+export function setTokenValidity(isTokenValid: boolean) {
+	return {type: TOKEN_LOGIN, payload: isTokenValid}
+}
+
+type CredentialsLogOutAction = {|type: 'settings/CREDENTIALS_LOGOUT'|}
+export async function logOutViaCredentials(): Promise<CredentialsLogOutAction> {
 	trackLogOut()
 	await clearLoginCredentials()
 	return {type: CREDENTIALS_LOGOUT}
 }
+
+type TokenLogOutAction = {|type: 'settings/TOKEN_LOGOUT'|}
+export async function logOutViaToken(): Promise<TokenLogOutAction> {
+	trackLogOut()
+	// actually log out and clear the cookie
+	await fetch('https://apps.carleton.edu/login/?logout=1')
+	await clearTokenValid()
+	return {type: TOKEN_LOGOUT}
+}
+
+type LogOutAction = CredentialsLogOutAction | TokenLogOutAction
 
 type ValidateStartAction = {|type: 'settings/CREDENTIALS_VALIDATE_START'|}
 type ValidateSuccessAction = {|type: 'settings/CREDENTIALS_VALIDATE_SUCCESS'|}
@@ -197,6 +229,9 @@ export type State = {
 	+username: string,
 	+password: string,
 	+loginState: LoginStateType,
+
+	+tokenError: ?Error,
+	+tokenValid: boolean,
 }
 
 const initialState = {
@@ -210,6 +245,9 @@ const initialState = {
 	username: '',
 	password: '',
 	loginState: 'logged-out',
+
+	tokenError: null,
+	tokenValid: false,
 }
 
 export function settings(state: State = initialState, action: Action) {
@@ -266,6 +304,33 @@ export function settings(state: State = initialState, action: Action) {
 
 		case EASTER_EGG_ENABLED:
 			return {...state, easterEggEnabled: action.payload}
+
+		case TOKEN_LOGIN: {
+			if (action.error === true) {
+				return {
+					...state,
+					tokenValid: false,
+					tokenError: action.payload,
+					loginState: 'invalid',
+				}
+			}
+
+			return {
+				...state,
+				tokenValid: action.payload === true,
+				tokenError: null,
+				loginState: 'logged-in',
+			}
+		}
+
+		case TOKEN_LOGOUT: {
+			return {
+				...state,
+				tokenValid: false,
+				tokenError: null,
+				loginState: 'logged-out',
+			}
+		}
 
 		default:
 			return state

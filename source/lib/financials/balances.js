@@ -1,6 +1,4 @@
 // @flow
-import {loadLoginCredentials} from '../login'
-import buildFormData from '../formdata'
 import {parseHtml, cssSelect, getTrimmedTextWithSpaces} from '../html'
 import {ONECARD_DASHBOARD} from './urls'
 import type {BalancesShapeType} from './types'
@@ -51,18 +49,13 @@ export async function getBalances(
 }
 
 async function fetchBalancesFromServer(): Promise<BalancesOrErrorType> {
-	const {username, password} = await loadLoginCredentials()
-	if (!username || !password) {
+	const result = await fetch(ONECARD_DASHBOARD, {credentials: 'include'})
+	const page = await result.text()
+
+	if (page.includes('Please Sign In')) {
 		return {error: true, value: new Error('not logged in!')}
 	}
 
-	const form = buildFormData({username, password})
-	const result = await fetch(ONECARD_DASHBOARD, {
-		method: 'POST',
-		body: form,
-		credentials: 'include',
-	})
-	const page = await result.text()
 	const dom = parseHtml(page)
 
 	return parseBalancesFromDom(dom)

@@ -25,7 +25,7 @@ export class StudentWorkDetailView extends React.PureComponent<Props, State> {
 		loading: true,
 	}
 
-	componentWillMount() {
+	componentDidMount() {
 		this.fetch()
 	}
 
@@ -33,7 +33,7 @@ export class StudentWorkDetailView extends React.PureComponent<Props, State> {
 		this.setState(() => ({loading: true}))
 		const job = this.props.navigation.state.params.job
 		try {
-			const jobData = await fetchJob(job.link)
+			const jobData = await fetchJob(job.link[0])
 			this.setState(() => ({job: jobData, error: null, loading: false}))
 		} catch (e) {
 			this.setState(() => ({error: e, loading: false}))

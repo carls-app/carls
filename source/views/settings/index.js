@@ -7,7 +7,7 @@ import {connect} from 'react-redux'
 import type {ReduxState} from '../../flux'
 import type {TopLevelViewPropsType} from '../types'
 
-import CredentialsLoginSection from './sections/login-credentials'
+import {CarletonLoginSection} from './sections/login-carleton'
 import OddsAndEndsSection from './sections/odds-and-ends'
 import SupportSection from './sections/support'
 
@@ -20,6 +20,8 @@ type ReduxDispatchProps = {
 }
 
 type Props = TopLevelViewPropsType & ReduxStateProps & ReduxDispatchProps
+
+export {CarletonLoginView} from './login'
 
 const styles = StyleSheet.create({
 	container: {
@@ -35,7 +37,7 @@ function SettingsView(props: Props) {
 			keyboardShouldPersistTaps="always"
 		>
 			<TableView>
-				{props.easterEggEnabled ? <CredentialsLoginSection /> : null}
+				{props.easterEggEnabled ? <CarletonLoginSection /> : null}
 
 				<SupportSection navigation={props.navigation} />
 

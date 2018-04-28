@@ -1,7 +1,7 @@
 // @flow
 
 import * as React from 'react'
-import {View, StyleSheet, Animated, Dimensions, Platform} from 'react-native'
+import {View, StyleSheet, Dimensions, Platform} from 'react-native'
 import * as c from '../components/colors'
 import {GrabberBar} from './grabber'
 import Interactable from 'react-native-interactable'
@@ -32,13 +32,13 @@ const isIPhoneX = (() => {
 const screenHeight = Dimensions.get('window').height - 75
 
 export class Overlay extends React.Component<Props> {
-	componentWillReceiveProps(nextProps: Props) {
-		if (this.props.size !== nextProps.size) {
+	componentDidUpdate(prevProps: Props) {
+		if (prevProps.size !== this.props.size) {
 			if (!this._view) {
 				return
 			}
 
-			this._view.snapTo({index: this.positionsOrder.indexOf(nextProps.size)})
+			this._view.snapTo({index: this.positionsOrder.indexOf(this.props.size)})
 		}
 	}
 
@@ -55,7 +55,7 @@ export class Overlay extends React.Component<Props> {
 	resizeMax = () => this.props.onSizeChange('max')
 
 	_view: any = null
-	_deltaY = new Animated.Value(this.lookupPosition(this.props.size))
+	// _deltaY = new Animated.Value(this.lookupPosition(this.props.size))
 
 	onSnap = (ev: {nativeEvent: {index: number, id: ViewState}}) => {
 		this.props.onSizeChange(ev.nativeEvent.id)
@@ -86,8 +86,7 @@ export class Overlay extends React.Component<Props> {
 
 				<Interactable.View
 					ref={ref => (this._view = ref)}
-					// to play with the darkening bg, uncomment the following line as well
-					animatedValueY={this._deltaY}
+					// animatedValueY={this._deltaY}
 					boundaries={{top: -300}}
 					initialPosition={{y: this.positions[viewState]}}
 					onSnap={this.onSnap}

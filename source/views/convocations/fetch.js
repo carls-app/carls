@@ -28,7 +28,7 @@ const parse = (xmlblob, {maxResults = 10}: Args = {}): Array<RawEpisode> => {
 	let stopParsing = false
 
 	const items = []
-	let currentItem: {[key: ?string]: string} = {}
+	let currentItem: {[key: ?string]: any} = {}
 	let currentTag = null
 
 	parser.onerror = () => {

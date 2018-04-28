@@ -11,7 +11,7 @@ export type ViewType =
 			foreground: 'light' | 'dark',
 			tint: string,
 			gradient?: [string, string],
-		}
+	  }
 	| {
 			type: 'url',
 			view: string,
@@ -21,7 +21,7 @@ export type ViewType =
 			foreground: 'light' | 'dark',
 			tint: string,
 			gradient?: [string, string],
-		}
+	  }
 
 export const allViews: ViewType[] = [
 	{
@@ -90,7 +90,7 @@ export const allViews: ViewType[] = [
 	},
 	{
 		type: 'view',
-		view: 'SumoTabView',
+		view: 'SumoUpcomingView',
 		title: 'SUMO',
 		icon: 'video',
 		foreground: 'light',

@@ -9,7 +9,7 @@ import {ContactsView, ContactsDetailView} from './views/contacts'
 import {DictionaryView, DictionaryDetailView} from './views/dictionary'
 import {HomeView, EditHomeView} from './views/home'
 import {KSTOScheduleView, KRLXScheduleView} from './views/streaming'
-import {SumoTabView, RadioTabView} from './views/streaming/carls-index'
+import {SumoUpcomingView, RadioTabView} from './views/streaming/carls-index'
 import {MenusView} from './views/menus'
 import {FilterView} from './views/components/filter'
 import NewsView from './views/news'
@@ -26,7 +26,7 @@ import TransportationView, {
 	BusMap as BusMapView,
 	OtherModesDetailView,
 } from './views/transportation'
-import SettingsView from './views/settings'
+import SettingsView, {CarletonLoginView} from './views/settings'
 import CreditsView from './views/settings/credits'
 import PrivacyView from './views/settings/privacy'
 import LegalView from './views/settings/legal'
@@ -85,7 +85,7 @@ export const AppNavigator = StackNavigator(
 		IconSettingsView: {screen: IconSettingsView},
 		SettingsView: {screen: SettingsView},
 		SISView: {screen: SISView},
-		SumoTabView: {screen: SumoTabView},
+		SumoUpcomingView: {screen: SumoUpcomingView},
 		RadioTabView: {screen: RadioTabView},
 		KSTOScheduleView: {screen: KSTOScheduleView},
 		KRLXScheduleView: {screen: KRLXScheduleView},
@@ -96,6 +96,7 @@ export const AppNavigator = StackNavigator(
 		OtherModesDetailView: {screen: OtherModesDetailView},
 		BusMapView: {screen: BusMapView},
 		MapView: {screen: MapView},
+		CarletonLoginView: {screen: CarletonLoginView},
 	},
 	{
 		navigationOptions: {

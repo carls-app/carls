@@ -1,5 +1,6 @@
 // @flow
 import {AsyncStorage} from 'react-native'
+import {type FilterComboType} from '../views/sis/course-search/lib/format-filter-combo'
 
 export function clearAsyncStorage() {
 	return AsyncStorage.clear()
@@ -72,6 +73,20 @@ export function setEasterEggStatus(status: boolean) {
 export function getEasterEggStatus(): Promise<boolean> {
 	return getItemAsBoolean(easterEggStatusKey)
 }
+
+/// MARK: Credentials
+
+const tokenValidKey = 'credentials:valid'
+export function setTokenValid(valid: boolean) {
+	return setItem(tokenValidKey, valid)
+}
+export function getTokenValid(): Promise<boolean> {
+	return getItemAsBoolean(tokenValidKey)
+}
+export function clearTokenValid(): Promise<any> {
+	return removeItem(tokenValidKey)
+}
+
 /// MARK: Favorite Buildings
 
 const favoriteBuildingsKey = 'buildings:favorited'
@@ -100,4 +115,29 @@ export function setTermInfo(termData: Array<TermType>) {
 }
 export function getTermInfo(): Promise<Array<TermType>> {
 	return getItemAsArray(termInfoKey)
+}
+const filterDataKey = courseDataKey + ':filter-data'
+export function setCourseFilterOption(name: string, data: string[]) {
+	const key = filterDataKey + `:${name}`
+	return setItem(key, data)
+}
+export function getCourseFilterOption(name: string): Promise<Array<string>> {
+	const key = filterDataKey + `:${name}`
+	return getItemAsArray(key)
+}
+
+const recentSearchesKey = 'courses:recent-searches'
+export function setRecentSearches(searches: string[]) {
+	return setItem(recentSearchesKey, searches)
+}
+export function getRecentSearches(): Promise<Array<string>> {
+	return getItemAsArray(recentSearchesKey)
+}
+
+const recentFiltersKey = 'courses:recent-filters'
+export function setRecentFilters(combos: Array<FilterComboType>) {
+	return setItem(recentFiltersKey, combos)
+}
+export function getRecentFilters(): Promise<Array<FilterComboType>> {
+	return getItemAsArray(recentFiltersKey)
 }
