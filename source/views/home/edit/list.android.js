@@ -24,6 +24,7 @@ const styles = StyleSheet.create({
 type ReduxStateProps = {
 	order: string[],
 	inactiveViews: string[],
+	easterEggEnabled: boolean,
 }
 
 type ReduxDispatchProps = {
@@ -82,7 +83,11 @@ class EditHomeView extends React.PureComponent<Props> {
 	keyExtractor = (item: ViewType) => item.view
 
 	render() {
-		const data = sortBy(allViews, (item: ViewType) =>
+		let views = this.props.easterEggEnabled
+			? allViews
+			: allViews.filter(v => !v.easterEgg)
+
+		const data = sortBy(views, (item: ViewType) =>
 			this.props.order.indexOf(item.view),
 		)
 
@@ -102,6 +107,7 @@ function mapState(state: ReduxState): ReduxStateProps {
 	return {
 		order: state.homescreen ? state.homescreen.order : [],
 		inactiveViews: state.homescreen ? state.homescreen.inactiveViews : [],
+		easterEggEnabled: state.settings ? state.settings.easterEggEnabled : false,
 	}
 }
 

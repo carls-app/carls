@@ -31,16 +31,8 @@ type Props = ReactProps & ReduxStateProps
 function HomePage(props: Props) {
 	let {navigation, order, inactiveViews, views = allViews} = props
 
-	if (props.easterEggEnabled) {
-		views.unshift({
-			type: 'view',
-			view: 'BigBalancesView',
-			title: 'Balances',
-			icon: 'credit',
-			foreground: 'light',
-			tint: c.goldenrod,
-			gradient: c.yellowToGoldDark,
-		})
+	if (!props.easterEggEnabled) {
+		views = views.filter(v => !v.easterEgg)
 	}
 
 	const sortedViews = sortBy(views, view => order.indexOf(view.view))
