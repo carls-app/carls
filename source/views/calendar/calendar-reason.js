@@ -23,8 +23,8 @@ type State = {
 type Props = TopLevelViewPropsType & {
 	calendarUrl: string,
 	calendarProps?: any,
-	poweredBy: {title: string, href: string},
 	eventMapper?: EventType => EventType,
+	poweredBy: {title: string, href: string},
 }
 
 export class ReasonCalendarView extends React.Component<Props, State> {
