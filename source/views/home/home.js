@@ -23,11 +23,26 @@ type ReactProps = TopLevelViewPropsType & {
 type ReduxStateProps = {
 	order: Array<string>,
 	inactiveViews: Array<string>,
+	easterEggEnabled: boolean,
 }
 
 type Props = ReactProps & ReduxStateProps
 
-function HomePage({navigation, order, inactiveViews, views = allViews}: Props) {
+function HomePage(props: Props) {
+	let {navigation, order, inactiveViews, views = allViews} = props
+
+	if (props.easterEggEnabled) {
+		views.unshift({
+			type: 'view',
+			view: 'BigBalancesView',
+			title: 'Balances',
+			icon: 'credit',
+			foreground: 'light',
+			tint: c.goldenrod,
+			gradient: c.yellowToGoldDark,
+		})
+	}
+
 	const sortedViews = sortBy(views, view => order.indexOf(view.view))
 
 	const enabledViews = sortedViews.filter(
@@ -80,12 +95,13 @@ HomePage.navigationOptions = ({navigation}) => {
 
 function mapStateToProps(state: ReduxState): ReduxStateProps {
 	if (!state.homescreen) {
-		return {order: [], inactiveViews: []}
+		return {order: [], inactiveViews: [], easterEggEnabled: false}
 	}
 
 	return {
 		order: state.homescreen.order,
 		inactiveViews: state.homescreen.inactiveViews,
+		easterEggEnabled: state.settings ? state.settings.easterEggEnabled : false,
 	}
 }
 

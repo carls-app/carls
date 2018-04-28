@@ -6,6 +6,8 @@ import {TabNavigator} from '../components/tabbed-view'
 import {StudentWorkView} from './student-work-carls'
 import {TheHubView} from './hub'
 
+export {BigBalancesView} from './balances'
+
 export default TabNavigator(
 	{
 		//BalancesView: {screen: BalancesView},
