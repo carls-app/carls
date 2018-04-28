@@ -19,7 +19,7 @@ const FullWidthSeparator = props => (
 )
 
 type Props = TopLevelViewPropsType & {
-	detailView: ?string,
+	detailView?: string,
 	events: EventType[],
 	message: ?string,
 	refreshing: boolean,
