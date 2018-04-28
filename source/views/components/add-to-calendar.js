@@ -6,6 +6,7 @@ import delay from 'delay'
 
 type Props = {
 	event: EventType,
+	compactMessages?: boolean,
 	render: ({
 		message: string,
 		disabled: boolean,
@@ -18,6 +19,18 @@ type State = {
 	disabled: boolean,
 }
 
+const VERBOSE_MESSAGES = {
+	active: 'Adding event to calendar…',
+	success: 'Event has been added to your calendar',
+	error: 'Error. Try again?',
+}
+
+const COMPACT_MESSAGES: $Shape<typeof VERBOSE_MESSAGES> = {
+	active: 'Saving…',
+	success: 'Saved',
+	error: 'Error. Try again?',
+}
+
 export class AddToCalendar extends React.Component<Props, State> {
 	state = {
 		message: '',
@@ -25,10 +38,13 @@ export class AddToCalendar extends React.Component<Props, State> {
 	}
 
 	addEvent = async () => {
+		let MESSAGES = this.props.compactMessages
+			? COMPACT_MESSAGES
+			: VERBOSE_MESSAGES
 		let {event} = this.props
 
 		let start = Date.now()
-		this.setState(() => ({message: 'Adding event to calendar…'}))
+		this.setState(() => ({message: MESSAGES.active}))
 
 		// wait 0.5 seconds – if we let it go at normal speed, it feels broken.
 		let elapsed = Date.now() - start
@@ -39,15 +55,9 @@ export class AddToCalendar extends React.Component<Props, State> {
 		let result = await addToCalendar(event)
 
 		if (result) {
-			this.setState(() => ({
-				message: 'Event has been added to your calendar',
-				disabled: true,
-			}))
+			this.setState(() => ({message: MESSAGES.success, disabled: true}))
 		} else {
-			this.setState(() => ({
-				message: 'Could not add event to your calendar',
-				disabled: false,
-			}))
+			this.setState(() => ({message: MESSAGES.error, disabled: false}))
 		}
 	}
 
