@@ -26,7 +26,7 @@ import TransportationView, {
 	BusMap as BusMapView,
 	OtherModesDetailView,
 } from './views/transportation'
-import SettingsView, {CarletonLoginView} from './views/settings'
+import SettingsView from './views/settings'
 import CreditsView from './views/settings/credits'
 import PrivacyView from './views/settings/privacy'
 import LegalView from './views/settings/legal'
@@ -96,7 +96,6 @@ export const AppNavigator = StackNavigator(
 		OtherModesDetailView: {screen: OtherModesDetailView},
 		BusMapView: {screen: BusMapView},
 		MapView: {screen: MapView},
-		CarletonLoginView: {screen: CarletonLoginView},
 	},
 	{
 		navigationOptions: {

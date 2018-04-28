@@ -5,11 +5,11 @@ import {StyleSheet, ScrollView} from 'react-native'
 import {TableView} from 'react-native-tableview-simple'
 import type {TopLevelViewPropsType} from '../types'
 
-import {CarletonLoginSection} from './sections/login-carleton'
+import CarletonLoginSection from './sections/login-credentials'
 import OddsAndEndsSection from './sections/odds-and-ends'
 import SupportSection from './sections/support'
 
-export {CarletonLoginView} from './login'
+//export {CarletonLoginView} from './login'
 
 const styles = StyleSheet.create({
 	container: {
