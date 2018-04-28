@@ -108,7 +108,13 @@ export class ArchivedConvocationDetailView extends React.Component<Props> {
 	}
 
 	render() {
-		const {navigation: {state: {params: {event}}}} = this.props
+		const {
+			navigation: {
+				state: {
+					params: {event},
+				},
+			},
+		} = this.props
 
 		let style = null
 		if (event.enclosure && event.enclosure.type.startsWith('audio/')) {
