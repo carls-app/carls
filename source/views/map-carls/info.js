@@ -141,6 +141,7 @@ const SectionListItem = ({href, label}) => {
 
 const CloseButton = ({onPress}) => (
 	<TouchableHighlight
+		accessibilityTraits="button"
 		onPress={onPress}
 		style={styles.closeButton}
 		underlayColor={c.black50Percent}
