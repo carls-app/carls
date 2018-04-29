@@ -72,7 +72,9 @@ export class BuildingInfo extends React.Component<Props> {
 					{building.address ? (
 						<Section>
 							<SectionTitle>Address</SectionTitle>
-							<SectionContent>{building.address}</SectionContent>
+							<SectionContent selectable={true}>
+								{building.address}
+							</SectionContent>
 						</Section>
 					) : null}
 
