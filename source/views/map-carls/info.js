@@ -8,6 +8,7 @@ import {
 	ScrollView,
 	TouchableHighlight,
 	Image,
+	Clipboard,
 } from 'react-native'
 import glamorous from 'glamorous-native'
 import * as c from '../components/colors'
@@ -16,6 +17,7 @@ import startCase from 'lodash/startCase'
 import {Row, Column} from '../components/layout'
 import {ListRow, Title} from '../components/list'
 import openUrl from '../components/open-url'
+import {Touchable} from '../components/touchable'
 
 type Props = {
 	building: Building,
@@ -71,10 +73,21 @@ export class BuildingInfo extends React.Component<Props> {
 
 					{building.address ? (
 						<Section>
-							<SectionTitle>Address</SectionTitle>
-							<SectionContent selectable={true}>
-								{building.address}
-							</SectionContent>
+							<Row alignItems="center">
+								<Column flex={1}>
+									<SectionTitle>Address</SectionTitle>
+									<SectionContent>{building.address}</SectionContent>
+								</Column>
+								<CopyText
+									render={({copied, copy}) => (
+										<OutlineButton
+											disabled={copied}
+											onPress={() => building.address && copy(building.address)}
+											title={copied ? 'Copied' : 'Copy'}
+										/>
+									)}
+								/>
+							</Row>
 						</Section>
 					) : null}
 
@@ -128,6 +141,49 @@ const SectionListTitle = glamorous(SectionTitle)({
 	paddingBottom: 8,
 })
 
+const OutlineButton = (props: {
+	title: string,
+	onPress: () => any,
+	disabled: boolean,
+}) => (
+	<Touchable
+		accessibilityTraits="button"
+		disabled={props.disabled}
+		onPress={props.onPress}
+		style={[
+			styles.outlineButton,
+			props.disabled && styles.outlineButtonDisabled,
+		]}
+	>
+		<Text
+			style={[
+				styles.outlineButtonText,
+				props.disabled && styles.outlineButtonTextDisabled,
+			]}
+		>
+			{props.title}
+		</Text>
+	</Touchable>
+)
+
+class CopyText extends React.Component<
+	{render: ({copied: boolean, copy: string => any}) => React.Node},
+	{copied: boolean},
+> {
+	state = {
+		copied: false,
+	}
+
+	onCopy = (text: string) => {
+		Clipboard.setString(text)
+		this.setState(() => ({copied: true}))
+	}
+
+	render() {
+		return this.props.render({copied: this.state.copied, copy: this.onCopy})
+	}
+}
+
 const SectionListItem = ({href, label}) => {
 	return (
 		<ListRow
@@ -180,5 +236,23 @@ const styles = StyleSheet.create({
 	},
 	listItemText: {
 		fontSize: 15,
+	},
+	outlineButton: {
+		borderWidth: 1,
+		borderColor: c.infoBlue,
+		paddingVertical: 4,
+		paddingHorizontal: 6,
+		borderRadius: 4,
+		marginLeft: 4,
+	},
+	outlineButtonDisabled: {
+		borderColor: c.iosDisabledText,
+	},
+	outlineButtonText: {
+		fontWeight: 'bold',
+		color: c.infoBlue,
+	},
+	outlineButtonTextDisabled: {
+		color: c.iosDisabledText,
 	},
 })
