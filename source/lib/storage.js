@@ -66,6 +66,14 @@ export function getAcknowledgementStatus(): Promise<boolean> {
 	return getItemAsBoolean(acknowledgementStatusKey)
 }
 
+const easterEggStatusKey = 'settings:easter-egg'
+export function setEasterEggStatus(status: boolean) {
+	return setItem(easterEggStatusKey, status)
+}
+export function getEasterEggStatus(): Promise<boolean> {
+	return getItemAsBoolean(easterEggStatusKey)
+}
+
 /// MARK: Credentials
 
 const tokenValidKey = 'credentials:valid'

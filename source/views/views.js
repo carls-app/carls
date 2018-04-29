@@ -11,6 +11,7 @@ export type ViewType =
 			foreground: 'light' | 'dark',
 			tint: string,
 			gradient?: [string, string],
+			easterEgg?: boolean,
 	  }
 	| {
 			type: 'url',
@@ -21,9 +22,20 @@ export type ViewType =
 			foreground: 'light' | 'dark',
 			tint: string,
 			gradient?: [string, string],
+			easterEgg?: boolean,
 	  }
 
 export const allViews: ViewType[] = [
+	{
+		type: 'view',
+		view: 'BigBalancesView',
+		title: 'Balances',
+		icon: 'credit',
+		foreground: 'dark',
+		tint: c.goldenrod,
+		gradient: c.carlsMaizeToMaizeDark,
+		easterEgg: true,
+	},
 	{
 		type: 'view',
 		view: 'MenusView',

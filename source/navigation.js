@@ -17,7 +17,7 @@ import {SumoUpcomingView, RadioTabView} from './views/streaming/carls-index'
 import {MenusView} from './views/menus'
 import {FilterView} from './views/components/filter'
 import NewsView from './views/news'
-import SISView from './views/sis'
+import SISView, {BigBalancesView} from './views/sis'
 import {MapView} from './views/map-carls'
 import {StudentWorkDetailView} from './views/sis/student-work-carls'
 import {
@@ -30,7 +30,7 @@ import TransportationView, {
 	BusMap as BusMapView,
 	OtherModesDetailView,
 } from './views/transportation'
-import SettingsView, {CarletonLoginView} from './views/settings'
+import SettingsView from './views/settings'
 import CreditsView from './views/settings/credits'
 import PrivacyView from './views/settings/privacy'
 import LegalView from './views/settings/legal'
@@ -103,7 +103,7 @@ export const AppNavigator = StackNavigator(
 		OtherModesDetailView: {screen: OtherModesDetailView},
 		BusMapView: {screen: BusMapView},
 		MapView: {screen: MapView},
-		CarletonLoginView: {screen: CarletonLoginView},
+		BigBalancesView: {screen: BigBalancesView},
 	},
 	{
 		navigationOptions: {

@@ -17,8 +17,6 @@ import {allViews} from '../../views'
 import {EditHomeRow} from './row'
 import {toggleViewDisabled} from '../../../flux/parts/homescreen'
 
-const objViews = fromPairs(allViews.map(v => [v.view, v]))
-
 const styles = StyleSheet.create({
 	contentContainer: {
 		backgroundColor: c.iosLightBackground,
@@ -32,6 +30,7 @@ const styles = StyleSheet.create({
 type ReduxStateProps = {
 	order: string[],
 	inactiveViews: string[],
+	easterEggEnabled: boolean,
 }
 
 type ReduxDispatchProps = {
@@ -65,6 +64,16 @@ class EditHomeView extends React.PureComponent<Props> {
 	onChangeOrder = debounce(this._saveOrder, 100)
 
 	render() {
+		let views = this.props.easterEggEnabled
+			? allViews
+			: allViews.filter(v => !v.easterEgg)
+
+		let objViews = fromPairs(views.map(v => [v.view, v]))
+
+		let order = this.props.easterEggEnabled
+			? this.props.order
+			: this.props.order.filter(name => objViews[name])
+
 		return (
 			<Viewport
 				render={({width}) => (
@@ -72,7 +81,7 @@ class EditHomeView extends React.PureComponent<Props> {
 						contentContainerStyle={[styles.contentContainer, {width}]}
 						data={objViews}
 						onChangeOrder={this.onChangeOrder}
-						order={this.props.order}
+						order={order}
 						renderRow={props => this.renderRow({...props, width})}
 					/>
 				)}
@@ -85,6 +94,7 @@ function mapState(state: ReduxState): ReduxStateProps {
 	return {
 		order: state.homescreen ? state.homescreen.order : [],
 		inactiveViews: state.homescreen ? state.homescreen.inactiveViews : [],
+		easterEggEnabled: state.settings ? state.settings.easterEggEnabled : false,
 	}
 }
 

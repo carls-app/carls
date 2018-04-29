@@ -4,28 +4,35 @@
  */
 
 import {NetInfo} from 'react-native'
-import {checkToken} from '../lib/login'
-import {getTokenValid} from '../lib/storage'
+import {loadLoginCredentials} from '../lib/login'
 import {updateOnlineStatus} from './parts/app'
 import {loadHomescreenOrder, loadDisabledViews} from './parts/homescreen'
 import {getEnabledTools} from './parts/help'
 import {loadFavoriteBuildings} from './parts/buildings'
 import {
+	setLoginCredentials,
+	validateLoginCredentials,
 	loadFeedbackStatus,
-	setTokenValidity,
 	loadAcknowledgement,
+	loadEasterEggStatus,
 } from './parts/settings'
 import {updateBalances} from './parts/balances'
 import {loadRecentSearches, loadRecentFilters} from './parts/courses'
 
-async function checkTokenValidity(store) {
-	let status = await checkToken()
-	store.dispatch(setTokenValidity(status))
+async function loginCredentials(store) {
+	const {username, password} = await loadLoginCredentials()
+	if (!username || !password) {
+		return
+	}
+	store.dispatch(setLoginCredentials({username, password}))
 }
 
-async function loginCredentials(store) {
-	const wasValid = await getTokenValid()
-	store.dispatch(setTokenValidity(wasValid))
+async function validateOlafCredentials(store) {
+	const {username, password} = await loadLoginCredentials()
+	if (!username || !password) {
+		return
+	}
+	store.dispatch(validateLoginCredentials({username, password}))
 }
 
 function netInfoIsConnected(store) {
@@ -50,6 +57,7 @@ export async function init(store: {dispatch: any => any}) {
 		store.dispatch(loadDisabledViews()),
 		store.dispatch(loadFeedbackStatus()),
 		store.dispatch(loadAcknowledgement()),
+		store.dispatch(loadEasterEggStatus()),
 		store.dispatch(loadFavoriteBuildings()),
 		store.dispatch(loadRecentSearches()),
 		store.dispatch(loadRecentFilters()),
@@ -61,7 +69,7 @@ export async function init(store: {dispatch: any => any}) {
 
 	// then go do the network stuff in parallel
 	await Promise.all([
-		checkTokenValidity(store),
+		validateOlafCredentials(store),
 		store.dispatch(updateBalances(false)),
 		store.dispatch(getEnabledTools()),
 	])

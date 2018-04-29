@@ -200,7 +200,9 @@ function mapDispatch(dispatch): ReduxDispatchProps {
 	}
 }
 
-export default connect(mapState, mapDispatch)(BalancesView)
+const ConnectedBalancesView = connect(mapState, mapDispatch)(BalancesView)
+
+export default ConnectedBalancesView
 
 let cellMargin = 10
 let cellSidePadding = 10
@@ -258,6 +260,13 @@ let styles = StyleSheet.create({
 		fontSize: 16,
 	},
 })
+
+export function BigBalancesView(props: TopLevelViewPropsType) {
+	return <ConnectedBalancesView navigation={props.navigation} />
+}
+BigBalancesView.navigationOptions = {
+	title: 'Balances',
+}
 
 function getValueOrNa(value: ?string): string {
 	// eslint-disable-next-line no-eq-null
