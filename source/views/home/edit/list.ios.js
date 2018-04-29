@@ -70,6 +70,10 @@ class EditHomeView extends React.PureComponent<Props> {
 
 		let objViews = fromPairs(views.map(v => [v.view, v]))
 
+		let order = this.props.easterEggEnabled
+			? this.props.order
+			: this.props.order.filter(name => objViews[name])
+
 		return (
 			<Viewport
 				render={({width}) => (
@@ -77,7 +81,7 @@ class EditHomeView extends React.PureComponent<Props> {
 						contentContainerStyle={[styles.contentContainer, {width}]}
 						data={objViews}
 						onChangeOrder={this.onChangeOrder}
-						order={this.props.order}
+						order={order}
 						renderRow={props => this.renderRow({...props, width})}
 					/>
 				)}
