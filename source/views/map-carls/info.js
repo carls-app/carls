@@ -9,6 +9,7 @@ import {
 	TouchableHighlight,
 	Image,
 	Clipboard,
+	Dimensions,
 } from 'react-native'
 import glamorous from 'glamorous-native'
 import * as c from '../components/colors'
@@ -62,6 +63,7 @@ export class BuildingInfo extends React.Component<Props> {
 
 				<ScrollView
 					contentContainerStyle={styles.container}
+					contentInsetAdjustmentBehavior="automatic"
 					scrollEnabled={this.props.overlaySize === 'max'}
 					style={styles.scroll}
 				>
@@ -213,7 +215,7 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 12,
 	},
 	scroll: {
-		height: 600,
+		height: Dimensions.get('window').height - 66 - 66,
 	},
 	closeButton: {
 		width: 24,
