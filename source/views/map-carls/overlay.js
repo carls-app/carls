@@ -1,10 +1,11 @@
 // @flow
 
 import * as React from 'react'
-import {View, StyleSheet, Dimensions, Platform} from 'react-native'
+import {View, StyleSheet, Dimensions} from 'react-native'
 import * as c from '../components/colors'
 import {GrabberBar} from './grabber'
 import Interactable from 'react-native-interactable'
+import {isIPhoneX} from './is-x'
 
 type ViewState = 'min' | 'mid' | 'max'
 
@@ -14,20 +15,6 @@ type Props = {
 	size: ViewState,
 	onSizeChange: ViewState => any,
 }
-
-// See https://mydevice.io/devices/ for device dimensions
-const X_WIDTH = 375
-const X_HEIGHT = 812
-
-const {height: D_HEIGHT, width: D_WIDTH} = Dimensions.get('window')
-
-const isIPhoneX = (() => {
-	return (
-		Platform.OS === 'ios' &&
-		((D_HEIGHT === X_HEIGHT && D_WIDTH === X_WIDTH) ||
-			(D_HEIGHT === X_WIDTH && D_WIDTH === X_HEIGHT))
-	)
-})()
 
 const screenHeight = Dimensions.get('window').height - 66
 
