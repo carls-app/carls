@@ -5,12 +5,10 @@ import {EventList} from './event-list'
 import bugsnag from '../../bugsnag'
 import {tracker} from '../../analytics'
 import type {TopLevelViewPropsType} from '../types'
-import type {EventType, GoogleEventType, PoweredBy} from './types'
+import type {EventType, PoweredBy} from './types'
 import moment from 'moment-timezone'
 import delay from 'delay'
 import LoadingView from '../components/loading'
-import qs from 'querystring'
-import {GOOGLE_CALENDAR_API_KEY} from '../../lib/config'
 const TIMEZONE = 'America/Winnipeg'
 
 type Props = TopLevelViewPropsType & {
@@ -27,7 +25,7 @@ type State = {
 	now: moment,
 }
 
-export class GoogleCalendarView extends React.Component<Props, State> {
+export class CccCalendarView extends React.Component<Props, State> {
 	state = {
 		events: [],
 		loading: true,
@@ -42,36 +40,15 @@ export class GoogleCalendarView extends React.Component<Props, State> {
 		})
 	}
 
-	buildCalendarUrl(calendarId: string) {
-		let calendarUrl = `https://www.googleapis.com/calendar/v3/calendars/${calendarId}/events`
-		let params = {
-			maxResults: 50,
-			orderBy: 'startTime',
-			showDeleted: false,
-			singleEvents: true,
-			timeMin: new Date().toISOString(),
-			key: GOOGLE_CALENDAR_API_KEY,
-		}
-		return `${calendarUrl}?${qs.stringify(params)}`
-	}
-
-	convertEvents(data: GoogleEventType[], now: moment): EventType[] {
+	convertEvents(data: EventType[]): EventType[] {
 		let events = data.map(event => {
-			const startTime = moment(event.start.date || event.start.dateTime)
-			const endTime = moment(event.end.date || event.end.dateTime)
+			const startTime = moment(event.startTime)
+			const endTime = moment(event.endTime)
 
 			return {
+				...event,
 				startTime,
 				endTime,
-				title: event.summary || '',
-				description: event.description || '',
-				location: event.location || '',
-				isOngoing: startTime.isBefore(now, 'day'),
-				config: {
-					startTime: true,
-					endTime: true,
-					subtitle: 'location',
-				},
 			}
 		})
 
@@ -83,19 +60,12 @@ export class GoogleCalendarView extends React.Component<Props, State> {
 	}
 
 	getEvents = async (now: moment = moment.tz(TIMEZONE)) => {
-		let url = this.buildCalendarUrl(this.props.calendarId)
+		// let url = `https://carleton.api.frogpond.tech${calendarId}`
+		let url = `http://localhost:3000${this.props.calendarId}`
 
-		let data: GoogleEventType[] = []
+		let data: EventType[] = []
 		try {
-			let result = await fetchJson(url)
-			const error = result.error
-			if (error) {
-				tracker.trackException(error.message)
-				bugsnag.notify(error)
-				this.setState({error: error})
-			}
-
-			data = result.items
+			data = await fetchJson(url)
 		} catch (err) {
 			tracker.trackException(err.message)
 			bugsnag.notify(err)
@@ -103,7 +73,7 @@ export class GoogleCalendarView extends React.Component<Props, State> {
 			console.warn(err)
 		}
 
-		this.setState({now, events: this.convertEvents(data, now)})
+		this.setState({now, events: this.convertEvents(data)})
 	}
 
 	refresh = async () => {

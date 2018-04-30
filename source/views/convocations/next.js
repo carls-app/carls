@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react'
-import {ReasonCalendarView} from '../calendar/calendar-reason'
+import {CccCalendarView} from '../calendar/calendar-ccc'
 import {TabBarIcon} from '../components/tabbar-icon'
 import type {TopLevelViewPropsType} from '../types'
 
@@ -15,8 +15,8 @@ export class NextConvocationView extends React.PureComponent<Props> {
 
 	render() {
 		return (
-			<ReasonCalendarView
-				calendarUrl="https://apps.carleton.edu/events/convocations/"
+			<CccCalendarView
+				calendarId="/v1/calendar/convos"
 				navigation={this.props.navigation}
 				poweredBy={{
 					title: 'Powered by the Carleton Calendar',

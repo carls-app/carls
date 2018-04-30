@@ -68,7 +68,7 @@ export type PoweredBy = {
 	href: string,
 }
 
-export type EventType = {|
+export type EventType = {
 	title: string,
 	description: string,
 	location: string,
@@ -83,4 +83,4 @@ export type EventType = {|
 		endTime: boolean,
 		subtitle: 'location' | 'description',
 	},
-|}
+}
