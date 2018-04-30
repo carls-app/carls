@@ -49,7 +49,7 @@ export const allViews: ViewType[] = [
 		type: 'view',
 		view: 'SISView',
 		title: 'The Hub',
-		icon: 'credit-card',
+		icon: 'shop',
 		foreground: 'light',
 		tint: c.goldenrod,
 		gradient: c.yellowToGoldDark,
