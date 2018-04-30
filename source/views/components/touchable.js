@@ -17,6 +17,7 @@ type Props = {|
 	borderless?: boolean,
 	children?: React.Node,
 	containerStyle?: any,
+	disabled?: boolean,
 	highlight?: boolean,
 	onPress?: () => any,
 	style?: any,
