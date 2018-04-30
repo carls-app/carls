@@ -29,7 +29,7 @@ const isIPhoneX = (() => {
 	)
 })()
 
-const screenHeight = Dimensions.get('window').height - 75
+const screenHeight = Dimensions.get('window').height - 66
 
 export class Overlay extends React.Component<Props> {
 	componentDidUpdate(prevProps: Props) {
@@ -44,9 +44,9 @@ export class Overlay extends React.Component<Props> {
 
 	positionsOrder = ['max', 'mid', 'min']
 	positions = {
-		max: 40,
+		max: 0,
 		mid: isIPhoneX ? screenHeight - 370 : screenHeight - 300,
-		min: isIPhoneX ? screenHeight - 120 : screenHeight - 58,
+		min: isIPhoneX ? screenHeight - 127 : screenHeight - 65,
 	}
 
 	lookupPosition = (size: ViewState) => this.positions[size]
@@ -87,7 +87,7 @@ export class Overlay extends React.Component<Props> {
 				<Interactable.View
 					ref={ref => (this._view = ref)}
 					// animatedValueY={this._deltaY}
-					boundaries={{top: -300}}
+					boundaries={{top: 0}}
 					initialPosition={{y: this.positions[viewState]}}
 					onSnap={this.onSnap}
 					snapPoints={[
@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
 	// },
 	overlay: {
 		backgroundColor: c.white,
-		height: screenHeight + 300,
+		height: screenHeight,
 		borderTopLeftRadius: 10,
 		borderTopRightRadius: 10,
 		shadowColor: c.black,
