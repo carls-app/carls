@@ -30,10 +30,8 @@ import delay from 'delay'
 import retry from 'p-retry'
 const CENTRAL_TZ = 'America/Winnipeg'
 
-const bonappMenuBaseUrl = 'https://legacy.cafebonappetit.com/api/2/menus'
-const bonappCafeBaseUrl = 'https://legacy.cafebonappetit.com/api/2/cafes'
-const fetchJsonQuery = (url, query) =>
-	fetchJson(`${url}?${qs.stringify(query)}`)
+const bonappMenuBaseUrl = 'https://carleton.api.frogpond.tech/v1/food/menu'
+const bonappCafeBaseUrl = 'https://carleton.api.frogpond.tech/v1/food/cafe'
 const entities = new AllHtmlEntities()
 
 const BONAPP_HTML_ERROR_CODE = 'bonapp-html'
@@ -95,9 +93,9 @@ export class BonAppHostedMenu extends React.PureComponent<Props, State> {
 	}
 
 	requestMenu = (cafeId: string) => () =>
-		fetchJsonQuery(bonappMenuBaseUrl, {cafe: cafeId})
+		fetchJson(bonappMenuBaseUrl + '/' + cafeId)
 	requestCafe = (cafeId: string) => () =>
-		fetchJsonQuery(bonappCafeBaseUrl, {cafe: cafeId})
+		fetchJson(bonappCafeBaseUrl + '/' + cafeId)
 
 	fetchData = async (props: Props) => {
 		let cafeMenu: ?MenuInfoType = null
