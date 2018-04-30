@@ -7,16 +7,9 @@ import {ListSeparator, ListSectionHeader} from '../../components/list'
 import {NoticeView} from '../../components/notice'
 import LoadingView from '../../components/loading'
 import * as c from '../../components/colors'
-import groupBy from 'lodash/groupBy'
-import toPairs from 'lodash/toPairs'
 import delay from 'delay'
 import type {TopLevelViewPropsType} from '../../types'
 import type {NewsBulletinType} from './types'
-
-const groupBulletins = (bulletins: NewsBulletinType[]) => {
-	const grouped = groupBy(bulletins, m => m.category)
-	return toPairs(grouped).map(([key, value]) => ({title: key, data: value}))
-}
 
 const styles = StyleSheet.create({
 	listContainer: {
@@ -29,7 +22,7 @@ type Props = TopLevelViewPropsType & {
 }
 
 type State = {
-	bulletins: Array<NewsBulletinType>,
+	bulletins: Array<{title: string, data: Array<NewsBulletinType>}>,
 	loading: boolean,
 	refreshing: boolean,
 }
@@ -63,12 +56,10 @@ export class NoonNewsView extends React.PureComponent<Props, State> {
 	}
 
 	fetchData = async () => {
-		const bulletins = await fetchXml(this.props.url)
-			.then(resp => resp.rss.channel[0].item)
-			.catch(err => {
-				reportNetworkProblem(err)
-				return []
-			})
+		const bulletins = await fetchJson(this.props.url).catch(err => {
+			reportNetworkProblem(err)
+			return []
+		})
 
 		this.setState(() => ({bulletins}))
 	}
@@ -88,18 +79,16 @@ export class NoonNewsView extends React.PureComponent<Props, State> {
 			return <LoadingView />
 		}
 
-		const groupedData = groupBulletins(this.state.bulletins)
 		return (
 			<SectionList
 				ItemSeparatorComponent={ListSeparator}
 				ListEmptyComponent={<NoticeView text="No bulletins." />}
-				data={groupedData}
 				keyExtractor={this.keyExtractor}
 				onRefresh={this.refresh}
 				refreshing={this.state.refreshing}
 				renderItem={this.renderItem}
 				renderSectionHeader={this.renderSectionHeader}
-				sections={groupedData}
+				sections={(this.state.bulletins: any)}
 				style={styles.listContainer}
 			/>
 		)

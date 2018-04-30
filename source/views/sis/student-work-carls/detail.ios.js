@@ -6,13 +6,11 @@ import openUrl from '../../components/open-url'
 import type {FullJobType} from './types'
 import {SelectableCell} from './selectable'
 
-type Props = {
-	job: FullJobType,
-}
+type Props = {navigation: {state: {params: {job: FullJobType}}}}
 
-export class JobDetailView extends React.PureComponent<Props> {
+export class JobDetailView extends React.Component<Props> {
 	render() {
-		const {job} = this.props
+		const {job} = this.props.navigation.state.params
 
 		const infoCells = [
 			job.department ? (

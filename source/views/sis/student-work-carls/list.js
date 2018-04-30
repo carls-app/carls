@@ -12,9 +12,9 @@ import {NoticeView} from '../../components/notice'
 import LoadingView from '../../components/loading'
 import delay from 'delay'
 import {JobRow} from './job-row'
-import type {ThinJobType} from './types'
+import type {FullJobType} from './types'
 
-const jobsUrl = 'https://apps.carleton.edu/campus/sfs/employment/feeds/jobs'
+const jobsUrl = 'https://carleton.api.frogpond.tech/v1/jobs'
 
 const styles = StyleSheet.create({
 	listContainer: {
@@ -22,11 +22,8 @@ const styles = StyleSheet.create({
 	},
 })
 
-const fetchJobs = (): Array<ThinJobType> =>
-	fetchXml(jobsUrl).then(resp => resp.rss.channel[0].item)
-
 type State = {
-	jobs: Array<ThinJobType>,
+	jobs: Array<FullJobType>,
 	loaded: boolean,
 	refreshing: boolean,
 	error: boolean,
@@ -34,7 +31,7 @@ type State = {
 
 type Props = TopLevelViewPropsType & {}
 
-export class StudentWorkView extends React.PureComponent<Props, State> {
+export class StudentWorkView extends React.Component<Props, State> {
 	static navigationOptions = {
 		headerBackTitle: 'Job Postings',
 		tabBarLabel: 'Job Postings',
@@ -54,7 +51,7 @@ export class StudentWorkView extends React.PureComponent<Props, State> {
 
 	fetchData = async () => {
 		try {
-			const jobs = await fetchJobs()
+			const jobs = await fetchJson(jobsUrl)
 			this.setState(() => ({jobs}))
 		} catch (err) {
 			tracker.trackException(err.message)
@@ -80,13 +77,13 @@ export class StudentWorkView extends React.PureComponent<Props, State> {
 		this.setState(() => ({refreshing: false}))
 	}
 
-	onPressJob = (job: ThinJobType) => {
+	onPressJob = (job: FullJobType) => {
 		this.props.navigation.navigate('StudentWorkDetailView', {job})
 	}
 
-	keyExtractor = (item: ThinJobType, index: number) => index.toString()
+	keyExtractor = (item: FullJobType) => item.id
 
-	renderItem = ({item}: {item: ThinJobType}) => (
+	renderItem = ({item}: {item: FullJobType}) => (
 		<JobRow job={item} onPress={this.onPressJob} />
 	)
 
