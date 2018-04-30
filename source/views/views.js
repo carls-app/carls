@@ -48,7 +48,7 @@ export const allViews: ViewType[] = [
 	{
 		type: 'view',
 		view: 'SISView',
-		title: 'OneCard',
+		title: 'The Hub',
 		icon: 'credit-card',
 		foreground: 'light',
 		tint: c.goldenrod,
