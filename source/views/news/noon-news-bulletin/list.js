@@ -56,11 +56,10 @@ export class NoonNewsView extends React.PureComponent<Props, State> {
 	}
 
 	fetchData = async () => {
-		const bulletins = await fetchJson(this.props.url)
-			.catch(err => {
-				reportNetworkProblem(err)
-				return []
-			})
+		const bulletins = await fetchJson(this.props.url).catch(err => {
+			reportNetworkProblem(err)
+			return []
+		})
 
 		this.setState(() => ({bulletins}))
 	}
