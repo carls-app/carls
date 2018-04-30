@@ -1,10 +1,8 @@
 // @flow
 
 import * as React from 'react'
-import {View, FlatList} from 'react-native'
-import * as c from '../components/colors'
+import {FlatList} from 'react-native'
 import {ListSeparator, Title, Detail, ListRow} from '../components/list'
-import {Row, Column} from '../components/layout'
 import type {Building} from './types'
 
 type Props = {
@@ -22,20 +20,8 @@ export class BuildingList extends React.Component<Props> {
 		const detail = item.address || (item.center || []).join(',') || ''
 		return (
 			<ListRow onPress={() => this.onPress(item.id)} spacing={{left: 12}}>
-				<Row>
-					<View
-						alignSelf="center"
-						backgroundColor={c.success}
-						borderRadius={24}
-						height={24}
-						marginRight={8}
-						width={24}
-					/>
-					<Column>
-						<Title>{item.name}</Title>
-						<Detail>{detail}</Detail>
-					</Column>
-				</Row>
+				<Title>{item.name}</Title>
+				<Detail>{detail}</Detail>
 			</ListRow>
 		)
 	}
