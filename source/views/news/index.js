@@ -31,7 +31,7 @@ export default TabNavigator(
 					mode="rss"
 					name="Carleton"
 					navigation={navigation}
-					thumbnail={newsImages.carleton}
+					thumbnail={false}
 					url="https://apps.carleton.edu/media_relations/feeds/blogs/news"
 				/>
 			),
@@ -48,7 +48,7 @@ export default TabNavigator(
 					mode="rss"
 					name="The Carletonian"
 					navigation={navigation}
-					thumbnail={newsImages.carletonian}
+					thumbnail={false}
 					url="https://apps.carleton.edu/carletonian/feeds/blogs/tonian"
 				/>
 			),
