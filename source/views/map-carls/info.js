@@ -46,11 +46,12 @@ export class BuildingInfo extends React.Component<Props> {
 			: null
 
 		return (
-			<View style={styles.container}>
+			<React.Fragment>
 				<Row
 					alignItems="center"
 					justifyContent="space-between"
 					marginBottom={12}
+					style={styles.container}
 				>
 					<Column>
 						<PlaceTitle>{building.name}</PlaceTitle>
@@ -60,6 +61,7 @@ export class BuildingInfo extends React.Component<Props> {
 				</Row>
 
 				<ScrollView
+					contentContainerStyle={styles.container}
 					scrollEnabled={this.props.overlaySize === 'max'}
 					style={styles.scroll}
 				>
@@ -121,7 +123,7 @@ export class BuildingInfo extends React.Component<Props> {
 						</Section>
 					) : null}
 				</ScrollView>
-			</View>
+			</React.Fragment>
 		)
 	}
 }
