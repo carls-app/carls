@@ -33,7 +33,7 @@ export class Overlay extends React.Component<Props> {
 	positions = {
 		max: 0,
 		mid: isIPhoneX ? screenHeight - 370 : screenHeight - 300,
-		min: isIPhoneX ? screenHeight - 127 : screenHeight - 65,
+		min: isIPhoneX ? screenHeight - 129 : screenHeight - 67,
 	}
 
 	lookupPosition = (size: ViewState) => this.positions[size]
