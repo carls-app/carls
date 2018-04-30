@@ -28,16 +28,6 @@ export type ViewType =
 export const allViews: ViewType[] = [
 	{
 		type: 'view',
-		view: 'BigBalancesView',
-		title: 'Balances',
-		icon: 'credit',
-		foreground: 'dark',
-		tint: c.goldenrod,
-		gradient: c.carlsMaizeToMaizeDark,
-		easterEgg: true,
-	},
-	{
-		type: 'view',
 		view: 'MenusView',
 		title: 'Menus',
 		icon: 'bowl',
@@ -53,6 +43,16 @@ export const allViews: ViewType[] = [
 		foreground: 'light',
 		tint: c.goldenrod,
 		gradient: c.yellowToGoldDark,
+	},
+	{
+		type: 'view',
+		view: 'BigBalancesView',
+		title: 'Balances',
+		icon: 'credit',
+		foreground: 'dark',
+		tint: c.goldenrod,
+		gradient: c.carlsMaizeToMaizeDark,
+		easterEgg: true,
 	},
 	{
 		type: 'view',
