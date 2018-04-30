@@ -3,11 +3,11 @@
 import React from 'react'
 import {Column, Row} from '../../components/layout'
 import {ListRow, Title} from '../../components/list'
-import type {ThinJobType} from './types'
+import type {FullJobType} from './types'
 
 type Props = {
-	onPress: ThinJobType => any,
-	job: ThinJobType,
+	onPress: FullJobType => any,
+	job: FullJobType,
 }
 
 export class JobRow extends React.PureComponent<Props> {

@@ -4,7 +4,7 @@ import {Text, View, ScrollView, StyleSheet} from 'react-native'
 import {Card} from '../../components/card'
 import openUrl from '../../components/open-url'
 import * as c from '../../components/colors'
-import type {JobType} from './types'
+import type {FullJobType} from './types'
 
 const styles = StyleSheet.create({
 	name: {
@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
 	},
 })
 
-function Title({job}: {job: JobType}) {
+function Title({job}: {job: FullJobType}) {
 	return (
 		<View>
 			<Text style={styles.name}>{job.title}</Text>
@@ -71,7 +71,7 @@ function Information({job}: {job: FullJobType}) {
 	)
 }
 
-function Description({job}: {job: JobType}) {
+function Description({job}: {job: FullJobType}) {
 	return job.description ? (
 		<Card header="Description" style={styles.card}>
 			<Text style={styles.cardBody}>{job.description}</Text>
@@ -91,13 +91,11 @@ function Links({links}: {links: Array<string>}) {
 	) : null
 }
 
-type Props = {
-	job: FullJobType,
-}
+type Props = {navigation: {state: {params: {job: FullJobType}}}}
 
 export class JobDetailView extends React.PureComponent<Props> {
 	render() {
-		const {job} = this.props
+		const {job} = this.props.navigation.state.params
 
 		return (
 			<ScrollView>

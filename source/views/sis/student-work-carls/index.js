@@ -1,4 +1,4 @@
 // @flow
 
 export {StudentWorkView} from './list'
-export {StudentWorkDetailView} from './detail-wrapper'
+export {JobDetailView as StudentWorkDetailView} from './detail'
