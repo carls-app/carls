@@ -5,21 +5,14 @@ import {TextInput, Platform, StyleSheet} from 'react-native'
 import type {NewsBulletinType} from './types'
 import {ListRow} from '../../components/list'
 import * as c from '../../components/colors'
-import {fastGetTrimmedText} from '../../../lib/html'
-import {AllHtmlEntities} from 'html-entities'
 
 type Props = {
 	bulletin: NewsBulletinType,
 }
 
-const entities = new AllHtmlEntities()
-
 export class NoonNewsRowView extends React.PureComponent<Props> {
 	render() {
 		const {bulletin} = this.props
-
-		const description = bulletin.description.join('\n')
-		const content = entities.decode(fastGetTrimmedText(description))
 
 		return (
 			<ListRow arrowPosition="none">
@@ -28,7 +21,7 @@ export class NoonNewsRowView extends React.PureComponent<Props> {
 					editable={false}
 					multiline={true}
 					style={styles.title}
-					value={content}
+					value={bulletin.description}
 				/>
 			</ListRow>
 		)
