@@ -60,7 +60,7 @@ export class CccCalendarView extends React.Component<Props, State> {
 	}
 
 	getEvents = async (now: moment = moment.tz(TIMEZONE)) => {
-		let url = `https://carleton.api.frogpond.tech${calendarId}`
+		let url = `https://carleton.api.frogpond.tech${this.props.calendarId}`
 
 		let data: EventType[] = []
 		try {
