@@ -49,7 +49,9 @@ export class ArchivedConvocationsView extends React.PureComponent<
 	getEvents = async () => {
 		let data = []
 		try {
-			data = await fetchJson('https://carleton.api.frogpond.tech/v1/convos/archived')
+			data = await fetchJson(
+				'https://carleton.api.frogpond.tech/v1/convos/archived',
+			)
 		} catch (err) {
 			tracker.trackException(err.message)
 			bugsnag.notify(err)
@@ -61,7 +63,10 @@ export class ArchivedConvocationsView extends React.PureComponent<
 			ep => ep.enclosure && ep.enclosure.type.startsWith('video/'),
 		)
 
-		onlyVideos = onlyVideos.map(item => ({...item, pubDate: moment(item.pubDate)}))
+		onlyVideos = onlyVideos.map(item => ({
+			...item,
+			pubDate: moment(item.pubDate),
+		}))
 
 		this.setState(() => ({loaded: true, events: onlyVideos}))
 	}
