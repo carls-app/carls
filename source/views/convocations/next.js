@@ -16,7 +16,7 @@ export class NextConvocationView extends React.PureComponent<Props> {
 	render() {
 		return (
 			<CccCalendarView
-				calendarId="/v1/calendar/convos"
+				calendarId="/v1/convos/upcoming"
 				navigation={this.props.navigation}
 				poweredBy={{
 					title: 'Powered by the Carleton Calendar',

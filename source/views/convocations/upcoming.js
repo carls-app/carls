@@ -16,7 +16,7 @@ export class UpcomingConvocationsView extends React.PureComponent<Props> {
 	render() {
 		return (
 			<CccCalendarView
-				calendarId="/v1/convos/calendar"
+				calendarId="/v1/convos/upcoming"
 				detailView="UpcomingConvocationsDetailView"
 				eventMapper={event => ({
 					...event,
