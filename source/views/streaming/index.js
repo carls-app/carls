@@ -3,7 +3,7 @@
 import * as React from 'react'
 import {TabNavigator} from '../components/tabbed-view'
 import {TabBarIcon} from '../components/tabbar-icon'
-import {ReasonCalendarView} from '../calendar/calendar-reason'
+import {CccCalendarView} from '../calendar/calendar-ccc'
 
 import {RadioControllerView} from './radio'
 import * as logos from '../../../images/streaming'
@@ -14,8 +14,8 @@ export default TabNavigator(
 	{
 		WeeklyMovieView: {
 			screen: ({navigation}) => (
-				<ReasonCalendarView
-					calendarUrl="https://apps.carleton.edu/student/orgs/sumo/"
+				<CccCalendarView
+					calendarId="/v1/calendar/sumo"
 					eventMapper={event => ({
 						...event,
 						title: event.title.replace(/^SUMO: /, ''),

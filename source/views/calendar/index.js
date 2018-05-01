@@ -4,8 +4,7 @@ import * as React from 'react'
 import {TabNavigator} from '../components/tabbed-view'
 import {TabBarIcon} from '../components/tabbar-icon'
 
-import {GoogleCalendarView} from './calendar-google'
-import {ReasonCalendarView} from './calendar-reason'
+import {CccCalendarView} from './calendar-ccc'
 
 export {EventDetail} from './event-detail'
 
@@ -13,8 +12,8 @@ export default TabNavigator(
 	{
 		CarletonCalendarView: {
 			screen: ({navigation}) => (
-				<ReasonCalendarView
-					calendarUrl="https://apps.carleton.edu/calendar/"
+				<CccCalendarView
+					calendarId="/v1/calendar/carleton"
 					navigation={navigation}
 					poweredBy={{
 						title: 'Powered by the Carleton Calendar',
@@ -30,8 +29,8 @@ export default TabNavigator(
 
 		TheCaveCalendarView: {
 			screen: ({navigation}) => (
-				<ReasonCalendarView
-					calendarUrl="https://apps.carleton.edu/student/orgs/cave/calendar/"
+				<CccCalendarView
+					calendarId="/v1/calendar/cave"
 					navigation={navigation}
 					poweredBy={{
 						title: 'Powered by the Carleton Calendar',
@@ -47,8 +46,8 @@ export default TabNavigator(
 
 		StOlafCalendarView: {
 			screen: ({navigation}) => (
-				<GoogleCalendarView
-					calendarId="5g91il39n0sv4c2bjdv1jrvcpq4ulm4r@import.calendar.google.com"
+				<CccCalendarView
+					calendarId="/v1/calendar/stolaf"
 					navigation={navigation}
 					poweredBy={{
 						title: 'Powered by the St. Olaf Calendar',
@@ -64,8 +63,8 @@ export default TabNavigator(
 
 		NorthfieldCalendarView: {
 			screen: ({navigation}) => (
-				<GoogleCalendarView
-					calendarId="thisisnorthfield@gmail.com"
+				<CccCalendarView
+					calendarId="/v1/calendar/northfield"
 					navigation={navigation}
 					poweredBy={{
 						title: 'Powered by VisitingNorthfield.com',

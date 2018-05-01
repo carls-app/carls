@@ -15,7 +15,7 @@ import delay from 'delay'
 import LoadingView from '../components/loading'
 import {ArchivedConvocationRow} from './archived-row'
 import type {PodcastEpisode} from './types'
-import {fetchConvos} from './fetch'
+import moment from 'moment'
 
 type Props = TopLevelViewPropsType
 
@@ -49,7 +49,7 @@ export class ArchivedConvocationsView extends React.PureComponent<
 	getEvents = async () => {
 		let data = []
 		try {
-			data = await fetchConvos()
+			data = await fetchJson('https://carleton.api.frogpond.tech/v1/convos/archived')
 		} catch (err) {
 			tracker.trackException(err.message)
 			bugsnag.notify(err)
@@ -57,9 +57,11 @@ export class ArchivedConvocationsView extends React.PureComponent<
 			console.warn(err)
 		}
 
-		const onlyVideos = data.filter(
+		let onlyVideos = data.filter(
 			ep => ep.enclosure && ep.enclosure.type.startsWith('video/'),
 		)
+
+		onlyVideos = onlyVideos.map(item => ({...item, pubDate: moment(item.pubDate)}))
 
 		this.setState(() => ({loaded: true, events: onlyVideos}))
 	}
