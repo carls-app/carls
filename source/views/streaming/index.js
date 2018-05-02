@@ -15,7 +15,7 @@ export default TabNavigator(
 		WeeklyMovieView: {
 			screen: ({navigation}) => (
 				<CccCalendarView
-					calendarId="/v1/calendar/sumo"
+					calendar="sumo-schedule"
 					eventMapper={event => ({
 						...event,
 						title: event.title.replace(/^SUMO: /, ''),
