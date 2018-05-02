@@ -11,6 +11,8 @@ import delay from 'delay'
 import type {TopLevelViewPropsType} from '../../types'
 import type {NewsBulletinType} from './types'
 
+const URL = 'https://carleton.api.frogpond.tech/v1/news/named/nnb'
+
 const styles = StyleSheet.create({
 	listContainer: {
 		backgroundColor: c.white,
@@ -56,7 +58,7 @@ export class NoonNewsView extends React.PureComponent<Props, State> {
 	}
 
 	fetchData = async () => {
-		const bulletins = await fetchJson(this.props.url).catch(err => {
+		const bulletins = await fetchJson(URL).catch(err => {
 			reportNetworkProblem(err)
 			return []
 		})
