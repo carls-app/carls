@@ -20,7 +20,6 @@ import {upgradeMenuItem, upgradeStation} from './lib/process-menu-shorthands'
 import {data as fallbackMenu} from '../../../docs/pause-menu.json'
 import {tracker} from '../../analytics'
 import bugsnag from '../../bugsnag'
-import {GH_PAGES_URL} from '../../globals'
 
 const CENTRAL_TZ = 'America/Winnipeg'
 
@@ -59,7 +58,9 @@ export class GitHubHostedMenu extends React.PureComponent<Props, State> {
 		let stationMenus: StationMenuType[] = []
 		let corIcons: MasterCorIconMapType = {}
 		try {
-			let container = await fetchJson(GH_PAGES_URL('pause-menu.json'))
+			let container = await fetchJson(
+				'https://carleton.api.frogpond.tech/v1/food/named/menu/the-pause',
+			)
 			let data = container.data
 			foodItems = data.foodItems || []
 			stationMenus = data.stationMenus || []

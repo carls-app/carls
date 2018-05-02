@@ -13,7 +13,7 @@ export const SumoTabView = TabNavigator(
 		NextWeeklyMovieView: {
 			screen: ({navigation}) => (
 				<CccCalendarView
-					calendarId="/v1/calendar/sumo"
+					calendar="sumo-schedule"
 					eventMapper={event => ({
 						...event,
 						title: event.title.replace(/^SUMO: /, ''),
@@ -37,7 +37,7 @@ export const SumoTabView = TabNavigator(
 		FutureWeeklyMoviesView: {
 			screen: ({navigation}) => (
 				<CccCalendarView
-					calendarId="/v1/calendar/sumo"
+					calendar="sumo-schedule"
 					eventMapper={event => ({
 						...event,
 						title: event.title.replace(/^SUMO: /, ''),
@@ -68,7 +68,7 @@ export const SumoTabView = TabNavigator(
 
 export const SumoUpcomingView = ({navigation}: TopLevelViewPropsType) => (
 	<CccCalendarView
-		calendarId="/v1/calendar/sumo"
+		calendar="sumo-schedule"
 		eventMapper={event => ({
 			...event,
 			title: event.title.replace(/^SUMO: /, ''),

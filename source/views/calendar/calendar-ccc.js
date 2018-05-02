@@ -9,10 +9,15 @@ import type {EventType, PoweredBy} from './types'
 import moment from 'moment-timezone'
 import delay from 'delay'
 import LoadingView from '../components/loading'
+import querystring from 'querystring'
 const TIMEZONE = 'America/Winnipeg'
 
 type Props = TopLevelViewPropsType & {
-	calendarId: string,
+	calendar:
+		| string
+		| {type: 'google', id: string}
+		| {type: 'reason', url: string}
+		| {type: 'ics', url: string},
 	eventMapper?: EventType => EventType,
 	poweredBy: ?PoweredBy,
 }
@@ -60,7 +65,21 @@ export class CccCalendarView extends React.Component<Props, State> {
 	}
 
 	getEvents = async (now: moment = moment.tz(TIMEZONE)) => {
-		let url = `https://carleton.api.frogpond.tech${this.props.calendarId}`
+		let url
+		if (typeof this.props.calendar === 'string') {
+			url = `https://carleton.api.frogpond.tech/v1/calendar/named/${
+				this.props.calendar
+			}`
+		} else if (this.props.calendar.type === 'google') {
+			let qs = querystring.stringify({id: this.props.calendar.id})
+			url = `https://carleton.api.frogpond.tech/v1/calendar/google?${qs}`
+		} else if (this.props.calendar.type === 'reason') {
+			let qs = querystring.stringify({url: this.props.calendar.url})
+			url = `https://carleton.api.frogpond.tech/v1/calendar/reason?${qs}`
+		} else if (this.props.calendar.type === 'ics') {
+			let qs = querystring.stringify({url: this.props.calendar.url})
+			url = `https://carleton.api.frogpond.tech/v1/calendar/ics?${qs}`
+		}
 
 		let data: EventType[] = []
 		try {

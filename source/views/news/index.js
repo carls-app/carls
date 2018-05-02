@@ -13,11 +13,7 @@ export default TabNavigator(
 	{
 		NoonNews: {
 			screen: ({navigation}) => (
-				<NoonNewsView
-					name="Noon News Bulletin"
-					navigation={navigation}
-					url="https://carleton.api.frogpond.tech/v1/news/nnb"
-				/>
+				<NoonNewsView name="Noon News Bulletin" navigation={navigation} />
 			),
 			navigationOptions: {
 				tabBarLabel: 'NNB',
@@ -28,11 +24,10 @@ export default TabNavigator(
 		CarletonNewsView: {
 			screen: ({navigation}) => (
 				<NewsContainer
-					mode="rss"
-					name="Carleton"
 					navigation={navigation}
+					source={{name: 'carleton-now'}}
 					thumbnail={false}
-					url="https://apps.carleton.edu/media_relations/feeds/blogs/news"
+					title="Carleton"
 				/>
 			),
 			navigationOptions: {
@@ -44,12 +39,10 @@ export default TabNavigator(
 		CarletonianNewsView: {
 			screen: ({navigation}) => (
 				<NewsContainer
-					embedFeaturedImage={true}
-					mode="rss"
-					name="The Carletonian"
 					navigation={navigation}
+					source={{name: 'carletonian'}}
 					thumbnail={false}
-					url="https://apps.carleton.edu/carletonian/feeds/blogs/tonian"
+					title="The Carletonian"
 				/>
 			),
 			navigationOptions: {
@@ -61,12 +54,10 @@ export default TabNavigator(
 		KrlxNewsView: {
 			screen: ({navigation}) => (
 				<NewsContainer
-					mode="wp-json"
-					name="KRLX"
 					navigation={navigation}
-					query={{per_page: 10, _embed: true}}
+					source={{name: 'krlx'}}
 					thumbnail={newsImages.krlx}
-					url="https://www.krlx.org/wp-json/wp/v2/posts/"
+					title="KRLX"
 				/>
 			),
 			navigationOptions: {

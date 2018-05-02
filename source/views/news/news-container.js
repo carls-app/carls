@@ -5,16 +5,13 @@ import type {StoryType} from './types'
 import LoadingView from '../components/loading'
 import {NoticeView} from '../components/notice'
 import type {TopLevelViewPropsType} from '../types'
-import {tracker} from '../../analytics'
 import {reportNetworkProblem} from '../../lib/report-network-problem'
 import {NewsList} from './news-list'
-import {fetchRssFeed, fetchWpJson} from './fetch-feed'
 
 type Props = TopLevelViewPropsType & {
-	name: string,
-	url: string,
+	title: string,
 	query?: Object,
-	mode: 'rss' | 'wp-json',
+	source: {name: string},
 	thumbnail: false | number,
 }
 
@@ -40,29 +37,14 @@ export default class NewsContainer extends React.PureComponent<Props, State> {
 
 	fetchData = async () => {
 		try {
-			let entries: StoryType[] = []
-
-			if (this.props.mode === 'rss') {
-				entries = await fetchRssFeed(this.props.url, this.props.query)
-			} else if (this.props.mode === 'wp-json') {
-				entries = await fetchWpJson(this.props.url, this.props.query)
-			} else {
-				throw new Error(`unknown mode ${this.props.mode}`)
-			}
-
+			let url = `https://carleton.api.frogpond.tech/v1/news/named/${
+				this.props.source.name
+			}`
+			let entries: StoryType[] = await fetchJson(url)
 			this.setState(() => ({entries}))
 		} catch (error) {
-			if (error.message.startsWith('Unexpected token <')) {
-				tracker.trackEvent('news', 'St. Olaf WPDefender strikes again')
-				this.setState(() => ({
-					error: new Error(
-						"Oops. Looks like we've triggered a St. Olaf website defense mechanism. Try again in 5 minutes.",
-					),
-				}))
-			} else {
-				reportNetworkProblem(error)
-				this.setState(() => ({error}))
-			}
+			reportNetworkProblem(error)
+			this.setState(() => ({error}))
 		}
 	}
 
@@ -93,8 +75,7 @@ export default class NewsContainer extends React.PureComponent<Props, State> {
 			<NewsList
 				entries={this.state.entries}
 				loading={this.state.refreshing}
-				mode={this.props.mode}
-				name={this.props.name}
+				name={this.props.title}
 				navigation={this.props.navigation}
 				onRefresh={this.refresh}
 				thumbnail={this.props.thumbnail}
