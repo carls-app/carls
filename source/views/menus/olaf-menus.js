@@ -10,7 +10,7 @@ import {GitHubHostedMenu} from './menu-github'
 
 export const OlafStavMenuScreen = ({navigation}: TopLevelViewPropsType) => (
 	<BonAppHostedMenu
-		cafeId="261"
+		cafe="stav-hall"
 		loadingMessage={[
 			'Hunting Ferndale Turkey…',
 			'Tracking wild vegan burgers…',
@@ -30,7 +30,7 @@ OlafStavMenuScreen.navigationOptions = {
 
 export const OlafCageMenuScreen = ({navigation}: TopLevelViewPropsType) => (
 	<BonAppHostedMenu
-		cafeId="262"
+		cafe="the-cage"
 		ignoreProvidedMenus={true}
 		loadingMessage={[
 			'Checking for vegan cookies…',
@@ -50,6 +50,7 @@ OlafCageMenuScreen.navigationOptions = {
 
 export const OlafPauseMenuScreen = ({navigation}: TopLevelViewPropsType) => (
 	<GitHubHostedMenu
+		cafe="the-pause"
 		loadingMessage={[
 			'Mixing up a shake…',
 			'Spinning up pizzas…',
