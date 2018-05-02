@@ -10,10 +10,9 @@ import {Column} from '../../components/layout'
 import {partitionByIndex} from '../../../lib/partition-by-index'
 import type {Webcam} from './types'
 import {StreamThumbnail} from './thumbnail'
-import {GH_PAGES_URL} from '../../../globals'
 import {Viewport} from '../../components/viewport'
 
-const webcamsUrl = GH_PAGES_URL('webcams.json')
+const webcamsUrl = 'https://carleton.api.frogpond.tech/v1/webcams'
 
 type Props = {}
 
