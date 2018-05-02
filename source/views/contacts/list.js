@@ -15,7 +15,7 @@ import type {ContactType} from './types'
 import type {TopLevelViewPropsType} from '../types'
 import {GH_PAGES_URL} from '../../globals'
 
-const contactInfoUrl = GH_PAGES_URL('contact-info.json')
+const contactInfoUrl = `https://carleton.api.frogpond.tech/v1/contacts`
 
 const groupContacts = (contacts: ContactType[]) => {
 	const grouped = groupBy(contacts, c => c.category)
