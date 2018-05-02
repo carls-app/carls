@@ -1,7 +1,6 @@
 // @flow
 import {AsyncStorage} from 'react-native'
 import moment from 'moment'
-import {GH_PAGES_URL} from '../globals'
 
 type BaseCacheResultType<T> = {
 	isExpired: boolean,
