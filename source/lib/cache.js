@@ -222,7 +222,7 @@ function fetchHelpToolsBundled(): Promise<Array<ToolOptions>> {
 	return Promise.resolve(helpData)
 }
 function fetchHelpToolsRemote(): Promise<{data: Array<ToolOptions>}> {
-	return fetchJson(GH_PAGES_URL('help.json'))
+	return fetchJson('https://carleton.api.frogpond.tech/v1/tools/help')
 }
 export async function fetchHelpTools(
 	isOnline: boolean,
