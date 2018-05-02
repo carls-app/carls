@@ -14,7 +14,7 @@ import * as c from '../components/colors'
 import type {ContactType} from './types'
 import type {TopLevelViewPropsType} from '../types'
 
-const contactInfoUrl = `https://carleton.api.frogpond.tech/v1/contacts`
+const contactInfoUrl = 'https://carleton.api.frogpond.tech/v1/contacts'
 
 const groupContacts = (contacts: ContactType[]) => {
 	const grouped = groupBy(contacts, c => c.category)

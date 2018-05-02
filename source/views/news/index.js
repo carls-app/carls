@@ -24,10 +24,10 @@ export default TabNavigator(
 		CarletonNewsView: {
 			screen: ({navigation}) => (
 				<NewsContainer
-					title="Carleton"
 					navigation={navigation}
 					source={{name: 'carleton-now'}}
 					thumbnail={false}
+					title="Carleton"
 				/>
 			),
 			navigationOptions: {
@@ -39,10 +39,10 @@ export default TabNavigator(
 		CarletonianNewsView: {
 			screen: ({navigation}) => (
 				<NewsContainer
-					title="The Carletonian"
 					navigation={navigation}
 					source={{name: 'carletonian'}}
 					thumbnail={false}
+					title="The Carletonian"
 				/>
 			),
 			navigationOptions: {
@@ -54,10 +54,10 @@ export default TabNavigator(
 		KrlxNewsView: {
 			screen: ({navigation}) => (
 				<NewsContainer
-					title="KRLX"
 					navigation={navigation}
 					source={{name: 'krlx'}}
 					thumbnail={newsImages.krlx}
+					title="KRLX"
 				/>
 			),
 			navigationOptions: {

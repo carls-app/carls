@@ -5,7 +5,6 @@ import type {StoryType} from './types'
 import LoadingView from '../components/loading'
 import {NoticeView} from '../components/notice'
 import type {TopLevelViewPropsType} from '../types'
-import {tracker} from '../../analytics'
 import {reportNetworkProblem} from '../../lib/report-network-problem'
 import {NewsList} from './news-list'
 

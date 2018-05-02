@@ -8,7 +8,6 @@ import {NoticeView} from '../../components/notice'
 import LoadingView from '../../components/loading'
 import * as c from '../../components/colors'
 import delay from 'delay'
-import type {TopLevelViewPropsType} from '../../types'
 import type {NewsBulletinType} from './types'
 
 const URL = 'https://carleton.api.frogpond.tech/v1/news/named/nnb'
@@ -19,9 +18,7 @@ const styles = StyleSheet.create({
 	},
 })
 
-type Props = TopLevelViewPropsType & {
-	url: string,
-}
+type Props = {}
 
 type State = {
 	bulletins: Array<{title: string, data: Array<NewsBulletinType>}>,
