@@ -84,14 +84,10 @@ export class BonAppHostedMenu extends React.PureComponent<Props, State> {
 	}
 
 	componentDidUpdate() {
-		if (typeof this.state.cachedCafe === typeof this.props.cafe) {
-			return
-		}
-
 		if (
-			(typeof this.state.cachedCafe === 'string' &&
-				this.state.cachedCafe !== this.props.cafe) ||
+			this.state.cachedCafe !== this.props.cafe ||
 			(typeof this.state.cachedCafe !== 'string' &&
+				typeof this.props.cafe !== 'string' &&
 				this.state.cachedCafe.id !== this.props.cafe.id)
 		) {
 			this.fetchData(this.props)
@@ -262,7 +258,11 @@ export class BonAppHostedMenu extends React.PureComponent<Props, State> {
 
 		if (!this.state.cafeMenu || !this.state.cafeInfo) {
 			const err = new Error(
-				`Something went wrong loading BonApp cafe #${typeof this.props.cafe === 'string' ? this.props.cafe : this.props.cafe.id}`,
+				`Something went wrong loading BonApp cafe #${
+					typeof this.props.cafe === 'string'
+						? this.props.cafe
+						: this.props.cafe.id
+				}`,
 			)
 			tracker.trackException(err.message)
 			bugsnag.notify(err)

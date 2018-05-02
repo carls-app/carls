@@ -10,7 +10,6 @@ import {NewsList} from './news-list'
 
 type Props = TopLevelViewPropsType & {
 	title: string,
-	url: string,
 	query?: Object,
 	source: {name: string},
 	thumbnail: false | number,
@@ -76,7 +75,6 @@ export default class NewsContainer extends React.PureComponent<Props, State> {
 			<NewsList
 				entries={this.state.entries}
 				loading={this.state.refreshing}
-				mode={this.props.mode}
 				name={this.props.title}
 				navigation={this.props.navigation}
 				onRefresh={this.refresh}
