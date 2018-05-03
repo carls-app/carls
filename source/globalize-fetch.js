@@ -1,8 +1,5 @@
 // @flow
 
-import {parseString as parseXmlCb} from 'xml2js'
-import promisify from 'pify'
-const parseXml = promisify(parseXmlCb)
 import {AAO_USER_AGENT} from './user-agent'
 
 global.rawFetch = global.fetch
@@ -21,11 +18,6 @@ function json(response) {
 	return response.json()
 }
 
-async function xml(response) {
-	const body = await response.text()
-	return parseXml(body, {explicitArray: true})
-}
-
 // make fetch() calls throw if the server returns a non-200 status code
 global.fetch = function(input, opts: {[key: string]: any} = {}) {
 	if (opts) {
@@ -41,6 +33,3 @@ global.fetch = function(input, opts: {[key: string]: any} = {}) {
 
 // add a global fetchJson wrapper
 global.fetchJson = (...args: any[]) => fetch(...args).then(json)
-
-// add a global fetchXml wrapper
-global.fetchXml = (...args: any[]) => fetch(...args).then(xml)
