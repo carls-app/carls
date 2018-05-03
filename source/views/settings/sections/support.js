@@ -24,7 +24,7 @@ ${DeviceInfo.getReadableVersion()}
 const openEmail = () => {
 	sendEmail({
 		to: ['rives@stolaf.edu'],
-		subject: 'Support: All About Olaf',
+		subject: 'Support: CARLS',
 		body: getDeviceInfo(),
 	})
 }
