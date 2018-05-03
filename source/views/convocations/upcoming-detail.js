@@ -110,7 +110,8 @@ class DetailView extends React.Component<Props, State> {
 		}
 
 		let id = event.metadata.reasonId
-		let url = 'https://carleton.api.frogpond.tech/v1/convos/upcoming/' + String(id)
+		let url =
+			'https://carleton.api.frogpond.tech/v1/convos/upcoming/' + String(id)
 		let eventData = await fetchJson(url)
 
 		this.setState(() => ({
