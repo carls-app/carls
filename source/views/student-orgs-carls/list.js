@@ -16,22 +16,14 @@ import {
 } from '../components/list'
 import {trackOrgOpen} from '../../analytics'
 import size from 'lodash/size'
-import sortBy from 'lodash/sortBy'
 import groupBy from 'lodash/groupBy'
 import uniq from 'lodash/uniq'
 import words from 'lodash/words'
 import deburr from 'lodash/deburr'
 import filter from 'lodash/filter'
-import startCase from 'lodash/startCase'
 import type {StudentOrgType} from './types'
-import {
-	parseHtml,
-	cssSelect,
-	getTrimmedTextWithSpaces,
-	getTextWithSpaces,
-} from '../../lib/html'
 
-const orgsUrl = 'https://apps.carleton.edu/student/orgs/'
+const orgsUrl = 'https://carleton.api.frogpond.tech/v1/orgs'
 const ROW_HEIGHT = Platform.OS === 'ios' ? 58 : 74
 const SECTION_HEADER_HEIGHT = Platform.OS === 'ios' ? 33 : 41
 
@@ -92,81 +84,10 @@ export class StudentOrgsView extends React.PureComponent<Props, State> {
 		})
 	}
 
-	domToOrg = (orgNode: any): StudentOrgType => {
-		const name = getTextWithSpaces(cssSelect('h4', orgNode))
-			.replace(/ Manage$/, '')
-			.trim()
-
-		const ids = cssSelect('a[name]', orgNode).map(n => n.attribs.name)
-		const id = ids.length ? ids[0] : name
-
-		const description = getTrimmedTextWithSpaces(
-			cssSelect('.orgDescription', orgNode),
-		)
-
-		let contacts = getTrimmedTextWithSpaces(cssSelect('.contacts', orgNode))
-		contacts = contacts.replace(/^Contact: /, '')
-		contacts = contacts ? contacts.split(', ') : []
-
-		const websiteEls = cssSelect('.site a', orgNode).map(n => n.attribs.href)
-		const website = websiteEls.length ? websiteEls[0] : ''
-
-		// cssSelect supports a "parent selector"
-		const socialLinks = cssSelect('img < a', orgNode).map(n => n.attribs.href)
-
-		return {
-			id,
-			contacts,
-			description,
-			name,
-			website,
-			categories: [],
-			socialLinks,
-		}
-	}
-
 	fetchData = async () => {
-		const page = await fetch(orgsUrl).then(r => r.text())
-		const dom = parseHtml(page)
-
-		const allOrgWrappers = cssSelect('.orgContainer,.careerField', dom)
-		const orgs = new Map()
-
-		let currentCategory = null
-		for (const orgNode of allOrgWrappers) {
-			if (orgNode.attribs.class && orgNode.name === 'h3') {
-				currentCategory = getTextWithSpaces(orgNode).trim()
-				continue
-			}
-
-			const org = this.domToOrg(orgNode)
-			if (!orgs.has(org.id)) {
-				orgs.set(org.id, org)
-			}
-
-			const stored = orgs.get(org.id)
-			if (!stored || !currentCategory) {
-				continue
-			}
-			if (!stored.categories.includes(currentCategory)) {
-				stored.categories.push(currentCategory)
-			}
-		}
-
-		const sortableRegex = /^(Carleton( College)?|The) +/i
-		const withSortableNames = Array.from(orgs.values()).map(item => {
-			const sortableName = item.name.replace(sortableRegex, '')
-
-			return {
-				...item,
-				$sortableName: sortableName,
-				$groupableName: startCase(sortableName)[0],
-			}
-		})
-
-		const sorted = sortBy(withSortableNames, '$sortableName')
-		const grouped = groupBy(sorted, '$groupableName')
-		this.setState(() => ({orgs: sorted, results: grouped}))
+		const data = await fetchJson(orgsUrl)
+		const grouped = groupBy(data, '$groupableName')
+		this.setState(() => ({orgs: data, results: grouped}))
 	}
 
 	refresh = async () => {

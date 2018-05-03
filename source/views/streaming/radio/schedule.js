@@ -14,7 +14,7 @@ export class KSTOScheduleView extends React.PureComponent<Props> {
 	render() {
 		return (
 			<CccCalendarView
-				calendarId="/v1/calendar/ksto"
+				calendar="ksto-schedule"
 				eventMapper={event => ({
 					...event,
 					config: {
@@ -40,7 +40,7 @@ export class KRLXScheduleView extends React.PureComponent<Props> {
 	render() {
 		return (
 			<CccCalendarView
-				calendarId="/v1/calendar/krlx"
+				calendar="krlx-schedule"
 				eventMapper={event => ({
 					...event,
 					config: {

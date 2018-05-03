@@ -10,11 +10,10 @@ import type {TopLevelViewPropsType} from '../../types'
 import delay from 'delay'
 import {reportNetworkProblem} from '../../../lib/report-network-problem'
 import * as defaultData from '../../../../docs/bus-times.json'
-import {GH_PAGES_URL} from '../../../globals'
 
 const TIMEZONE = 'America/Winnipeg'
 
-const busTimesUrl = GH_PAGES_URL('bus-times.json')
+const busTimesUrl = 'https://carleton.api.frogpond.tech/v1/transit/bus'
 
 type Props = TopLevelViewPropsType & {
 	+line: string,

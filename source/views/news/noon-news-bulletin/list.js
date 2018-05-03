@@ -8,8 +8,9 @@ import {NoticeView} from '../../components/notice'
 import LoadingView from '../../components/loading'
 import * as c from '../../components/colors'
 import delay from 'delay'
-import type {TopLevelViewPropsType} from '../../types'
 import type {NewsBulletinType} from './types'
+
+const URL = 'https://carleton.api.frogpond.tech/v1/news/named/nnb'
 
 const styles = StyleSheet.create({
 	listContainer: {
@@ -17,9 +18,7 @@ const styles = StyleSheet.create({
 	},
 })
 
-type Props = TopLevelViewPropsType & {
-	url: string,
-}
+type Props = {}
 
 type State = {
 	bulletins: Array<{title: string, data: Array<NewsBulletinType>}>,
@@ -56,7 +55,7 @@ export class NoonNewsView extends React.PureComponent<Props, State> {
 	}
 
 	fetchData = async () => {
-		const bulletins = await fetchJson(this.props.url).catch(err => {
+		const bulletins = await fetchJson(URL).catch(err => {
 			reportNetworkProblem(err)
 			return []
 		})

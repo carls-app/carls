@@ -31,7 +31,7 @@ export const MenusView = TabNavigator(
 		BurtonMenuScreen: {
 			screen: ({navigation}: TopLevelViewPropsType) => (
 				<BonAppHostedMenu
-					cafeId="35"
+					cafe="burton"
 					loadingMessage={['Searching for Schiller…']}
 					name="burton"
 					navigation={navigation}
@@ -46,7 +46,7 @@ export const MenusView = TabNavigator(
 		LDCMenuScreen: {
 			screen: ({navigation}: TopLevelViewPropsType) => (
 				<BonAppHostedMenu
-					cafeId="36"
+					cafe="ldc"
 					loadingMessage={['Tracking down empty seats…']}
 					name="ldc"
 					navigation={navigation}
@@ -61,7 +61,7 @@ export const MenusView = TabNavigator(
 		SaylesMenuScreen: {
 			screen: ({navigation}: TopLevelViewPropsType) => (
 				<BonAppHostedMenu
-					cafeId="34"
+					cafe="sayles"
 					loadingMessage={[
 						'Engaging in people-watching…',
 						'Checking the mail…',
@@ -79,7 +79,7 @@ export const MenusView = TabNavigator(
 		WeitzMenuScreen: {
 			screen: ({navigation}: TopLevelViewPropsType) => (
 				<BonAppHostedMenu
-					cafeId="458"
+					cafe="weitz"
 					loadingMessage={[
 						'Observing the artwork…',
 						'Previewing performances…',

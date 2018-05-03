@@ -13,7 +13,7 @@ export default TabNavigator(
 		CarletonCalendarView: {
 			screen: ({navigation}) => (
 				<CccCalendarView
-					calendarId="/v1/calendar/carleton"
+					calendar="carleton"
 					navigation={navigation}
 					poweredBy={{
 						title: 'Powered by the Carleton Calendar',
@@ -30,7 +30,7 @@ export default TabNavigator(
 		TheCaveCalendarView: {
 			screen: ({navigation}) => (
 				<CccCalendarView
-					calendarId="/v1/calendar/cave"
+					calendar="the-cave"
 					navigation={navigation}
 					poweredBy={{
 						title: 'Powered by the Carleton Calendar',
@@ -47,7 +47,7 @@ export default TabNavigator(
 		StOlafCalendarView: {
 			screen: ({navigation}) => (
 				<CccCalendarView
-					calendarId="/v1/calendar/stolaf"
+					calendar="stolaf"
 					navigation={navigation}
 					poweredBy={{
 						title: 'Powered by the St. Olaf Calendar',
@@ -64,7 +64,7 @@ export default TabNavigator(
 		NorthfieldCalendarView: {
 			screen: ({navigation}) => (
 				<CccCalendarView
-					calendarId="/v1/calendar/northfield"
+					calendar="northfield"
 					navigation={navigation}
 					poweredBy={{
 						title: 'Powered by VisitingNorthfield.com',

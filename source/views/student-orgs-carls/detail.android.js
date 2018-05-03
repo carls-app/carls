@@ -6,7 +6,6 @@ import * as c from '../components/colors'
 import type {StudentOrgType} from './types'
 import type {TopLevelViewPropsType} from '../types'
 import {openUrl} from '../components/open-url'
-import {cleanOrg} from './util'
 
 const styles = StyleSheet.create({
 	name: {
@@ -69,7 +68,7 @@ export class StudentOrgsDetailView extends React.PureComponent<Props> {
 			contacts,
 			description,
 			socialLinks,
-		} = cleanOrg(this.props.navigation.state.params.org)
+		} = this.props.navigation.state.params.org
 
 		return (
 			<ScrollView>

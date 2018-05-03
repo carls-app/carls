@@ -174,6 +174,14 @@ class DetailView extends React.Component<Props, State> {
 						<Where>{event.location}</Where>
 					</WhenWhereBlock>
 
+					{this.state.images.length ? (
+						<PosterContainer>
+							{this.state.images.map(imgUrl => (
+								<Poster key={imgUrl} source={{uri: imgUrl}} />
+							))}
+						</PosterContainer>
+					) : null}
+
 					{this.state.loading ? (
 						<React.Fragment>
 							<ActivityIndicator style={styles.spinner} />
@@ -184,14 +192,6 @@ class DetailView extends React.Component<Props, State> {
 					) : (
 						<Markdown source={this.state.content} />
 					)}
-
-					{this.state.images.length ? (
-						<PosterContainer>
-							{this.state.images.map(imgUrl => (
-								<Poster key={imgUrl} source={{uri: imgUrl}} />
-							))}
-						</PosterContainer>
-					) : null}
 				</Padding>
 
 				<Section sectionTintColor={c.white}>
