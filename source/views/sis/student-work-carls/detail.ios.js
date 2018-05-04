@@ -9,6 +9,13 @@ import {SelectableCell} from './selectable'
 type Props = {navigation: {state: {params: {job: FullJobType}}}}
 
 export class JobDetailView extends React.Component<Props> {
+	static navigationOptions = ({navigation}: any) => {
+		const {job} = navigation.state.params
+		return {
+			title: job.title,
+		}
+	}
+
 	render() {
 		const {job} = this.props.navigation.state.params
 
