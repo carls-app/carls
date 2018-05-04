@@ -16,7 +16,7 @@ export default TabNavigator(
 	},
 	{
 		navigationOptions: {
-			title: 'OneCard',
+			title: 'The Hub',
 		},
 	},
 )
