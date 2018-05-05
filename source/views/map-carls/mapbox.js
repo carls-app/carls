@@ -209,6 +209,7 @@ export class MapView extends React.Component<Props, State> {
 					{this.state.selectedBuilding ? (
 						<BuildingInfo
 							feature={this.state.selectedBuilding}
+							navigation={this.props.navigation}
 							onClose={this.onInfoOverlayClose}
 							overlaySize={this.state.overlaySize}
 						/>

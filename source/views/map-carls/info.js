@@ -26,11 +26,16 @@ type Props = {
 	feature: Feature<Building>,
 	onClose: () => any,
 	overlaySize: 'min' | 'mid' | 'max',
+	navigation: any,
 }
 
 export class BuildingInfo extends React.Component<Props> {
 	onClose = () => {
 		this.props.onClose()
+	}
+
+	openReportScreen = () => {
+		this.props.navigation.push('MapReporterView', {building: this.props.feature.properties})
 	}
 
 	makeBuildingCategory = (building: Building) => {
