@@ -14,7 +14,7 @@ import {
 } from 'react-native'
 import glamorous from 'glamorous-native'
 import * as c from '../components/colors'
-import type {Building} from './types'
+import type {Building, Feature} from './types'
 import {parseLinkString} from './types'
 import startCase from 'lodash/startCase'
 import {Row, Column} from '../components/layout'
@@ -23,7 +23,7 @@ import openUrl from '../components/open-url'
 import {Touchable} from '../components/touchable'
 
 type Props = {
-	building: Building,
+	feature: Feature<Building>,
 	onClose: () => any,
 	overlaySize: 'min' | 'mid' | 'max',
 }
@@ -42,12 +42,16 @@ export class BuildingInfo extends React.Component<Props> {
 	}
 
 	render() {
-		let {building} = this.props
+		let feature = this.props.feature
+		let building = feature.properties
 		let category = this.makeBuildingCategory(building)
 		let photos = (building.photos || []).map(href => `https://carls-app.github.io/map-data/cache/img/${href}`)
 
 		let departments = building.departments.map(parseLinkString)
 		let offices = building.offices.map(parseLinkString)
+
+		let coordinates = feature.geometry.geometries.find(geo => geo.type === 'Point') || null
+		coordinates = coordinates ? coordinates.coordinates : null
 
 		return (
 			<React.Fragment>
@@ -134,6 +138,26 @@ export class BuildingInfo extends React.Component<Props> {
 									/>
 								))}
 							</View>
+						</Section>
+					) : null}
+
+					{coordinates ? (
+						<Section>
+							<Row alignItems="center">
+								<Column flex={1}>
+									<SectionTitle>Coordinates</SectionTitle>
+									<SectionContent>{coordinates.join(', ')}</SectionContent>
+								</Column>
+								<CopyText
+									render={({copied, copy}) => (
+										<OutlineButton
+											disabled={copied}
+											onPress={() => copy((coordinates: any).join(', '))}
+											title={copied ? 'Copied' : 'Copy'}
+										/>
+									)}
+								/>
+							</Row>
 						</Section>
 					) : null}
 				</ScrollView>
