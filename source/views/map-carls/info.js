@@ -4,6 +4,7 @@ import * as React from 'react'
 import {
 	View,
 	Text,
+	TextInput,
 	StyleSheet,
 	ScrollView,
 	TouchableHighlight,
@@ -14,6 +15,7 @@ import {
 import glamorous from 'glamorous-native'
 import * as c from '../components/colors'
 import type {Building} from './types'
+import {parseLinkString} from './types'
 import startCase from 'lodash/startCase'
 import {Row, Column} from '../components/layout'
 import {ListRow, Title} from '../components/list'
@@ -32,19 +34,20 @@ export class BuildingInfo extends React.Component<Props> {
 	}
 
 	makeBuildingCategory = (building: Building) => {
-		const blacklist = ['hall', 'house', 'building']
-		return Object.keys(building.categories)
+		let blacklist = ['hall', 'house', 'building']
+		return building.categories
 			.filter(name => !blacklist.includes(name))
 			.map(name => startCase(name))
 			.join(' • ')
 	}
 
 	render() {
-		const {building} = this.props
-		const category = this.makeBuildingCategory(building)
-		const photo = building.photo
-			? `https://carls-app.github.io/map-data/cache/img/${building.photo}`
-			: null
+		let {building} = this.props
+		let category = this.makeBuildingCategory(building)
+		let photos = (building.photos || []).map(href => `https://carls-app.github.io/map-data/cache/img/${href}`)
+
+		let departments = building.departments.map(parseLinkString)
+		let offices = building.offices.map(parseLinkString)
 
 		return (
 			<React.Fragment>
@@ -67,10 +70,12 @@ export class BuildingInfo extends React.Component<Props> {
 					scrollEnabled={this.props.overlaySize === 'max'}
 					style={styles.scroll}
 				>
-					{building.photo ? (
+					{photos.length ? (
 						<Section paddingTop={0}>
 							<ScrollView horizontal={true}>
-								<Image source={{uri: photo}} style={styles.photo} />
+								{photos.map(href =>
+									<Image key={href} source={{uri: href}} style={styles.photo} />
+								)}
 							</ScrollView>
 						</Section>
 					) : null}
@@ -95,11 +100,18 @@ export class BuildingInfo extends React.Component<Props> {
 						</Section>
 					) : null}
 
-					{building.departments.length ? (
+					{building.description ? (
+						<Section>
+							<SectionTitle>Description</SectionTitle>
+							<SectionSelectableContent>{building.description}</SectionSelectableContent>
+						</Section>
+					) : null}
+
+					{departments.length ? (
 						<Section>
 							<SectionListTitle>Departments</SectionListTitle>
 							<View>
-								{building.departments.map(d => (
+								{departments.map(d => (
 									<SectionListItem
 										key={d.label}
 										href={d.href}
@@ -110,11 +122,11 @@ export class BuildingInfo extends React.Component<Props> {
 						</Section>
 					) : null}
 
-					{building.offices.length ? (
+					{offices.length ? (
 						<Section>
 							<SectionListTitle>Offices</SectionListTitle>
 							<View>
-								{building.offices.map(d => (
+								{offices.map(d => (
 									<SectionListItem
 										key={d.label}
 										href={d.href}
@@ -140,6 +152,7 @@ const Section = glamorous.view({
 })
 const SectionTitle = glamorous.text({fontWeight: '700'})
 const SectionContent = glamorous.text()
+const SectionSelectableContent = ({children}) => <TextInput dataDetectorTypes="all" editable={false} multiline={true}>{children}</TextInput>
 
 const SectionListTitle = glamorous(SectionTitle)({
 	paddingBottom: 8,

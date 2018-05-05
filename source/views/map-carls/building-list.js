@@ -3,24 +3,25 @@
 import * as React from 'react'
 import {FlatList} from 'react-native'
 import {ListSeparator, Title, Detail, ListRow} from '../components/list'
-import type {Building} from './types'
+import type {Building, Feature} from './types'
 
 type Props = {
-	buildings: Array<Building>,
+	buildings: Array<Feature<Building>>,
 	onSelect: string => any,
 	scrollEnabled: boolean,
 }
 
 export class BuildingList extends React.Component<Props> {
-	keyExtractor = (item: Building) => item.id
+	keyExtractor = (item: Feature<Building>) => item.id
 
 	onPress = (id: string) => this.props.onSelect(id)
 
-	renderItem = ({item}: {item: Building}) => {
-		const detail = item.address || (item.center || []).join(',') || ''
+	renderItem = ({item}: {item: Feature<Building>}) => {
+		let point = item.geometry.geometries.find(geo => geo.type === 'Point') || {}
+		let detail = item.properties.address || (point.coordinates || []).join(',') || ''
 		return (
 			<ListRow onPress={() => this.onPress(item.id)} spacing={{left: 12}}>
-				<Title>{item.name}</Title>
+				<Title>{item.properties.name}</Title>
 				<Detail>{detail}</Detail>
 			</ListRow>
 		)

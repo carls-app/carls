@@ -5,12 +5,12 @@ import {StyleSheet} from 'react-native'
 import * as c from '../components/colors'
 import {SearchBar} from '../components/searchbar'
 import sortBy from 'lodash/sortBy'
-import type {Building} from './types'
+import type {Building, Feature} from './types'
 import {CategoryPicker} from './category-picker'
 import {BuildingList} from './building-list'
 
 type Props = {
-	buildings: Array<Building>,
+	features: Array<Feature<Building>>,
 	onSelect: string => any,
 	overlaySize: 'min' | 'mid' | 'max',
 	onFocus: () => any,
@@ -107,17 +107,17 @@ export class BuildingPicker extends React.Component<Props, State> {
 		) : null
 
 		let matches = this.state.query
-			? this.props.buildings.filter(b =>
-					b.name.toLowerCase().startsWith(this.state.query),
+			? this.props.features.filter(b =>
+					b.properties.name.toLowerCase().startsWith(this.state.query),
 			  )
-			: this.props.buildings
+			: this.props.features
 
 		if (!this.state.query) {
 			const selectedCategory = this.categoryLookup[this.state.category]
-			matches = matches.filter(b => b.categories[selectedCategory])
+			matches = matches.filter(b => b.properties.categories.includes(selectedCategory))
 		}
 
-		matches = sortBy(matches, m => m.name)
+		matches = sortBy(matches, (m: Feature<Building>) => m.properties.name)
 
 		return (
 			<React.Fragment>
