@@ -15,13 +15,19 @@ type Props = {
 	overlaySize: 'min' | 'mid' | 'max',
 	onFocus: () => any,
 	onCancel: () => any,
-	onSearch: string => any,
-	searchQuery: string,
 	onCategoryChange: string => any,
 	category: string,
 }
 
-export class BuildingPicker extends React.Component<Props> {
+type State = {
+	searchQuery: string,
+}
+
+export class BuildingPicker extends React.Component<Props, State> {
+	state = {
+		searchQuery: '',
+	}
+
 	componentDidUpdate(prevProps: Props) {
 		const lastSize = prevProps.overlaySize
 		const thisSize = this.props.overlaySize
@@ -38,10 +44,10 @@ export class BuildingPicker extends React.Component<Props> {
 	performSearch = (text: string) => {
 		// Android clear button returns an object
 		if (typeof text !== 'string') {
-			return this.props.onSearch('')
+			return this.handleSearchSubmit('')
 		}
 
-		return this.props.onSearch(text)
+		return this.handleSearchSubmit(text)
 	}
 
 	onSelectBuilding = (id: string) => this.props.onSelect(id)
@@ -61,6 +67,10 @@ export class BuildingPicker extends React.Component<Props> {
 				this.dismissKeyboard()
 			}
 		})
+	}
+
+	handleSearchSubmit = (query: string) => {
+		this.setState(() => ({searchQuery: query.toLowerCase()}))
 	}
 
 	allCategories = ['Buildings', 'Outdoors', 'Parking', 'Athletics']
@@ -88,7 +98,7 @@ export class BuildingPicker extends React.Component<Props> {
 			/>
 		)
 
-		const picker = !this.props.searchQuery ? (
+		const picker = !this.state.searchQuery ? (
 			<CategoryPicker
 				categories={this.allCategories}
 				onChange={this.props.onCategoryChange}
@@ -98,8 +108,8 @@ export class BuildingPicker extends React.Component<Props> {
 
 		let matches = this.props.features
 
-		if (this.props.searchQuery) {
-			matches = fuzzyfind(this.props.searchQuery, matches, {
+		if (this.state.searchQuery) {
+			matches = fuzzyfind(this.state.searchQuery, matches, {
 				accessor: b => b.properties.name.toLowerCase(),
 			})
 		} else {

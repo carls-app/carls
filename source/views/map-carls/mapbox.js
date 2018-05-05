@@ -12,28 +12,6 @@ import {Overlay} from './overlay'
 import Mapbox from '@mapbox/react-native-mapbox-gl'
 import {MAPBOX_API_KEY} from '../../lib/config'
 import pointInPolygon from '@turf/boolean-point-in-polygon'
-import {Provider, Subscribe, Container} from 'unstated'
-
-type SearchState = {
-	searchQuery: string,
-	category: string,
-}
-
-class SearchContainer extends Container<SearchState> {
-	state = {
-		searchQuery: '',
-		category: 'Buildings',
-	}
-
-	search = (query: string) => {
-		query = query || ''
-		this.setState(() => ({searchQuery: query.toLowerCase()}))
-	}
-
-	pickCategory = (name: string) => {
-		this.setState(() => ({category: name}))
-	}
-}
 
 Mapbox.setAccessToken(MAPBOX_API_KEY)
 
@@ -56,6 +34,8 @@ type State = {|
 	visibleMarkers: Array<string>,
 	selectedBuilding: ?Feature<Building>,
 	overlaySize: 'min' | 'mid' | 'max',
+	searchQuery: string,
+	category: string,
 |}
 
 const originalCenterpoint = [-93.15488752015, 44.460800862266]
@@ -71,6 +51,7 @@ export class MapView extends React.Component<Props, State> {
 		visibleMarkers: [],
 		selectedBuilding: null,
 		overlaySize: 'mid',
+		category: 'Buildings',
 	}
 
 	componentDidMount() {
@@ -199,6 +180,10 @@ export class MapView extends React.Component<Props, State> {
 		this.setState(() => ({overlaySize: size}))
 	}
 
+	handleCategoryChange = (name: string) => {
+		this.setState(() => ({category: name}))
+	}
+
 	render() {
 		let features = this.state.features
 		return (
@@ -229,21 +214,15 @@ export class MapView extends React.Component<Props, State> {
 							overlaySize={this.state.overlaySize}
 						/>
 					) : (
-						<Subscribe to={[SearchContainer]}>
-							{bag => (
-								<BuildingPicker
-									features={features}
-									onCancel={this.onPickerCancel}
-									onFocus={this.onPickerFocus}
-									onSelect={this.onPickerSelect}
-									overlaySize={this.state.overlaySize}
-									onSearch={bag.search}
-									searchQuery={bag.state.searchQuery}
-									category={bag.state.category}
-									onCategoryChange={bag.pickCategory}
-								/>
-							)}
-						</Subscribe>
+						<BuildingPicker
+							features={features}
+							onCancel={this.onPickerCancel}
+							onFocus={this.onPickerFocus}
+							onSelect={this.onPickerSelect}
+							overlaySize={this.state.overlaySize}
+							category={this.state.category}
+							onCategoryChange={this.handleCategoryChange}
+						/>
 					)}
 				</Overlay>
 			</View>

@@ -5,7 +5,6 @@ import './setup-moment'
 
 import * as React from 'react'
 import {Provider as ReduxProvider} from 'react-redux'
-import {Provider as UnstatedProvider} from 'unstated'
 import {makeStore, initRedux} from './flux'
 import bugsnag from './bugsnag'
 import {tracker} from './analytics'
@@ -54,9 +53,7 @@ export default class App extends React.Component<Props> {
 	render() {
 		return (
 			<ReduxProvider store={store}>
-				<UnstatedProvider>
-					<AppNavigator onNavigationStateChange={this.trackScreenChanges} />
-				</UnstatedProvider>
+				<AppNavigator onNavigationStateChange={this.trackScreenChanges} />
 			</ReduxProvider>
 		)
 	}
