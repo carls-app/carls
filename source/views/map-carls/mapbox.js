@@ -32,7 +32,6 @@ type Props = TopLevelViewPropsType
 type State = {|
 	features: Array<Feature<Building>>,
 	visibleMarkers: Array<string>,
-	highlighted: Array<string>,
 	selectedBuilding: ?Feature<Building>,
 	overlaySize: 'min' | 'mid' | 'max',
 |}
@@ -47,7 +46,6 @@ export class MapView extends React.Component<Props, State> {
 
 	state = {
 		features: [],
-		highlighted: [],
 		visibleMarkers: [],
 		selectedBuilding: null,
 		overlaySize: 'mid',
@@ -64,7 +62,6 @@ export class MapView extends React.Component<Props, State> {
 
 		this.setState(() => ({
 			features: data.features,
-			highlighted: [],
 			visibleMarkers: [],
 		}))
 	}
@@ -133,7 +130,6 @@ export class MapView extends React.Component<Props, State> {
 		this.setState(
 			() => ({
 				visibleMarkers: [id],
-				highlighted: [id],
 				selectedBuilding: match,
 			}),
 			() => {
@@ -169,7 +165,6 @@ export class MapView extends React.Component<Props, State> {
 		this.setState(() => ({
 			selectedBuilding: null,
 			visibleMarkers: [],
-			highlighted: [],
 		}))
 		this.setOverlayMid()
 	}
