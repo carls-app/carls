@@ -165,6 +165,19 @@ export class BuildingInfo extends React.Component<Props> {
 							</Row>
 						</Section>
 					) : null}
+
+					<Section>
+						<Row alignItems="center">
+							<Column flex={1}>
+								<SectionTitle>Found an issue?</SectionTitle>
+								<SectionContent>Let us know!</SectionContent>
+							</Column>
+							<OutlineButton
+								onPress={this.openReportScreen}
+								title="Report an Issue"
+							/>
+						</Row>
+					</Section>
 				</ScrollView>
 			</React.Fragment>
 		)
