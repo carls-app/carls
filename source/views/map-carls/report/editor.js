@@ -97,7 +97,8 @@ const DefinitionCell = ({text, onChange = () => {}}: TextFieldProps) => (
 const styles = StyleSheet.create({
 	helpWrapper: {
 		backgroundColor: c.white,
-		borderWidth: StyleSheet.hairlineWidth,
+		borderTopWidth: StyleSheet.hairlineWidth,
+		borderBottomWidth: StyleSheet.hairlineWidth,
 		borderTopColor: c.iosHeaderTopBorder,
 		borderBottomColor: c.iosHeaderBottomBorder,
 		marginBottom: 10,
