@@ -110,7 +110,7 @@ export class BuildingPicker extends React.Component<Props, State> {
 
 		if (this.state.searchQuery) {
 			matches = fuzzyfind(this.state.searchQuery, matches, {
-				accessor: b => b.properties.name.toLowerCase(),
+				accessor: b => `${b.properties.name.toLowerCase()} ${(b.properties.nickname || '').toLowerCase()}`,
 			})
 		} else {
 			const selectedCategory = this.categoryLookup[this.props.category]
