@@ -15,19 +15,13 @@ type Props = {
 	overlaySize: 'min' | 'mid' | 'max',
 	onFocus: () => any,
 	onCancel: () => any,
-}
-
-type State = {
-	query: string,
+	onSearch: string => any,
+	searchQuery: string,
+	onCategoryChange: string => any,
 	category: string,
 }
 
-export class BuildingPicker extends React.Component<Props, State> {
-	state = {
-		query: '',
-		category: 'Buildings',
-	}
-
+export class BuildingPicker extends React.Component<Props> {
 	componentDidUpdate(prevProps: Props) {
 		const lastSize = prevProps.overlaySize
 		const thisSize = this.props.overlaySize
@@ -41,18 +35,13 @@ export class BuildingPicker extends React.Component<Props, State> {
 
 	dismissKeyboard = () => this.searchBar.unFocus()
 
-	onSearch = (text: ?string) => {
-		let query = text || ''
-		this.setState(() => ({query: query.toLowerCase()}))
-	}
-
 	performSearch = (text: string) => {
 		// Android clear button returns an object
 		if (typeof text !== 'string') {
-			return this.onSearch(null)
+			return this.props.onSearch('')
 		}
 
-		return this.onSearch(text)
+		return this.props.onSearch(text)
 	}
 
 	onSelectBuilding = (id: string) => this.props.onSelect(id)
@@ -74,8 +63,6 @@ export class BuildingPicker extends React.Component<Props, State> {
 		})
 	}
 
-	onCategoryChange = (category: string) => this.setState(() => ({category}))
-
 	allCategories = ['Buildings', 'Outdoors', 'Parking', 'Athletics']
 	categoryLookup = {
 		Buildings: 'building',
@@ -85,6 +72,9 @@ export class BuildingPicker extends React.Component<Props, State> {
 	}
 
 	render() {
+		// I don't inject the search query into the Search box because
+		// it manages its text separately from RN, so you get jumpy editing.
+		// Unfortunately, you also lose your search query when it unmounts and remounts.
 		const search = (
 			<SearchBar
 				getRef={ref => (this.searchBar = ref)}
@@ -98,22 +88,22 @@ export class BuildingPicker extends React.Component<Props, State> {
 			/>
 		)
 
-		const picker = !this.state.query ? (
+		const picker = !this.props.searchQuery ? (
 			<CategoryPicker
 				categories={this.allCategories}
-				onChange={this.onCategoryChange}
-				selected={this.state.category}
+				onChange={this.props.onCategoryChange}
+				selected={this.props.category}
 			/>
 		) : null
 
 		let matches = this.props.features
 
-		if (this.state.query) {
-			matches = fuzzyfind(this.state.query, matches, {
+		if (this.props.searchQuery) {
+			matches = fuzzyfind(this.props.searchQuery, matches, {
 				accessor: b => b.properties.name.toLowerCase(),
 			})
 		} else {
-			const selectedCategory = this.categoryLookup[this.state.category]
+			const selectedCategory = this.categoryLookup[this.props.category]
 			matches = matches.filter(b =>
 				b.properties.categories.includes(selectedCategory),
 			)

@@ -12,6 +12,28 @@ import {Overlay} from './overlay'
 import Mapbox from '@mapbox/react-native-mapbox-gl'
 import {MAPBOX_API_KEY} from '../../lib/config'
 import pointInPolygon from '@turf/boolean-point-in-polygon'
+import {Provider, Subscribe, Container} from 'unstated'
+
+type SearchState = {
+	searchQuery: string,
+	category: string,
+}
+
+class SearchContainer extends Container<SearchState> {
+	state = {
+		searchQuery: '',
+		category: 'Buildings',
+	}
+
+	search = (query: string) => {
+		query = query || ''
+		this.setState(() => ({searchQuery: query.toLowerCase()}))
+	}
+
+	pickCategory = (name: string) => {
+		this.setState(() => ({category: name}))
+	}
+}
 
 Mapbox.setAccessToken(MAPBOX_API_KEY)
 
@@ -207,13 +229,21 @@ export class MapView extends React.Component<Props, State> {
 							overlaySize={this.state.overlaySize}
 						/>
 					) : (
-						<BuildingPicker
-							features={features}
-							onCancel={this.onPickerCancel}
-							onFocus={this.onPickerFocus}
-							onSelect={this.onPickerSelect}
-							overlaySize={this.state.overlaySize}
-						/>
+						<Subscribe to={[SearchContainer]}>
+							{bag => (
+								<BuildingPicker
+									features={features}
+									onCancel={this.onPickerCancel}
+									onFocus={this.onPickerFocus}
+									onSelect={this.onPickerSelect}
+									overlaySize={this.state.overlaySize}
+									onSearch={bag.search}
+									searchQuery={bag.state.searchQuery}
+									category={bag.state.category}
+									onCategoryChange={bag.pickCategory}
+								/>
+							)}
+						</Subscribe>
 					)}
 				</Overlay>
 			</View>
