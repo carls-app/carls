@@ -4,10 +4,10 @@ import * as React from 'react'
 import {StyleSheet} from 'react-native'
 import * as c from '../components/colors'
 import {SearchBar} from '../components/searchbar'
-import sortBy from 'lodash/sortBy'
 import type {Building, Feature} from './types'
 import {CategoryPicker} from './category-picker'
 import {BuildingList} from './building-list'
+import fuzzyfind from 'fuzzyfind'
 
 type Props = {
 	features: Array<Feature<Building>>,
@@ -106,20 +106,18 @@ export class BuildingPicker extends React.Component<Props, State> {
 			/>
 		) : null
 
-		let matches = this.state.query
-			? this.props.features.filter(b =>
-					b.properties.name.toLowerCase().startsWith(this.state.query),
-			  )
-			: this.props.features
+		let matches = this.props.features
 
-		if (!this.state.query) {
+		if (this.state.query) {
+			matches = fuzzyfind(this.state.query, matches, {
+				accessor: b => b.properties.name.toLowerCase(),
+			})
+		} else {
 			const selectedCategory = this.categoryLookup[this.state.category]
 			matches = matches.filter(b =>
 				b.properties.categories.includes(selectedCategory),
 			)
 		}
-
-		matches = sortBy(matches, (m: Feature<Building>) => m.properties.name)
 
 		return (
 			<React.Fragment>
