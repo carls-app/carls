@@ -207,7 +207,7 @@ const SectionListTitle = glamorous(SectionTitle)({
 const OutlineButton = (props: {
 	title: string,
 	onPress: () => any,
-	disabled: boolean,
+	disabled?: boolean,
 }) => (
 	<Touchable
 		accessibilityTraits="button"
