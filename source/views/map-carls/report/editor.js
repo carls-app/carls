@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react'
-import {ScrollView, View, Text, StyleSheet, TextInput} from 'react-native'
+import {ScrollView, View, Text, StyleSheet} from 'react-native'
 import {CellTextField} from '../../components/cells/textfield'
 import {ButtonCell} from '../../components/cells/button'
 import {TableView, Section} from 'react-native-tableview-simple'
