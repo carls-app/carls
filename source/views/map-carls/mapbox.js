@@ -101,9 +101,13 @@ export class MapView extends React.Component<Props, State> {
 			geometry: {type: 'Point', coordinates: [lng, lat]},
 		}
 
-		return this.state.features.find(feat =>
-			pointInPolygon(searchPoint, feat),
-		)
+		return this.state.features.find(feat => {
+			let poly = feat.geometry.geometries.find(geo => geo.type === 'Polygon')
+			if (!poly) {
+				return false
+			}
+			return pointInPolygon(searchPoint, poly)
+		})
 	}
 
 	onTouchOutline = (id: string) => {
