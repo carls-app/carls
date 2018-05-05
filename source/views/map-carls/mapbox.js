@@ -34,7 +34,6 @@ type State = {|
 	visibleMarkers: Array<string>,
 	selectedBuilding: ?Feature<Building>,
 	overlaySize: 'min' | 'mid' | 'max',
-	searchQuery: string,
 	category: string,
 |}
 
