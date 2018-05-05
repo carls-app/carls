@@ -55,16 +55,15 @@ export class MapReporterView extends React.PureComponent<Props, State> {
 				<View style={styles.helpWrapper}>
 					<Text style={styles.helpTitle}>Thanks for spotting a problem!</Text>
 					<Text style={styles.helpDescription}>
+						There’s a problem with “{name}”, you say?
+					</Text>
+					<Text style={styles.helpDescription}>
 						If you could tell us what the problems are, we’d
 						greatly appreciate it.
 					</Text>
 				</View>
 
 				<TableView>
-					<Section header="NAME">
-						<TitleCell text={name} />
-					</Section>
-
 					<Section header="DESCRIPTION">
 						<DefinitionCell
 							onChange={this.onChangeDescription}
@@ -81,14 +80,6 @@ export class MapReporterView extends React.PureComponent<Props, State> {
 	}
 }
 
-const TitleCell = ({text}) => (
-	<TextInput
-		editable={false}
-		returnKeyType="done"
-		value={text}
-	/>
-)
-
 type TextFieldProps = {text: string, onChange: string => any}
 const DefinitionCell = ({text, onChange = () => {}}: TextFieldProps) => (
 	<CellTextField
@@ -97,7 +88,7 @@ const DefinitionCell = ({text, onChange = () => {}}: TextFieldProps) => (
 		multiline={true}
 		onChangeText={onChange}
 		onSubmitEditing={onChange}
-		placeholder="What's the problem?"
+		placeholder="What’s the problem?"
 		returnKeyType="default"
 		value={text}
 	/>
@@ -110,17 +101,17 @@ const styles = StyleSheet.create({
 		borderTopColor: c.iosHeaderTopBorder,
 		borderBottomColor: c.iosHeaderBottomBorder,
 		marginBottom: 10,
+		paddingBottom: 15,
+		paddingTop: 15,
 	},
 	helpTitle: {
 		fontSize: 16,
 		fontWeight: 'bold',
-		paddingTop: 15,
 		paddingHorizontal: 15,
 	},
 	helpDescription: {
 		fontSize: 14,
 		paddingTop: 5,
-		paddingBottom: 15,
 		paddingHorizontal: 15,
 	},
 })
