@@ -214,13 +214,13 @@ export class MapView extends React.Component<Props, State> {
 						/>
 					) : (
 						<BuildingPicker
+							category={this.state.category}
 							features={features}
 							onCancel={this.onPickerCancel}
+							onCategoryChange={this.handleCategoryChange}
 							onFocus={this.onPickerFocus}
 							onSelect={this.onPickerSelect}
 							overlaySize={this.state.overlaySize}
-							category={this.state.category}
-							onCategoryChange={this.handleCategoryChange}
 						/>
 					)}
 				</Overlay>
