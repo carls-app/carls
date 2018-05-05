@@ -27,7 +27,7 @@ export class MapReporterView extends React.PureComponent<Props, State> {
 
 	static getDerivedStateFromProps(nextProps: Props) {
 		let building = nextProps.navigation.state.params.building
-		return {name: building.name, }
+		return {name: building.name}
 	}
 
 	state = {
@@ -58,8 +58,8 @@ export class MapReporterView extends React.PureComponent<Props, State> {
 						There’s a problem with “{name}”, you say?
 					</Text>
 					<Text style={styles.helpDescription}>
-						If you could tell us what the problems are, we’d
-						greatly appreciate it.
+						If you could tell us what the problems are, we’d greatly appreciate
+						it.
 					</Text>
 				</View>
 

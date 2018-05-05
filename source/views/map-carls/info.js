@@ -35,7 +35,9 @@ export class BuildingInfo extends React.Component<Props> {
 	}
 
 	openReportScreen = () => {
-		this.props.navigation.push('MapReporterView', {building: this.props.feature.properties})
+		this.props.navigation.push('MapReporterView', {
+			building: this.props.feature.properties,
+		})
 	}
 
 	makeBuildingCategory = (building: Building) => {
