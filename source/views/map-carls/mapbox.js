@@ -76,7 +76,11 @@ export class MapView extends React.Component<Props, State> {
 		}
 
 		return (
-			<Mapbox.PointAnnotation key={f.id} coordinate={point.coordinates} id={f.id}>
+			<Mapbox.PointAnnotation
+				key={f.id}
+				coordinate={point.coordinates}
+				id={f.id}
+			>
 				<View style={styles.annotationContainer}>
 					<View style={styles.annotationFill} />
 				</View>

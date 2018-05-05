@@ -18,7 +18,8 @@ export class BuildingList extends React.Component<Props> {
 
 	renderItem = ({item}: {item: Feature<Building>}) => {
 		let point = item.geometry.geometries.find(geo => geo.type === 'Point') || {}
-		let detail = item.properties.address || (point.coordinates || []).join(',') || ''
+		let detail =
+			item.properties.address || (point.coordinates || []).join(',') || ''
 		return (
 			<ListRow onPress={() => this.onPress(item.id)} spacing={{left: 12}}>
 				<Title>{item.properties.name}</Title>

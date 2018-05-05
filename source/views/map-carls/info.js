@@ -45,12 +45,15 @@ export class BuildingInfo extends React.Component<Props> {
 		let feature = this.props.feature
 		let building = feature.properties
 		let category = this.makeBuildingCategory(building)
-		let photos = (building.photos || []).map(href => `https://carls-app.github.io/map-data/cache/img/${href}`)
+		let photos = (building.photos || []).map(
+			href => `https://carls-app.github.io/map-data/cache/img/${href}`,
+		)
 
 		let departments = building.departments.map(parseLinkString)
 		let offices = building.offices.map(parseLinkString)
 
-		let coordinates = feature.geometry.geometries.find(geo => geo.type === 'Point') || null
+		let coordinates =
+			feature.geometry.geometries.find(geo => geo.type === 'Point') || null
 		coordinates = coordinates ? coordinates.coordinates : null
 
 		return (
@@ -77,9 +80,9 @@ export class BuildingInfo extends React.Component<Props> {
 					{photos.length ? (
 						<Section paddingTop={0}>
 							<ScrollView horizontal={true}>
-								{photos.map(href =>
+								{photos.map(href => (
 									<Image key={href} source={{uri: href}} style={styles.photo} />
-								)}
+								))}
 							</ScrollView>
 						</Section>
 					) : null}
@@ -107,7 +110,9 @@ export class BuildingInfo extends React.Component<Props> {
 					{building.description ? (
 						<Section>
 							<SectionTitle>Description</SectionTitle>
-							<SectionSelectableContent>{building.description}</SectionSelectableContent>
+							<SectionSelectableContent>
+								{building.description}
+							</SectionSelectableContent>
 						</Section>
 					) : null}
 
@@ -176,7 +181,11 @@ const Section = glamorous.view({
 })
 const SectionTitle = glamorous.text({fontWeight: '700'})
 const SectionContent = glamorous.text()
-const SectionSelectableContent = ({children}) => <TextInput dataDetectorTypes="all" editable={false} multiline={true}>{children}</TextInput>
+const SectionSelectableContent = ({children}) => (
+	<TextInput dataDetectorTypes="all" editable={false} multiline={true}>
+		{children}
+	</TextInput>
+)
 
 const SectionListTitle = glamorous(SectionTitle)({
 	paddingBottom: 8,

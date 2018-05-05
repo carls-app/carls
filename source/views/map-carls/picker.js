@@ -114,7 +114,9 @@ export class BuildingPicker extends React.Component<Props, State> {
 
 		if (!this.state.query) {
 			const selectedCategory = this.categoryLookup[this.state.category]
-			matches = matches.filter(b => b.properties.categories.includes(selectedCategory))
+			matches = matches.filter(b =>
+				b.properties.categories.includes(selectedCategory),
+			)
 		}
 
 		matches = sortBy(matches, (m: Feature<Building>) => m.properties.name)

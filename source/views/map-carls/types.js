@@ -14,7 +14,9 @@ export type Category =
 // "Label <link>"
 export opaque type LabelLinkString = string
 
-export function parseLinkString(str: LabelLinkString): {label: string, href: string} {
+export function parseLinkString(
+	str: LabelLinkString,
+): {label: string, href: string} {
 	let regex = /^(.*) <(.*)>$/
 	let matches = regex.exec(str)
 	return {label: matches[1], href: matches[2]}
