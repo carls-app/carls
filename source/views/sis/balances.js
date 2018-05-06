@@ -34,7 +34,6 @@ type ReduxStateProps = {
 	print: ?string,
 	weeklyMeals: ?string,
 	dailyMeals: ?string,
-	mealPlan: ?string,
 	guestSwipes: ?string,
 	loginState: LoginStateType,
 	message: ?string,
@@ -106,7 +105,6 @@ class BalancesView extends React.PureComponent<Props, State> {
 			schillers,
 			dailyMeals,
 			weeklyMeals,
-			mealPlan,
 			guestSwipes,
 		} = this.props
 		let {loading} = this.state
@@ -197,7 +195,6 @@ function mapState(state: ReduxState): ReduxStateProps {
 		print: state.balances ? state.balances.printBalance : null,
 		weeklyMeals: state.balances ? state.balances.mealsRemainingThisWeek : null,
 		dailyMeals: state.balances ? state.balances.mealsRemainingToday : null,
-		mealPlan: state.balances ? state.balances.mealPlanDescription : null,
 		guestSwipes: state.balances ? state.balances.guestSwipesCount : null,
 		message: state.balances ? state.balances.balancesErrorMessage : null,
 		alertSeen: state.settings ? state.settings.unofficiallyAcknowledged : false,
