@@ -77,12 +77,11 @@ async function fetchBalancesFromServer(): Promise<BalancesOrErrorType> {
 
 function parseBalancesFromDom(dom: mixed): BalancesOrErrorType {
 	// .accountrow is the name of the row, and it's immediate sibling is a cell with id=value
-	let elements = cssSelect('.dashboard > p, .dashboard > ul > li', dom)
-		.map(getTrimmedTextWithSpaces)
+	let elements = cssSelect('.dashboard > p, .dashboard > ul > li', dom).map(
+		getTrimmedTextWithSpaces,
+	)
 
-	let mainElements = elements
-		.map(rowIntoNamedAmount)
-		.filter(Boolean)
+	let mainElements = elements.map(rowIntoNamedAmount).filter(Boolean)
 
 	let namedValues = fromPairs(mainElements)
 	let schillers = namedValues.schillers

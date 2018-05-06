@@ -194,7 +194,14 @@ type BalancesOutputType = {
 	_isCached: boolean,
 }
 export async function getBalances(): Promise<BalancesOutputType> {
-	const [schillers, dining, print, daily, weekly, guestSwipes] = await Promise.all([
+	const [
+		schillers,
+		dining,
+		print,
+		daily,
+		weekly,
+		guestSwipes,
+	] = await Promise.all([
 		getSchillersBalance(),
 		getDiningBalance(),
 		getPrintBalance(),
@@ -216,7 +223,16 @@ export async function getBalances(): Promise<BalancesOutputType> {
 		daily.isCached ||
 		weekly.isCached
 
-	return {schillers, dining, print, daily, weekly, guestSwipes, _isExpired, _isCached}
+	return {
+		schillers,
+		dining,
+		print,
+		daily,
+		weekly,
+		guestSwipes,
+		_isExpired,
+		_isCached,
+	}
 }
 
 /// MARK: Help tools
