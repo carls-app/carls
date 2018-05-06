@@ -72,7 +72,12 @@ export class BuildingInfo extends React.Component<Props> {
 					style={styles.container}
 				>
 					<Column>
-						<PlaceTitle>{building.name}</PlaceTitle>
+						<PlaceTitle>
+							{building.name}
+							{building.nickname ? (
+								<PlaceNickname> ({building.nickname})</PlaceNickname>
+							) : null}
+						</PlaceTitle>
 						<PlaceSubtitle>{category}</PlaceSubtitle>
 					</Column>
 					<CloseButton onPress={this.onClose} />
@@ -192,6 +197,11 @@ export class BuildingInfo extends React.Component<Props> {
 }
 
 const PlaceTitle = glamorous.text({fontSize: 20, fontWeight: '700'})
+const PlaceNickname = glamorous(PlaceTitle)({
+	fontWeight: '400',
+	color: c.iosDisabledText,
+	marginLeft: 11,
+})
 const PlaceSubtitle = glamorous.text({fontSize: 16})
 
 const Section = glamorous.view({
