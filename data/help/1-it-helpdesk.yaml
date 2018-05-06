@@ -28,10 +28,10 @@ buttons:
     action: send-email
     params:
       to: helpdesk@carleton.edu
-      subject: I Haz A Problem
+      subject: ''
       body: |
-        Thank you for contacting the IT Helpdesk!
+        Thank you for contacting the ITS Helpdesk!
 
-        Please include your name, phone number, and next of kin.
+        Please include your name and a description of your problem.
 
         Have a wonderful day!
