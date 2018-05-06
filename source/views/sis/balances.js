@@ -100,13 +100,7 @@ class BalancesView extends React.PureComponent<Props, State> {
 	}
 
 	render() {
-		let {
-			dining,
-			schillers,
-			dailyMeals,
-			weeklyMeals,
-			guestSwipes,
-		} = this.props
+		let {dining, schillers, dailyMeals, weeklyMeals, guestSwipes} = this.props
 		let {loading} = this.state
 
 		return (
