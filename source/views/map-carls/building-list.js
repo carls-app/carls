@@ -2,7 +2,9 @@
 
 import * as React from 'react'
 import {FlatList} from 'react-native'
+import glamorous from 'glamorous-native'
 import {ListSeparator, Title, Detail, ListRow} from '../components/list'
+import * as c from '../components/colors'
 import type {Building, Feature} from './types'
 
 type Props = {
@@ -22,7 +24,12 @@ export class BuildingList extends React.Component<Props> {
 			item.properties.address || (point.coordinates || []).join(',') || ''
 		return (
 			<ListRow onPress={() => this.onPress(item.id)} spacing={{left: 12}}>
-				<Title>{item.properties.name}</Title>
+				<Title>
+					{item.properties.name}
+					{item.properties.nickname ? (
+						<Nickname> ({item.properties.nickname})</Nickname>
+					) : null}
+				</Title>
 				<Detail>{detail}</Detail>
 			</ListRow>
 		)
@@ -44,3 +51,7 @@ export class BuildingList extends React.Component<Props> {
 		)
 	}
 }
+
+const Nickname = glamorous.text({
+	color: c.iosDisabledText,
+})
