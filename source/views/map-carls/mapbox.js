@@ -4,7 +4,7 @@ import * as React from 'react'
 import {View, StyleSheet} from 'react-native'
 import * as c from '../components/colors'
 import type {TopLevelViewPropsType} from '../types'
-import type {Building} from './types'
+import type {Building, FeatureCollection, Feature} from './types'
 import {MAP_DATA_URL, MAPBOX_CARLETON_STYLE} from './urls'
 import {BuildingPicker} from './picker'
 import {BuildingInfo} from './info'
@@ -30,29 +30,14 @@ type MapboxEvent = {
 type Props = TopLevelViewPropsType
 
 type State = {|
-	buildings: Array<Building>,
-	outlines: ?GeoJsonFeatureCollection,
+	features: Array<Feature<Building>>,
 	visibleMarkers: Array<string>,
-	highlighted: Array<string>,
-	selectedBuilding: ?Building,
+	selectedBuilding: ?Feature<Building>,
 	overlaySize: 'min' | 'mid' | 'max',
+	category: string,
 |}
 
 const originalCenterpoint = [-93.15488752015, 44.460800862266]
-
-type GeoJsonFeature = {
-	type: 'Feature',
-	id?: string,
-	geometry: {
-		type: 'Polygon',
-		coordinates: Array<Array<[number, number]>>,
-	},
-}
-
-type GeoJsonFeatureCollection = {
-	type: 'FeatureCollection',
-	features: Array<GeoJsonFeature>,
-}
 
 export class MapView extends React.Component<Props, State> {
 	static navigationOptions = {
@@ -61,12 +46,11 @@ export class MapView extends React.Component<Props, State> {
 	}
 
 	state = {
-		buildings: [],
-		outlines: null,
-		highlighted: [],
+		features: [],
 		visibleMarkers: [],
 		selectedBuilding: null,
 		overlaySize: 'mid',
+		category: 'Buildings',
 	}
 
 	componentDidMount() {
@@ -76,60 +60,26 @@ export class MapView extends React.Component<Props, State> {
 	_map: ?Mapbox.MapView = null
 
 	fetchData = async () => {
-		const data: Array<Building> = await fetchJson(MAP_DATA_URL)
-
-		/*
-		const centers = {
-			type: 'FeatureCollection',
-			features: data.filter(b => b.center).map(b => {
-				const [lat, lng] = b.center
-				return {
-					type: 'Feature',
-					id: b.id,
-					geometry: {
-						type: 'Point',
-						coordinates: [lng, lat],
-					},
-				}
-			}),
-		}
-		*/
-
-		const outlines = {
-			type: 'FeatureCollection',
-			features: data.filter(b => b.outline && b.outline.length).map(b => {
-				const outline = b.outline.map(([lat, long]) => [long, lat])
-				outline.push(outline[0])
-
-				return {
-					type: 'Feature',
-					id: b.id,
-					geometry: {
-						type: 'Polygon',
-						coordinates: [outline],
-					},
-				}
-			}),
-		}
+		const data: FeatureCollection<Building> = await fetchJson(MAP_DATA_URL)
 
 		this.setState(() => ({
-			buildings: data,
-			outlines: outlines,
-			// centers: centers,
-			highlighted: [],
+			features: data.features,
 			visibleMarkers: [],
 		}))
 	}
 
-	buildingToMarker = (b: Building) => {
-		if (!b.center) {
+	buildingToMarker = (f: Feature<Building>) => {
+		let point = f.geometry.geometries.find(geo => geo.type === 'Point')
+		if (!point) {
 			return
 		}
 
-		const [lat, long] = b.center
-		const coord = [long, lat]
 		return (
-			<Mapbox.PointAnnotation key={b.id} coordinate={coord} id={b.id}>
+			<Mapbox.PointAnnotation
+				key={f.id}
+				coordinate={point.coordinates}
+				id={f.id}
+			>
 				<View style={styles.annotationContainer}>
 					<View style={styles.annotationFill} />
 				</View>
@@ -149,18 +99,18 @@ export class MapView extends React.Component<Props, State> {
 	}
 
 	lookupBuildingByCoordinates = ([lng, lat]: [number, number]) => {
-		if (!this.state.outlines) {
-			return
-		}
-
 		const searchPoint = {
 			type: 'Feature',
 			geometry: {type: 'Point', coordinates: [lng, lat]},
 		}
 
-		return this.state.outlines.features.find(feat =>
-			pointInPolygon(searchPoint, feat),
-		)
+		return this.state.features.find(feat => {
+			let poly = feat.geometry.geometries.find(geo => geo.type === 'Polygon')
+			if (!poly) {
+				return false
+			}
+			return pointInPolygon(searchPoint, poly)
+		})
 	}
 
 	onTouchOutline = (id: string) => {
@@ -169,32 +119,37 @@ export class MapView extends React.Component<Props, State> {
 	}
 
 	highlightBuildingById = (id: string) => {
-		const match = this.state.buildings.find(b => b.id === id)
+		const match = this.state.features.find(b => b.id === id)
+		if (!match) {
+			return
+		}
 
-		if (!match || !match.center) {
+		let point = match.geometry.geometries.find(geo => geo.type === 'Point')
+		if (!point) {
 			return
 		}
 
 		this.setState(
 			() => ({
 				visibleMarkers: [id],
-				highlighted: [id],
 				selectedBuilding: match,
 			}),
 			() => {
-				if (!this._map || !match || !match.center) {
+				if (!this._map || !point) {
 					return
 				}
+
+				let coordinates: [number, number] = (point.coordinates: any)
 
 				const latitude =
 					this.state.overlaySize === 'min'
 						? // case 1: overlay is collapsed; center in viewport
-						  match.center[0]
+						  coordinates[1]
 						: // case 2: overlay is open; center above overlay
-						  match.center[0] - 0.0005
+						  coordinates[1] - 0.0005
 
 				this._map.setCamera({
-					centerCoordinate: [match.center[1], latitude],
+					centerCoordinate: [coordinates[0], latitude],
 					zoom: 17,
 				})
 			},
@@ -212,7 +167,6 @@ export class MapView extends React.Component<Props, State> {
 		this.setState(() => ({
 			selectedBuilding: null,
 			visibleMarkers: [],
-			highlighted: [],
 		}))
 		this.setOverlayMid()
 	}
@@ -225,7 +179,12 @@ export class MapView extends React.Component<Props, State> {
 		this.setState(() => ({overlaySize: size}))
 	}
 
+	handleCategoryChange = (name: string) => {
+		this.setState(() => ({category: name}))
+	}
+
 	render() {
+		let features = this.state.features
 		return (
 			<View style={StyleSheet.absoluteFill}>
 				<Mapbox.MapView
@@ -238,8 +197,8 @@ export class MapView extends React.Component<Props, State> {
 					styleURL={MAPBOX_CARLETON_STYLE}
 					zoomLevel={15}
 				>
-					{this.state.buildings
-						.filter(b => this.state.visibleMarkers.includes(b.id))
+					{features
+						.filter(f => this.state.visibleMarkers.includes(f.id))
 						.map(this.buildingToMarker)}
 				</Mapbox.MapView>
 
@@ -249,14 +208,17 @@ export class MapView extends React.Component<Props, State> {
 				>
 					{this.state.selectedBuilding ? (
 						<BuildingInfo
-							building={this.state.selectedBuilding}
+							feature={this.state.selectedBuilding}
+							navigation={this.props.navigation}
 							onClose={this.onInfoOverlayClose}
 							overlaySize={this.state.overlaySize}
 						/>
 					) : (
 						<BuildingPicker
-							buildings={this.state.buildings}
+							category={this.state.category}
+							features={features}
 							onCancel={this.onPickerCancel}
+							onCategoryChange={this.handleCategoryChange}
 							onFocus={this.onPickerFocus}
 							onSelect={this.onPickerSelect}
 							overlaySize={this.state.overlaySize}

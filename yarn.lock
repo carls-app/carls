@@ -2795,6 +2795,10 @@ functional-red-black-tree@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/functional-red-black-tree/-/functional-red-black-tree-1.0.1.tgz#1b0ab3bd553b2a0d6399d29c0e3ea0b252078327"
 
+fuzzyfind@2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/fuzzyfind/-/fuzzyfind-2.0.0.tgz#e991c8c244099a2f6992cacfc2913347ffd98777"
+
 gauge@~1.2.5:
   version "1.2.7"
   resolved "https://registry.yarnpkg.com/gauge/-/gauge-1.2.7.tgz#e9cec5483d3d4ee0ef44b60a7d99e4935e136d93"

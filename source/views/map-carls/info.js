@@ -4,6 +4,7 @@ import * as React from 'react'
 import {
 	View,
 	Text,
+	TextInput,
 	StyleSheet,
 	ScrollView,
 	TouchableHighlight,
@@ -13,7 +14,8 @@ import {
 } from 'react-native'
 import glamorous from 'glamorous-native'
 import * as c from '../components/colors'
-import type {Building} from './types'
+import type {Building, Feature} from './types'
+import {parseLinkString} from './types'
 import startCase from 'lodash/startCase'
 import {Row, Column} from '../components/layout'
 import {ListRow, Title} from '../components/list'
@@ -21,9 +23,10 @@ import openUrl from '../components/open-url'
 import {Touchable} from '../components/touchable'
 
 type Props = {
-	building: Building,
+	feature: Feature<Building>,
 	onClose: () => any,
 	overlaySize: 'min' | 'mid' | 'max',
+	navigation: any,
 }
 
 export class BuildingInfo extends React.Component<Props> {
@@ -31,20 +34,34 @@ export class BuildingInfo extends React.Component<Props> {
 		this.props.onClose()
 	}
 
+	openReportScreen = () => {
+		this.props.navigation.push('MapReporterView', {
+			building: this.props.feature.properties,
+		})
+	}
+
 	makeBuildingCategory = (building: Building) => {
-		const blacklist = ['hall', 'house', 'building']
-		return Object.keys(building.categories)
+		let blacklist = ['hall', 'house', 'building']
+		return building.categories
 			.filter(name => !blacklist.includes(name))
 			.map(name => startCase(name))
 			.join(' • ')
 	}
 
 	render() {
-		const {building} = this.props
-		const category = this.makeBuildingCategory(building)
-		const photo = building.photo
-			? `https://carls-app.github.io/map-data/cache/img/${building.photo}`
-			: null
+		let feature = this.props.feature
+		let building = feature.properties
+		let category = this.makeBuildingCategory(building)
+		let photos = (building.photos || []).map(
+			href => `https://carls-app.github.io/map-data/cache/img/${href}`,
+		)
+
+		let departments = building.departments.map(parseLinkString)
+		let offices = building.offices.map(parseLinkString)
+
+		let coordinates =
+			feature.geometry.geometries.find(geo => geo.type === 'Point') || null
+		coordinates = coordinates ? coordinates.coordinates : null
 
 		return (
 			<React.Fragment>
@@ -67,10 +84,12 @@ export class BuildingInfo extends React.Component<Props> {
 					scrollEnabled={this.props.overlaySize === 'max'}
 					style={styles.scroll}
 				>
-					{building.photo ? (
+					{photos.length ? (
 						<Section paddingTop={0}>
 							<ScrollView horizontal={true}>
-								<Image source={{uri: photo}} style={styles.photo} />
+								{photos.map(href => (
+									<Image key={href} source={{uri: href}} style={styles.photo} />
+								))}
 							</ScrollView>
 						</Section>
 					) : null}
@@ -95,11 +114,20 @@ export class BuildingInfo extends React.Component<Props> {
 						</Section>
 					) : null}
 
-					{building.departments.length ? (
+					{building.description ? (
+						<Section>
+							<SectionTitle>Description</SectionTitle>
+							<SectionSelectableContent>
+								{building.description}
+							</SectionSelectableContent>
+						</Section>
+					) : null}
+
+					{departments.length ? (
 						<Section>
 							<SectionListTitle>Departments</SectionListTitle>
 							<View>
-								{building.departments.map(d => (
+								{departments.map(d => (
 									<SectionListItem
 										key={d.label}
 										href={d.href}
@@ -110,11 +138,11 @@ export class BuildingInfo extends React.Component<Props> {
 						</Section>
 					) : null}
 
-					{building.offices.length ? (
+					{offices.length ? (
 						<Section>
 							<SectionListTitle>Offices</SectionListTitle>
 							<View>
-								{building.offices.map(d => (
+								{offices.map(d => (
 									<SectionListItem
 										key={d.label}
 										href={d.href}
@@ -124,6 +152,39 @@ export class BuildingInfo extends React.Component<Props> {
 							</View>
 						</Section>
 					) : null}
+
+					{coordinates ? (
+						<Section>
+							<Row alignItems="center">
+								<Column flex={1}>
+									<SectionTitle>Coordinates</SectionTitle>
+									<SectionContent>{coordinates.join(', ')}</SectionContent>
+								</Column>
+								<CopyText
+									render={({copied, copy}) => (
+										<OutlineButton
+											disabled={copied}
+											onPress={() => copy((coordinates: any).join(', '))}
+											title={copied ? 'Copied' : 'Copy'}
+										/>
+									)}
+								/>
+							</Row>
+						</Section>
+					) : null}
+
+					<Section>
+						<Row alignItems="center">
+							<Column flex={1}>
+								<SectionTitle>Found an issue?</SectionTitle>
+								<SectionContent>Let us know!</SectionContent>
+							</Column>
+							<OutlineButton
+								onPress={this.openReportScreen}
+								title="Report an Issue"
+							/>
+						</Row>
+					</Section>
 				</ScrollView>
 			</React.Fragment>
 		)
@@ -140,6 +201,11 @@ const Section = glamorous.view({
 })
 const SectionTitle = glamorous.text({fontWeight: '700'})
 const SectionContent = glamorous.text()
+const SectionSelectableContent = ({children}) => (
+	<TextInput dataDetectorTypes="all" editable={false} multiline={true}>
+		{children}
+	</TextInput>
+)
 
 const SectionListTitle = glamorous(SectionTitle)({
 	paddingBottom: 8,
@@ -148,7 +214,7 @@ const SectionListTitle = glamorous(SectionTitle)({
 const OutlineButton = (props: {
 	title: string,
 	onPress: () => any,
-	disabled: boolean,
+	disabled?: boolean,
 }) => (
 	<Touchable
 		accessibilityTraits="button"
