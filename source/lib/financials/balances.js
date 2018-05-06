@@ -105,6 +105,7 @@ const lookupHash: Map<RegExp, string> = new Map([
 	[/dining/i, 'dining'],
 	[/meals.*day/i, 'daily'],
 	[/meals.*week/i, 'weekly'],
+	[/meals/i, 'meals'],
 ])
 
 function rowIntoNamedAmount(row: string): ?[string, string] {
@@ -119,4 +120,23 @@ function rowIntoNamedAmount(row: string): ?[string, string] {
 			return [key, amount]
 		}
 	}
+}
+
+function getGuestSwipes(strings) {
+	// according to my sources, despite this having two numbers (per day and
+	// per week) the guest swipes are actually per _term_
+	let guestIndex = strings.findIndex(str => /guests/i.test(str))
+	let guestInfoStrings = strings.slice(guestIndex)
+
+	let counterStr = guestInfoStrings.find(str => /meals/i.test(str))
+	if (!counterStr) {
+		return null
+	}
+
+	let split = rowIntoNamedAmount(counterStr)
+	if (!split) {
+		return null
+	}
+
+	return split[1]
 }
