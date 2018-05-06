@@ -7,7 +7,6 @@ import type {TopLevelViewPropsType} from '../types'
 import {ShareButton} from '../components/nav-buttons'
 import openUrl from '../components/open-url'
 import {ButtonCell} from '../components/cells/button'
-import {parseHtml, cssSelect, toMarkdown, resolveLink} from '../../lib/html'
 import {shareEvent, getTimes} from '../calendar/calendar-util'
 import {AddToCalendar} from '../components/add-to-calendar'
 import {Markdown} from '../components/markdown'
@@ -84,42 +83,6 @@ type State = {
 	loading: boolean,
 }
 
-async function fetchEventHtml(eventId: number) {
-	let body = await fetch(
-		`https://apps.carleton.edu/events/convocations/?event_id=${String(
-			eventId,
-		)}`,
-	).then(r => r.text())
-
-	let dom = parseHtml(body)
-
-	let eventEl = cssSelect('.eventItemMain', dom)
-
-	let descEl = cssSelect('.eventContent', eventEl)
-	let descText = descEl.length
-		? toMarkdown(descEl[0], 'https://apps.carleton.edu/events/convocations/')
-		: ''
-
-	let images = cssSelect('.media a', eventEl).map(imgLink =>
-		resolveLink(
-			imgLink.attribs.href,
-			'https://apps.carleton.edu/events/convocations/',
-			'https://apps.carleton.edu',
-		),
-	)
-
-	let sponsor = cssSelect('.sponsorContactInfo', eventEl)
-	let sponsorText = sponsor.length
-		? toMarkdown(sponsor[0], 'https://apps.carleton.edu/events/convocations/')
-		: ''
-
-	return {
-		images,
-		content: descText,
-		sponsor: sponsorText,
-	}
-}
-
 class DetailView extends React.Component<Props, State> {
 	static navigationOptions = ({navigation}: any) => {
 		const {event} = navigation.state.params
@@ -146,7 +109,10 @@ class DetailView extends React.Component<Props, State> {
 			return
 		}
 
-		let eventData = await fetchEventHtml(event.metadata.reasonId)
+		let id = event.metadata.reasonId
+		let url =
+			'https://carleton.api.frogpond.tech/v1/convos/upcoming/' + String(id)
+		let eventData = await fetchJson(url)
 
 		this.setState(() => ({
 			images: eventData.images,
@@ -174,6 +140,14 @@ class DetailView extends React.Component<Props, State> {
 						<Where>{event.location}</Where>
 					</WhenWhereBlock>
 
+					{this.state.images.length ? (
+						<PosterContainer>
+							{this.state.images.map(imgUrl => (
+								<Poster key={imgUrl} source={{uri: imgUrl}} />
+							))}
+						</PosterContainer>
+					) : null}
+
 					{this.state.loading ? (
 						<React.Fragment>
 							<ActivityIndicator style={styles.spinner} />
@@ -184,14 +158,6 @@ class DetailView extends React.Component<Props, State> {
 					) : (
 						<Markdown source={this.state.content} />
 					)}
-
-					{this.state.images.length ? (
-						<PosterContainer>
-							{this.state.images.map(imgUrl => (
-								<Poster key={imgUrl} source={{uri: imgUrl}} />
-							))}
-						</PosterContainer>
-					) : null}
 				</Padding>
 
 				<Section sectionTintColor={c.white}>

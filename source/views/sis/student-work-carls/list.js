@@ -1,15 +1,18 @@
 // @flow
 
 import React from 'react'
-import {StyleSheet, Text, FlatList} from 'react-native'
+import {StyleSheet, Text, SectionList} from 'react-native'
 import {TabBarIcon} from '../../components/tabbar-icon'
 import type {TopLevelViewPropsType} from '../../types'
 import * as c from '../../components/colors'
-import {ListSeparator} from '../../components/list'
+import {ListSeparator, ListSectionHeader} from '../../components/list'
 import {tracker} from '../../../analytics'
 import bugsnag from '../../../bugsnag'
 import {NoticeView} from '../../components/notice'
 import LoadingView from '../../components/loading'
+import groupBy from 'lodash/groupBy'
+import sortBy from 'lodash/sortBy'
+import toPairs from 'lodash/toPairs'
 import delay from 'delay'
 import {JobRow} from './job-row'
 import type {FullJobType} from './types'
@@ -23,7 +26,7 @@ const styles = StyleSheet.create({
 })
 
 type State = {
-	jobs: Array<FullJobType>,
+	jobs: Array<{title: string, data: Array<FullJobType>}>,
 	loaded: boolean,
 	refreshing: boolean,
 	error: boolean,
@@ -52,7 +55,18 @@ export class StudentWorkView extends React.Component<Props, State> {
 	fetchData = async () => {
 		try {
 			const jobs = await fetchJson(jobsUrl)
-			this.setState(() => ({jobs}))
+			// ensure that During Term comes first
+			let sortedJobs = sortBy(
+				jobs,
+				job => `${job.duringTerm ? 0 : 1}-${job.name}`,
+			)
+			// now group them
+			let grouped = groupBy(
+				sortedJobs,
+				job => (job.duringTerm ? 'During Term' : 'During Break'),
+			)
+			grouped = toPairs(grouped).map(([title, data]) => ({title, data}))
+			this.setState(() => ({jobs: grouped}))
 		} catch (err) {
 			tracker.trackException(err.message)
 			bugsnag.notify(err)
@@ -83,6 +97,10 @@ export class StudentWorkView extends React.Component<Props, State> {
 
 	keyExtractor = (item: FullJobType) => item.id
 
+	renderSectionHeader = ({section: {title}}: any) => (
+		<ListSectionHeader title={title} />
+	)
+
 	renderItem = ({item}: {item: FullJobType}) => (
 		<JobRow job={item} onPress={this.onPressJob} />
 	)
@@ -97,14 +115,15 @@ export class StudentWorkView extends React.Component<Props, State> {
 		}
 
 		return (
-			<FlatList
+			<SectionList
 				ItemSeparatorComponent={ListSeparator}
 				ListEmptyComponent={<NoticeView text="There are no job postings." />}
-				data={this.state.jobs}
 				keyExtractor={this.keyExtractor}
 				onRefresh={this.refresh}
 				refreshing={this.state.refreshing}
 				renderItem={this.renderItem}
+				renderSectionHeader={this.renderSectionHeader}
+				sections={(this.state.jobs: any)}
 				style={styles.listContainer}
 			/>
 		)
