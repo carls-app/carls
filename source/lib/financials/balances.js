@@ -21,6 +21,7 @@ export async function getBalances(
 		print,
 		daily,
 		weekly,
+		guestSwipes,
 		_isExpired,
 		_isCached,
 	} = await cache.getBalances()
@@ -45,6 +46,7 @@ export async function getBalances(
 			print: print.value,
 			daily: daily.value,
 			weekly: weekly.value,
+			guestSwipes: guestSwipes.value,
 			plan: '',
 		},
 	}
@@ -75,17 +77,20 @@ async function fetchBalancesFromServer(): Promise<BalancesOrErrorType> {
 
 function parseBalancesFromDom(dom: mixed): BalancesOrErrorType {
 	// .accountrow is the name of the row, and it's immediate sibling is a cell with id=value
-	let elements = cssSelect('.dashboard > p, .dashboard > ul > li', dom)
-		.map(getTrimmedTextWithSpaces)
-		.map(rowIntoNamedAmount)
-		.filter(Boolean)
+	let elements = cssSelect('.dashboard > p, .dashboard > ul > li', dom).map(
+		getTrimmedTextWithSpaces,
+	)
 
-	const namedValues = fromPairs(elements)
-	const schillers = namedValues.schillers
+	let mainElements = elements.map(rowIntoNamedAmount).filter(Boolean)
 
-	const dining = namedValues.dining
-	const daily = namedValues.daily
-	const weekly = namedValues.weekly
+	let namedValues = fromPairs(mainElements)
+	let schillers = namedValues.schillers
+
+	let dining = namedValues.dining
+	let daily = namedValues.daily
+	let weekly = namedValues.weekly
+
+	let guestSwipes = getGuestSwipes(elements)
 
 	return {
 		error: false,
@@ -96,6 +101,7 @@ function parseBalancesFromDom(dom: mixed): BalancesOrErrorType {
 			daily: !daily ? null : daily,
 			weekly: !weekly ? null : weekly,
 			plan: '',
+			guestSwipes: !guestSwipes ? null : guestSwipes,
 		},
 	}
 }
@@ -105,6 +111,7 @@ const lookupHash: Map<RegExp, string> = new Map([
 	[/dining/i, 'dining'],
 	[/meals.*day/i, 'daily'],
 	[/meals.*week/i, 'weekly'],
+	[/meals/i, 'meals'],
 ])
 
 function rowIntoNamedAmount(row: string): ?[string, string] {
@@ -119,4 +126,23 @@ function rowIntoNamedAmount(row: string): ?[string, string] {
 			return [key, amount]
 		}
 	}
+}
+
+function getGuestSwipes(strings) {
+	// according to my sources, despite this having two numbers (per day and
+	// per week) the guest swipes are actually per _term_
+	let guestIndex = strings.findIndex(str => /guests/i.test(str))
+	let guestInfoStrings = strings.slice(guestIndex)
+
+	let counterStr = guestInfoStrings.find(str => /meals/i.test(str))
+	if (!counterStr) {
+		return null
+	}
+
+	let split = rowIntoNamedAmount(counterStr)
+	if (!split) {
+		return null
+	}
+
+	return split[1]
 }

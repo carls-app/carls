@@ -35,6 +35,7 @@ type ReduxStateProps = {
 	weeklyMeals: ?string,
 	dailyMeals: ?string,
 	mealPlan: ?string,
+	guestSwipes: ?string,
 	loginState: LoginStateType,
 	message: ?string,
 	alertSeen: boolean,
@@ -100,7 +101,14 @@ class BalancesView extends React.PureComponent<Props, State> {
 	}
 
 	render() {
-		let {dining, schillers, dailyMeals, weeklyMeals, mealPlan} = this.props
+		let {
+			dining,
+			schillers,
+			dailyMeals,
+			weeklyMeals,
+			mealPlan,
+			guestSwipes,
+		} = this.props
 		let {loading} = this.state
 
 		return (
@@ -132,21 +140,28 @@ class BalancesView extends React.PureComponent<Props, State> {
 						</View>
 					</Section>
 
-					<Section footer={DISCLAIMER} header="MEAL PLAN">
+					<Section footer={DISCLAIMER} header="MEAL PLAN (REMAINING)">
 						<View style={styles.balancesRow}>
 							<FormattedValueCell
 								formatter={getValueOrNa}
 								indeterminate={loading}
-								label="Daily Meals Left"
+								label="Daily Meals"
 								value={dailyMeals}
 							/>
 
 							<FormattedValueCell
 								formatter={getValueOrNa}
 								indeterminate={loading}
-								label="Weekly Meals Left"
-								style={styles.finalCell}
+								label="Weekly Meals"
 								value={weeklyMeals}
+							/>
+
+							<FormattedValueCell
+								formatter={getValueOrNa}
+								indeterminate={loading}
+								label="Guest Swipes"
+								style={styles.finalCell}
+								value={guestSwipes}
 							/>
 						</View>
 						{mealPlan && (
@@ -186,6 +201,7 @@ function mapState(state: ReduxState): ReduxStateProps {
 		weeklyMeals: state.balances ? state.balances.mealsRemainingThisWeek : null,
 		dailyMeals: state.balances ? state.balances.mealsRemainingToday : null,
 		mealPlan: state.balances ? state.balances.mealPlanDescription : null,
+		guestSwipes: state.balances ? state.balances.guestSwipesCount : null,
 		message: state.balances ? state.balances.balancesErrorMessage : null,
 		alertSeen: state.settings ? state.settings.unofficiallyAcknowledged : false,
 

@@ -6,6 +6,7 @@ export type BalancesShapeType = {
 	weekly: ?string,
 	daily: ?string,
 	plan: ?string,
+	guestSwipes: ?string,
 }
 
 export type MealPlanInfoType = {
