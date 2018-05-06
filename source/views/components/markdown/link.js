@@ -23,15 +23,15 @@ type Callback = ({title?: string, href: string}) => any
 
 export class Link extends React.Component<Props> {
 	options: Array<[string, Callback]> = [
-		['Open', ({href}: {href: string}) => openUrl(href)],
+		['Open', ({href}) => openUrl(href)],
 		[
 			'Copy',
-			({title, href}: {href: string, title?: string}) =>
+			({title, href}) =>
 				Clipboard.setString(`${href}${title ? ' ' + title : ''}`),
 		],
 		[
 			'Share…',
-			({href}: {href: string}) =>
+			({href}) =>
 				ActionSheetIOS.showShareActionSheetWithOptions(
 					{url: href},
 					this.onShareFailure,
