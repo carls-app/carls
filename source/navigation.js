@@ -18,7 +18,7 @@ import {MenusView} from './views/menus'
 import {FilterView} from './views/components/filter'
 import NewsView from './views/news'
 import SISView, {BigBalancesView} from './views/sis'
-import {MapView} from './views/map-carls'
+import {MapView, MapReporterView} from './views/map-carls'
 import {StudentWorkDetailView} from './views/sis/student-work-carls'
 import {
 	BuildingHoursView,
@@ -103,6 +103,7 @@ export const AppNavigator = StackNavigator(
 		OtherModesDetailView: {screen: OtherModesDetailView},
 		BusMapView: {screen: BusMapView},
 		MapView: {screen: MapView},
+		MapReporterView: {screen: MapReporterView},
 		BigBalancesView: {screen: BigBalancesView},
 	},
 	{

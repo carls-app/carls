@@ -32,9 +32,9 @@ type Props = TopLevelViewPropsType
 type State = {|
 	features: Array<Feature<Building>>,
 	visibleMarkers: Array<string>,
-	highlighted: Array<string>,
 	selectedBuilding: ?Feature<Building>,
 	overlaySize: 'min' | 'mid' | 'max',
+	category: string,
 |}
 
 const originalCenterpoint = [-93.15488752015, 44.460800862266]
@@ -47,10 +47,10 @@ export class MapView extends React.Component<Props, State> {
 
 	state = {
 		features: [],
-		highlighted: [],
 		visibleMarkers: [],
 		selectedBuilding: null,
 		overlaySize: 'mid',
+		category: 'Buildings',
 	}
 
 	componentDidMount() {
@@ -64,7 +64,6 @@ export class MapView extends React.Component<Props, State> {
 
 		this.setState(() => ({
 			features: data.features,
-			highlighted: [],
 			visibleMarkers: [],
 		}))
 	}
@@ -133,7 +132,6 @@ export class MapView extends React.Component<Props, State> {
 		this.setState(
 			() => ({
 				visibleMarkers: [id],
-				highlighted: [id],
 				selectedBuilding: match,
 			}),
 			() => {
@@ -169,7 +167,6 @@ export class MapView extends React.Component<Props, State> {
 		this.setState(() => ({
 			selectedBuilding: null,
 			visibleMarkers: [],
-			highlighted: [],
 		}))
 		this.setOverlayMid()
 	}
@@ -180,6 +177,10 @@ export class MapView extends React.Component<Props, State> {
 
 	onOverlaySizeChange = (size: 'min' | 'mid' | 'max') => {
 		this.setState(() => ({overlaySize: size}))
+	}
+
+	handleCategoryChange = (name: string) => {
+		this.setState(() => ({category: name}))
 	}
 
 	render() {
@@ -208,13 +209,16 @@ export class MapView extends React.Component<Props, State> {
 					{this.state.selectedBuilding ? (
 						<BuildingInfo
 							feature={this.state.selectedBuilding}
+							navigation={this.props.navigation}
 							onClose={this.onInfoOverlayClose}
 							overlaySize={this.state.overlaySize}
 						/>
 					) : (
 						<BuildingPicker
+							category={this.state.category}
 							features={features}
 							onCancel={this.onPickerCancel}
+							onCategoryChange={this.handleCategoryChange}
 							onFocus={this.onPickerFocus}
 							onSelect={this.onPickerSelect}
 							overlaySize={this.state.overlaySize}

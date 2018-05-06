@@ -26,11 +26,18 @@ type Props = {
 	feature: Feature<Building>,
 	onClose: () => any,
 	overlaySize: 'min' | 'mid' | 'max',
+	navigation: any,
 }
 
 export class BuildingInfo extends React.Component<Props> {
 	onClose = () => {
 		this.props.onClose()
+	}
+
+	openReportScreen = () => {
+		this.props.navigation.push('MapReporterView', {
+			building: this.props.feature.properties,
+		})
 	}
 
 	makeBuildingCategory = (building: Building) => {
@@ -165,6 +172,19 @@ export class BuildingInfo extends React.Component<Props> {
 							</Row>
 						</Section>
 					) : null}
+
+					<Section>
+						<Row alignItems="center">
+							<Column flex={1}>
+								<SectionTitle>Found an issue?</SectionTitle>
+								<SectionContent>Let us know!</SectionContent>
+							</Column>
+							<OutlineButton
+								onPress={this.openReportScreen}
+								title="Report an Issue"
+							/>
+						</Row>
+					</Section>
 				</ScrollView>
 			</React.Fragment>
 		)
@@ -194,7 +214,7 @@ const SectionListTitle = glamorous(SectionTitle)({
 const OutlineButton = (props: {
 	title: string,
 	onPress: () => any,
-	disabled: boolean,
+	disabled?: boolean,
 }) => (
 	<Touchable
 		accessibilityTraits="button"
