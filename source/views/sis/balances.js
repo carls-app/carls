@@ -164,9 +164,6 @@ class BalancesView extends React.PureComponent<Props, State> {
 								value={guestSwipes}
 							/>
 						</View>
-						{mealPlan && (
-							<Cell cellStyle="Subtitle" detail={mealPlan} title="Meal Plan" />
-						)}
 					</Section>
 
 					{(this.props.loginState !== 'checking' &&
