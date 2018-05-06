@@ -148,12 +148,22 @@ export function getMealPlanInfo(): CacheResultType<?string> {
 	return getItem(mealPlanKey)
 }
 
+const guestSwipesKey = 'meals:plan'
+const guestSwipesCacheTime = [5, 'minutes']
+export function setGuestSwipes(guestSwipes: ?string) {
+	return setItem(guestSwipesKey, guestSwipes, guestSwipesCacheTime)
+}
+export function getGuestSwipes(): CacheResultType<?string> {
+	return getItem(guestSwipesKey)
+}
+
 type BalancesInputType = {
 	schillers: ?string,
 	dining: ?string,
 	print: ?string,
 	daily: ?string,
 	weekly: ?string,
+	guestSwipes: ?string,
 }
 export function setBalances({
 	schillers,
@@ -161,6 +171,7 @@ export function setBalances({
 	print,
 	daily,
 	weekly,
+	guestSwipes,
 }: BalancesInputType) {
 	return Promise.all([
 		setSchillersBalance(schillers),
@@ -168,6 +179,7 @@ export function setBalances({
 		setPrintBalance(print),
 		setDailyMealInfo(daily),
 		setWeeklyMealInfo(weekly),
+		setGuestSwipes(guestSwipes),
 	])
 }
 
@@ -177,16 +189,18 @@ type BalancesOutputType = {
 	print: BaseCacheResultType<?string>,
 	daily: BaseCacheResultType<?string>,
 	weekly: BaseCacheResultType<?string>,
+	guestSwipes: BaseCacheResultType<?string>,
 	_isExpired: boolean,
 	_isCached: boolean,
 }
 export async function getBalances(): Promise<BalancesOutputType> {
-	const [schillers, dining, print, daily, weekly] = await Promise.all([
+	const [schillers, dining, print, daily, weekly, guestSwipes] = await Promise.all([
 		getSchillersBalance(),
 		getDiningBalance(),
 		getPrintBalance(),
 		getDailyMealInfo(),
 		getWeeklyMealInfo(),
+		getGuestSwipes(),
 	])
 
 	const _isExpired =
@@ -202,7 +216,7 @@ export async function getBalances(): Promise<BalancesOutputType> {
 		daily.isCached ||
 		weekly.isCached
 
-	return {schillers, dining, print, daily, weekly, _isExpired, _isCached}
+	return {schillers, dining, print, daily, weekly, guestSwipes, _isExpired, _isCached}
 }
 
 /// MARK: Help tools

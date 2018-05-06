@@ -21,6 +21,7 @@ export async function getBalances(
 		print,
 		daily,
 		weekly,
+		guestSwipes,
 		_isExpired,
 		_isCached,
 	} = await cache.getBalances()
@@ -45,6 +46,7 @@ export async function getBalances(
 			print: print.value,
 			daily: daily.value,
 			weekly: weekly.value,
+			guestSwipes: guestSwipes.value,
 			plan: '',
 		},
 	}
@@ -77,15 +79,19 @@ function parseBalancesFromDom(dom: mixed): BalancesOrErrorType {
 	// .accountrow is the name of the row, and it's immediate sibling is a cell with id=value
 	let elements = cssSelect('.dashboard > p, .dashboard > ul > li', dom)
 		.map(getTrimmedTextWithSpaces)
+
+	let mainElements = elements
 		.map(rowIntoNamedAmount)
 		.filter(Boolean)
 
-	const namedValues = fromPairs(elements)
-	const schillers = namedValues.schillers
+	let namedValues = fromPairs(mainElements)
+	let schillers = namedValues.schillers
 
-	const dining = namedValues.dining
-	const daily = namedValues.daily
-	const weekly = namedValues.weekly
+	let dining = namedValues.dining
+	let daily = namedValues.daily
+	let weekly = namedValues.weekly
+
+	let guestSwipes = getGuestSwipes(elements)
 
 	return {
 		error: false,
@@ -96,6 +102,7 @@ function parseBalancesFromDom(dom: mixed): BalancesOrErrorType {
 			daily: !daily ? null : daily,
 			weekly: !weekly ? null : weekly,
 			plan: '',
+			guestSwipes: !guestSwipes ? null : guestSwipes,
 		},
 	}
 }

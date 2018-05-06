@@ -49,6 +49,7 @@ export type State = {|
 	mealsRemainingToday: ?string,
 	mealsRemainingThisWeek: ?string,
 	mealPlanDescription: ?string,
+	guestSwipesCount: ?string,
 |}
 
 const initialState = {
@@ -59,6 +60,7 @@ const initialState = {
 	mealsRemainingToday: null,
 	mealsRemainingThisWeek: null,
 	mealPlanDescription: null,
+	guestSwipesCount: null,
 }
 
 export function balances(state: State = initialState, action: Action) {
@@ -76,6 +78,7 @@ export function balances(state: State = initialState, action: Action) {
 				mealsRemainingThisWeek: p.weekly,
 				mealsRemainingToday: p.daily,
 				mealPlanDescription: p.plan,
+				guestSwipesCount: p.guestSwipes,
 				balancesErrorMessage: null,
 			}
 		}
