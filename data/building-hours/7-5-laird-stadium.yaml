@@ -4,8 +4,9 @@ image: laird-stadium
 
 schedule:
   - title: Hours
-    notes: Closed for the summer.
-    hours: []
+    hours:
+      - {days: [Mo, Tu, We, Th, Fr], from: '9:00am', to: '8:00pm'}
+      - {days: [Su], from: '11:00am', to: '8:00pm'}
 
 breakSchedule:
   fall: []
