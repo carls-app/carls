@@ -1,5 +1,7 @@
 # CARLS
 
+[![Download on the App Store](images/readme/get_app_store.svg)](https://itunes.apple.com/us/app/carls-carleton-in-your-pocket/id1273593313)
+
 ## About
 The Carleton community, now in pocket size!
 
