@@ -50,7 +50,7 @@ function HomePage(props: Props) {
 			showsHorizontalScrollIndicator={false}
 			showsVerticalScrollIndicator={false}
 		>
-			<StatusBar backgroundColor={c.gold} barStyle="light-content" />
+			<StatusBar backgroundColor={c.carletonBlueAlt} barStyle="light-content" />
 
 			<View style={styles.cells}>
 				{columns.map((contents, i) => (
