@@ -10,6 +10,7 @@ platform :ios do
   desc 'Take screenshots'
   lane :screenshot do
     devices = [
+      'iPhone X',
       'iPhone 7 Plus',
       'iPhone 6',
       'iPhone 5s',
