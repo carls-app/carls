@@ -35,86 +35,79 @@ class AllAboutOlafUITests: XCTestCase {
 
     func testMainMenuScreen() {
         sleep(1)
-        snapshot("00MainMenuScreen")
+        snapshot("MainMenuScreen")
     }
 
     func testOpenMenusScreen() {
         app.buttons["Menus"].tap()
-        sleep(5)
-        snapshot("01MenusScreenStavMenu")
+        sleep(3)
+        snapshot("MenusScreenBurtonMenu")
     }
 
-    func testOpenSisScreen() {
-        app.buttons["SIS"].tap()
-        sleep(1)
-        snapshot("02SisScreen")
+    func testOpenConvosScreen() {
+        app.buttons["Convo"].tap()
+        sleep(3)
+        snapshot("ConvoScreen")
     }
 
     func testOpenBuildingHoursScreen() {
         app.buttons["Building Hours"].tap()
-        sleep(1)
-        snapshot("03BuildingHoursScreen")
-    }
-
-    func testOpenWebcamsScreen() {
-        app.buttons["Streaming Media"].tap()
-        app.otherElements["  Webcams"].tap()
-        sleep(1)
-        snapshot("04WebcamsScreen")
+        sleep(2)
+        snapshot("BuildingHoursScreen")
     }
 
     func testOpenCalendarScreen() {
         app.buttons["Calendar"].tap()
         sleep(5)
-        snapshot("05CalendarScreen")
+        snapshot("CalendarScreen")
     }
 
     func testOpenDirectoryScreen() {
-        app.buttons["Directory"].tap()
+        app.buttons["Stalkernet"].tap()
         sleep(5)
-        snapshot("06DirectoryScreen")
+        snapshot("DirectoryScreen")
     }
 
-    func testOpenStreamingMediaScreen() {
-        app.buttons["Streaming Media"].tap()
-        sleep(1)
-        snapshot("07StreamingMediaScreen")
+    func testOpenRadioScreen() {
+        app.buttons["KRLX"].tap()
+        sleep(2)
+        snapshot("RadioScreen")
     }
 
     func testOpenNewsScreen() {
         app.buttons["News"].tap()
-        sleep(5)
-        snapshot("08NewsScreen")
+        sleep(3)
+        snapshot("NewsScreen")
     }
 
     func testOpenCampusMapScreen() {
         app.buttons["Campus Map"].tap()
                 
         sleep(5)
-        snapshot("09CampusMapScreen")
+        snapshot("CampusMapScreen")
     }
 
     func testOpenImportantContactsScreen() {
         app.buttons["Important Contacts"].tap()
-        sleep(1)
-        snapshot("10ImportantContactsScreen")
+        sleep(2)
+        snapshot("ImportantContactsScreen")
     }
 
     func testOpenTransportationScreen() {
         app.buttons["Transportation"].tap()
-        sleep(1)
-        snapshot("11TransportationScreen")
+        sleep(2)
+        snapshot("TransportationScreen")
     }
 
     func testOpenCampusDictionaryScreen() {
-        app.buttons["Campus Dictionary"].tap()
-        sleep(1)
-        snapshot("12CampusDictionaryScreen")
+        app.buttons["Dictionary"].tap()
+        sleep(2)
+        snapshot("CampusDictionaryScreen")
     }
 
     func testOpenStudentOrgsScreen() {
         app.buttons["Student Orgs"].tap()
-        sleep(5)
-        snapshot("13StudentOrgsScreen")
+        sleep(2)
+        snapshot("StudentOrgsScreen")
     }
 }
