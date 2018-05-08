@@ -56,7 +56,7 @@ def propagate_version(**args)
   # never set the "+" into the binaries
   unless version.include? '+'
     # we always want the CI build number in js-land
-    set_package_data(data: { version: "#{version}+#{ci_build_num}" })
+    set_package_data(data: { version: "#{version}+#{build}" })
   end
 
   case lane_context[:PLATFORM_NAME]
