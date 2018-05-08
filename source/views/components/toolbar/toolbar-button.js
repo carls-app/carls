@@ -16,8 +16,8 @@ const buttonStyles = StyleSheet.create({
 		borderRadius: 2,
 	},
 	activeButton: {
-		backgroundColor: c.mandarin,
-		borderColor: c.mandarin,
+		backgroundColor: c.carletonBlue,
+		borderColor: c.carletonBlue,
 	},
 	inactiveButton: {
 		borderColor: c.iosDisabledText,

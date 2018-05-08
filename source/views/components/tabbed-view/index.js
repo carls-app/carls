@@ -34,7 +34,7 @@ export const TabNavigator: ComponentType = (screens, options) =>
 			style: {
 				...Platform.select({
 					android: {
-						backgroundColor: c.carletonBlue,
+						backgroundColor: c.carletonBlueAlt,
 						height: 48,
 					},
 				}),
