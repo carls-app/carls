@@ -15,7 +15,6 @@ import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
-import com.wix.interactable.Interactable;
 import com.github.droibit.android.reactnative.customtabs.CustomTabsPackage;
 import com.idehub.GoogleAnalyticsBridge.GoogleAnalyticsBridgePackage;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
@@ -23,6 +22,7 @@ import com.mapbox.rctmgl.RCTMGLPackage;
 import com.oblador.keychain.KeychainPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.pusherman.networkinfo.RNNetworkInfoPackage;
+import com.wix.interactable.Interactable;
 
 import java.io.File;
 import java.io.IOException;
