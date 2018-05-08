@@ -237,6 +237,10 @@ jobs:
       - run: *set-ruby-version
       - restore_cache: *restore-cache-yarn
       - run: yarn install --frozen-lockfile
+      - run:
+          # why does this file even exist
+          name: Fix react-native-interactable for Android
+          command: rm -f './node_modules/react-native-interactable/{ios,android}'
       - restore_cache: *restore-cache-bundler
       - run: bundle check || bundle install --frozen --path ./vendor/bundle
       - restore_cache: *restore-cache-gradle
