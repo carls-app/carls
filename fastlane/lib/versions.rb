@@ -49,12 +49,6 @@ def propagate_version(**args)
 
   UI.message "Setting build number to #{build}"
 
-  # android's build number goes way up because we need to exceed the old build
-  # numbers generated for the x86 build.
-  ci_build_num = build
-  build = ((2 * 1048576) + build.to_i).to_s if lane_context[:PLATFORM_NAME] == :android
-  UI.message "Actually setting build number to #{build} because we're on android"
-
   version = "#{version.split('-')[0]}-pre" if should_nightly?
   UI.message "Actually putting #{version} into the binaries (because we're doing a nightly)"
 
@@ -62,7 +56,7 @@ def propagate_version(**args)
   # never set the "+" into the binaries
   unless version.include? '+'
     # we always want the CI build number in js-land
-    set_package_data(data: { version: "#{version}+#{ci_build_num}" })
+    set_package_data(data: { version: "#{version}+#{build}" })
   end
 
   case lane_context[:PLATFORM_NAME]

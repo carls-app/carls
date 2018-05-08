@@ -72,15 +72,15 @@ workflows:
       - ios:
           filters: *filters
           requires: [danger, flow, jest, prettier, eslint, data]
-      # - android:
-      #     filters: *filters
-      #     requires: [danger, flow, jest, prettier, eslint, data, cache-bundler-linux]
+      - android:
+          filters: *filters
+          requires: [danger, flow, jest, prettier, eslint, data, cache-bundler-linux]
       - ios-bundle:
           filters: *filters
           requires: [danger, flow, jest, prettier, eslint, data]
-      # - android-bundle:
-      #     filters: *filters
-      #     requires: [danger, flow, jest, prettier, eslint, data]
+      - android-bundle:
+          filters: *filters
+          requires: [danger, flow, jest, prettier, eslint, data]
   nightly:
     triggers:
       - schedule:
@@ -96,7 +96,7 @@ workflows:
       - eslint: {requires: [cache-yarn-linux]}
       - data: {requires: [cache-yarn-linux]}
       - ios-nightly: {requires: [danger, flow, jest, prettier, eslint, data]}
-      # - android-nightly: {requires: [danger, flow, jest, prettier, eslint, data, cache-bundler-linux]}
+      - android-nightly: {requires: [danger, flow, jest, prettier, eslint, data, cache-bundler-linux]}
 
 jobs:
   cache-yarn-linux:
@@ -237,6 +237,10 @@ jobs:
       - run: *set-ruby-version
       - restore_cache: *restore-cache-yarn
       - run: yarn install --frozen-lockfile
+      - run:
+          # why does this file even exist
+          name: Fix react-native-interactable for Android
+          command: rm -f './node_modules/react-native-interactable/{ios,android}'
       - restore_cache: *restore-cache-bundler
       - run: bundle check || bundle install --frozen --path ./vendor/bundle
       - restore_cache: *restore-cache-gradle

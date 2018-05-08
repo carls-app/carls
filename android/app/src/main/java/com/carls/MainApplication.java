@@ -2,7 +2,6 @@ package com.carls;
 
 import android.app.Application;
 import android.net.http.HttpResponseCache;
-import android.os.Bundle;
 import android.util.Log;
 
 // keep these sorted alphabetically
@@ -23,6 +22,7 @@ import com.mapbox.rctmgl.RCTMGLPackage;
 import com.oblador.keychain.KeychainPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.pusherman.networkinfo.RNNetworkInfoPackage;
+import com.wix.interactable.Interactable;
 
 import java.io.File;
 import java.io.IOException;
@@ -46,6 +46,7 @@ public class MainApplication extends Application implements ReactApplication {
         new CalendarEventsPackage(),
         new CustomTabsPackage(),
         new GoogleAnalyticsBridgePackage(),
+        new Interactable(),
         new KeychainPackage(),
         new LinearGradientPackage(),
         new RCTMGLPackage(),
