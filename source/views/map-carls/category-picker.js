@@ -1,7 +1,8 @@
 // @flow
 
 import * as React from 'react'
-import {View, StyleSheet, SegmentedControlIOS} from 'react-native'
+import {View, StyleSheet} from 'react-native'
+import {SegmentedControl} from './segmentedcontrol'
 
 type Props = {
 	categories: Array<string>,
@@ -26,7 +27,7 @@ export class CategoryPicker extends React.Component<Props, State> {
 	render() {
 		return (
 			<View style={styles.picker}>
-				<SegmentedControlIOS
+				<SegmentedControl
 					onValueChange={this.props.onChange}
 					selectedIndex={this.state.selectedIndex}
 					values={this.props.categories}
