@@ -1,7 +1,7 @@
 // @flow
 
 import * as React from 'react'
-import {View, StyleSheet, Dimensions} from 'react-native'
+import {View, StyleSheet, Dimensions, Platform} from 'react-native'
 import * as c from '../components/colors'
 import {GrabberBar} from './grabber'
 import Interactable from 'react-native-interactable'
@@ -33,7 +33,11 @@ export class Overlay extends React.Component<Props> {
 	positions = {
 		max: 0,
 		mid: isIPhoneX ? screenHeight - 370 : screenHeight - 300,
-		min: isIPhoneX ? screenHeight - 129 : screenHeight - 67,
+		min: isIPhoneX
+			? screenHeight - 129
+			: Platform.OS === 'ios'
+				? screenHeight - 67
+				: screenHeight - 90,
 	}
 
 	lookupPosition = (size: ViewState) => this.positions[size]

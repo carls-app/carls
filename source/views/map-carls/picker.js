@@ -1,9 +1,10 @@
 // @flow
 
 import * as React from 'react'
-import {StyleSheet} from 'react-native'
+import {StyleSheet, Platform} from 'react-native'
 import * as c from '../components/colors'
-import {SearchBar} from '../components/searchbar'
+import {SearchBar as SearchBarIOS} from '../components/searchbar'
+import {Searchbar as SearchBarAndroid} from 'react-native-paper'
 import type {Building, Feature} from './types'
 import {CategoryPicker} from './category-picker'
 import {BuildingList} from './building-list'
@@ -39,7 +40,9 @@ export class BuildingPicker extends React.Component<Props, State> {
 
 	searchBar: any = null
 
-	dismissKeyboard = () => this.searchBar.unFocus()
+	dismissKeyboard = () => {
+		this.searchBar.blur()
+	}
 
 	performSearch = (text: string) => {
 		// Android clear button returns an object
@@ -70,7 +73,7 @@ export class BuildingPicker extends React.Component<Props, State> {
 	}
 
 	handleSearchSubmit = (query: string) => {
-		this.setState(() => ({searchQuery: query.toLowerCase()}))
+		this.setState(() => ({searchQuery: query}))
 	}
 
 	allCategories = ['Buildings', 'Outdoors', 'Parking', 'Athletics']
@@ -85,18 +88,30 @@ export class BuildingPicker extends React.Component<Props, State> {
 		// I don't inject the search query into the Search box because
 		// it manages its text separately from RN, so you get jumpy editing.
 		// Unfortunately, you also lose your search query when it unmounts and remounts.
-		const search = (
-			<SearchBar
-				getRef={ref => (this.searchBar = ref)}
-				onCancel={this.onCancel}
-				onChangeText={this.performSearch}
-				onFocus={this.onFocus}
-				onSearchButtonPress={this.dismissKeyboard}
-				placeholder="Search for a place"
-				style={styles.searchBox}
-				textFieldBackgroundColor={c.iosGray}
-			/>
-		)
+		const search =
+			Platform.OS === 'android' ? (
+				<SearchBarAndroid
+					ref={ref => (this.searchBar = ref)}
+					onCancel={this.onCancel}
+					onChangeText={this.performSearch}
+					onFocus={this.onFocus}
+					onSearchButtonPress={this.dismissKeyboard}
+					placeholder="Search for a place"
+					style={styles.searchBox}
+					value={this.state.searchQuery}
+				/>
+			) : (
+				<SearchBarIOS
+					getRef={ref => (this.searchBar = ref)}
+					onCancel={this.onCancel}
+					onChangeText={this.performSearch}
+					onFocus={this.onFocus}
+					onSearchButtonPress={this.dismissKeyboard}
+					placeholder="Search for a place"
+					style={styles.searchBox}
+					textFieldBackgroundColor={c.iosGray}
+				/>
+			)
 
 		const picker = !this.state.searchQuery ? (
 			<CategoryPicker
@@ -109,7 +124,8 @@ export class BuildingPicker extends React.Component<Props, State> {
 		let matches = this.props.features
 
 		if (this.state.searchQuery) {
-			matches = fuzzyfind(this.state.searchQuery, matches, {
+			let query = this.state.searchQuery.toLowerCase()
+			matches = fuzzyfind(query, matches, {
 				accessor: b => {
 					let name = b.properties.name.toLowerCase()
 					let nickname = (b.properties.nickname || '').toLowerCase()

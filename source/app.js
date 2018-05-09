@@ -10,6 +10,7 @@ import bugsnag from './bugsnag'
 import {tracker} from './analytics'
 import {AppNavigator} from './navigation'
 import type {NavigationState} from 'react-navigation'
+import {Provider as PaperProvider} from 'react-native-paper'
 
 const store = makeStore()
 initRedux(store)
@@ -53,7 +54,9 @@ export default class App extends React.Component<Props> {
 	render() {
 		return (
 			<ReduxProvider store={store}>
-				<AppNavigator onNavigationStateChange={this.trackScreenChanges} />
+				<PaperProvider>
+					<AppNavigator onNavigationStateChange={this.trackScreenChanges} />
+				</PaperProvider>
 			</ReduxProvider>
 		)
 	}

@@ -44,7 +44,7 @@ export class SearchBar extends React.PureComponent<Props, State> {
 	}
 
 	updateText = input => {
-		this.setState({input: input})
+		this.setState(() => ({input: input}))
 	}
 
 	onSearch = () => {

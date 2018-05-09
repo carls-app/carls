@@ -91,7 +91,10 @@ export class BuildingInfo extends React.Component<Props> {
 				>
 					{photos.length ? (
 						<Section paddingTop={0}>
-							<ScrollView horizontal={true}>
+							<ScrollView
+								horizontal={true}
+								scrollEnabled={this.props.overlaySize === 'max'}
+							>
 								{photos.map(href => (
 									<Image key={href} source={{uri: href}} style={styles.photo} />
 								))}
