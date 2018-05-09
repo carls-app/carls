@@ -219,7 +219,7 @@ const CloseButton = ({onPress}) => (
 
 const styles = StyleSheet.create({
 	container: {
-		paddingHorizontal: 12,
+		paddingHorizontal: 16,
 	},
 	scroll: {
 		height: Dimensions.get('window').height - 66 - 46,
