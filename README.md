@@ -1,5 +1,6 @@
 # CARLS
 
+[![Get it on Google Play](images/readme/get_google_play.svg)](https://play.google.com/store/apps/details?id=com.carls)
 [![Download on the App Store](images/readme/get_app_store.svg)](https://itunes.apple.com/us/app/carls-carleton-in-your-pocket/id1273593313)
 
 ## About
