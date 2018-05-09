@@ -21,6 +21,7 @@ import {
 	ListSection,
 	Snackbar,
 	Headline,
+	Paragraph,
 	Subheading,
 } from 'react-native-paper'
 import Icon from 'react-native-vector-icons/MaterialIcons'
@@ -108,6 +109,7 @@ export class BuildingInfo extends React.Component<Props, State> {
 				>
 					{photos.length ? (
 						<ScrollView
+							contentContainerStyle={styles.container}
 							horizontal={true}
 							scrollEnabled={this.props.overlaySize === 'max'}
 						>
@@ -146,7 +148,11 @@ export class BuildingInfo extends React.Component<Props, State> {
 					) : null}
 
 					{building.description ? (
-						<ListItem description={building.description} title="Description" />
+						<ListSection title="Description">
+							<Paragraph style={styles.container}>
+								{building.description}
+							</Paragraph>
+						</ListSection>
 					) : null}
 
 					{departments.length ? (
@@ -207,7 +213,7 @@ const CloseButton = ({onPress}) => (
 		onPress={onPress}
 		style={styles.closeButton}
 	>
-		<Icon name="expand-more" />
+		<Icon name="expand-more" size={24} />
 	</Touchable>
 )
 
@@ -219,12 +225,10 @@ const styles = StyleSheet.create({
 		height: Dimensions.get('window').height - 66 - 46,
 	},
 	closeButton: {
-		width: 24,
-		height: 24,
-		borderRadius: 24,
-		backgroundColor: c.semitransparentGray,
 		alignItems: 'center',
 		justifyContent: 'center',
+		width: 36,
+		height: 36,
 	},
 	photo: {
 		width: 265,
