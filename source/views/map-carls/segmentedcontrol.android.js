@@ -44,5 +44,5 @@ const styles = StyleSheet.create({
 	},
 	button: {
 		flexGrow: 1,
-	}
+	},
 })
