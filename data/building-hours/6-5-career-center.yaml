@@ -4,6 +4,7 @@ category: Help and Support
 
 schedule:
   - title: Hours
+    notes: Now located in the Alumni Guest House!
     hours:
       - {days: [Mo, Tu, We, Th, Fr], from: '8:00am', to: '5:00pm'}
 
