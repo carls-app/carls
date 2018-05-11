@@ -26,14 +26,6 @@ schedule:
     hours:
       - {days: [Fr], from: '7:00pm', to: '8:00pm'}
 
-# Mondays 2-3pm and 6-10pm, with Music Club 5-6pm
-# Tuesdays 1-3pm, 4-5pm, and 8-10pm
-# Wednesdays 8-10pm
-# Thursdays 3-5pm and 8-10pm
-# Fridays 3-7pm w/Album Release Parties @ 7pm
-# Saturdays 11am-12pm and 1-5pm
-# Sundays 7-10pm
-
 breakSchedule:
   fall: []
   thanksgiving: []
