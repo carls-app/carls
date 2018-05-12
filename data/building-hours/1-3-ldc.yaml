@@ -11,7 +11,7 @@ schedule:
 
   - title: Brunch
     hours:
-      - {days: [Su], from: '10:30am', to: '1:00pm'}
+      - {days: [Sa, Su], from: '10:30am', to: '1:00pm'}
 
   - title: Lunch
     hours:
