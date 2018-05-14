@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
 type Props = TopLevelViewPropsType
 
 type State = {
-	results: Array<WordType>,
+	query: string,
 	allTerms: Array<WordType>,
 	refreshing: boolean,
 }
@@ -59,7 +59,7 @@ export class DictionaryView extends React.PureComponent<Props, State> {
 	}
 
 	state = {
-		results: defaultData.data,
+		query: '',
 		allTerms: defaultData.data,
 		refreshing: false,
 	}
@@ -125,17 +125,7 @@ export class DictionaryView extends React.PureComponent<Props, State> {
 	)
 
 	performSearch = (text: ?string) => {
-		if (!text) {
-			this.setState(state => ({results: state.allTerms}))
-			return
-		}
-
-		const query = text.toLowerCase()
-		this.setState(state => ({
-			results: state.allTerms.filter(term =>
-				termToArray(term).some(word => word.startsWith(query)),
-			),
-		}))
+		this.setState(() => ({query: text ? text.toLowerCase() : ''}))
 	}
 
 	render() {
@@ -146,6 +136,14 @@ export class DictionaryView extends React.PureComponent<Props, State> {
 			/>
 		)
 
+		let results = this.state.allTerms
+		if (this.state.query) {
+			const {query, allTerms} = this.state
+			results = allTerms.filter(term =>
+				termToArray(term).some(word => word.startsWith(query)),
+			)
+		}
+
 		return (
 			<SearchableAlphabetListView
 				cell={this.renderRow}
@@ -153,7 +151,7 @@ export class DictionaryView extends React.PureComponent<Props, State> {
 					ROW_HEIGHT +
 					(Platform.OS === 'ios' ? 11 / 12 * StyleSheet.hairlineWidth : 0)
 				}
-				data={groupBy(this.state.results, item => item.word[0])}
+				data={groupBy(results, item => item.word[0])}
 				onSearch={this.performSearch}
 				refreshControl={refreshControl}
 				renderSeparator={this.renderSeparator}
