@@ -1,11 +1,13 @@
-name: Bouldering Cave
+name: Rock Climbing and Bouldering
+image: rec-wall
 category: Gym
 
 schedule:
   - title: Hours
     hours:
-      - {days: [Mo, We], from: '11:30am', to: '1:00pm'}
-      - {days: [Mo, Tu, We, Th], from: '4:30pm', to: '9:00pm'}
+      - {days: [Mo, Tu, We, Th], from: '4:30pm', to: '9:30pm'}
+      - {days: [Mo], from: '12:00pm', to: '1:00pm'}
+      - {days: [Fr], from: '11:00am', to: '12:45pm'}
       - {days: [Fr], from: '4:00pm', to: '7:00pm'}
       - {days: [Su], from: '2:00pm', to: '5:00pm'}
 
