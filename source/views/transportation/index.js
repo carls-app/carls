@@ -33,6 +33,26 @@ export default TabNavigator(
 			},
 		},
 
+		CarlsGo1BusView: {
+			screen: ({navigation}) => (
+				<BusView line="Carls-Go! Route 1" navigation={navigation} />
+			),
+			navigationOptions: {
+				tabBarLabel: 'Carls-Go! R1',
+				tabBarIcon: TabBarIcon('car'),
+			},
+		},
+
+		CarlsGo2BusView: {
+			screen: ({navigation}) => (
+				<BusView line="Carls-Go! Route 2" navigation={navigation} />
+			),
+			navigationOptions: {
+				tabBarLabel: 'Carls-Go! R2',
+				tabBarIcon: TabBarIcon('car'),
+			},
+		},
+
 		TransportationOtherModesListView: {
 			screen: OtherModesView,
 		},
