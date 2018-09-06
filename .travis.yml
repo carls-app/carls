@@ -29,7 +29,7 @@ env:
 branches:
   only:
     - master
-    - /^greenkeeper\//
+    - /^greenkeeper[/]/
 
 
 stages:
