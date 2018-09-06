@@ -29,30 +29,15 @@ env:
 branches:
   only:
     - master
-    - /^greenkeeper[/]/
 
 
 stages:
-  - name: Greenkeeper
-    if: branch =~ /^greenkeeper[/]/
   - name: Deploy Data
     if: branch = master AND type != pull_request
 
 
 jobs:
   include:
-    # Run greenkeeper stuff
-    - os: linux
-      sudo: false
-      distro: trusty
-      language: node_js
-      node_js: $TRAVIS_NODE_VERSION
-      stage: Greenkeeper
-      env: [task=GREENKEEPER]
-      install: npm install -g greenkeeper-lockfile@1
-      script: greenkeeper-lockfile-update
-      after_script: greenkeeper-lockfile-upload
-
     # Deploy the gh-pages data
     - os: linux
       sudo: false
