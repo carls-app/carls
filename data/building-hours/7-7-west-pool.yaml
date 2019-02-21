@@ -6,10 +6,7 @@ schedule:
   - title: Hours
     hours:
       - {days: [Mo, We], from: '12:30pm', to: '1:30pm'}
-      - {days: [Mo, We], from: '4:30pm', to: '6:00pm'}
       - {days: [Fr], from: '12:00pm', to: '1:00pm'}
-      - {days: [Fr], from: '4:30pm', to: '6:00pm'}
-      - {days: [Su], from: '4:30pm', to: '6:00pm'}
 
 breakSchedule:
   fall: []
