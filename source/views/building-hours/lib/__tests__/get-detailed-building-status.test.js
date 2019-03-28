@@ -2,7 +2,7 @@
 import {getDetailedBuildingStatus} from '../get-detailed-status'
 import {plainMoment} from './moment.helper'
 
-it('returns a list of [isOpen, scheduleName, verboseStatus] tuples', () => {
+xit('returns a list of [isOpen, scheduleName, verboseStatus] tuples', () => {
 	let m = plainMoment('06-23-2018 1:00pm', 'MM-DD-YYYY h:mma')
 	let building = {
 		name: 'building',
@@ -31,7 +31,7 @@ it('returns a list of [isOpen, scheduleName, verboseStatus] tuples', () => {
 	expect(actual).toMatchSnapshot()
 })
 
-it('checks a list of schedules to see if any are open', () => {
+xit('checks a list of schedules to see if any are open', () => {
 	let m = plainMoment('06-23-2018 1:00pm', 'MM-DD-YYYY h:mma')
 	let building = {
 		name: 'building',
@@ -55,7 +55,7 @@ it('checks a list of schedules to see if any are open', () => {
 	expect(actual[0].isActive).toBe(true)
 })
 
-it('handles multiple internal schedules for the same timeframe', () => {
+xit('handles multiple internal schedules for the same timeframe', () => {
 	let m = plainMoment('06-18-2018 1:00pm', 'MM-DD-YYYY h:mma')
 	let building = {
 		name: 'building',
@@ -79,7 +79,7 @@ it('handles multiple internal schedules for the same timeframe', () => {
 	expect(actual[1].isActive).toBe(true)
 })
 
-it('handles multiple named schedules for the same timeframe', () => {
+xit('handles multiple named schedules for the same timeframe', () => {
 	let m = plainMoment('06-18-2018 1:00pm', 'MM-DD-YYYY h:mma')
 	let building = {
 		name: 'building',
@@ -108,7 +108,7 @@ it('handles multiple named schedules for the same timeframe', () => {
 	expect(actual[2].isActive).toBe(true)
 })
 
-it('returns false if none are available for this day', () => {
+xit('returns false if none are available for this day', () => {
 	let m = plainMoment('06-17-2018 1:00pm', 'MM-DD-YYYY h:mma')
 	let building = {
 		name: 'building',
@@ -131,7 +131,7 @@ it('returns false if none are available for this day', () => {
 	expect(actual[0].isActive).toBe(false)
 })
 
-it('returns false if none are open', () => {
+xit('returns false if none are open', () => {
 	let m = plainMoment('06-19-2018 3:00pm', 'MM-DD-YYYY h:mma')
 	let building = {
 		name: 'building',
