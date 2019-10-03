@@ -5,7 +5,7 @@ category: Food
 schedule:
   - title: Breakfast
     hours:
-      - {days: [Mo, Tu, We, Th, Fr], from: '7:30am', to: '10:00am'}
+      - {days: [Mo, Tu, We, Th, Fr], from: '7:30am', to: '10:30am'}
 
   - title: Brunch
     hours:
