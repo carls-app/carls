@@ -89,16 +89,18 @@ export class BuildingPicker extends React.Component<Props, State> {
 		// I don't inject the search query into the Search box because
 		// it manages its text separately from RN, so you get jumpy editing.
 		// Unfortunately, you also lose your search query when it unmounts and remounts.
-		const search = <SearchBar
-			getRef={ref => (this.searchBar = ref)}
-			onCancel={this.onCancel}
-			onChange={this.performSearch}
-			onFocus={this.onFocus}
-			onSubmit={this.dismissKeyboard}
-			placeholder="Search for a place"
-			style={styles.searchBox}
-			textFieldBackgroundColor={c.iosGray}
-		/>;
+		const search = (
+			<SearchBar
+				getRef={ref => (this.searchBar = ref)}
+				onCancel={this.onCancel}
+				onChange={this.performSearch}
+				onFocus={this.onFocus}
+				onSubmit={this.dismissKeyboard}
+				placeholder="Search for a place"
+				style={styles.searchBox}
+				textFieldBackgroundColor={c.iosGray}
+			/>
+		)
 
 		const picker = !this.state.searchQuery ? (
 			<CategoryPicker

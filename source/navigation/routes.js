@@ -44,7 +44,10 @@ import {
 	KSTOScheduleView,
 	RadioTabView,
 } from '../views/streaming'
-import {StudentOrgsDetailView, StudentOrgsView} from '../views/student-orgs-carls'
+import {
+	StudentOrgsDetailView,
+	StudentOrgsView,
+} from '../views/student-orgs-carls'
 import TransportationView, {
 	BusMap as BusMapView,
 	OtherModesDetailView,

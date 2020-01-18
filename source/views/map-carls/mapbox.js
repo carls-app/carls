@@ -61,7 +61,9 @@ export class MapView extends React.Component<Props, State> {
 	_map: ?Mapbox.MapView = null
 
 	fetchData = async () => {
-		const data: FeatureCollection<Building> = await fetch(MAP_DATA_URL).then(r=>r.json())
+		const data: FeatureCollection<Building> = await fetch(
+			MAP_DATA_URL,
+		).then(r => r.json())
 
 		this.setState(() => ({
 			features: data.features,

@@ -14,11 +14,16 @@ export type Category =
 // "Label <link>"
 export opaque type LabelLinkString = string
 
-export function parseLinkString(str: LabelLinkString): {label: string, href: string} {
+export function parseLinkString(
+	str: LabelLinkString,
+): {label: string, href: string} {
 	let regex = /^(.*) <(.*)>$/u
 	let matches = regex.exec(str)
 	if (!matches) {
-		return {label: str, href: 'https://apps.carleton.edu/map/404-unknown-building/'}
+		return {
+			label: str,
+			href: 'https://apps.carleton.edu/map/404-unknown-building/',
+		}
 	}
 	return {label: matches[1], href: matches[2]}
 }
