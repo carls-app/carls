@@ -8,7 +8,7 @@ describe('Basic smoke tests', () => {
 
 	it('should show settings screen after tap', async () => {
 		await element(by.id('button-open-settings')).tap()
-		await expect(element(by.text('Sign In to St. Olaf'))).toBeVisible()
+		await expect(element(by.text('Version'))).toBeVisible()
 	})
 
 	it('should show home screen after tap to exit settings screen', async () => {
