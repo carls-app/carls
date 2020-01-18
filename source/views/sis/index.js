@@ -2,23 +2,18 @@
 
 import {TabNavigator} from '../../../modules/navigation-tabs/tabbed-view'
 
-import {BalancesOrAcknowledgementView} from './balances-acknowledgement'
-import StudentWorkView from './student-work'
-import {CourseSearchView} from './course-search'
-import TESView from './tes'
+import StudentWorkView from './student-work-carls'
+import {TheHubView} from './hub'
 
-export {JobDetailView} from './student-work/detail'
-export {CourseSearchResultsView, CourseDetailView} from './course-search'
+export {JobDetailView} from './student-work-carls/detail'
 
 const SisView = TabNavigator({
-	BalancesView: {screen: BalancesOrAcknowledgementView},
-	CourseSearchView: {screen: CourseSearchView},
-	TESView: {screen: TESView},
+	TheHubView: {screen: TheHubView},
 	StudentWorkView: {screen: StudentWorkView},
 })
 
 SisView.navigationOptions = {
-	title: 'SIS',
+	title: 'The Hub',
 }
 
 export default SisView

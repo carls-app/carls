@@ -17,16 +17,12 @@ import {
 } from '../views/dictionary'
 import {FaqView} from '../views/faqs'
 import {HelpView} from '../views/help'
+import {JobDetailView} from '../views/sis'
 import {
-	CourseDetailView,
-	CourseSearchResultsView,
-	JobDetailView,
-} from '../views/sis'
-import {
-	CarletonBurtonMenuScreen,
-	CarletonLDCMenuScreen,
-	CarletonSaylesMenuScreen,
-	CarletonWeitzMenuScreen,
+	OlafStavMenuView,
+	OlafPauseMenuView,
+	OlafCageMenuView,
+	OlafCafeIndex,
 	MenusView,
 } from '../views/menus'
 import {BonAppPickerView} from '../views/menus/dev-bonapp-picker'
@@ -42,64 +38,68 @@ import {
 	APITestView,
 } from '../views/settings'
 import SISView from '../views/sis'
-import StreamingView, {
+import {
+	SumoUpcomingView,
 	KRLXScheduleView,
 	KSTOScheduleView,
+	RadioTabView,
 } from '../views/streaming'
-import {StudentOrgsDetailView, StudentOrgsView} from '../views/student-orgs'
+import {StudentOrgsDetailView, StudentOrgsView} from '../views/student-orgs-carls'
 import TransportationView, {
 	BusMap as BusMapView,
 	OtherModesDetailView,
 } from '../views/transportation'
 import {
-	PrinterListView,
-	PrintJobReleaseView,
-	PrintJobsView,
-} from '../views/stoprint'
+	ConvocationsView,
+	ArchivedConvocationDetailView,
+	UpcomingConvocationsDetailView,
+} from '../views/convocations'
+import {MapView, MapReporterView} from '../views/map-carls'
 
 export const routes = {
 	HomeView: {screen: HomeView},
+	APITestView: {screen: APITestView},
+	BonAppPickerView: {screen: BonAppPickerView},
 	BuildingHoursDetailView: {screen: BuildingHoursDetailView},
-	BuildingHoursView: {screen: BuildingHoursView},
 	BuildingHoursProblemReportView: {screen: BuildingHoursProblemReportView},
+	ArchivedConvocationDetailView: {screen: ArchivedConvocationDetailView},
 	BuildingHoursScheduleEditorView: {screen: BuildingHoursScheduleEditorView},
+	BuildingHoursView: {screen: BuildingHoursView},
+	BusMapView: {screen: BusMapView},
 	CalendarView: {screen: CalendarView},
-	ContactsView: {screen: ContactsView},
 	ContactsDetailView: {screen: ContactsDetailView},
+	ContactsView: {screen: ContactsView},
+	ConvocationsView: {screen: ConvocationsView},
 	CreditsView: {screen: CreditsView},
 	DebugView: {screen: DebugView},
-	APITestView: {screen: APITestView},
 	DictionaryDetailView: {screen: DictionaryDetailView},
-	DictionaryView: {screen: DictionaryView},
 	DictionaryEditorView: {screen: DictionaryEditorView},
+	DictionaryView: {screen: DictionaryView},
 	EventDetailView: {screen: EventDetailView},
 	FaqView: {screen: FaqView},
 	HelpView: {screen: HelpView},
-	JobDetailView: {screen: JobDetailView},
-	LegalView: {screen: LegalView},
-	MenusView: {screen: MenusView},
-	BonAppPickerView: {screen: BonAppPickerView},
-	NewsView: {screen: NewsView},
-	PrivacyView: {screen: PrivacyView},
-	SettingsView: {screen: SettingsView},
 	IconSettingsView: {screen: IconSettingsView},
-	SISView: {screen: SISView},
-	CourseSearchResultsView: {screen: CourseSearchResultsView},
-	CourseDetailView: {screen: CourseDetailView},
-	StreamingView: {screen: StreamingView},
-	KSTOScheduleView: {screen: KSTOScheduleView},
+	JobDetailView: {screen: JobDetailView},
+	MapView: {screen: MapView},
+	MapReporterView: {screen: MapReporterView},
 	KRLXScheduleView: {screen: KRLXScheduleView},
+	KSTOScheduleView: {screen: KSTOScheduleView},
+	LegalView: {screen: LegalView},
+	MenuItemDetailView: {screen: MenuItemDetailView},
+	MenusView: {screen: MenusView},
+	NewsView: {screen: NewsView},
+	OlafCafeIndex: {screen: OlafCafeIndex},
+	OlafCageMenuView: {screen: OlafCageMenuView},
+	OlafPauseMenuView: {screen: OlafPauseMenuView},
+	OlafStavMenuView: {screen: OlafStavMenuView},
+	OtherModesDetailView: {screen: OtherModesDetailView},
+	PrivacyView: {screen: PrivacyView},
+	RadioTabView: {screen: RadioTabView},
+	SettingsView: {screen: SettingsView},
+	SISView: {screen: SISView},
 	StudentOrgsDetailView: {screen: StudentOrgsDetailView},
 	StudentOrgsView: {screen: StudentOrgsView},
+	SumoUpcomingView: {screen: SumoUpcomingView},
 	TransportationView: {screen: TransportationView},
-	OtherModesDetailView: {screen: OtherModesDetailView},
-	BusMapView: {screen: BusMapView},
-	CarletonBurtonMenuView: {screen: CarletonBurtonMenuScreen},
-	CarletonLDCMenuView: {screen: CarletonLDCMenuScreen},
-	CarletonWeitzMenuView: {screen: CarletonWeitzMenuScreen},
-	CarletonSaylesMenuView: {screen: CarletonSaylesMenuScreen},
-	MenuItemDetailView: {screen: MenuItemDetailView},
-	PrintJobsView: {screen: PrintJobsView},
-	PrinterListView: {screen: PrinterListView},
-	PrintJobReleaseView: {screen: PrintJobReleaseView},
+	UpcomingConvocationsDetailView: {screen: UpcomingConvocationsDetailView},
 }

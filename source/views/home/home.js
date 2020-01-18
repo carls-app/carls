@@ -71,7 +71,7 @@ export default function HomePage({navigation, views = allViews}: Props) {
 }
 HomePage.navigationOptions = ({navigation}) => {
 	return {
-		title: 'All About Olaf',
+		title: 'CARLS',
 		headerBackTitle: 'Home',
 		headerLeft: <OpenSettingsButton navigation={navigation} />,
 	}

@@ -5,7 +5,6 @@ import NetInfo from '@react-native-community/netinfo'
 import {getEnabledTools} from './parts/help'
 import {loadFavoriteBuildings} from './parts/buildings'
 import {loadAcknowledgement} from './parts/settings'
-import {loadRecentSearches, loadRecentFilters} from './parts/courses'
 
 export async function init(store: {dispatch: any => any}) {
 	// this function runs in two parts: the things that don't care about
@@ -15,8 +14,6 @@ export async function init(store: {dispatch: any => any}) {
 	await Promise.all([
 		store.dispatch(loadAcknowledgement()),
 		store.dispatch(loadFavoriteBuildings()),
-		store.dispatch(loadRecentSearches()),
-		store.dispatch(loadRecentFilters()),
 	])
 
 	// wait for our first connection check to happen

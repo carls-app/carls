@@ -8,29 +8,20 @@ import reduxThunk from 'redux-thunk'
 import {settings, type State as SettingsState} from './parts/settings'
 import {buildings, type State as BuildingsState} from './parts/buildings'
 import {help, type State as HelpState} from './parts/help'
-import {courses, type State as CoursesState} from './parts/courses'
-import {stoprint, type State as StoPrintState} from './parts/stoprint'
-import {login, type State as LoginState} from './parts/login'
 
 export {init as initRedux} from './init'
 
 export type ReduxState = {
-	courses?: CoursesState,
 	settings?: SettingsState,
 	buildings?: BuildingsState,
 	help?: HelpState,
-	stoprint?: StoPrintState,
-	login?: LoginState,
 }
 
 export function makeStore(): Store<*, *, *> {
 	let aao = combineReducers({
-		courses,
 		settings,
 		buildings,
 		help,
-		stoprint,
-		login,
 	})
 
 	let middleware = [reduxPromise, reduxThunk]

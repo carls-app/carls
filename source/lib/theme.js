@@ -2,14 +2,14 @@
 
 import {Platform} from 'react-native'
 import tinycolor from 'tinycolor2'
-import {sto} from './colors'
+import {carletonBlueLight, black, white} from './colors'
 import {firstReadable} from '@frogpond/colors'
 import {type AppTheme} from '@frogpond/app-theme'
 
 /**
  * The primary color of the app.
  */
-export const accent = sto.gold
+export const accent = carletonBlueLight
 
 // When you change this for iOS, you also need to update the RGB values in
 // `/ios/AllAboutOlaf/LaunchScreen.storyboard`; you'll need to edit
@@ -20,23 +20,20 @@ export const navigationBackground = Platform.select({
 	android: accent,
 })
 export const navigationForeground = firstReadable(navigationBackground, [
-	sto.black,
-	sto.white,
+	black,
+	white,
 ])
 
 export const buttonBackground = accent
-export const buttonForeground = firstReadable(buttonBackground, [
-	sto.black,
-	sto.white,
-])
+export const buttonForeground = firstReadable(buttonBackground, [black, white])
 
 export const toolbarButtonBackground = buttonBackground
 export const toolbarButtonForeground = buttonForeground
 
-export const iosPushButtonCellBackground = sto.white
+export const iosPushButtonCellBackground = white
 export const iosPushButtonCellForeground = firstReadable(
 	iosPushButtonCellBackground,
-	[accent, sto.black, sto.white],
+	[accent, black, white],
 )
 
 // Background color when the switch is turned on.
@@ -55,22 +52,22 @@ export const switchThumbTint = Platform.select({
 	android: undefined,
 })
 
-export const androidListHeaderBackground = sto.white
+export const androidListHeaderBackground = white
 export const androidListHeaderForeground = firstReadable(
 	androidListHeaderBackground,
-	[accent, sto.black, sto.white],
+	[accent, black, white],
 )
 
 export const androidTabBarBackground = accent
 export const androidTabBarForeground = firstReadable(androidTabBarBackground, [
 	accent,
-	sto.black,
-	sto.white,
+	black,
+	white,
 ])
 
 // not used in the gui; just used for calculations
 const iosTabBarBackground = '#F7F7F7'
-export const iosTabBarActiveColor = sto.purple
+export const iosTabBarActiveColor = carletonBlueLight
 
 export const androidStatusBarColor = tinycolor(navigationBackground)
 	.darken(20)

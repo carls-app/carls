@@ -4,85 +4,80 @@ import * as React from 'react'
 import {TabNavigator, TabBarIcon} from '@frogpond/navigation-tabs'
 
 import {BonAppHostedMenu} from './menu-bonapp'
-import {GitHubHostedMenu} from './menu-github'
-import {CarletonCafeIndex} from './carleton-menus'
+import {OlafCafeIndex} from './olaf-menus'
 
+export {OlafCafeIndex}
 export {
-	CarletonBurtonMenuScreen,
-	CarletonLDCMenuScreen,
-	CarletonWeitzMenuScreen,
-	CarletonSaylesMenuScreen,
-} from './carleton-menus'
+	OlafStavMenuView,
+	OlafCageMenuView,
+	OlafPauseMenuView,
+} from './olaf-menus'
 
 export const MenusView = TabNavigator({
-	StavHallMenuView: {
+	BurtonMenuScreen: {
 		screen: ({navigation}) => (
 			<BonAppHostedMenu
-				cafe="stav-hall"
-				loadingMessage={[
-					'Hunting Ferndale Turkey…',
-					'Tracking wild vegan burgers…',
-					'"Cooking" some lutefisk…',
-					'Finding more mugs…',
-					'Waiting for omelets…',
-					'Putting out more cookies…',
-				]}
-				name="Stav Hall"
+				cafe="burton"
+				loadingMessage={['Searching for Schiller…']}
+				name="burton"
 				navigation={navigation}
 			/>
 		),
 		navigationOptions: {
-			tabBarLabel: 'Stav Hall',
+			title: 'Burton',
+			tabBarIcon: TabBarIcon('ice-cream'),
+		},
+	},
+
+	LDCMenuScreen: {
+		screen: ({navigation}) => (
+			<BonAppHostedMenu
+				cafe="ldc"
+				loadingMessage={['Tracking down empty seats…']}
+				name="ldc"
+				navigation={navigation}
+			/>
+		),
+		navigationOptions: {
+			title: 'LDC',
 			tabBarIcon: TabBarIcon('nutrition'),
 		},
 	},
 
-	TheCageMenuView: {
+	SaylesMenuScreen: {
 		screen: ({navigation}) => (
 			<BonAppHostedMenu
-				cafe="the-cage"
-				ignoreProvidedMenus={true}
-				loadingMessage={[
-					'Checking for vegan cookies…',
-					'Serving up some shakes…',
-					'Waiting for menu screens to change…',
-					'Frying chicken…',
-					'Brewing coffee…',
-				]}
-				name="The Cage"
+				cafe="sayles"
+				loadingMessage={['Engaging in people-watching…', 'Checking the mail…']}
+				name="sayles"
 				navigation={navigation}
 			/>
 		),
 		navigationOptions: {
-			tabBarLabel: 'The Cage',
+			title: 'Sayles Hill',
 			tabBarIcon: TabBarIcon('cafe'),
 		},
 	},
 
-	ThePauseMenuView: {
+	WeitzMenuScreen: {
 		screen: ({navigation}) => (
-			<GitHubHostedMenu
-				loadingMessage={[
-					'Mixing up a shake…',
-					'Spinning up pizzas…',
-					'Turning up the music…',
-					'Putting ice cream on the cookies…',
-					'Fixing the oven…',
-				]}
-				name="The Pause"
+			<BonAppHostedMenu
+				cafe="weitz"
+				loadingMessage={['Observing the artwork…', 'Previewing performances…']}
+				name="weitz"
 				navigation={navigation}
 			/>
 		),
 		navigationOptions: {
-			tabBarLabel: 'The Pause',
-			tabBarIcon: TabBarIcon('paw'),
+			title: 'Weitz Center',
+			tabBarIcon: TabBarIcon('wine'),
 		},
 	},
 
-	CarletonMenuListView: {
-		screen: CarletonCafeIndex,
+	OlafMenuListView: {
+		screen: OlafCafeIndex,
 		navigationOptions: {
-			tabBarLabel: 'Carleton',
+			title: 'St. Olaf',
 			tabBarIcon: TabBarIcon('menu'),
 		},
 	},

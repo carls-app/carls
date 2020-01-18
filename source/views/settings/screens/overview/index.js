@@ -6,7 +6,6 @@ import {TableView} from '@frogpond/tableview'
 import {type NavigationScreenProp} from 'react-navigation'
 import {isDevMode} from '@frogpond/constants'
 
-import {ConnectedCredentialsLoginSection} from './login-credentials'
 import {MiscellanySection} from './miscellany'
 import {OddsAndEndsSection} from './odds-and-ends'
 import {SupportSection} from './support'
@@ -26,8 +25,6 @@ export function SettingsView(props: {navigation: NavigationScreenProp<*>}) {
 			keyboardShouldPersistTaps="always"
 		>
 			<TableView>
-				<ConnectedCredentialsLoginSection />
-
 				<SupportSection navigation={props.navigation} />
 
 				<MiscellanySection navigation={props.navigation} />

@@ -21,16 +21,6 @@ const TransportationView = TabNavigator({
 		},
 	},
 
-	RedLineBusView: {
-		screen: ({navigation}) => (
-			<BusView line="Red Line" navigation={navigation} />
-		),
-		navigationOptions: {
-			tabBarLabel: 'Red Line',
-			tabBarIcon: TabBarIcon('bus'),
-		},
-	},
-
 	BlueLineBusView: {
 		screen: ({navigation}) => (
 			<BusView line="Blue Line" navigation={navigation} />
@@ -41,12 +31,22 @@ const TransportationView = TabNavigator({
 		},
 	},
 
-	OlesGoView: {
+	CarlsGo1BusView: {
 		screen: ({navigation}) => (
-			<BusView line="Oles Go" navigation={navigation} />
+			<BusView line="Carls-Go! Route 1" navigation={navigation} />
 		),
 		navigationOptions: {
-			tabBarLabel: 'Oles Go',
+			tabBarLabel: 'Carls-Go! R1',
+			tabBarIcon: TabBarIcon('car'),
+		},
+	},
+
+	CarlsGo2BusView: {
+		screen: ({navigation}) => (
+			<BusView line="Carls-Go! Route 2" navigation={navigation} />
+		),
+		navigationOptions: {
+			tabBarLabel: 'Carls-Go! R2',
 			tabBarIcon: TabBarIcon('car'),
 		},
 	},

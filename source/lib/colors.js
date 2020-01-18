@@ -20,3 +20,13 @@ export const sto = {
 	mint: '#CFE1D7',
 	white: '#FFFFFF',
 }
+
+export const black = '#242121'
+export const white = '#FFFFFF'
+
+export const carletonBlueLight = 'rgb(45, 83, 143)'
+export const carletonBlueAlt = 'rgb(0, 62, 126)'
+export const carlsBlueLightToBlue = [carletonBlueLight, carletonBlueAlt]
+export const carlsMaizeToMaizeDark = ['rgb(255, 210, 79)', 'rgb(238, 177, 17)']
+
+export const lightGray = sto.lightGray

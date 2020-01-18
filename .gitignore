@@ -50,6 +50,7 @@ fastlane/test_output
 
 # generated files
 /docs/
+.env.js
 
 # Deployment keys
 android/app/signing.properties

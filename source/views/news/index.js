@@ -7,77 +7,47 @@ import * as newsImages from '../../../images/news-sources'
 import NewsContainer from './news-container'
 
 const NewsView = TabNavigator({
-	StOlafNewsView: {
+	CarletonNewsView: {
 		screen: ({navigation}) => (
 			<NewsContainer
 				navigation={navigation}
-				source="stolaf"
-				thumbnail={newsImages.stolaf}
-				title="St. Olaf"
+				source="carleton-now"
+				thumbnail={false}
+				title="Carleton"
 			/>
 		),
 		navigationOptions: {
-			tabBarLabel: 'St. Olaf',
+			tabBarLabel: 'Carleton',
 			tabBarIcon: TabBarIcon('school'),
 		},
 	},
 
-	OlevilleNewsView: {
+	CarletonianNewsView: {
 		screen: ({navigation}) => (
 			<NewsContainer
 				navigation={navigation}
-				source="oleville"
-				thumbnail={newsImages.oleville}
-				title="Oleville"
+				source="carletonian"
+				thumbnail={false}
+				title="The Carletonian"
 			/>
 		),
 		navigationOptions: {
-			tabBarLabel: 'Oleville',
-			tabBarIcon: TabBarIcon('happy'),
-		},
-	},
-
-	MessNewsView: {
-		screen: ({navigation}) => (
-			<NewsContainer
-				navigation={navigation}
-				source="mess"
-				thumbnail={newsImages.mess}
-				title="The Mess"
-			/>
-		),
-		navigationOptions: {
-			tabBarLabel: 'The Mess',
+			tabBarLabel: 'Carletonian',
 			tabBarIcon: TabBarIcon('paper'),
 		},
 	},
 
-	PoliticOleNewsView: {
+	KrlxNewsView: {
 		screen: ({navigation}) => (
 			<NewsContainer
 				navigation={navigation}
-				source="politicole"
-				thumbnail={newsImages.politicole}
-				title="PoliticOle"
+				source="krlx"
+				thumbnail={newsImages.krlx}
+				title="KRLX"
 			/>
 		),
 		navigationOptions: {
-			tabBarLabel: 'PoliticOle',
-			tabBarIcon: TabBarIcon('megaphone'),
-		},
-	},
-
-	KstoNewsView: {
-		screen: ({navigation}) => (
-			<NewsContainer
-				navigation={navigation}
-				source="ksto"
-				thumbnail={newsImages.ksto}
-				title="KSTO"
-			/>
-		),
-		navigationOptions: {
-			tabBarLabel: 'KSTO',
+			tabBarLabel: 'KRLX',
 			tabBarIcon: TabBarIcon('radio'),
 		},
 	},

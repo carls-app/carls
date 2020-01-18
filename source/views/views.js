@@ -1,6 +1,7 @@
 // @flow
 
 import * as c from '@frogpond/colors'
+import * as colors from '../lib/colors'
 import {type EntypoGlyphs} from 'react-native-vector-icons/Entypo'
 
 export type ViewType =
@@ -34,7 +35,7 @@ export type ViewType =
 			gradient?: [string, string],
 	  }
 
-export const allViews: Array<ViewType> = [
+export const allViews: ViewType[] = [
 	{
 		type: 'view',
 		view: 'MenusView',
@@ -47,8 +48,8 @@ export const allViews: Array<ViewType> = [
 	{
 		type: 'view',
 		view: 'SISView',
-		title: 'SIS',
-		icon: 'fingerprint',
+		title: 'The Hub',
+		icon: 'shop',
 		foreground: 'light',
 		tint: c.goldenrod,
 		gradient: c.yellowToGoldDark,
@@ -73,9 +74,9 @@ export const allViews: Array<ViewType> = [
 	},
 	{
 		type: 'url',
-		url: 'https://www.stolaf.edu/directory',
+		url: 'https://www.carleton.edu/directory/',
 		view: 'DirectoryView',
-		title: 'Directory',
+		title: 'Stalkernet',
 		icon: 'v-card',
 		foreground: 'light',
 		tint: c.indianRed,
@@ -83,8 +84,26 @@ export const allViews: Array<ViewType> = [
 	},
 	{
 		type: 'view',
-		view: 'StreamingView',
-		title: 'Streaming Media',
+		view: 'ContactsView',
+		title: 'Important Contacts',
+		icon: 'phone',
+		foreground: 'light',
+		tint: c.crimson,
+		gradient: c.orangeToRed,
+	},
+	{
+		type: 'view',
+		view: 'RadioTabView',
+		title: 'KRLX',
+		icon: 'mic',
+		foreground: 'light',
+		tint: c.denim,
+		gradient: c.darkBlueToIndigo,
+	},
+	{
+		type: 'view',
+		view: 'SumoUpcomingView',
+		title: 'SUMO',
 		icon: 'video',
 		foreground: 'light',
 		tint: c.denim,
@@ -100,25 +119,6 @@ export const allViews: Array<ViewType> = [
 		gradient: c.purpleToIndigo,
 	},
 	{
-		type: 'url',
-		url: 'https://www.myatlascms.com/map/index.php?id=294',
-		view: 'MapView',
-		title: 'Campus Map',
-		icon: 'map',
-		foreground: 'light',
-		tint: c.coffee,
-		gradient: c.navyToNavy,
-	},
-	{
-		type: 'view',
-		view: 'ContactsView',
-		title: 'Important Contacts',
-		icon: 'phone',
-		foreground: 'light',
-		tint: c.crimson,
-		gradient: c.orangeToRed,
-	},
-	{
 		type: 'view',
 		view: 'TransportationView',
 		title: 'Transportation',
@@ -129,8 +129,26 @@ export const allViews: Array<ViewType> = [
 	},
 	{
 		type: 'view',
+		view: 'ConvocationsView',
+		title: 'Convo',
+		icon: 'network',
+		foreground: 'light',
+		tint: c.periwinkle,
+		gradient: colors.carlsBlueLightToBlue,
+	},
+	{
+		type: 'view',
+		view: 'MapView',
+		title: 'Campus Map',
+		icon: 'map',
+		foreground: 'light',
+		tint: c.coffee,
+		gradient: c.navyToNavy,
+	},
+	{
+		type: 'view',
 		view: 'DictionaryView',
-		title: 'Campus Dictionary',
+		title: 'Dictionary',
 		icon: 'open-book',
 		foreground: 'light',
 		tint: c.olive,
@@ -142,12 +160,12 @@ export const allViews: Array<ViewType> = [
 		title: 'Student Orgs',
 		icon: 'globe',
 		foreground: 'light',
-		tint: c.wave,
-		gradient: c.darkBlueToIndigo,
+		tint: c.periwinkle,
+		gradient: c.tealToSeafoam,
 	},
 	{
 		type: 'url',
-		url: 'https://moodle.stolaf.edu/',
+		url: 'https://moodle.carleton.edu/',
 		view: 'MoodleView',
 		title: 'Moodle',
 		icon: 'graduation-cap',
@@ -163,25 +181,6 @@ export const allViews: Array<ViewType> = [
 		foreground: 'light',
 		tint: c.lavender,
 		gradient: c.seafoamToGrass,
-	},
-	{
-		type: 'view',
-		view: 'PrintJobsView',
-		title: 'stoPrint',
-		icon: 'print',
-		foreground: 'light',
-		tint: c.periwinkle,
-		gradient: c.tealToSeafoam,
-	},
-	{
-		type: 'browser-url',
-		url: 'https://wp.stolaf.edu/safety-committee/report/',
-		view: 'SafetyView',
-		title: 'Safety Concerns',
-		icon: 'warning',
-		foreground: 'dark',
-		tint: c.periwinkle,
-		gradient: c.yellowToGoldMid,
 	},
 ]
 

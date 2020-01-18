@@ -2,4 +2,4 @@
 
 import {setApiRoot} from '@frogpond/api'
 
-setApiRoot('https://stolaf.api.frogpond.tech/v1')
+setApiRoot('https://carleton.api.frogpond.tech/v1')
