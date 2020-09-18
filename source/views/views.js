@@ -192,6 +192,16 @@ export const allViews: ViewType[] = [
 		tint: c.lavender,
 		gradient: c.seafoamToGrass,
 	},
+	{
+		type: 'url',
+		url: 'https://go.carleton.edu/myshac',
+		view: 'CovidView',
+		title: 'COVID Symptoms',
+		icon: 'v-card',
+		foreground: 'light',
+		tint: c.indianRed,
+		gradient: c.redToPurple,
+	},
 ]
 
 export const allViewNames = allViews.map(v => v.view)
