@@ -46,6 +46,7 @@ import {
 	ArchivedConvocationDetailView,
 	UpcomingConvocationsDetailView,
 } from './views/convocations'
+import {CovidView, CovidUpdatesView} from './views/covid'
 
 const styles = StyleSheet.create({
 	header: {
@@ -105,6 +106,8 @@ export const AppNavigator = StackNavigator(
 		MapView: {screen: MapView},
 		MapReporterView: {screen: MapReporterView},
 		BigBalancesView: {screen: BigBalancesView},
+		CovidView: {screen: CovidView},
+		CovidUpdatesView: {screen: CovidUpdatesView},
 	},
 	{
 		navigationOptions: {
