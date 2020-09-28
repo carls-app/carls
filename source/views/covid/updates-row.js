@@ -23,7 +23,7 @@ export class UpdatesRow extends React.PureComponent<Props> {
 
 	render() {
 		const {update} = this.props
-		const posted = moment(update.date).format('MMM Do YYYY')
+		const posted = moment(update.datePublished).format('MMM Do YYYY')
 
 		return (
 			<ListRow arrowPosition="center" onPress={this._onPress}>
