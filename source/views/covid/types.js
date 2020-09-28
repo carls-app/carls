@@ -7,6 +7,6 @@ export type UpdateType = {
 	datePublished: ?string,
 	excerpt: string,
 	featuredImage: ?string,
-	link: ?string,
+	link: string,
 	title: string,
 }
