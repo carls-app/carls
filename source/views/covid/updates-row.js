@@ -23,16 +23,14 @@ export class UpdatesRow extends React.PureComponent<Props> {
 
 	render() {
 		const {update} = this.props
-
 		const posted = moment(update.date).format('MMM Do YYYY')
-		const description = update.title.rendered
 
 		return (
 			<ListRow arrowPosition="center" onPress={this._onPress}>
 				<Row alignItems="center">
 					<Column flex={1}>
 						<Title lines={2}>{posted}</Title>
-						<Detail lines={3}>{description}</Detail>
+						<Detail lines={3}>{update.title}</Detail>
 					</Column>
 				</Row>
 			</ListRow>

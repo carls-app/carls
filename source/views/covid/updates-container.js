@@ -36,7 +36,7 @@ export class UpdatesContainer extends React.PureComponent<Props, State> {
 
 	fetchData = async () => {
 		try {
-			let url = 'https://www.carleton.edu/covid/wp-json/wp/v2/posts'
+			let url = 'https://carleton.api.frogpond.tech/v1/news/named/covid'
 			let updates: UpdateType[] = await fetchJson(url)
 			this.setState(() => ({updates}))
 		} catch (error) {

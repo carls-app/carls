@@ -37,7 +37,7 @@ export class UpdatesList extends React.PureComponent<Props> {
 		<UpdatesRow onPress={this.onPressUpdates} update={item} />
 	)
 
-	keyExtractor = (item: UpdateType) => item.id.toString()
+	keyExtractor = (item: UpdateType) => item.link
 
 	render() {
 		const showAll =
