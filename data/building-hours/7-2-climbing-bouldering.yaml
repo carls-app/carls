@@ -2,6 +2,12 @@ name: Rock Climbing and Bouldering
 image: rec-wall
 category: Gym
 
+links:
+  - title: Bouldering Cave Sign-Up
+    url: https://www.signupgenius.com/go/10C0D49AFA929A1F9CF8-bouldering
+  - title: Liability Waiver
+    url: https://forms.gle/AvpRiArfcJbey4c97
+
 schedule:
   - title: Hours
     hours:

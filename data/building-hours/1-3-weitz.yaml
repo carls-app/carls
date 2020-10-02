@@ -2,10 +2,14 @@ name: Weitz Café
 image: weitz-cafe
 category: Food
 
+links:
+  - title: BonAppetit
+    url: https://carleton.cafebonappetit.com/cafe/weitz-cafe
+
 schedule:
   - title: Hours
     hours:
-      - {days: [Mo, Tu, We, Th, Fr], from: '8:00am', to: '7:00pm'}
+      - {days: [Mo, Tu, We, Th, Fr], from: '7:30am', to: '3:00pm'}
 
 breakSchedule:
   fall: []

@@ -3,6 +3,10 @@ subtitle: Recreation Center
 image: rec-center
 category: Gym
 
+links:
+  - title: Fitness Center Sign-Up
+    url: https://www.signupgenius.com/go/10c0d4daaab2ea1fcc70-fitness
+
 schedule:
   - title: Hours
     hours:
