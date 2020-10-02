@@ -35,6 +35,7 @@ export const images = {
   'sayles-info-desk': require('./optimized/sayles-info-desk.jpg'),
   'scoville': require('./optimized/scoville.jpg'),
   'shac': require('./optimized/shac.jpg'),
+  'schulze': require('./optimized/schulze.jpg'),
   'skinner-chapel': require('./optimized/skinner-chapel.jpg'),
   'the-cave': require('./optimized/the-cave.jpg'),
   'water-tower': require('./optimized/water-tower.jpg'),
