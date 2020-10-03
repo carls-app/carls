@@ -5,7 +5,6 @@ import LoadingView from '../components/loading'
 import {NoticeView} from '../components/notice'
 import {reportNetworkProblem} from '../../lib/report-network-problem'
 import {UpdatesList} from './updates-list'
-import {ButtonCell} from '../components/cells/button'
 
 import type {TopLevelViewPropsType} from '../types'
 import type {UpdateType} from './types'
@@ -59,13 +58,6 @@ export class UpdatesContainer extends React.PureComponent<Props, State> {
 		this.setState(() => ({refreshing: false}))
 	}
 
-	onPress = () => {
-		this.props.navigation.push('CovidUpdatesView', {
-			updates: this.state.updates,
-			showAll: true,
-		})
-	}
-
 	render() {
 		if (this.state.error) {
 			return <NoticeView text={`Error: ${this.state.error.message}`} />
@@ -85,8 +77,6 @@ export class UpdatesContainer extends React.PureComponent<Props, State> {
 					showAll={false}
 					updates={this.state.updates}
 				/>
-
-				<ButtonCell onPress={this.onPress} title="See all updates…" />
 			</React.Fragment>
 		)
 	}
