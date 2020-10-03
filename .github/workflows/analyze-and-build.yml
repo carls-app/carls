@@ -1,0 +1,24 @@
+name: Analyze and Build
+
+on:
+  push:
+
+jobs:
+  js:
+    name: JavaScript Checks
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/setup-node@master
+        with: {node-version: ^12.0}
+      - uses: actions/checkout@master
+      - run: yarn install --frozen-lockfile
+      - run: yarn run validate-data
+      - run: yarn run bundle-data
+      - run: yarn run pretty --no-write --list-different
+      - run: yarn run lint
+      - name: Run tests
+        run: yarn run test --coverage
+      - name: Upload coverage
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        run: bash <(curl -s https://codecov.io/bash)
