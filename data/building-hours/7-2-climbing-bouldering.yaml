@@ -1,0 +1,20 @@
+name: Rock Climbing and Bouldering
+image: rec-wall
+category: Gym
+
+schedule:
+  - title: Hours
+    hours:
+      - {days: [Mo, Tu, We, Th], from: '4:30pm', to: '9:30pm'}
+      - {days: [Fr], from: '11:00am', to: '1:00pm'}
+      - {days: [Fr], from: '4:00pm', to: '7:00pm'}
+      - {days: [Sa, Su], from: '2:00pm', to: '5:00pm'}
+
+breakSchedule:
+  fall: []
+  thanksgiving: []
+  winter: []
+  interim: []
+  spring: []
+  easter: []
+  summer: []

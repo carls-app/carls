@@ -1,4 +1,7 @@
 // @flow
+
+import {Platform} from 'react-native'
+
 export const aqua = '#7FDBFF'
 export const black = '#111111'
 export const blue = '#0074D9'
@@ -22,19 +25,23 @@ export const iosGray = silver
 
 export const androidLightBackground = 'rgb(244, 244, 244)'
 export const androidSeparator = 'rgb(224, 224, 224)'
+export const androidDisabledIcon = 'rgb(224, 224, 224)'
 export const androidTextColor = 'rgb(113, 113, 118)'
 export const androidTabAccentColor = '#ffeb3b'
 
 export const iosLightBackground = 'rgb(240, 239, 245)'
 export const iosSeparator = '#C8C7CC'
 export const iosLightBorder = iosSeparator
-export const iosDisabledText = 'rgb(143, 143, 143)'
+export const iosDisabledText = 'rgb(142, 142, 147)'
 export const iosText = iosSeparator
 export const iosNavbarBottomBorder = iosSeparator
 export const iosListSectionHeader = 'rgb(248, 248, 248)'
 export const iosPlaceholderText = iosSeparator
 export const iosHeaderTopBorder = iosSeparator
 export const iosHeaderBottomBorder = 'rgb(224, 224, 224)'
+
+export const sectionBgColor =
+	Platform.OS === 'ios' ? iosLightBackground : androidLightBackground
 
 export const tableviewAccessoryColor = 'rgb(0, 122, 255)'
 
@@ -44,6 +51,7 @@ export const semitransparentGray = 'rgba(0,0,0,0.2)'
 export const theLatest = '#00BFFF'
 export const olevilleGold = '#F7B600'
 export const olevilleBackground = '#F0F0E1'
+export const carletonBlue = '#0b5091'
 
 // MARK: KSTO Colors
 export const kstoPrimaryLight = '#c5c5e8'
@@ -172,7 +180,7 @@ export const mud = 'rgb(70, 45, 29)'
 export const sienna = 'rgb(160, 82, 45)'
 export const dust = 'rgb(236, 214, 197)'
 
-export const tint = mandarin
+export const tint = carletonBlue
 
 // MARK: gradients
 export const redToPurple = ['rgb(249,64,77)', 'rgb(217,37,111)']
@@ -190,3 +198,51 @@ export const magentaToPurple = ['rgb(213,69,196)', 'rgb(160,50,230)']
 export const pinkToHotpink = ['rgb(248,102,149)', 'rgb(209,44,159)']
 export const grayToDarkGray = ['rgb(118,134,157)', 'rgb(85,96,124)']
 export const navyToNavy = ['rgb(32,67,107)', 'rgb(0,48,104)']
+
+export const carletonBlueLight = 'rgb(45, 83, 143)'
+export const carletonBlueAlt = 'rgb(0, 62, 126)'
+export const carlsBlueLightToBlue = [carletonBlueLight, carletonBlueAlt]
+export const carlsMaizeToMaizeDark = ['rgb(255, 210, 79)', 'rgb(238, 177, 17)']
+
+// MARK: homescreen button foregrounds
+export const homescreenForegroundLight = 'rgba(255, 255, 255, 0.9)'
+export const homescreenForegroundDark = 'rgba(0, 0, 0, 0.65)'
+
+// MARK: St. Olaf colors
+export const sto = {
+	black: '#242121',
+	darkGray: '#53585A',
+	mediumGray: '#E0DAD6',
+	lightGray: '#F7F5F2',
+	gold: '#E3A025',
+	lightGold: '#F7C55A',
+	cranberry: '#B11556',
+	lime: '#A3D65C',
+	orange: '#FA8D29',
+	red: '#E84A36',
+	lightBlue: '#83DBE0',
+	blue: '#00ADD9',
+	teal: '#00827E',
+	purple: '#6E3A5D',
+	navy: '#233746',
+	mint: '#CFE1D7',
+}
+
+export const stoText = {
+	black: white,
+	darkGray: white,
+	mediumGray: black,
+	lightGray: black,
+	gold: black,
+	lightGold: black,
+	cranberry: white,
+	lime: black,
+	orange: black,
+	red: transparent,
+	lightBlue: black,
+	blue: black,
+	teal: white,
+	purple: white,
+	navy: white,
+	mint: black,
+}

@@ -1,26 +1,22 @@
 // @flow
-/**
- * All About Olaf
- * iOS SIS page
- */
 
 import {TabNavigator} from '../components/tabbed-view'
 
-import BalancesView from './balances'
-import StudentWorkView from './student-work'
-// import CoursesView from './courses'
-// import SearchView from './search'
+//import BalancesView from './balances'
+import {StudentWorkView} from './student-work-carls'
+import {TheHubView} from './hub'
+
+export {BigBalancesView} from './balances'
 
 export default TabNavigator(
-  {
-    BalancesView: {screen: BalancesView},
-    StudentWorkView: {screen: StudentWorkView},
-    // CoursesView: {screen: CoursesView},
-    // CourseSearchView: {screen: CourseSearchView},
-  },
-  {
-    navigationOptions: {
-      title: 'SIS',
-    },
-  },
+	{
+		//BalancesView: {screen: BalancesView},
+		TheHubView: {screen: TheHubView},
+		StudentWorkView: {screen: StudentWorkView},
+	},
+	{
+		navigationOptions: {
+			title: 'The Hub',
+		},
+	},
 )

@@ -1,37 +1,59 @@
-/**
- * @flow
- * Root reducer for state storage
- */
+// @flow
 
-import {createStore, applyMiddleware} from 'redux'
+import {createStore, applyMiddleware, combineReducers} from 'redux'
 import {createLogger} from 'redux-logger'
 import reduxPromise from 'redux-promise'
 import reduxThunk from 'redux-thunk'
-import {init} from './init'
 
-import {app} from './parts/app'
-import {homescreen} from './parts/homescreen'
-import {menus} from './parts/menus'
-import {settings} from './parts/settings'
-import {sis} from './parts/sis'
+import {app, type State as AppState} from './parts/app'
+import {balances, type State as BalancesState} from './parts/balances'
+import {buildings, type State as BuildingsState} from './parts/buildings'
+import {courses, type State as CoursesState} from './parts/courses'
+import {help, type State as HelpState} from './parts/help'
+import {homescreen, type State as HomescreenState} from './parts/homescreen'
+import {menus, type State as MenusState} from './parts/menus'
+import {settings, type State as SettingsState} from './parts/settings'
 
-export function aao(state: Object = {}, action: Object) {
-  return {
-    app: app(state.app, action),
-    homescreen: homescreen(state.homescreen, action),
-    menus: menus(state.menus, action),
-    settings: settings(state.settings, action),
-    sis: sis(state.sis, action),
-  }
+export {init as initRedux} from './init'
+export {updateMenuFilters} from './parts/menus'
+
+export type ReduxState = {
+	app?: AppState,
+	balances?: BalancesState,
+	buildings?: BuildingsState,
+	courses?: CoursesState,
+	help?: HelpState,
+	homescreen?: HomescreenState,
+	menus?: MenusState,
+	settings?: SettingsState,
 }
 
-const logger = createLogger({collapsed: () => true})
-const store = createStore(
-  aao,
-  applyMiddleware(reduxPromise, reduxThunk, logger),
-)
+export const makeStore = () => {
+	const aao: any = combineReducers({
+		app,
+		balances,
+		buildings,
+		courses,
+		help,
+		homescreen,
+		menus,
+		settings,
+	})
 
-init(store)
+	const middleware = [reduxPromise, reduxThunk]
 
-export {store}
-export {updateMenuFilters} from './parts/menus'
+	if (__DEV__) {
+		const logger = createLogger({
+			collapsed: true,
+			duration: true,
+			// avoid logging the (large) course data state twice per action
+			stateTransformer: state => ({
+				...state,
+				courses: {...state.courses, allCourses: '<omitted>'},
+			}),
+		})
+		middleware.push(logger)
+	}
+
+	return createStore(aao, applyMiddleware(...middleware))
+}

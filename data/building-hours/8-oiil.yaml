@@ -1,0 +1,17 @@
+name: Office of Intercultral and International Life
+image: oiil
+category: Student Life & Support
+
+schedule:
+  - title: Hours
+    hours:
+      - {days: [Mo, Tu, We, Th, Fr], from: '8:30am', to: '5:00pm'}
+
+breakSchedule:
+  fall: []
+  thanksgiving: []
+  winter: []
+  interim: []
+  spring: []
+  easter: []
+  summer: []

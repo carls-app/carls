@@ -1,0 +1,14 @@
+title: Student Health and Counseling
+phoneNumber: '5072224080'
+buttonText: Call SHAC
+category: Health & Wellness
+synopsis: SHAC is committed to providing services that help students meet their physical and mental health needs from a holistic perspective, with a focus on education for lifelong learning and optimum health.
+text: |
+  [SHAC][shac] is committed to providing services that help students meet their physical and mental health needs from a holistic perspective, with a focus on education for lifelong learning and optimum health.
+
+  They offer medical and mental health services to all Carleton students; Monday from 8am-7pm, and Tuesday-Friday from 8am-5pm.
+  
+  SHAC also has a 24/7 counseling number: [(855) 705-2479][shac-247].
+
+  [shac]: https://apps.carleton.edu/studenthealth/ "Student Health and Counseling"
+  [shac-247]: tel:+18557052479

@@ -1,0 +1,18 @@
+name: LDC
+subtitle: Language and Dining Center
+image: ldc
+category: Academia
+
+schedule:
+  - title: Hours
+    notes: Unknown hours
+    hours: []
+
+breakSchedule:
+  fall: []
+  thanksgiving: []
+  winter: []
+  interim: []
+  spring: []
+  easter: []
+  summer: []

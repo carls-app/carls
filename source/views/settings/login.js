@@ -1,52 +1,56 @@
 // @flow
 import React from 'react'
 import {WebView} from 'react-native'
+import {AAO_USER_AGENT} from '../../user-agent'
 
 import {NoticeView} from '../components/notice'
-
-import startsWith from 'lodash/startsWith'
 import type {TopLevelViewPropsType} from '../types'
 
-const HOME_URL = 'https://www.stolaf.edu/sis/index.cfm'
-const LOGIN_URL = 'https://www.stolaf.edu/sis/login.cfm'
+const LOGIN_URL = 'https://apps.carleton.edu/login/'
 
-export default class SISLoginView extends React.Component {
-  props: TopLevelViewPropsType & {onLoginComplete: (status: boolean) => any}
+type Props = TopLevelViewPropsType & {onLoginComplete: (status: boolean) => any}
 
-  state = {complete: false}
+type State = {complete: boolean}
 
-  onNavigationStateChange = (navState: {url: string}) => {
-    console.info(navState.url)
-    // If we hit HOME_URL, we know we're logged in.
-    if (startsWith(navState.url, HOME_URL)) {
-      this.setState({complete: true})
-      this.props.onLoginComplete(true)
-    }
-  }
+export class CarletonLoginView extends React.Component<Props, State> {
+	state = {complete: false}
+	_ref: ?WebView = null
 
-  onComplete = () => {
-    this.props.navigation.goBack()
-  }
+	onMessage = (event: any) => {
+		let status = event.nativeEvent.data
+		if (status.startsWith('You are logged in')) {
+			this.props.navigation.state.params.onLoginComplete(true)
+			this.setState(() => ({complete: true}))
+		}
+	}
 
-  render() {
-    if (this.state.complete) {
-      return (
-        <NoticeView
-          text="You're logged in!"
-          onPress={this.onComplete}
-          buttonText="Done"
-        />
-      )
-    }
+	render() {
+		if (this.state.complete) {
+			return (
+				<NoticeView
+					buttonText="Done"
+					onPress={() => this.props.navigation.goBack()}
+					text="You're logged in!"
+				/>
+			)
+		}
 
-    return (
-      <WebView
-        source={{uri: LOGIN_URL}}
-        javaScriptEnabled={true}
-        onNavigationStateChange={this.onNavigationStateChange}
-        startInLoadingState={true}
-        scalesPageToFit={true}
-      />
-    )
-  }
+		let handler = `
+			var info = document.querySelector(".statusInfo");
+			window.postMessage(info ? info.textContent : "not logged in");
+		`
+
+		return (
+			<WebView
+				ref={handle => (this._ref = handle)}
+				injectedJavaScript={handler}
+				javaScriptEnabled={true}
+				onMessage={this.onMessage}
+				scalesPageToFit={true}
+				source={{uri: LOGIN_URL}}
+				startInLoadingState={true}
+				userAgent={AAO_USER_AGENT}
+			/>
+		)
+	}
 }

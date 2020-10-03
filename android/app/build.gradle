@@ -1,7 +1,5 @@
 apply plugin: "com.android.application"
 
-import com.android.build.OutputFile
-
 /**
  * The react.gradle file registers a task for each build variant (e.g. bundleDebugJsAndAssets
  * and bundleReleaseJsAndAssets).
@@ -75,6 +73,8 @@ import com.android.build.OutputFile
 project.ext.react = [
     // ignore the ruby deps
     inputExcludes: ["android/**", "ios/**", "vendor/**"],
+    // set the input file manually
+    entryFile: "index.js",
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"
@@ -87,37 +87,51 @@ apply from: "../../node_modules/react-native/react.gradle"
  * Upload all the APKs to the Play Store and people will download
  * the correct one based on the CPU architecture of their device.
  */
-def enableSeparateBuildPerCPUArchitecture = true
+def enableSeparateBuildPerCPUArchitecture = false
 
 /**
  * Run Proguard to shrink the Java bytecode in release builds.
  */
 def enableProguardInReleaseBuilds = false
 
+def COMPILE_SDK_VERSION = 27
+def TARGET_SDK_VERSION = 27
+def ANDROID_SUPPORT_LIBRARY_VERSION = '27.1.1'
+
 android {
-    compileSdkVersion 23
-    buildToolsVersion "25.0.3"
+    compileSdkVersion COMPILE_SDK_VERSION
 
     defaultConfig {
-        applicationId "com.allaboutolaf"
-        minSdkVersion 16
-        targetSdkVersion 23
+        applicationId "com.carls"
+
+        minSdkVersion 19
+        targetSdkVersion TARGET_SDK_VERSION
+
         versionCode 1
         versionName "1.0.0"
+
+        manifestPlaceholders = [
+            manifestApplicationId: applicationId,
+            BUGSNAG_KEY: System.getenv("BUGSNAG_KEY") ?: "",
+            GMAPS_KEY: System.getenv("GMAPS_KEY") ?: "",
+        ]
+
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
-        manifestPlaceholders = [
-            manifestApplicationId: "${applicationId}",
-            onesignal_app_id: "aa46a500-ab1c-4127-b9ff-e7373da3ce35",
-            onesignal_google_project_number: "185558680648",
-            gmaps_key: System.getenv("GMAPS_KEY") ?: "",
-        ]
     }
+
+    ext {
+        compileSdkVersion = COMPILE_SDK_VERSION
+        targetSdkVersion = TARGET_SDK_VERSION
+        androidSupportLibraryVersion = ANDROID_SUPPORT_LIBRARY_VERSION
+    }
+
     signingConfigs {
         // the signingConfig is configured below
         release
     }
+
     splits {
         abi {
             reset()
@@ -126,6 +140,7 @@ android {
             include "armeabi-v7a", "x86"
         }
     }
+
     buildTypes {
         release {
             minifyEnabled enableProguardInReleaseBuilds
@@ -133,31 +148,46 @@ android {
             signingConfig signingConfigs.release
         }
     }
+
     // applicationVariants are e.g. debug, release
     applicationVariants.all { variant ->
         variant.outputs.each { output ->
+            // Because we're only generating one universal APK, this is commented out and the "nil"
+            // logic described here is instead implemented in fastlane.
+
             // For each separate APK per architecture, set a unique version code as described here:
             // http://tools.android.com/tech-docs/new-build-system/user-guide/apk-splits
-            def versionCodes = ["armeabi-v7a":1, "x86":2]
-            def abi = output.getFilter(OutputFile.ABI)
-            if (abi != null) {  // null for the universal-debug, universal-release variants
-                output.versionCodeOverride =
-                        versionCodes.get(abi) * 1048576 + defaultConfig.versionCode
-            }
+            // def versionCodes = ["armeabi-v7a":1, "x86":2, nil:2]
+
+            // `abi` is null for the universal-debug, universal-release variants
+            // def abi = output.getFilter(OutputFile.ABI)
+
+            // if (abi != null) {
+            //     output.versionCodeOverride =
+            //             versionCodes.get(abi) * 1048576 + defaultConfig.versionCode
+            // }
         }
     }
+
     android {
         dexOptions {
             // Skip pre-dexing when running on Travis CI or when disabled via -Dpre-dex=false.
-            preDexLibraries = preDexEnabled && !travisBuild
+            preDexLibraries = preDexEnabled && !ciBuild
         }
+    }
+
+    configurations.all {
+        resolutionStrategy.force "com.android.support:appcompat-v7:$ANDROID_SUPPORT_LIBRARY_VERSION"
+        resolutionStrategy.force "com.android.support:customtabs:$ANDROID_SUPPORT_LIBRARY_VERSION"
+        resolutionStrategy.force "com.android.support:support-media-compat:$ANDROID_SUPPORT_LIBRARY_VERSION"
+        resolutionStrategy.force "com.android.support:support-v4:$ANDROID_SUPPORT_LIBRARY_VERSION"
     }
 }
 
 // borrowed from https://gist.github.com/gabrielemariotti/6856974
-def propFile = new File('android/app//signing.properties')
+def propFile = new File('android/app/signing.properties')
 if (propFile.canRead()) {
-    def Properties props = new Properties()
+    Properties props = new Properties()
     props.load(new FileInputStream(propFile))
     if (props != null
             && props.containsKey('STORE_FILE')
@@ -190,23 +220,23 @@ if (propFile.canRead()) {
 
 dependencies {
     // please keep this list sorted
-    compile project(':bugsnag-react-native')
-    compile project(':react-native-custom-tabs')
-    compile project(':react-native-device-info')
-    compile project(':react-native-google-analytics-bridge')
-    compile project(':react-native-keychain')
-    compile project(':react-native-linear-gradient')
-    compile project(':react-native-maps')
-    compile project(':react-native-network-info')
-    compile project(':react-native-onesignal')
-    compile project(':react-native-restart')
-    compile project(':react-native-vector-icons')
-    compile project(':react-native-video-exoplayer')
-    compile project(':react-native-view-shot')
+    implementation project(':bugsnag-react-native')
+    implementation project(':mapbox-react-native-mapbox-gl')
+    implementation project(':react-native-calendar-events')
+    implementation project(':react-native-custom-tabs')
+    implementation project(':react-native-device-info')
+    implementation project(':react-native-google-analytics-bridge')
+    implementation project(':react-native-interactable')
+    implementation project(':react-native-keychain')
+    implementation project(':react-native-linear-gradient')
+    implementation project(':react-native-network-info')
+    implementation project(':react-native-restart')
+    implementation project(':react-native-vector-icons')
     // this is for react-native itself
-    compile fileTree(dir: "libs", include: ["*.jar"])
-    compile "com.android.support:appcompat-v7:23.0.1"
-    compile "com.facebook.react:react-native:+"  // From node_modules
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation "com.android.support:appcompat-v7:$ANDROID_SUPPORT_LIBRARY_VERSION"
+    //noinspection GradleDynamicVersion
+    implementation "com.facebook.react:react-native:+"  // From node_modules
 }
 
 // Run this once to be able to run the application with BUCK
@@ -214,4 +244,16 @@ dependencies {
 task copyDownloadableDepsToLibs(type: Copy) {
     from configurations.compile
     into 'libs'
+}
+
+// Bundles the app's data for the build process
+task bundleData(type: Exec) {
+    workingDir '../../'
+    commandLine 'npm', 'run', 'bundle-data'
+}
+
+gradle.projectsEvaluated {
+    // hook bundleData into the android build process
+    bundleDebugJsAndAssets.dependsOn bundleData
+    bundleReleaseJsAndAssets.dependsOn bundleData
 }

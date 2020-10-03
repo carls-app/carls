@@ -1,65 +1,80 @@
 // @flow
-import * as Keychain from 'react-native-keychain'
+import {
+	setInternetCredentials,
+	getInternetCredentials,
+	resetInternetCredentials,
+} from 'react-native-keychain'
 
-import * as storage from './storage'
 import buildFormData from './formdata'
-import {OLECARD_AUTH_URL} from './financials/urls'
+import {CARLETON_LOGIN} from './financials/urls'
 
-const SIS_LOGIN_CREDENTIAL_KEY = 'stolaf.edu'
+const SIS_LOGIN_KEY = 'stolaf.edu'
 
-export function saveLoginCredentials(username: string, password: string) {
-  return Keychain.setInternetCredentials(
-    SIS_LOGIN_CREDENTIAL_KEY,
-    username,
-    password,
-  ).catch(() => ({}))
+const empty = () => ({})
+
+export type Credentials = {username: string, password: string}
+export type MaybeCredentials = {username?: string, password?: string}
+
+export function saveLoginCredentials({username, password}: Credentials) {
+	return setInternetCredentials(SIS_LOGIN_KEY, username, password).catch(empty)
 }
-export function loadLoginCredentials(): Promise<{
-  username?: string,
-  password?: string,
-}> {
-  return Keychain.getInternetCredentials(
-    SIS_LOGIN_CREDENTIAL_KEY,
-  ).catch(() => ({}))
+export function loadLoginCredentials(): Promise<MaybeCredentials> {
+	return getInternetCredentials(SIS_LOGIN_KEY).catch(empty)
 }
 export function clearLoginCredentials() {
-  return Keychain.resetInternetCredentials(
-    SIS_LOGIN_CREDENTIAL_KEY,
-  ).catch(() => ({}))
-}
-
-export async function isLoggedIn(): Promise<boolean> {
-  const result = await Promise.all([
-    storage.getTokenValid(),
-    storage.getCredentialsValid(),
-  ])
-  return result.every(result => result === true)
+	return resetInternetCredentials(SIS_LOGIN_KEY).catch(empty)
 }
 
 export async function performLogin(
-  username?: string,
-  password?: string,
+	{username, password}: Credentials,
+	{attempts = 0}: {attempts: number} = {},
 ): Promise<boolean> {
-  if (!username || !password) {
-    return false
-  }
+	if (!username || !password) {
+		return false
+	}
 
-  const form = buildFormData({username, password})
-  const loginResult = await fetch(OLECARD_AUTH_URL, {
-    method: 'POST',
-    body: form,
-  })
-  const page = await loginResult.text()
+	// we have to fetch the page once so that we get the random cookie that
+	// carleton uses to make sure cookies are enabled.
+	// we don't need to _do_ anything with it, since fetch() handles
+	// re-sending it to the server for us.
+	await fetch(CARLETON_LOGIN, {method: 'GET', credentials: 'include'})
 
-  if (page.includes('Password')) {
-    await storage.setCredentialsValid(false)
-    return false
-  }
+	const form = buildFormData({username, password})
 
-  await Promise.all([
-    saveLoginCredentials(username, password),
-    storage.setCredentialsValid(true),
-  ])
+	let loginResult = null
+	try {
+		loginResult = await fetch(CARLETON_LOGIN, {
+			method: 'POST',
+			body: form,
+			credentials: 'include',
+		})
+	} catch (err) {
+		const networkFailure = err.message === 'Network request failed'
+		if (networkFailure && attempts > 0) {
+			// console.log(`login failed; trying ${attempts - 1} more time(s)`)
+			return performLogin({username, password}, {attempts: attempts - 1})
+		}
+		return false
+	}
 
-  return true
+	const page = await loginResult.text()
+
+	if (page.includes('Password')) {
+		return false
+	}
+
+	await saveLoginCredentials({username, password})
+
+	return true
+}
+
+export async function checkToken() {
+	const result = await fetch(CARLETON_LOGIN, {credentials: 'include'})
+	const page = await result.text()
+
+	if (page.includes('Please Sign In')) {
+		return false
+	}
+
+	return true
 }

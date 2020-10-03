@@ -1,3 +1,4 @@
 // @flow
 
-export {default as ContactsView} from './contacts'
+export {ContactsListView as ContactsView} from './list'
+export {ContactsDetailView} from './detail'

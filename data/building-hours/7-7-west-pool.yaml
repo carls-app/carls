@@ -1,0 +1,18 @@
+name: West Pool
+category: Gym
+image: west-gym-pool
+
+schedule:
+  - title: Hours
+    hours:
+      - {days: [Mo, We], from: '12:30pm', to: '1:30pm'}
+      - {days: [Fr], from: '12:00pm', to: '1:00pm'}
+
+breakSchedule:
+  fall: []
+  thanksgiving: []
+  winter: []
+  interim: []
+  spring: []
+  easter: []
+  summer: []

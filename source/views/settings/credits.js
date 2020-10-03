@@ -1,71 +1,102 @@
 // @flow
-import React from 'react'
-import {Text, ScrollView, Image, StyleSheet} from 'react-native'
+import * as React from 'react'
+import * as c from '../components/colors'
 import {data as credits} from '../../../docs/credits.json'
+import glamorous from 'glamorous-native'
+import {Platform} from 'react-native'
+import {iOSUIKit, material} from 'react-native-typography'
+import {AppLogo} from '../components/logo'
+import {Touchable} from '../components/touchable'
+import {connect} from 'react-redux'
+import {showEasterEgg} from '../../flux/parts/settings'
+import type {TopLevelViewPropsType} from '../types'
+import type {ReduxState} from '../../flux'
 
-const image = require('../../../images/about/IconTrans.png')
+type ReduxStateProps = {
+	easterEggEnabled: boolean,
+}
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    marginLeft: 5,
-    marginRight: 5,
-    paddingBottom: 10,
-  },
-  aboutText: {
-    paddingLeft: 25,
-    paddingRight: 25,
-    paddingTop: 10,
-    lineHeight: 20,
-    textAlign: 'justify',
-  },
-  title: {
-    fontWeight: 'bold',
-    alignSelf: 'center',
-    fontSize: 18,
-    paddingBottom: 5,
-  },
-  logo: {
-    width: 100,
-    height: 100,
-    margin: 20,
-    marginBottom: 10,
-    alignSelf: 'center',
-  },
-  nameList: {
-    textAlign: 'center',
-    paddingLeft: 25,
-    paddingRight: 25,
-    paddingBottom: 20,
-    lineHeight: 20,
-  },
-  last: {
-    marginBottom: 30,
-  },
+type ReduxDispatchProps = {
+	showEasterEgg: () => any,
+}
+
+type Props = TopLevelViewPropsType & ReduxStateProps & ReduxDispatchProps
+
+const Container = glamorous.scrollView({
+	backgroundColor: c.white,
+	paddingHorizontal: 5,
+	paddingVertical: 10,
 })
 
-export default function CreditsView() {
-  let formattedContributors = credits.contributors
-    .map(w => w.replace(' ', ' '))
-    .join(' • ')
-  let formattedAcks = credits.acknowledgements
-    .map(w => w.replace(' ', ' '))
-    .join(' • ')
-  return (
-    <ScrollView style={styles.container}>
-      <Image source={image} style={styles.logo} />
+const Title = glamorous.text({
+	textAlign: 'center',
+	marginTop: 10,
+	marginBottom: 5,
+	...Platform.select({
+		ios: iOSUIKit.largeTitleEmphasizedObject,
+		android: material.headlineObject,
+	}),
+})
 
-      <Text style={styles.title}>{credits.name}</Text>
-      <Text style={styles.aboutText}>{credits.content}</Text>
+const Heading = glamorous(Title)({
+	...Platform.select({
+		ios: iOSUIKit.subheadEmphasizedObject,
+		android: material.titleObject,
+	}),
+})
 
-      <Text style={styles.title}>Contributors</Text>
-      <Text style={styles.nameList}>{formattedContributors}</Text>
+const About = glamorous.text({
+	...Platform.select({
+		ios: iOSUIKit.bodyObject,
+		android: material.body1Object,
+	}),
+	paddingHorizontal: 25,
+	paddingTop: 10,
+})
 
-      <Text style={styles.title}>Acknowledgements</Text>
-      <Text style={[styles.nameList, styles.last]}>{formattedAcks}</Text>
-    </ScrollView>
-  )
+const Contributors = glamorous(About)({
+	...Platform.select({
+		ios: iOSUIKit.footnoteEmphasizedObject,
+		android: material.body1Object,
+	}),
+	textAlign: 'center',
+})
+
+const formatPeopleList = arr => arr.map(w => w.replace(' ', ' ')).join(' • ')
+
+function CreditsView(props: Props) {
+	return (
+		<Container contentInsetAdjustmentBehavior="automatic">
+			<Touchable highlight={false} onPress={props.showEasterEgg}>
+				<AppLogo />
+			</Touchable>
+
+			<Title>{credits.name}</Title>
+			<About>{credits.content}</About>
+
+			<Heading>Contributors</Heading>
+			<Contributors>{formatPeopleList(credits.contributors)}</Contributors>
+
+			<Heading>Acknowledgements</Heading>
+			<Contributors>{formatPeopleList(credits.acknowledgements)}</Contributors>
+		</Container>
+	)
 }
+
 CreditsView.navigationOptions = {
-  title: 'Credits',
+	title: 'Credits',
 }
+
+function mapState(state: ReduxState): ReduxStateProps {
+	return {
+		easterEggEnabled: state.settings ? state.settings.easterEggEnabled : false,
+	}
+}
+
+function mapDispatch(dispatch): ReduxDispatchProps {
+	return {
+		showEasterEgg: () => dispatch(showEasterEgg()),
+	}
+}
+
+export default connect(mapState, mapDispatch)(CreditsView)

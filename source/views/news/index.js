@@ -1,101 +1,74 @@
 /* eslint-disable camelcase */
-/**
- * @flow
- * All About Olaf
- * News page
- */
+// @flow
 
-import React from 'react'
+import * as React from 'react'
 import {TabNavigator} from '../components/tabbed-view'
 import {TabBarIcon} from '../components/tabbar-icon'
 
-import {newsImages} from '../../../images/news-images'
+import * as newsImages from '../../../images/news-sources'
 import NewsContainer from './news-container'
+import {NoonNewsView} from './noon-news-bulletin'
 
 export default TabNavigator(
-  {
-    StOlafNewsView: {
-      screen: ({navigation}) =>
-        <NewsContainer
-          navigation={navigation}
-          mode="wp-json"
-          url="https://wp.stolaf.edu/wp-json/wp/v2/posts"
-          query={{per_page: 10, _embed: true}}
-          name="St. Olaf"
-          thumbnail={newsImages.stolaf}
-        />,
-      navigationOptions: {
-        tabBarLabel: 'St. Olaf',
-        tabBarIcon: TabBarIcon('school'),
-      },
-    },
+	{
+		NoonNews: {
+			screen: ({navigation}) => (
+				<NoonNewsView name="Noon News Bulletin" navigation={navigation} />
+			),
+			navigationOptions: {
+				tabBarLabel: 'NNB',
+				tabBarIcon: TabBarIcon('bonfire'),
+			},
+		},
 
-    OlevilleNewsView: {
-      screen: ({navigation}) =>
-        <NewsContainer
-          navigation={navigation}
-          mode="wp-json"
-          url="http://oleville.com/wp-json/wp/v2/posts/"
-          query={{per_page: 10, _embed: true}}
-          embedFeaturedImage={true}
-          name="Oleville"
-          thumbnail={newsImages.oleville}
-        />,
-      navigationOptions: {
-        tabBarLabel: 'Oleville',
-        tabBarIcon: TabBarIcon('happy'),
-      },
-    },
+		CarletonNewsView: {
+			screen: ({navigation}) => (
+				<NewsContainer
+					navigation={navigation}
+					source={{name: 'carleton-now'}}
+					thumbnail={false}
+					title="Carleton"
+				/>
+			),
+			navigationOptions: {
+				tabBarLabel: 'Carleton',
+				tabBarIcon: TabBarIcon('school'),
+			},
+		},
 
-    MessNewsView: {
-      screen: ({navigation}) =>
-        <NewsContainer
-          navigation={navigation}
-          mode="rss"
-          url="http://manitoumessenger.com/feed/"
-          name="The Mess"
-          thumbnail={newsImages.mess}
-        />,
-      navigationOptions: {
-        tabBarLabel: 'The Mess',
-        tabBarIcon: TabBarIcon('paper'),
-      },
-    },
+		CarletonianNewsView: {
+			screen: ({navigation}) => (
+				<NewsContainer
+					navigation={navigation}
+					source={{name: 'carletonian'}}
+					thumbnail={false}
+					title="The Carletonian"
+				/>
+			),
+			navigationOptions: {
+				tabBarLabel: 'Carletonian',
+				tabBarIcon: TabBarIcon('paper'),
+			},
+		},
 
-    PoliticOleNewsView: {
-      screen: ({navigation}) =>
-        <NewsContainer
-          navigation={navigation}
-          mode="rss"
-          url="http://oleville.com/politicole/feed/"
-          name="PoliticOle"
-          thumbnail={newsImages.politicole}
-        />,
-      navigationOptions: {
-        tabBarLabel: 'PoliticOle',
-        tabBarIcon: TabBarIcon('megaphone'),
-      },
-    },
-
-    KstoNewsView: {
-      screen: ({navigation}) =>
-        <NewsContainer
-          navigation={navigation}
-          mode="wp-json"
-          url="https://pages.stolaf.edu/ksto/wp-json/wp/v2/posts/"
-          query={{per_page: 10, _embed: true}}
-          name="KSTO"
-          thumbnail={newsImages.ksto}
-        />,
-      navigationOptions: {
-        tabBarLabel: 'KSTO',
-        tabBarIcon: TabBarIcon('radio'),
-      },
-    },
-  },
-  {
-    navigationOptions: {
-      title: 'News',
-    },
-  },
+		KrlxNewsView: {
+			screen: ({navigation}) => (
+				<NewsContainer
+					navigation={navigation}
+					source={{name: 'krlx'}}
+					thumbnail={newsImages.krlx}
+					title="KRLX"
+				/>
+			),
+			navigationOptions: {
+				tabBarLabel: 'KRLX',
+				tabBarIcon: TabBarIcon('radio'),
+			},
+		},
+	},
+	{
+		navigationOptions: {
+			title: 'News',
+		},
+	},
 )

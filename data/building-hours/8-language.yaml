@@ -1,0 +1,19 @@
+name: Language Center
+image: langauge-center
+category: Student Life & Support
+
+schedule:
+  - title: Hours
+    hours:
+      - {days: [Mo, Tu, We, Th], from: '8:15am', to: '12:00am'}
+      - {days: [Fr], from: '8:15am', to: '4:00pm'}
+      - {days: [Su], from: '1:00pm', to: '12:00am'}
+
+breakSchedule:
+  fall: []
+  thanksgiving: []
+  winter: []
+  interim: []
+  spring: []
+  easter: []
+  summer: []

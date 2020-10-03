@@ -1,0 +1,18 @@
+name: CCCE
+subtitle: Center For Community And Civic Engagement
+image: ccce
+category: Sayles-Hill Campus Center
+
+schedule:
+  - title: Hours
+    hours:
+      - {days: [Mo, Tu, We, Th, Fr], from: '9:00am', to: '5:00pm'}
+
+breakSchedule:
+  fall: []
+  thanksgiving: []
+  winter: []
+  interim: []
+  spring: []
+  easter: []
+  summer: []

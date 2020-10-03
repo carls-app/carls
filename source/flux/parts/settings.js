@@ -1,220 +1,338 @@
-/**
- * @flow
- * Reducer for app settings
- */
+// @flow
 
 import {
-  performLogin,
-  saveLoginCredentials,
-  clearLoginCredentials,
+	performLogin,
+	saveLoginCredentials,
+	clearLoginCredentials,
+	type Credentials,
 } from '../../lib/login'
 
 import {
-  setTokenValid,
-  clearTokenValid,
-  setAnalyticsOptOut,
-  getAnalyticsOptOut,
+	setAnalyticsOptOut,
+	getAnalyticsOptOut,
+	getAcknowledgementStatus,
+	setAcknowledgementStatus,
+	getEasterEggStatus,
+	setEasterEggStatus,
+	setTokenValid,
+	clearTokenValid,
 } from '../../lib/storage'
 
-import {updateBalances, updateCourses} from './sis'
+import {trackLogOut, trackLogIn, trackLoginFailure} from '../../analytics'
 
-export const SET_LOGIN_CREDENTIALS = 'settings/SET_LOGIN_CREDENTIALS'
-export const CREDENTIALS_LOGIN = 'settings/CREDENTIALS_LOGIN'
-export const CREDENTIALS_LOGOUT = 'settings/CREDENTIALS_LOGOUT'
-export const CREDENTIALS_VALIDATE = 'settings/CREDENTIALS_VALIDATE'
-export const SET_FEEDBACK = 'settings/SET_FEEDBACK'
-export const TOKEN_LOGIN = 'settings/TOKEN_LOGIN'
-export const TOKEN_LOGOUT = 'settings/TOKEN_LOGOUT'
-export const CHANGE_THEME = 'settings/CHANGE_THEME'
+import {type ReduxState} from '../index'
+import {type UpdateBalancesType, updateBalances} from './balances'
+import {Alert} from 'react-native'
 
-export async function setFeedbackStatus(feedbackEnabled: boolean) {
-  await setAnalyticsOptOut(feedbackEnabled)
-  return {type: SET_FEEDBACK, payload: feedbackEnabled}
+export type LoginStateType = 'logged-out' | 'logged-in' | 'checking' | 'invalid'
+
+type Dispatch<A: Action> = (action: A | Promise<A> | ThunkAction<A>) => any
+type GetState = () => ReduxState
+type ThunkAction<A: Action> = (dispatch: Dispatch<A>, getState: GetState) => any
+
+const SET_LOGIN_CREDENTIALS = 'settings/SET_LOGIN_CREDENTIALS'
+const CREDENTIALS_LOGIN_START = 'settings/CREDENTIALS_LOGIN_START'
+const CREDENTIALS_LOGIN_SUCCESS = 'settings/CREDENTIALS_LOGIN_SUCCESS'
+const CREDENTIALS_LOGIN_FAILURE = 'settings/CREDENTIALS_LOGIN_FAILURE'
+const CREDENTIALS_LOGOUT = 'settings/CREDENTIALS_LOGOUT'
+const CREDENTIALS_VALIDATE_START = 'settings/CREDENTIALS_VALIDATE_START'
+const CREDENTIALS_VALIDATE_SUCCESS = 'settings/CREDENTIALS_VALIDATE_SUCCESS'
+const CREDENTIALS_VALIDATE_FAILURE = 'settings/CREDENTIALS_VALIDATE_FAILURE'
+const SET_FEEDBACK = 'settings/SET_FEEDBACK'
+const CHANGE_THEME = 'settings/CHANGE_THEME'
+const SIS_ALERT_SEEN = 'settings/SIS_ALERT_SEEN'
+const EASTER_EGG_ENABLED = 'settings/EASTER_EGG_ENABLED'
+const TOKEN_LOGIN = 'settings/TOKEN_LOGIN'
+const TOKEN_LOGOUT = 'settings/TOKEN_LOGOUT'
+
+type SetFeedbackStatusAction = {|
+	type: 'settings/SET_FEEDBACK',
+	payload: boolean,
+|}
+export async function setFeedbackStatus(
+	feedbackEnabled: boolean,
+): Promise<SetFeedbackStatusAction> {
+	await setAnalyticsOptOut(feedbackEnabled)
+	return {type: SET_FEEDBACK, payload: feedbackEnabled}
 }
 
-export function loadFeedbackStatus() {
-  return {type: SET_FEEDBACK, payload: getAnalyticsOptOut()}
+export async function loadFeedbackStatus(): Promise<SetFeedbackStatusAction> {
+	return {type: SET_FEEDBACK, payload: await getAnalyticsOptOut()}
 }
 
-export async function setLoginCredentials(username: string, password: string) {
-  await saveLoginCredentials(username, password)
-  return {type: SET_LOGIN_CREDENTIALS, payload: {username, password}}
+type SisAlertSeenAction = {|type: 'settings/SIS_ALERT_SEEN', payload: boolean|}
+export async function loadAcknowledgement(): Promise<SisAlertSeenAction> {
+	return {type: SIS_ALERT_SEEN, payload: await getAcknowledgementStatus()}
 }
 
-export function logInViaCredentials(username: string, password: string) {
-  return async (dispatch: any => any) => {
-    const result = await performLogin(username, password)
-    dispatch({type: CREDENTIALS_LOGIN, payload: {username, password, result}})
-
-    // if we logged in successfully, go ahead and fetch the meals remaining number
-    if (result) {
-      dispatch(updateBalances())
-    }
-  }
+export async function hasSeenAcknowledgement(): Promise<SisAlertSeenAction> {
+	await setAcknowledgementStatus(true)
+	return {type: SIS_ALERT_SEEN, payload: true}
 }
 
-export function logInViaToken(tokenStatus: boolean) {
-  return async (dispatch: any => any) => {
-    await setTokenValid(tokenStatus)
-    dispatch({type: TOKEN_LOGIN, payload: tokenStatus})
-
-    // if we logged in successfully, go ahead and fetch the data that requires a valid token
-    if (tokenStatus) {
-      dispatch(updateCourses())
-    }
-  }
+type EasterEggAction = {|type: 'settings/EASTER_EGG_ENABLED', payload: boolean|}
+export async function loadEasterEggStatus(): Promise<EasterEggAction> {
+	return {type: EASTER_EGG_ENABLED, payload: await getEasterEggStatus()}
 }
 
-export function logOutViaCredentials() {
-  return {type: CREDENTIALS_LOGOUT, payload: clearLoginCredentials()}
+export async function showEasterEgg(): Promise<EasterEggAction> {
+	await setEasterEggStatus(true)
+	return {type: EASTER_EGG_ENABLED, payload: true}
 }
 
-export async function validateLoginCredentials(
-  username?: string,
-  password?: string,
-) {
-  const result = await performLogin(username, password)
-  return {type: CREDENTIALS_VALIDATE, payload: {result}}
+type SetCredentialsAction = {|
+	type: 'settings/SET_LOGIN_CREDENTIALS',
+	payload: Credentials,
+|}
+export async function setLoginCredentials(
+	credentials: Credentials,
+): Promise<SetCredentialsAction> {
+	await saveLoginCredentials(credentials)
+	return {type: SET_LOGIN_CREDENTIALS, payload: credentials}
 }
 
-export async function logOutViaToken() {
-  await clearTokenValid()
-  return {type: TOKEN_LOGOUT}
+type LoginStartAction = {|type: 'settings/CREDENTIALS_LOGIN_START'|}
+type LoginSuccessAction = {|
+	type: 'settings/CREDENTIALS_LOGIN_SUCCESS',
+	payload: Credentials,
+|}
+type LoginFailureAction = {|type: 'settings/CREDENTIALS_LOGIN_FAILURE'|}
+type LogInActions = LoginStartAction | LoginSuccessAction | LoginFailureAction
+
+const showNetworkFailureMessage = () =>
+	Alert.alert(
+		'Network Failure',
+		'You are not connected to the internet. Please connect if you want to access this feature.',
+		[{text: 'OK'}],
+	)
+
+const showInvalidLoginMessage = () =>
+	Alert.alert(
+		'Invalid Login',
+		'The username and password you provided do not match a valid account. Please try again.',
+		[{text: 'OK'}],
+	)
+
+export function logInViaCredentials(
+	credentials: Credentials,
+): ThunkAction<LogInActions | UpdateBalancesType> {
+	return async (dispatch, getState) => {
+		dispatch({type: CREDENTIALS_LOGIN_START})
+		const state = getState()
+		const isConnected = state.app ? state.app.isConnected : false
+
+		const result = await performLogin(credentials)
+		if (result) {
+			trackLogIn()
+			dispatch({type: CREDENTIALS_LOGIN_SUCCESS, payload: credentials})
+			// since we logged in successfully, go ahead and fetch the meal info
+			dispatch(updateBalances())
+		} else {
+			dispatch({type: CREDENTIALS_LOGIN_FAILURE})
+
+			if (isConnected) {
+				trackLoginFailure('Bad credentials')
+				showInvalidLoginMessage()
+			} else {
+				trackLoginFailure('No network')
+				showNetworkFailureMessage()
+			}
+		}
+	}
 }
 
-const initialCredentialsState = {
-  username: '',
-  password: '',
-  error: null,
-  valid: false,
-}
-function credentialsReducer(state = initialCredentialsState, action) {
-  const {type, payload, error} = action
+export function logInViaToken(
+	tokenStatus: boolean,
+): ThunkAction<LogInActions | UpdateBalancesType> {
+	return async (dispatch: any => any) => {
+		await setTokenValid(tokenStatus)
+		dispatch({type: TOKEN_LOGIN, payload: tokenStatus})
 
-  switch (type) {
-    case CREDENTIALS_VALIDATE: {
-      if (error === true || payload.result === false) {
-        return {
-          ...state,
-          valid: false,
-          error: payload.message,
-        }
-      }
-
-      return {
-        ...state,
-        valid: true,
-        error: null,
-      }
-    }
-
-    case SET_LOGIN_CREDENTIALS: {
-      return {
-        ...state,
-        username: payload.username,
-        password: payload.password,
-      }
-    }
-
-    case CREDENTIALS_LOGIN: {
-      if (error === true || payload.result === false) {
-        return {
-          ...state,
-          valid: false,
-          error: payload.message,
-        }
-      }
-
-      return {
-        ...state,
-        valid: true,
-        error: null,
-        username: payload.username,
-        password: payload.password,
-      }
-    }
-
-    case CREDENTIALS_LOGOUT: {
-      return {
-        ...state,
-        username: '',
-        password: '',
-        valid: false,
-        error: null,
-      }
-    }
-
-    default:
-      return state
-  }
+		if (tokenStatus) {
+			// since we logged in successfully, go ahead and fetch the meal info
+			dispatch(updateBalances())
+		}
+	}
 }
 
-const initialTokenState = {
-  status: false,
-  error: null,
-  valid: false,
-}
-function tokenReducer(state = initialTokenState, action) {
-  const {type, payload, error} = action
-  switch (type) {
-    case TOKEN_LOGIN: {
-      if (error === true) {
-        return {
-          ...state,
-          valid: false,
-          error: payload,
-          status: false,
-        }
-      }
-
-      return {
-        ...state,
-        valid: payload === true,
-        error: null,
-        status: payload,
-      }
-    }
-
-    case TOKEN_LOGOUT: {
-      return {
-        ...state,
-        valid: false,
-        error: null,
-        status: false,
-      }
-    }
-
-    default:
-      return state
-  }
+export function setTokenValidity(isTokenValid: boolean) {
+	return {type: TOKEN_LOGIN, payload: isTokenValid}
 }
 
-const initialSettingsState = {
-  theme: 'All About Olaf',
-  dietaryPreferences: [],
-
-  credentials: undefined,
-  token: undefined,
-  feedbackDisabled: false,
+type CredentialsLogOutAction = {|type: 'settings/CREDENTIALS_LOGOUT'|}
+export async function logOutViaCredentials(): Promise<CredentialsLogOutAction> {
+	trackLogOut()
+	await clearLoginCredentials()
+	return {type: CREDENTIALS_LOGOUT}
 }
-export function settings(state: Object = initialSettingsState, action: Object) {
-  // start out by running the reducers for the complex chunks of the state
-  state = {
-    ...state,
-    credentials: credentialsReducer(state.credentials, action),
-    token: tokenReducer(state.token, action),
-  }
 
-  const {type, payload} = action
+type TokenLogOutAction = {|type: 'settings/TOKEN_LOGOUT'|}
+export async function logOutViaToken(): Promise<TokenLogOutAction> {
+	trackLogOut()
+	// actually log out and clear the cookie
+	await fetch('https://apps.carleton.edu/login/?logout=1')
+	await clearTokenValid()
+	return {type: TOKEN_LOGOUT}
+}
 
-  switch (type) {
-    case CHANGE_THEME:
-      return {...state, theme: payload}
+type LogOutAction = CredentialsLogOutAction | TokenLogOutAction
 
-    case SET_FEEDBACK:
-      return {...state, feedbackDisabled: payload}
+type ValidateStartAction = {|type: 'settings/CREDENTIALS_VALIDATE_START'|}
+type ValidateSuccessAction = {|type: 'settings/CREDENTIALS_VALIDATE_SUCCESS'|}
+type ValidateFailureAction = {|type: 'settings/CREDENTIALS_VALIDATE_FAILURE'|}
+type ValidateCredentialsActions =
+	| ValidateStartAction
+	| ValidateSuccessAction
+	| ValidateFailureAction
+export function validateLoginCredentials(
+	credentials: Credentials,
+): ThunkAction<ValidateCredentialsActions> {
+	return async dispatch => {
+		const {username, password} = credentials
+		if (!username || !password) {
+			return
+		}
 
-    default:
-      return state
-  }
+		dispatch({type: CREDENTIALS_VALIDATE_START})
+
+		// we try a few times here because the network may not have stabilized
+		// quite yet.
+		const result = await performLogin(credentials, {attempts: 3})
+		if (result) {
+			dispatch({type: CREDENTIALS_VALIDATE_SUCCESS})
+		} else {
+			dispatch({type: CREDENTIALS_VALIDATE_FAILURE})
+		}
+	}
+}
+
+type Action =
+	| SetFeedbackStatusAction
+	| SisAlertSeenAction
+	| CredentialsActions
+	| UpdateBalancesType
+	| EasterEggAction
+
+type CredentialsActions =
+	| LogInActions
+	| LogOutAction
+	| ValidateCredentialsActions
+	| SetCredentialsAction
+
+export type State = {
+	+theme: string,
+	+dietaryPreferences: [],
+	+feedbackDisabled: boolean,
+	+unofficiallyAcknowledged: boolean,
+	+easterEggEnabled: boolean,
+
+	+username: string,
+	+password: string,
+	+loginState: LoginStateType,
+
+	+tokenError: ?Error,
+	+tokenValid: boolean,
+}
+
+const initialState = {
+	theme: 'All About Olaf',
+	dietaryPreferences: [],
+
+	feedbackDisabled: false,
+	unofficiallyAcknowledged: false,
+	easterEggEnabled: false,
+
+	username: '',
+	password: '',
+	loginState: 'logged-out',
+
+	tokenError: null,
+	tokenValid: false,
+}
+
+export function settings(state: State = initialState, action: Action) {
+	switch (action.type) {
+		case CHANGE_THEME:
+			return {...state, theme: action.payload}
+
+		case SET_FEEDBACK:
+			return {...state, feedbackDisabled: action.payload}
+
+		case SIS_ALERT_SEEN:
+			return {...state, unofficiallyAcknowledged: action.payload}
+
+		case CREDENTIALS_VALIDATE_START:
+			return {...state, loginState: 'checking'}
+
+		case CREDENTIALS_VALIDATE_SUCCESS:
+			return {...state, loginState: 'logged-in'}
+
+		case CREDENTIALS_VALIDATE_FAILURE:
+			return {...state, loginState: 'invalid'}
+
+		case CREDENTIALS_LOGIN_START:
+			return {...state, loginState: 'checking'}
+
+		case CREDENTIALS_LOGIN_SUCCESS: {
+			return {
+				...state,
+				loginState: 'logged-in',
+				username: action.payload.username,
+				password: action.payload.password,
+			}
+		}
+
+		case CREDENTIALS_LOGIN_FAILURE:
+			return {...state, loginState: 'invalid'}
+
+		case CREDENTIALS_LOGOUT: {
+			return {
+				...state,
+				loginState: 'logged-out',
+				username: '',
+				password: '',
+			}
+		}
+
+		case SET_LOGIN_CREDENTIALS: {
+			return {
+				...state,
+				username: action.payload.username,
+				password: action.payload.password,
+			}
+		}
+
+		case EASTER_EGG_ENABLED:
+			return {...state, easterEggEnabled: action.payload}
+
+		case TOKEN_LOGIN: {
+			if (action.error === true) {
+				return {
+					...state,
+					tokenValid: false,
+					tokenError: action.payload,
+					loginState: 'invalid',
+				}
+			}
+
+			return {
+				...state,
+				tokenValid: action.payload === true,
+				tokenError: null,
+				loginState: 'logged-in',
+			}
+		}
+
+		case TOKEN_LOGOUT: {
+			return {
+				...state,
+				tokenValid: false,
+				tokenError: null,
+				loginState: 'logged-out',
+			}
+		}
+
+		default:
+			return state
+	}
 }

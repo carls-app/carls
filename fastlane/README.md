@@ -8,41 +8,24 @@ Make sure you have the latest version of the Xcode command line tools installed:
 xcode-select --install
 ```
 
-## Choose your installation method:
-
-<table width="100%" >
-<tr>
-<th width="33%"><a href="http://brew.sh">Homebrew</a></td>
-<th width="33%">Installer Script</td>
-<th width="33%">Rubygems</td>
-</tr>
-<tr>
-<td width="33%" align="center">macOS</td>
-<td width="33%" align="center">macOS</td>
-<td width="33%" align="center">macOS or Linux with Ruby 2.0.0 or above</td>
-</tr>
-<tr>
-<td width="33%"><code>brew cask install fastlane</code></td>
-<td width="33%"><a href="https://download.fastlane.tools">Download the zip file</a>. Then double click on the <code>install</code> script (or run it in a terminal window).</td>
-<td width="33%"><code>sudo gem install fastlane -NV</code></td>
-</tr>
-</table>
+Install _fastlane_ using
+```
+[sudo] gem install fastlane -NV
+```
+or alternatively using `brew cask install fastlane`
 
 # Available Actions
-### keys
-```
-fastlane keys
-```
-Set up the private keys + environment variables for local development
-
-----
-
 ## Android
 ### android build
 ```
 fastlane android build
 ```
 Makes a build
+### android check_build
+```
+fastlane android check_build
+```
+Checks that the app builds
 ### android beta
 ```
 fastlane android beta
@@ -53,16 +36,16 @@ Submit a new beta build to Google Play
 fastlane android nightly
 ```
 Submit a new nightly build to Google Play
+### android sourcemap
+```
+fastlane android sourcemap
+```
+Bundle an Android sourcemap
 ### android ci-run
 ```
 fastlane android ci-run
 ```
 Run the appropriate action on CI
-### android ci-emulator
-```
-fastlane android ci-emulator
-```
-Set up an android emulator on TravisCI
 ### android matchesque
 ```
 fastlane android matchesque
@@ -82,11 +65,16 @@ Runs all the tests
 fastlane ios screenshot
 ```
 Take screenshots
+### ios check_build
+```
+fastlane ios check_build
+```
+Checks that the app can be built
 ### ios build
 ```
 fastlane ios build
 ```
-Builds the app
+Builds and exports the app
 ### ios beta
 ```
 fastlane ios beta
@@ -97,6 +85,11 @@ Submit a new Beta Build to Testflight
 fastlane ios nightly
 ```
 Submit a new nightly Beta Build to Testflight
+### ios sourcemap
+```
+fastlane ios sourcemap
+```
+Bundle an iOS sourcemap
 ### ios refresh_dsyms
 ```
 fastlane ios refresh_dsyms

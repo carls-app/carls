@@ -1,31 +1,43 @@
 // @flow
 
-import React from 'react'
+import * as React from 'react'
 import {StyleSheet} from 'react-native'
 import NativeSearchBar from 'react-native-search-bar'
 import * as c from '../colors'
 
 const styles = StyleSheet.create({
-  searchbar: {
-    backgroundColor: c.iosGray,
-    height: 44,
-  },
+	searchbar: {
+		height: 44,
+	},
 })
 
 type PropsType = {
-  getRef?: any,
-  style?: any,
-  placeholder?: string,
-  onChangeText: string => any,
-  onSearchButtonPress: string => any,
+	getRef?: any,
+	backgroundColor?: string,
+	style?: any,
+	placeholder?: string,
+	onFocus?: () => any,
+	onCancel?: () => any,
+	onChangeText?: string => any,
+	onSearchButtonPress: string => any,
+	text?: string,
+	textFieldBackgroundColor?: string,
 }
 
-export const SearchBar = (props: PropsType) =>
-  <NativeSearchBar
-    ref={props.getRef}
-    style={styles.searchbar}
-    hideBackground={true}
-    placeholder={props.placeholder || 'Search'}
-    onChangeText={props.onChangeText || null}
-    onSearchButtonPress={props.onSearchButtonPress || null}
-  />
+export const SearchBar = (props: PropsType) => {
+	return (
+		<NativeSearchBar
+			ref={props.getRef}
+			barTintColor={props.backgroundColor || c.iosGray}
+			hideBackground={true}
+			onCancelButtonPress={props.onCancel || (() => {})}
+			onChangeText={props.onChangeText || (() => {})}
+			onFocus={props.onFocus || (() => {})}
+			onSearchButtonPress={props.onSearchButtonPress || (() => {})}
+			placeholder={props.placeholder || 'Search'}
+			style={styles.searchbar}
+			text={props.text || ''}
+			textFieldBackgroundColor={props.textFieldBackgroundColor || c.white}
+		/>
+	)
+}
