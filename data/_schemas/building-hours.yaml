@@ -26,7 +26,7 @@ definitions:
     required: [title, url]
     properties:
       title: {type: string}
-      url: {type: url}
+      url: {type: string}
   schedule:
     additionalProperties: false
     required: [title, hours]
