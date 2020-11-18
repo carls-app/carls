@@ -1744,7 +1744,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.rives.carls;
 				PRODUCT_NAME = CARLS;
 				PROVISIONING_PROFILE = "bf12d025-a010-4f17-bda2-294304d723e0";
-				PROVISIONING_PROFILE_SPECIFIER = "match AdHoc com.rives.carls";
+				PROVISIONING_PROFILE_SPECIFIER = "match AppStore com.rives.carls";
 				SWIFT_OBJC_BRIDGING_HEADER = "AllAboutOlafUITests/AllAboutOlaf-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
