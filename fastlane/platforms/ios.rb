@@ -29,7 +29,7 @@ platform :ios do
   desc 'Checks that the app can be built'
   lane :check_build do
     # fetch the directory where Xcode will put the .app
-    settings = FastlaneCore::Helper.backticks(%(xcodebuild -showBuildSettings -configuration Debug -scheme "#{ENV['GYM_SCHEME']}" -project "../#{ENV['GYM_PROJECT']}" -destination 'generic/platform=iOS'))
+    settings = FastlaneCore::Helper.backticks(%(xcodebuild -showBuildSettings -configuration Debug -scheme "#{ENV['GYM_SCHEME']}" -project "../#{ENV['GYM_PROJECT']}" -destination 'generic/platform=iOS' -UseModernBuildSystem=NO))
     products_dir = settings.split("\n").select { |line| line =~ /\bBUILT_PRODUCTS_DIR =/ }.uniq
     products_dir = products_dir.map { |entry| entry.gsub(/.*BUILT_PRODUCTS_DIR = /, '') }
     products = products_dir.map { |entry| entry + "/#{ENV['GYM_OUTPUT_NAME']}.app/" }
@@ -47,7 +47,7 @@ platform :ios do
         scheme: ENV['GYM_SCHEME'],
         project: ENV['GYM_PROJECT'],
         destination: 'generic/platform=iOS',
-        xcargs: %(CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="")
+        xcargs: %(CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="" -UseModernBuildSystem=NO)
       )
     rescue IOError => e
       build_status = 1
