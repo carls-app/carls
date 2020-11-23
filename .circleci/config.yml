@@ -302,7 +302,6 @@ jobs:
       - run: *set-ruby-version
       - restore_cache: *restore-cache-yarn
       - run: yarn install --frozen-lockfile
-      - run: ls
       - run: yarn run prepareThirdParty
       - run: yarn run prepareRCTModuleMethod
       - save_cache: *save-cache-yarn
