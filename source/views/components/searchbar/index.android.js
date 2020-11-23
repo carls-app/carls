@@ -1,5 +1,6 @@
 // @flow
 
+/*
 import * as React from 'react'
 import {StyleSheet} from 'react-native'
 import * as c from '../colors'
@@ -70,4 +71,9 @@ export class SearchBar extends React.PureComponent<Props, State> {
 			/>
 		)
 	}
+}
+*/
+
+export const SearchBar = () => {
+	return null
 }

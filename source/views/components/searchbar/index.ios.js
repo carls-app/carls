@@ -1,5 +1,6 @@
 // @flow
 
+/*
 import * as React from 'react'
 import {StyleSheet} from 'react-native'
 import NativeSearchBar from 'react-native-search-bar'
@@ -40,4 +41,9 @@ export const SearchBar = (props: PropsType) => {
 			textFieldBackgroundColor={props.textFieldBackgroundColor || c.white}
 		/>
 	)
+}
+*/
+
+export const SearchBar = () => {
+	return null
 }
