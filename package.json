@@ -18,7 +18,7 @@
     "ios:release": "react-native run-ios --configuration Release",
     "ios-simulator": "xcrun instruments -s devices | peco --select-1 --query 'Simulator iPhone' --on-cancel error | sed  's~.*\\[\\(.*\\)\\].*~\\1~' | xargs open -n -a Simulator --args -CurrentDeviceUDID",
     "lint": "eslint --cache source/ scripts/ *.js",
-    "prepare": "npm run prepareRCTModuleMethod && && npm run prepareThirdParty && npm run prepareScrollEnabled",
+    "prepare": "npm run prepareRCTModuleMethod && npm run prepareThirdParty && npm run prepareScrollEnabled",
     "prepareRCTModuleMethod": "ls contrib/*.patch | xargs -n1 patch -p0 -Nfsi || true",
     "prepareScrollEnabled": "sed -i.bak 's/\\(_backedTextInputView.scrollEnabled = \\)YES;/\\1NO;/' node_modules/react-native/Libraries/Text/TextInput/Multiline/RCTMultilineTextInputView.m",
     "prepareThirdParty": "scripts/prepare-third-party.sh",
