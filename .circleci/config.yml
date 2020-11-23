@@ -251,6 +251,7 @@ jobs:
       - save_cache: *save-cache-gradle
       - run: mkdir -p logs/
       - run: *embed-env-vars
+      - run: yarn run prepareRCTModuleMethod
       - run:
           name: Run Fastlane
           command: bundle exec fastlane android ci-run | tee ./logs/build
@@ -307,6 +308,8 @@ jobs:
       - save_cache: *save-cache-bundler
       - run: mkdir -p logs/
       - run: *embed-env-vars
+      - run: yarn run prepareRCTModuleMethod
+      - run: yarn run prepareThirdParty
       - run:
           name: Run Fastlane
           command: bundle exec fastlane ios ci-run | tee ./logs/build
