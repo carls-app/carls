@@ -10,6 +10,9 @@ properties:
   image: {type: string}
   isNotice: {type: boolean}
   noticeMessage: {type: string}
+  links:
+    type: array
+    items: {$ref: '#/definitions/links'}
   schedule:
     type: array
     items: {$ref: '#/definitions/schedule'}
@@ -18,6 +21,12 @@ properties:
 
 
 definitions:
+  links:
+    additionalProperties: false
+    required: [title, url]
+    properties:
+      title: {type: string}
+      url: {type: string}
   schedule:
     additionalProperties: false
     required: [title, hours]

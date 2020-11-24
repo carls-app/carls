@@ -11,6 +11,7 @@ import {getShortBuildingStatus} from '../lib'
 import {Badge} from './badge'
 import {Header} from './header'
 import {ScheduleTable} from './schedule-table'
+import {LinkTable} from './link-table'
 import {ListFooter} from '../../components/list'
 
 const styles = StyleSheet.create({
@@ -55,6 +56,7 @@ export class BuildingDetail extends React.Component<Props> {
 				: null
 		const openStatus = getShortBuildingStatus(info, now)
 		const schedules = info.schedule || []
+		const links = info.links || []
 
 		return (
 			<ScrollView contentContainerStyle={styles.container}>
@@ -69,6 +71,7 @@ export class BuildingDetail extends React.Component<Props> {
 					onProblemReport={onProblemReport}
 					schedules={schedules}
 				/>
+				{links.length ? <LinkTable links={links} /> : null}
 
 				<ListFooter
 					title={
