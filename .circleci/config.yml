@@ -303,7 +303,6 @@ jobs:
       - run: *set-ruby-version
       - restore_cache: *restore-cache-yarn
       - run: yarn install --frozen-lockfile
-      - run: yarn run preparePatches
       - save_cache: *save-cache-yarn
       - restore_cache: *restore-cache-bundler
       - run: bundle check || bundle install --frozen --path ./vendor/bundle
@@ -311,6 +310,7 @@ jobs:
       - run: mkdir -p logs/
       - run: *embed-env-vars
       - run: yarn run prepareThirdParty
+      - run: yarn run preparePatches
       - run:
           name: Run Fastlane
           command: bundle exec fastlane ios ci-run | tee ./logs/build
