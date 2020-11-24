@@ -1,4 +1,3 @@
 #!/bin/bash
 
-cd node_modules/react-native && scripts/ios-install-third-party.sh && third-party/glog-0.3.4/configure
-cd third-party/glog-0.3.4 && make && make install && cd ../../../../
+cd node_modules/react-native && ./scripts/ios-install-third-party.sh && cd third-party/glog-0.3.4 && ./configure && make && make install && cd ../../../../
