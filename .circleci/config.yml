@@ -298,7 +298,7 @@ jobs:
     shell: /bin/bash --login -o pipefail
     steps:
       - checkout
-      - run: sudo xcode-select -s /Applications/Xcode_10.2.1.app
+      - run: sudo xcode-select -s /Applications/Xcode-10.2.1.app
       - run: yarn --version
       - run: *set-ruby-version
       - restore_cache: *restore-cache-yarn
