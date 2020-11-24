@@ -21,7 +21,7 @@ x-config:
   x-commands:  # command shorthands
     - &set-ruby-version
       name: Set Ruby Version
-      command: echo "ruby-2.4.2" > ~/.ruby-version
+      command: echo "ruby-2.5.5" > ~/.ruby-version
     - &run-danger
       command: |
         if ! [[ $CIRCLE_PR_NUMBER ]]; then
@@ -109,7 +109,7 @@ jobs:
       - save_cache: *save-cache-yarn
 
   cache-bundler-linux:
-    docker: [{image: 'circleci/ruby:2.4'}]
+    docker: [{image: 'circleci/ruby:2.5.5'}]
     steps:
       - checkout
       - run: *set-ruby-version
@@ -276,6 +276,7 @@ jobs:
       - run: yarn install --frozen-lockfile
       - run: mkdir -p logs/
       - run: *embed-env-vars
+      - run: yarn run preparePatches
       - run: yarn run bundle-data
       - run: yarn run --silent bundle:android
       - store_artifacts:
@@ -287,7 +288,7 @@ jobs:
       - run: *run-danger
 
   ios: &ios
-    macos: {xcode: '9.0'}
+    macos: {xcode: '11.7'}
     environment: &ios-env
       task: IOS
       FASTLANE_SKIP_UPDATE_CHECK: '1'
@@ -297,6 +298,7 @@ jobs:
     shell: /bin/bash --login -o pipefail
     steps:
       - checkout
+      - run: sudo xcode-select -s /Applications/Xcode-11.7.app
       - run: yarn --version
       - run: *set-ruby-version
       - restore_cache: *restore-cache-yarn
@@ -307,6 +309,8 @@ jobs:
       - save_cache: *save-cache-bundler
       - run: mkdir -p logs/
       - run: *embed-env-vars
+      - run: yarn run prepareThirdParty
+      - run: yarn run preparePatches
       - run:
           name: Run Fastlane
           command: bundle exec fastlane ios ci-run | tee ./logs/build

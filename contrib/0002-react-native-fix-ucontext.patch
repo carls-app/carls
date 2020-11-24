@@ -1,0 +1,11 @@
+--- ./node_modules/react-native/third-party/glog-0.3.4/src/config.h
++++ ./node_modules/react-native/third-party/glog-0.3.4/src/config.h
+@@ -153,7 +153,11 @@
+ #define PACKAGE_VERSION "0.3.4"
+
+ /* How to access the PC from a struct ucontext */
++#if defined(__arm__) || defined(__arm64__)
++#define PC_FROM_UCONTEXT uc_mcontext->__ss.__pc
++#else
+ #define PC_FROM_UCONTEXT uc_mcontext->__ss.__rip
++#endif
