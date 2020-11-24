@@ -276,7 +276,7 @@ jobs:
       - run: yarn install --frozen-lockfile
       - run: mkdir -p logs/
       - run: *embed-env-vars
-      - run: yarn run prepareRCTModuleMethod
+      - run: yarn run preparePatches
       - run: yarn run bundle-data
       - run: yarn run --silent bundle:android
       - store_artifacts:
@@ -303,7 +303,7 @@ jobs:
       - run: *set-ruby-version
       - restore_cache: *restore-cache-yarn
       - run: yarn install --frozen-lockfile
-      - run: yarn run prepareRCTModuleMethod
+      - run: yarn run preparePatches
       - save_cache: *save-cache-yarn
       - restore_cache: *restore-cache-bundler
       - run: bundle check || bundle install --frozen --path ./vendor/bundle
