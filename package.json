@@ -145,7 +145,7 @@
     "flow-bin": "0.67.1",
     "jest": "22.4.2",
     "jest-junit": "3.7.0",
-    "js-yaml": "3.11.0",
+    "js-yaml": "3.13.1",
     "junk": "2.1.0",
     "minimist": "1.2.3",
     "mkdirp": "0.5.1",
