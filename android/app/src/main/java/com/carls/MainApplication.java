@@ -16,7 +16,6 @@ import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
 import com.github.droibit.android.reactnative.customtabs.CustomTabsPackage;
-import com.idehub.GoogleAnalyticsBridge.GoogleAnalyticsBridgePackage;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.mapbox.rctmgl.RCTMGLPackage;
 import com.oblador.keychain.KeychainPackage;
@@ -45,7 +44,6 @@ public class MainApplication extends Application implements ReactApplication {
         BugsnagReactNative.getPackage(),
         new CalendarEventsPackage(),
         new CustomTabsPackage(),
-        new GoogleAnalyticsBridgePackage(),
         new Interactable(),
         new KeychainPackage(),
         new LinearGradientPackage(),
