@@ -7,7 +7,6 @@ import * as React from 'react'
 import {Provider as ReduxProvider} from 'react-redux'
 import {makeStore, initRedux} from './flux'
 import bugsnag from './bugsnag'
-import {tracker} from './analytics'
 import {AppNavigator} from './navigation'
 import type {NavigationState} from 'react-navigation'
 import {Provider as PaperProvider} from 'react-native-paper'
@@ -43,7 +42,6 @@ export default class App extends React.Component<Props> {
 		}
 
 		if (currentScreen !== prevScreen) {
-			tracker.trackScreenView(currentScreen)
 			bugsnag.leaveBreadcrumb(currentScreen.substr(0, 30), {
 				type: 'navigation',
 				previousScreen: prevScreen,

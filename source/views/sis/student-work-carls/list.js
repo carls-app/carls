@@ -6,7 +6,6 @@ import {TabBarIcon} from '../../components/tabbar-icon'
 import type {TopLevelViewPropsType} from '../../types'
 import * as c from '../../components/colors'
 import {ListSeparator, ListSectionHeader} from '../../components/list'
-import {tracker} from '../../../analytics'
 import bugsnag from '../../../bugsnag'
 import {NoticeView} from '../../components/notice'
 import LoadingView from '../../components/loading'
@@ -68,7 +67,6 @@ export class StudentWorkView extends React.Component<Props, State> {
 			grouped = toPairs(grouped).map(([title, data]) => ({title, data}))
 			this.setState(() => ({jobs: grouped}))
 		} catch (err) {
-			tracker.trackException(err.message)
 			bugsnag.notify(err)
 			this.setState(() => ({error: true}))
 			console.error(err)

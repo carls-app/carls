@@ -10,7 +10,6 @@ import groupBy from 'lodash/groupBy'
 import {ListSeparator, ListSectionHeader} from '../components/list'
 import {NoticeView} from '../components/notice'
 import bugsnag from '../../bugsnag'
-import {tracker} from '../../analytics'
 import delay from 'delay'
 import LoadingView from '../components/loading'
 import {ArchivedConvocationRow} from './archived-row'
@@ -53,7 +52,6 @@ export class ArchivedConvocationsView extends React.PureComponent<
 				'https://carleton.api.frogpond.tech/v1/convos/archived',
 			)
 		} catch (err) {
-			tracker.trackException(err.message)
 			bugsnag.notify(err)
 			this.setState({error: err.message})
 			console.warn(err)

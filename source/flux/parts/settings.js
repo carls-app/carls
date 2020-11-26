@@ -8,8 +8,6 @@ import {
 } from '../../lib/login'
 
 import {
-	setAnalyticsOptOut,
-	getAnalyticsOptOut,
 	getAcknowledgementStatus,
 	setAcknowledgementStatus,
 	getEasterEggStatus,
@@ -17,8 +15,6 @@ import {
 	setTokenValid,
 	clearTokenValid,
 } from '../../lib/storage'
-
-import {trackLogOut, trackLogIn, trackLoginFailure} from '../../analytics'
 
 import {type ReduxState} from '../index'
 import {type UpdateBalancesType, updateBalances} from './balances'
@@ -38,27 +34,11 @@ const CREDENTIALS_LOGOUT = 'settings/CREDENTIALS_LOGOUT'
 const CREDENTIALS_VALIDATE_START = 'settings/CREDENTIALS_VALIDATE_START'
 const CREDENTIALS_VALIDATE_SUCCESS = 'settings/CREDENTIALS_VALIDATE_SUCCESS'
 const CREDENTIALS_VALIDATE_FAILURE = 'settings/CREDENTIALS_VALIDATE_FAILURE'
-const SET_FEEDBACK = 'settings/SET_FEEDBACK'
 const CHANGE_THEME = 'settings/CHANGE_THEME'
 const SIS_ALERT_SEEN = 'settings/SIS_ALERT_SEEN'
 const EASTER_EGG_ENABLED = 'settings/EASTER_EGG_ENABLED'
 const TOKEN_LOGIN = 'settings/TOKEN_LOGIN'
 const TOKEN_LOGOUT = 'settings/TOKEN_LOGOUT'
-
-type SetFeedbackStatusAction = {|
-	type: 'settings/SET_FEEDBACK',
-	payload: boolean,
-|}
-export async function setFeedbackStatus(
-	feedbackEnabled: boolean,
-): Promise<SetFeedbackStatusAction> {
-	await setAnalyticsOptOut(feedbackEnabled)
-	return {type: SET_FEEDBACK, payload: feedbackEnabled}
-}
-
-export async function loadFeedbackStatus(): Promise<SetFeedbackStatusAction> {
-	return {type: SET_FEEDBACK, payload: await getAnalyticsOptOut()}
-}
 
 type SisAlertSeenAction = {|type: 'settings/SIS_ALERT_SEEN', payload: boolean|}
 export async function loadAcknowledgement(): Promise<SisAlertSeenAction> {
@@ -123,7 +103,6 @@ export function logInViaCredentials(
 
 		const result = await performLogin(credentials)
 		if (result) {
-			trackLogIn()
 			dispatch({type: CREDENTIALS_LOGIN_SUCCESS, payload: credentials})
 			// since we logged in successfully, go ahead and fetch the meal info
 			dispatch(updateBalances())
@@ -131,10 +110,8 @@ export function logInViaCredentials(
 			dispatch({type: CREDENTIALS_LOGIN_FAILURE})
 
 			if (isConnected) {
-				trackLoginFailure('Bad credentials')
 				showInvalidLoginMessage()
 			} else {
-				trackLoginFailure('No network')
 				showNetworkFailureMessage()
 			}
 		}
@@ -161,14 +138,12 @@ export function setTokenValidity(isTokenValid: boolean) {
 
 type CredentialsLogOutAction = {|type: 'settings/CREDENTIALS_LOGOUT'|}
 export async function logOutViaCredentials(): Promise<CredentialsLogOutAction> {
-	trackLogOut()
 	await clearLoginCredentials()
 	return {type: CREDENTIALS_LOGOUT}
 }
 
 type TokenLogOutAction = {|type: 'settings/TOKEN_LOGOUT'|}
 export async function logOutViaToken(): Promise<TokenLogOutAction> {
-	trackLogOut()
 	// actually log out and clear the cookie
 	await fetch('https://apps.carleton.edu/login/?logout=1')
 	await clearTokenValid()
@@ -207,7 +182,6 @@ export function validateLoginCredentials(
 }
 
 type Action =
-	| SetFeedbackStatusAction
 	| SisAlertSeenAction
 	| CredentialsActions
 	| UpdateBalancesType
@@ -222,7 +196,6 @@ type CredentialsActions =
 export type State = {
 	+theme: string,
 	+dietaryPreferences: [],
-	+feedbackDisabled: boolean,
 	+unofficiallyAcknowledged: boolean,
 	+easterEggEnabled: boolean,
 
@@ -238,7 +211,6 @@ const initialState = {
 	theme: 'All About Olaf',
 	dietaryPreferences: [],
 
-	feedbackDisabled: false,
 	unofficiallyAcknowledged: false,
 	easterEggEnabled: false,
 
@@ -254,9 +226,6 @@ export function settings(state: State = initialState, action: Action) {
 	switch (action.type) {
 		case CHANGE_THEME:
 			return {...state, theme: action.payload}
-
-		case SET_FEEDBACK:
-			return {...state, feedbackDisabled: action.payload}
 
 		case SIS_ALERT_SEEN:
 			return {...state, unofficiallyAcknowledged: action.payload}

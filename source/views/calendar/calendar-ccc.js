@@ -3,7 +3,6 @@
 import * as React from 'react'
 import {EventList} from './event-list'
 import bugsnag from '../../bugsnag'
-import {tracker} from '../../analytics'
 import type {TopLevelViewPropsType} from '../types'
 import type {EventType, PoweredBy} from './types'
 import moment from 'moment-timezone'
@@ -86,7 +85,6 @@ export class CccCalendarView extends React.Component<Props, State> {
 		try {
 			data = await fetchJson(url)
 		} catch (err) {
-			tracker.trackException(err.message)
 			bugsnag.notify(err)
 			this.setState({error: err.message})
 			console.warn(err)

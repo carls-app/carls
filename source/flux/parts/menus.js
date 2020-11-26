@@ -1,6 +1,5 @@
 // @flow
 
-import {trackMenuFilters} from '../../analytics'
 import {type FilterType} from '../../views/components/filter/types'
 
 export const UPDATE_MENU_FILTERS = 'menus/UPDATE_MENU_FILTERS'
@@ -16,7 +15,6 @@ export function updateMenuFilters(
 	menuName: string,
 	filters: FilterType[],
 ): UpdateMenuFiltersAction {
-	trackMenuFilters(menuName, filters)
 	return {type: UPDATE_MENU_FILTERS, payload: {menuName, filters}}
 }
 

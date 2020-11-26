@@ -3,24 +3,21 @@ import * as React from 'react'
 import {Cell, Section} from 'react-native-tableview-simple'
 import {version} from '../../../../package.json'
 import type {TopLevelViewPropsType} from '../../types'
-import {setFeedbackStatus} from '../../../flux/parts/settings'
-import {connect} from 'react-redux'
-import {CellToggle} from '../../components/cells/toggle'
 import {PushButtonCell} from '../../components/cells/push-button'
-import {trackedOpenUrl} from '../../components/open-url'
+import {openUrl} from '../../components/open-url'
 import * as Icons from '@hawkrives/react-native-alternate-icons'
 import {sectionBgColor} from '../../components/colors'
 
-type Props = TopLevelViewPropsType & {
-	onChangeFeedbackToggle: (feedbackDisabled: boolean) => any,
-	feedbackDisabled: boolean,
-}
+type Props = TopLevelViewPropsType
 
 type State = {
 	supported: boolean,
 }
 
-class OddsAndEndsSection extends React.PureComponent<Props, State> {
+export default class OddsAndEndsSection extends React.PureComponent<
+	Props,
+	State,
+> {
 	state = {
 		supported: false,
 	}
@@ -41,11 +38,7 @@ class OddsAndEndsSection extends React.PureComponent<Props, State> {
 	onCreditsButton = () => this.onPressButton('CreditsView')
 	onPrivacyButton = () => this.onPressButton('PrivacyView')
 	onLegalButton = () => this.onPressButton('LegalView')
-	onSourceButton = () =>
-		trackedOpenUrl({
-			url: 'https://github.com/carls-app/carls',
-			id: 'ContributingView',
-		})
+	onSourceButton = () => openUrl('https://github.com/carls-app/carls')
 	onAppIconButton = () => this.onPressButton('IconSettingsView')
 
 	render() {
@@ -70,30 +63,8 @@ class OddsAndEndsSection extends React.PureComponent<Props, State> {
 
 				<Section header="ODDS &amp; ENDS" sectionTintColor={sectionBgColor}>
 					<Cell cellStyle="RightDetail" detail={version} title="Version" />
-
-					<CellToggle
-						label="Share Analytics"
-						// These are both inverted because the toggle makes more sense as
-						// optout/optin, but the code works better as optin/optout.
-						onChange={val => this.props.onChangeFeedbackToggle(!val)}
-						value={!this.props.feedbackDisabled}
-					/>
 				</Section>
 			</React.Fragment>
 		)
 	}
 }
-
-function mapStateToProps(state) {
-	return {
-		feedbackDisabled: state.settings.feedbackDisabled,
-	}
-}
-
-function mapDispatchToProps(dispatch) {
-	return {
-		onChangeFeedbackToggle: s => dispatch(setFeedbackStatus(s)),
-	}
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(OddsAndEndsSection)

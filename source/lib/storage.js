@@ -34,14 +34,6 @@ async function getItemAsArray<T>(key: string): Promise<Array<T>> {
 
 /// MARK: Settings
 
-const analyticsOptOutKey = 'settings:opt-out'
-export function setAnalyticsOptOut(status: boolean) {
-	return setItem(analyticsOptOutKey, status)
-}
-export function getAnalyticsOptOut(): Promise<boolean> {
-	return getItemAsBoolean(analyticsOptOutKey)
-}
-
 const homescreenOrderKey = 'homescreen:view-order'
 export function setHomescreenOrder(order: string[]) {
 	return setItem(homescreenOrderKey, order)
