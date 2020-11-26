@@ -6,7 +6,7 @@ import {StyleSheet, Image} from 'react-native'
 import {ListRow, Detail, Title} from '../../components/list'
 import {Column, Row} from '../../components/layout'
 import {getTrimmedTextWithSpaces, parseHtml} from '../../../lib/html'
-import {trackedOpenUrl} from '../../components/open-url'
+import {openUrl} from '../../components/open-url'
 import type {StreamType} from './types'
 
 const styles = StyleSheet.create({
@@ -47,7 +47,7 @@ type Props = {stream: StreamType}
 export class StreamRow extends React.PureComponent<Props> {
 	onPressStream = () => {
 		const {stream} = this.props
-		trackedOpenUrl({url: stream.player, id: 'StreamingMedia_StreamView'})
+		openUrl(stream.player)
 	}
 
 	render() {

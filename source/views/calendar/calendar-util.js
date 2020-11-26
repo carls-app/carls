@@ -5,7 +5,6 @@ import RNCalendarEvents from 'react-native-calendar-events'
 import getUrls from 'get-urls'
 import type {EventType} from './types'
 import bugsnag from '../../bugsnag'
-import {tracker} from '../../analytics'
 import {detailTimes} from './times'
 
 export function shareEvent(event: EventType): Promise<any> {
@@ -34,7 +33,6 @@ export function addToCalendar(event: EventType): Promise<boolean> {
 			return saveEventToCalendar(event)
 		})
 		.catch(err => {
-			tracker.trackException(err.message)
 			bugsnag.notify(err)
 			console.error(err)
 			return false
@@ -53,7 +51,6 @@ async function saveEventToCalendar(event: EventType): Promise<boolean> {
 
 		return true
 	} catch (err) {
-		tracker.trackException(err.message)
 		bugsnag.notify(err)
 		console.error(err)
 		return false

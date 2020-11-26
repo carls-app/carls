@@ -12,7 +12,6 @@ import {loadFavoriteBuildings} from './parts/buildings'
 import {
 	setLoginCredentials,
 	validateLoginCredentials,
-	loadFeedbackStatus,
 	loadAcknowledgement,
 	loadEasterEggStatus,
 } from './parts/settings'
@@ -55,7 +54,6 @@ export async function init(store: {dispatch: any => any}) {
 	await Promise.all([
 		store.dispatch(loadHomescreenOrder()),
 		store.dispatch(loadDisabledViews()),
-		store.dispatch(loadFeedbackStatus()),
 		store.dispatch(loadAcknowledgement()),
 		store.dispatch(loadEasterEggStatus()),
 		store.dispatch(loadFavoriteBuildings()),

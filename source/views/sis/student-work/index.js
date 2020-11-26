@@ -6,7 +6,6 @@ import {TabBarIcon} from '../../components/tabbar-icon'
 import type {TopLevelViewPropsType} from '../../types'
 import * as c from '../../components/colors'
 import {ListSeparator, ListSectionHeader} from '../../components/list'
-import {tracker, trackStudentJobOpen} from '../../../analytics'
 import bugsnag from '../../../bugsnag'
 import {NoticeView} from '../../components/notice'
 import LoadingView from '../../components/loading'
@@ -81,7 +80,6 @@ export default class StudentWorkView extends React.PureComponent<Props, State> {
 			const mapped = toPairs(grouped).map(([title, data]) => ({title, data}))
 			this.setState(() => ({jobs: mapped}))
 		} catch (err) {
-			tracker.trackException(err.message)
 			bugsnag.notify(err)
 			this.setState(() => ({error: true}))
 			console.error(err)
@@ -103,7 +101,6 @@ export default class StudentWorkView extends React.PureComponent<Props, State> {
 	}
 
 	onPressJob = (job: JobType) => {
-		trackStudentJobOpen(`${job.office}: ${job.title}`)
 		this.props.navigation.navigate('JobDetailView', {job})
 	}
 

@@ -4,7 +4,6 @@ import {StyleSheet} from 'react-native'
 import {Markdown} from '../../components/markdown'
 import {ListFooter} from '../../components/list'
 import glamorous from 'glamorous-native'
-import {tracker} from '../../../analytics'
 import {Button} from '../../components/button'
 import openUrl from '../../components/open-url'
 import type {OtherModeType} from '../types'
@@ -39,10 +38,7 @@ export class OtherModesDetailView extends React.PureComponent<Props> {
 	}
 
 	onPress = () => {
-		const {name, url} = this.props.navigation.state.params.mode
-		tracker.trackScreenView(
-			`Transportation_OtherModes_${name.replace(' ', '')}View`,
-		)
+		const {url} = this.props.navigation.state.params.mode
 		openUrl(url)
 	}
 

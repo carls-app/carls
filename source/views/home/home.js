@@ -13,7 +13,7 @@ import {allViews} from '../views'
 import {Column} from '../components/layout'
 import {partitionByIndex} from '../../lib/partition-by-index'
 import {HomeScreenButton, CELL_MARGIN} from './button'
-import {trackedOpenUrl} from '../components/open-url'
+import {openUrl} from '../components/open-url'
 import {EditHomeButton, OpenSettingsButton} from '../components/nav-buttons'
 import {UnofficialAppNotice} from './notice'
 
@@ -60,7 +60,7 @@ function HomePage(props: Props) {
 								key={view.view}
 								onPress={() => {
 									if (view.type === 'url') {
-										return trackedOpenUrl({url: view.url, id: view.view})
+										return openUrl(view.url)
 									} else {
 										return navigation.navigate(view.view)
 									}

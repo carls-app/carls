@@ -14,7 +14,6 @@ import {
 	Detail,
 	Title,
 } from '../components/list'
-import {trackOrgOpen} from '../../analytics'
 import size from 'lodash/size'
 import groupBy from 'lodash/groupBy'
 import uniq from 'lodash/uniq'
@@ -126,7 +125,6 @@ export class StudentOrgsView extends React.PureComponent<Props, State> {
 	)
 
 	onPressRow = (data: StudentOrgType) => {
-		trackOrgOpen(data.name)
 		this.props.navigation.navigate('StudentOrgsDetailView', {org: data})
 	}
 

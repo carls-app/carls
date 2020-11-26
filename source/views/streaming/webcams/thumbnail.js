@@ -5,7 +5,7 @@ import {StyleSheet, View, Text, Image} from 'react-native'
 import {Touchable} from '../../components/touchable'
 import * as c from '../../components/colors'
 import {images as webcamImages} from '../../../../images/webcams'
-import {trackedOpenUrl} from '../../components/open-url'
+import {openUrl} from '../../components/open-url'
 import LinearGradient from 'react-native-linear-gradient'
 import type {Webcam} from './types'
 
@@ -18,8 +18,8 @@ type Props = {
 
 export class StreamThumbnail extends React.PureComponent<Props> {
 	handlePress = () => {
-		const {name, pageUrl} = this.props.webcam
-		trackedOpenUrl({url: pageUrl, id: `${name}WebcamView`})
+		const {pageUrl} = this.props.webcam
+		openUrl(pageUrl)
 	}
 
 	render() {
