@@ -125,7 +125,7 @@
     "wordwrap": "1.0.0"
   },
   "devDependencies": {
-    "ajv": "6.4.0",
+    "ajv": "6.12.3",
     "babel-core": "6.26.0",
     "babel-eslint": "8.2.3",
     "babel-jest": "22.4.1",
