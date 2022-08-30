@@ -86,7 +86,7 @@
     "htmlparser2": "3.9.2",
     "lodash": "4.17.19",
     "moment": "2.22.1",
-    "moment-timezone": "0.5.16",
+    "moment-timezone": "0.5.35",
     "p-props": "1.2.0",
     "p-retry": "2.0.0",
     "querystring": "0.2.0",
