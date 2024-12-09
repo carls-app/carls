@@ -3,91 +3,29 @@ colors:
   bar: rgb(134, 198, 124)
   dot: rgb(32, 87, 14)
 schedules:
-  - days: [Mo, Tu, We, Th, Fr]
+  - days: [Mo, Tu, We, Th, Fr, Sa]
     coordinates:
-      'Aldi':                [44.430159, -93.192055]
-      'Carleton College':    [44.460719, -93.155794]
-      'Cinema 10':           [44.429085, -93.197222]
-      'Cub/Target':          [44.432471, -93.187155]
-      'El Tequila':          [44.449219, -93.171813]
-      'Express Care Clinic': [44.452427, -93.160328]
-      'Food Co-op':          [44.454374, -93.162189]
-      'St. Olaf College':    [44.462210, -93.183026]
+      'Carleton College - Willis Hall': [44.460719, -93.155794]
+      'Kraewood Flats - Lincoln Street': [44.455123, -93.160789]
+      'St. Olaf College - Buntrock Commons': [44.462210, -93.183026]
+      'Cinema 10': [44.429085, -93.197222]
+      'Aldi': [44.430159, -93.192055]
+      'Cub Foods / Target': [44.432471, -93.187155]
+      'Just Foods Co-op': [44.454374, -93.162189]
     stops:
-      - St. Olaf College
-      - Carleton College
-      - Food Co-op
-      - Express Care Clinic
-      - Cub/Target
-      - Aldi
+      - Carleton College - Willis Hall
+      - Kraewood Flats - Lincoln Street
+      - St. Olaf College - Buntrock Commons
       - Cinema 10
-      - El Tequila
-      - Food Co-op
-      - Carleton College
-      - St. Olaf College
-    times:
-      # - ['4:00pm',  '4:07pm',  '4:12pm',  '4:13pm',  '4:20pm',  '4:26pm',  '4:32pm',  '4:38pm',  '4:41pm',  '4:49pm',  '4:55pm']
-      # - ['5:00pm',  '5:07pm',  '5:12pm',  '5:13pm',  '5:20pm',  '5:26pm',  '5:32pm',  '5:38pm',  '5:41pm',  '5:49pm',  '5:55pm']
-      - ['6:00pm',  '6:07pm',  '6:12pm',  '6:13pm',  '6:20pm',  '6:26pm',  '6:32pm',  '6:38pm',  '6:41pm',  '6:49pm',  '6:55pm']
-      - ['7:00pm',  '7:07pm',  '7:12pm',  '7:13pm',  '7:20pm',  '7:26pm',  '7:32pm',  '7:38pm',  '7:41pm',  '7:49pm',  '7:55pm']
-      - ['8:00pm',  '8:07pm',  '8:12pm',  '8:13pm',  '8:20pm',  '8:26pm',  '8:32pm',  '8:38pm',  '8:41pm',  '8:49pm',  '8:55pm']
-      # - ['9:00pm',  '9:07pm',  '9:12pm',     false,  '9:20pm',     false,  '9:32pm',  '9:38pm',  '9:41pm',  '9:49pm',  '9:55pm']
-      # - ['10:00pm', '10:07pm', '10:12pm',    false, '10:20pm',     false, '10:32pm', '10:38pm', '10:41pm', '10:49pm', '10:55pm']
-
-  - days: [Sa]
-    coordinates:
-      'Aldi':                [44.430159, -93.192055]
-      'Carleton College':    [44.460719, -93.155794]
-      'Cinema 10':           [44.429085, -93.197222]
-      'Cub/Target':          [44.432471, -93.187155]
-      'El Tequila':          [44.449219, -93.171813]
-      'Express Care Clinic': [44.452427, -93.160328]
-      'Food Co-op':          [44.454374, -93.162189]
-      'St. Olaf College':    [44.462210, -93.183026]
-    stops:
-      - St. Olaf College
-      - Carleton College
-      - Food Co-op
-      - Express Care Clinic
-      - Cub/Target
       - Aldi
-      - Cinema 10
-      - El Tequila
-      - Food Co-op
-      - Carleton College
-      - St. Olaf College
+      - Cub Foods / Target
+      - Just Foods Co-op
+      - Carleton College - Willis Hall
     times:
-      # - ['4:00pm',  '4:07pm',  '4:12pm',  '4:13pm',  '4:20pm',  '4:26pm',  '4:32pm',  '4:38pm',  '4:41pm',  '4:49pm',  '4:55pm']
-      - ['5:00pm',  '5:07pm',  '5:12pm',  '5:13pm',  '5:20pm',  '5:26pm',  '5:32pm',  '5:38pm',  '5:41pm',  '5:49pm',  '5:55pm']
-      - ['6:00pm',  '6:07pm',  '6:12pm',  '6:13pm',  '6:20pm',  '6:26pm',  '6:32pm',  '6:38pm',  '6:41pm',  '6:49pm',  '6:55pm']
-      - ['7:00pm',  '7:07pm',  '7:12pm',  '7:13pm',  '7:20pm',  '7:26pm',  '7:32pm',  '7:38pm',  '7:41pm',  '7:49pm',  '7:55pm']
-      - ['8:00pm',  '8:07pm',  '8:12pm',  '8:13pm',  '8:20pm',  '8:26pm',  '8:32pm',  '8:38pm',  '8:41pm',  '8:49pm',  '8:55pm']
-      # - ['9:00pm',  '9:07pm',  '9:12pm',     false,  '9:20pm',     false,  '9:32pm',  '9:38pm',  '9:41pm',  '9:49pm',  '9:55pm']
-      # - ['10:00pm', '10:07pm', '10:12pm',    false, '10:20pm',     false, '10:32pm', '10:38pm', '10:41pm', '10:49pm', '10:55pm']
-
-  - days: [Su]
-    coordinates:
-      'Aldi':                [44.430159, -93.192055]
-      'Carleton College':    [44.460719, -93.155794]
-      'Cinema 10':           [44.429085, -93.197222]
-      'Cub/Target':          [44.432471, -93.187155]
-      'El Tequila':          [44.449219, -93.171813]
-      'Express Care Clinic': [44.452427, -93.160328]
-      'Food Co-op':          [44.454374, -93.162189]
-      'St. Olaf College':    [44.462210, -93.183026]
-    stops:
-      - St. Olaf College
-      - Carleton College
-      - Food Co-op
-      - Express Care Clinic
-      - Cub/Target
-      - Aldi
-      - Cinema 10
-      - El Tequila
-      - Food Co-op
-      - Carleton College
-      - St. Olaf College
-    times:
-      - ['3:00pm',  '3:07pm',  '3:12pm',  '3:13pm',  '3:20pm',  '3:26pm',     false,  '3:38pm',  '3:41pm',  '3:49pm',  '3:55pm']
-      - ['4:00pm',  '4:07pm',  '4:12pm',  '4:13pm',  '4:20pm',  '4:26pm',     false,  '4:38pm',  '4:41pm',  '4:49pm',  '4:55pm']
-      - ['5:00pm',  '5:07pm',  '5:12pm',  '5:13pm',  '5:20pm',  '5:26pm',     false,  '5:38pm',  '5:41pm',  '5:49pm',  '5:55pm']
+      - ['3:00pm', '3:06pm', '3:13pm', '3:23pm', '3:29pm', '3:34pm', '3:43pm', '3:50pm']
+      - ['4:00pm', '4:06pm', '4:13pm', '4:23pm', '4:29pm', '4:34pm', '4:43pm', '4:50pm']
+      - ['5:00pm', '5:06pm', '5:13pm', '5:23pm', '5:29pm', '5:34pm', '5:43pm', '5:50pm']
+      - ['6:00pm', '6:06pm', '6:13pm', '6:23pm', '6:29pm', '6:34pm', '6:43pm', '6:50pm']
+      - ['7:00pm', '7:06pm', '7:13pm', '7:23pm', '7:29pm', '7:34pm', '7:43pm', '7:50pm']
+      - ['8:00pm', '8:06pm', '8:13pm', '8:23pm', '8:29pm', '8:34pm', '8:43pm', '8:50pm']
+      - ['9:00pm', '9:06pm', '9:13pm', '9:23pm', '9:29pm', '9:34pm', '9:43pm', '9:50pm']
