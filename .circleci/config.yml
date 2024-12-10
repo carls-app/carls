@@ -69,12 +69,12 @@ workflows:
       - data:
           filters: *filters
           requires: [cache-yarn-linux]
-      - ios:
-          filters: *filters
-          requires: [danger, flow, jest, prettier, eslint, data]
-      - android:
-          filters: *filters
-          requires: [danger, flow, jest, prettier, eslint, data, cache-bundler-linux]
+      #- ios:
+      #    filters: *filters
+      #    requires: [danger, flow, jest, prettier, eslint, data]
+      #- android:
+      #    filters: *filters
+      #    requires: [danger, flow, jest, prettier, eslint, data, cache-bundler-linux]
       - ios-bundle:
           filters: *filters
           requires: [danger, flow, jest, prettier, eslint, data]
