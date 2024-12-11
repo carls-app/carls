@@ -146,6 +146,5 @@ function mapStateToProps(state: ReduxState): ReduxStateProps {
 	}
 }
 
-export const ConnectedBuildingHoursView = connect(mapStateToProps)(
-	BuildingHoursView,
-)
+export const ConnectedBuildingHoursView =
+	connect(mapStateToProps)(BuildingHoursView)

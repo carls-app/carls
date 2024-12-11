@@ -67,7 +67,8 @@ function rowToCourse(domRow: Object, term: string): CourseType {
 	return result
 }
 
-const deptNumRegex = /(([A-Z]+)(?=\/)(?:\/)([A-Z]+)|[A-Z]+) *([0-9]{3,}?) *([A-Z]?)/i
+const deptNumRegex =
+	/(([A-Z]+)(?=\/)(?:\/)([A-Z]+)|[A-Z]+) *([0-9]{3,}?) *([A-Z]?)/i
 
 // Splits a deptnum string (like "AS/RE 230A") into its components,
 // like {depts: ['AS', 'RE'], num: 230, sect: 'A'}.

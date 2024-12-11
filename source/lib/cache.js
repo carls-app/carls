@@ -194,21 +194,15 @@ type BalancesOutputType = {
 	_isCached: boolean,
 }
 export async function getBalances(): Promise<BalancesOutputType> {
-	const [
-		schillers,
-		dining,
-		print,
-		daily,
-		weekly,
-		guestSwipes,
-	] = await Promise.all([
-		getSchillersBalance(),
-		getDiningBalance(),
-		getPrintBalance(),
-		getDailyMealInfo(),
-		getWeeklyMealInfo(),
-		getGuestSwipes(),
-	])
+	const [schillers, dining, print, daily, weekly, guestSwipes] =
+		await Promise.all([
+			getSchillersBalance(),
+			getDiningBalance(),
+			getPrintBalance(),
+			getDailyMealInfo(),
+			getWeeklyMealInfo(),
+			getGuestSwipes(),
+		])
 
 	const _isExpired =
 		schillers.isExpired ||

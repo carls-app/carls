@@ -60,9 +60,8 @@ export class StudentWorkView extends React.Component<Props, State> {
 				job => `${job.duringTerm ? 0 : 1}-${job.name}`,
 			)
 			// now group them
-			let grouped = groupBy(
-				sortedJobs,
-				job => (job.duringTerm ? 'During Term' : 'During Break'),
+			let grouped = groupBy(sortedJobs, job =>
+				job.duringTerm ? 'During Term' : 'During Break',
 			)
 			grouped = toPairs(grouped).map(([title, data]) => ({title, data}))
 			this.setState(() => ({jobs: grouped}))

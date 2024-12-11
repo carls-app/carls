@@ -2,7 +2,6 @@
 const fs = require('fs')
 const junk = require('junk')
 const path = require('path')
-const mkdirp = require('mkdirp')
 const bundleDataDir = require('./bundle-data-dir')
 const convertDataFile = require('./convert-data-file')
 
@@ -29,7 +28,7 @@ if (!fromDir || !toDir || fromDir === '-h' || fromDir === '--help') {
 	process.exit(1)
 }
 
-mkdirp.sync(toDir)
+fs.mkdirSync(toDir, {recursive: true})
 
 // Bundle each directory of yaml files into one big json file
 const dirs = findDirsIn(fromDir)

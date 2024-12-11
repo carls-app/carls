@@ -1,0 +1,57 @@
+name: Check
+
+on:
+  push: {branches: [master]}
+  pull_request:
+  merge_group:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  ruby-version: '3.1'
+  xcode_version: 'Xcode_15.2'
+  java_version: '11'
+  java_distribution: temurin
+
+jobs:
+  prettier:
+    name: Prettier
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4.1.7
+      - uses: jdx/mise-action@v2
+      - run: npm ci
+      - run: mise run prettier -- --no-write --check
+
+  eslint:
+    name: ESLint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4.1.7
+      - uses: jdx/mise-action@v2
+      - run: npm ci
+      - run: mise run lint
+
+#   jest:
+#     name: Jest
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@v4.1.7
+#       - uses: jdx/mise-action@v2
+#       - run: npm ci
+#       - run: mise run test -- --coverage
+#       - name: Upload coverage
+#         uses: codecov/codecov-action@e28ff129e5465c2c0dcc6f003fc735cb6ae0c673 # v4
+
+  data:
+    name: Data
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4.1.7
+      - uses: jdx/mise-action@v2
+      - run: npm ci
+      - run: mise run validate
+      - run: mise run bundle-data

@@ -37,10 +37,7 @@ export function getTextWithSpaces(elem: DOMElement): string {
 }
 
 export function getTrimmedTextWithSpaces(elem: DOMElement): string {
-	return getTextWithSpaces(elem)
-		.split(/\s+/)
-		.join(' ')
-		.trim()
+	return getTextWithSpaces(elem).split(/\s+/).join(' ').trim()
 }
 
 export function removeHtmlWithRegex(str: string): string {
@@ -48,7 +45,5 @@ export function removeHtmlWithRegex(str: string): string {
 }
 
 export function fastGetTrimmedText(str: string): string {
-	return removeHtmlWithRegex(str)
-		.replace(/\s+/g, ' ')
-		.trim()
+	return removeHtmlWithRegex(str).replace(/\s+/g, ' ').trim()
 }
