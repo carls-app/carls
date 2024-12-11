@@ -100,7 +100,7 @@ workflows:
 
 jobs:
   cache-yarn-linux:
-    docker: [{image: cimg/node:22}]
+    docker: [{image: cimg/node:22.12}]
     steps:
       - checkout
       - restore_cache: *restore-cache-yarn
@@ -121,7 +121,7 @@ jobs:
       - save_cache: *save-cache-bundler
 
   danger:
-    docker: [{image: cimg/node:22}]
+    docker: [{image: cimg/node:22.12}]
     environment:
       task: JS-general
     steps:
@@ -131,7 +131,7 @@ jobs:
       - run: *run-danger
 
   flow:
-    docker: [{image: cimg/node:22}]
+    docker: [{image: cimg/node:22.12}]
     environment:
       task: JS-flow
     steps:
@@ -144,7 +144,7 @@ jobs:
       - run: *run-danger
 
   jest:
-    docker: [{image: cimg/node:22}]
+    docker: [{image: cimg/node:22.12}]
     environment:
       task: JS-jest
       JEST_JUNIT_OUTPUT: ./test-results/jest/junit.xml
@@ -170,7 +170,7 @@ jobs:
             fi
 
   prettier:
-    docker: [{image: cimg/node:22}]
+    docker: [{image: cimg/node:22.12}]
     environment:
       task: JS-prettier
     steps:
@@ -189,7 +189,7 @@ jobs:
       - run: *run-danger
 
   eslint:
-    docker: [{image: cimg/node:22}]
+    docker: [{image: cimg/node:22.12}]
     environment:
       task: JS-lint
     steps:
@@ -205,7 +205,7 @@ jobs:
           path: ./test-results
 
   data:
-    docker: [{image: cimg/node:22}]
+    docker: [{image: cimg/node:22.12}]
     environment:
       task: JS-data
     steps:
@@ -267,7 +267,7 @@ jobs:
       IS_NIGHTLY: '1'
 
   android-bundle:
-    docker: [{image: cimg/node:22}]
+    docker: [{image: cimg/node:22.12}]
     environment:
       task: JS-bundle-android
     steps:
@@ -330,7 +330,7 @@ jobs:
       IS_NIGHTLY: '1'
 
   ios-bundle:
-    docker: [{image: cimg/node:22}]
+    docker: [{image: cimg/node:22.12}]
     environment:
       task: JS-bundle-ios
     steps:
