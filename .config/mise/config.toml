@@ -1,4 +1,97 @@
 [tools]
 node = "23.4.0"
+"npm:pretty-quick" = "4.0.0"
 shellcheck = "0.10.0"
-yarn = "4.5.3"
+
+[tasks.android]
+run = "npx react-native run-android"
+
+[tasks."android:release"]
+run = "npx react-native run-android --variant=release"
+
+[tasks."android-emulator"]
+run = "VBoxManage list vms | peco --select-1 --query API --on-cancel error | sed  's~.*{\\(.*\\)}.*~\\1~' | xargs /Applications/Genymotion.app/Contents/MacOS/player.app/Contents/MacOS/player --vm-name"
+
+[tasks.bundle-data]
+run = "node scripts/bundle-data.js data/ docs/"
+sources = ["data/*"]
+outputs = ["docs/*"]
+
+[tasks."bundle:android"]
+run = "npx react-native bundle --entry-file index.js --dev true --platform android --bundle-output ./android/app/src/main/assets/index.android.bundle --assets-dest ./android/app/src/main/res/ --sourcemap-output ./android/app/src/main/assets/index.android.bundle.map"
+
+[tasks."bundle:ios"]
+run = "npx react-native bundle --entry-file index.js --dev false --platform ios --bundle-output ./ios/AllAboutOlaf/main.jsbundle --assets-dest ./ios --sourcemap-output ./ios/AllAboutOlaf/main.jsbundle.map"
+
+[tasks.check]
+depends = ["prettier", "lint", "flow", "validate-data", "test"]
+
+[tasks.compress-data]
+run = "gzip --keep --force docs/*.json"
+sources = ["docs/*.json"]
+
+[tasks.danger]
+run = "npx danger ci"
+
+[tasks.flow]
+run = "npx flow"
+
+[tasks.ios]
+run = "npx react-native run-ios"
+
+[tasks."ios:release"]
+run = "npx react-native run-ios --configuration Release"
+
+[tasks."ios-simulator"]
+run = "xcrun instruments -s devices | peco --select-1 --query 'Simulator iPhone' --on-cancel error | sed  's~.*\\[\\(.*\\)\\].*~\\1~' | xargs open -n -a Simulator --args -CurrentDeviceUDID"
+
+[tasks.lint]
+run = "npx eslint --cache source/ scripts/ *.js"
+
+[tasks.prepare]
+depends = ["prepare:*"]
+
+[tasks."prepare:patches"]
+run = "ls contrib/*.patch | xargs -n1 patch -p0 -Nfsi || true"
+
+[tasks."prepare:scroll-enabled"]
+run = "sed -i.bak 's/\\(_backedTextInputView.scrollEnabled = \\)YES;/\\1NO;/' node_modules/react-native/Libraries/Text/TextInput/Multiline/RCTMultilineTextInputView.m"
+
+[tasks."prepare:third-party"]
+run = "bash ./scripts/prepare-third-party.sh"
+
+[tasks.prettier]
+run = "prettier --write '{source,scripts}/**/*.js' 'data/**/*.css' '*.js'"
+
+[tasks."prettier:ci"]
+depends = ["prettier"]
+run = """
+# ensure that the file exists
+mkdir -p logs
+touch logs/prettier
+
+if ! git diff --quiet *.js source/ scripts/; then
+    git diff *.js source/ scripts/ | tee logs/prettier
+fi
+"""
+
+[tasks."prettier:changed"]
+run = "pretty-quick"
+
+[tasks."prettier:since-master"]
+run = "pretty-quick"
+
+[tasks.start]
+run = "npx react-native start"
+
+[tasks.test]
+run = "npx jest"
+
+[tasks.validate]
+depends = ["validate:*"]
+
+[tasks."validate:bus"]
+run = "node scripts/validate-bus-schedules.js"
+
+[tasks."validate:data"]
+run = "node scripts/validate-data.js"

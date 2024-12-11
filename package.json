@@ -1,34 +1,10 @@
 {
-  "name": "CARLS",
+  "name": "carls",
   "version": "1.0.1-pre",
   "private": true,
   "scripts": {
-    "android": "react-native run-android",
-    "android:release": "react-native run-android --variant=release",
-    "android-emulator": "VBoxManage list vms | peco --select-1 --query API --on-cancel error | sed  's~.*{\\(.*\\)}.*~\\1~' | xargs /Applications/Genymotion.app/Contents/MacOS/player.app/Contents/MacOS/player --vm-name",
-    "bundle-data": "node scripts/bundle-data.js data/ docs/",
-    "bundle:android": "react-native bundle --entry-file index.js --dev true --platform android --bundle-output ./android/app/src/main/assets/index.android.bundle --assets-dest ./android/app/src/main/res/ --sourcemap-output ./android/app/src/main/assets/index.android.bundle.map",
-    "bundle:ios": "react-native bundle --entry-file index.js --dev false --platform ios --bundle-output ./ios/AllAboutOlaf/main.jsbundle --assets-dest ./ios --sourcemap-output ./ios/AllAboutOlaf/main.jsbundle.map",
-    "check": "npm run prettier && npm run lint && npm run flow && npm run validate-data -- --quiet && npm run test",
-    "compress-data": "gzip --keep docs/*.json",
-    "danger": "danger ci",
-    "data": "node scripts/bundle-data.js data/ docs/",
-    "flow": "flow",
-    "ios": "react-native run-ios",
-    "ios:release": "react-native run-ios --configuration Release",
-    "ios-simulator": "xcrun instruments -s devices | peco --select-1 --query 'Simulator iPhone' --on-cancel error | sed  's~.*\\[\\(.*\\)\\].*~\\1~' | xargs open -n -a Simulator --args -CurrentDeviceUDID",
-    "lint": "eslint --cache source/ scripts/ *.js",
-    "prepare": "npm run prepareScrollEnabled",
-    "preparePatches": "ls contrib/*.patch | xargs -n1 patch -p0 -Nfsi || true",
-    "prepareScrollEnabled": "sed -i.bak 's/\\(_backedTextInputView.scrollEnabled = \\)YES;/\\1NO;/' node_modules/react-native/Libraries/Text/TextInput/Multiline/RCTMultilineTextInputView.m",
-    "prepareThirdParty": "scripts/prepare-third-party.sh",
-    "prettier": "prettier --write '{source,scripts}/**/*.js' 'data/**/*.css' '*.js'",
-    "prettier:changed": "pretty-quick",
-    "prettier:since-master": "pretty-quick",
-    "start": "react-native start",
-    "test": "jest",
-    "validate-bus-data": "node scripts/validate-bus-schedules.js",
-    "validate-data": "node scripts/validate-data.js"
+    "start": "mise run start",
+    "test": "mist run test"
   },
   "babel": {
     "presets": [
@@ -41,13 +17,6 @@
         ]
       }
     }
-  },
-  "greenkeeper": {
-    "ignore": [
-      "flow-bin",
-      "react-markdown",
-      "react"
-    ]
   },
   "jest": {
     "testRegex": "/__tests__/.*\\.(test|spec)\\.js$",
@@ -147,11 +116,9 @@
     "js-yaml": "3.13.1",
     "junk": "2.1.0",
     "minimist": "1.2.3",
-    "mkdirp": "0.5.1",
     "pify": "3.0.0",
     "prettier": "1.12.1",
     "pretty-bytes": "4.0.2",
-    "pretty-quick": "1.4.1",
     "prop-types": "15.6.1",
     "react-test-renderer": "16.3.2",
     "string-natural-compare": "2.0.2",
