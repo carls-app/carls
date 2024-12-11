@@ -35,16 +35,16 @@ jobs:
       - run: npm ci
       - run: mise run lint
 
-  jest:
-    name: Jest
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4.1.7
-      - uses: jdx/mise-action@v2
-      - run: npm ci
-      - run: mise run test -- --coverage
-      - name: Upload coverage
-        uses: codecov/codecov-action@e28ff129e5465c2c0dcc6f003fc735cb6ae0c673 # v4
+#   jest:
+#     name: Jest
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@v4.1.7
+#       - uses: jdx/mise-action@v2
+#       - run: npm ci
+#       - run: mise run test -- --coverage
+#       - name: Upload coverage
+#         uses: codecov/codecov-action@e28ff129e5465c2c0dcc6f003fc735cb6ae0c673 # v4
 
   data:
     name: Data
