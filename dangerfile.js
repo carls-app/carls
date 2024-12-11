@@ -268,11 +268,9 @@ async function pbxprojDuplicateLinkingPaths() {
 
 	const buildConfig = xcodeproj.project.objects.XCBuildConfiguration
 	const duplicateSearchPaths = Object.entries(buildConfig)
-		.filter(([_, val] /*: [string, any]*/) => typeof val === 'object')
-		.filter(
-			([_, val] /*: [string, any]*/) => val.buildSettings.LIBRARY_SEARCH_PATHS,
-		)
-		.filter(([_, val] /*: [string, any]*/) => {
+		.filter(([_, val]) => typeof val === 'object')
+		.filter(([_, val]) => val.buildSettings.LIBRARY_SEARCH_PATHS)
+		.filter(([_, val]) => {
 			const searchPaths = val.buildSettings.LIBRARY_SEARCH_PATHS
 			return uniq(searchPaths).length !== searchPaths.length
 		})
@@ -389,12 +387,9 @@ import util from 'util'
 
 const execFile = util.promisify(childProcess.execFile)
 
-function fastlaneBuildLogTail(log /*: Array<string>*/, message /*: string*/) {
+function fastlaneBuildLogTail(log, message) {
 	const n = 150
-	const logToPost = log
-		.slice(-n)
-		.map(stripAnsi)
-		.join('\n')
+	const logToPost = log.slice(-n).map(stripAnsi).join('\n')
 
 	fail(
 		h.details(
@@ -405,11 +400,11 @@ function fastlaneBuildLogTail(log /*: Array<string>*/, message /*: string*/) {
 	)
 }
 
-const h /*: any*/ = new Proxy(
+const h = new Proxy(
 	{},
 	{
 		get(_, property) {
-			return function(...children /*: Array<string>*/) {
+			return function (...children) {
 				if (!children.length) {
 					return `<${property}>`
 				}
@@ -420,7 +415,7 @@ const h /*: any*/ = new Proxy(
 )
 
 const m = {
-	code(attrs /*: Object*/, ...children /*: Array<string>*/) {
+	code(attrs, ...children) {
 		return (
 			'\n' +
 			'```' +
@@ -432,12 +427,12 @@ const m = {
 			'\n'
 		)
 	},
-	json(blob /*: any*/) {
+	json(blob) {
 		return m.code({language: 'json'}, JSON.stringify(blob, null, 2))
 	},
 }
 
-function readFile(filename /*: string*/) {
+function readFile(filename) {
 	try {
 		return fs.readFileSync(filename, 'utf-8')
 	} catch (err) {
@@ -451,12 +446,12 @@ function readFile(filename /*: string*/) {
 	}
 }
 
-function readLogFile(filename /*: string*/) {
+function readLogFile(filename) {
 	return readFile(filename).trim()
 }
 
 // eslint-disable-next-line no-unused-vars
-function readJsonLogFile(filename /*: string*/) {
+function readJsonLogFile(filename) {
 	try {
 		return JSON.parse(readFile(filename))
 	} catch (err) {
@@ -470,15 +465,11 @@ function readJsonLogFile(filename /*: string*/) {
 	}
 }
 
-function isBadDataValidationLog(log /*: string*/) {
+function isBadDataValidationLog(log) {
 	return log.split('\n').some(l => !l.endsWith('is valid'))
 }
 
-function fileLog(
-	name /*: string*/,
-	log /*: string*/,
-	{lang = null} /*: any*/ = {},
-) {
+function fileLog(name, log, {lang = null} = {}) {
 	return markdown(
 		`## ${name}
 
@@ -486,7 +477,7 @@ ${m.code({language: lang}, log)}`,
 	)
 }
 
-function parseXcodeProject(pbxprojPath /*: string*/) /*: Promise<Object>*/ {
+function parseXcodeProject(pbxprojPath) {
 	return new Promise((resolve, reject) => {
 		const project = xcode.project(pbxprojPath)
 		// I think this can be called twice from .parse, which is an error for a Promise
@@ -506,7 +497,7 @@ function parseXcodeProject(pbxprojPath /*: string*/) /*: Promise<Object>*/ {
 }
 
 // eslint-disable-next-line no-unused-vars
-async function listZip(filepath /*: string*/) {
+async function listZip(filepath) {
 	try {
 		const {stdout} = await execFile('unzip', ['-l', filepath])
 		const lines = stdout.split('\n')
@@ -531,7 +522,7 @@ async function listZip(filepath /*: string*/) {
 	}
 }
 
-function listDirectory(dirpath /*: string*/) {
+function listDirectory(dirpath) {
 	try {
 		return fs.readdirSync(dirpath)
 	} catch (err) {
@@ -541,7 +532,7 @@ function listDirectory(dirpath /*: string*/) {
 }
 
 // eslint-disable-next-line no-unused-vars
-function listDirectoryTree(dirpath /*: string*/) /*: any*/ {
+function listDirectoryTree(dirpath) {
 	try {
 		const exists = fs.accessSync(dirpath, fs.F_OK)
 
@@ -566,7 +557,7 @@ function listDirectoryTree(dirpath /*: string*/) /*: any*/ {
 	}
 }
 
-async function didNativeDependencyChange() /*: Promise<boolean>*/ {
+async function didNativeDependencyChange() {
 	const diff = await danger.git.JSONDiffForFile('package.json')
 
 	if (!diff.dependencies && !diff.devDependencies) {

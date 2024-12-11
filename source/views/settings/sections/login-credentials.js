@@ -71,7 +71,7 @@ class CredentialsLoginSection extends React.PureComponent<Props, State> {
 
 		return (
 			<Section
-				footer="Carleton login enables the &quot;meals remaining&quot; feature."
+				footer='Carleton login enables the "meals remaining" feature.'
 				header="CARLETON LOGIN"
 				sectionTintColor={sectionBgColor}
 			>
@@ -108,7 +108,7 @@ class CredentialsLoginSection extends React.PureComponent<Props, State> {
 				)}
 
 				<LoginButton
-					disabled={loading || (!username || !password)}
+					disabled={loading || !username || !password}
 					label="Carleton"
 					loading={loading}
 					loggedIn={loggedIn}
@@ -147,6 +147,7 @@ function mapDispatchToProps(dispatch): ReduxDispatchProps {
 	}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-	CredentialsLoginSection,
-)
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps,
+)(CredentialsLoginSection)

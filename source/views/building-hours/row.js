@@ -144,7 +144,7 @@ export class BuildingRow extends React.Component<Props, State> {
 										status={status}
 									/>
 								</Detail>
-						  ))
+							))
 						: null}
 				</View>
 			</ListRow>

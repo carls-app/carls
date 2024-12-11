@@ -62,7 +62,10 @@ export class BuildingHoursScheduleEditorView extends React.PureComponent<
 
 	onChangeOpen = (newDate: moment) => {
 		this.setState(
-			state => ({...state, set: {...state.set, from: newDate.format('h:mma')}}),
+			state => ({
+				...state,
+				set: {...state.set, from: newDate.format('h:mma')},
+			}),
 			() => this.props.navigation.state.params.onEditSet(this.state.set),
 		)
 	}

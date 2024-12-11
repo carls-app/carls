@@ -144,9 +144,9 @@ export class MapView extends React.Component<Props, State> {
 				const latitude =
 					this.state.overlaySize === 'min'
 						? // case 1: overlay is collapsed; center in viewport
-						  coordinates[1]
+							coordinates[1]
 						: // case 2: overlay is open; center above overlay
-						  coordinates[1] - 0.0005
+							coordinates[1] - 0.0005
 
 				this._map.setCamera({
 					centerCoordinate: [coordinates[0], latitude],

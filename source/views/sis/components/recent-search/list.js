@@ -33,14 +33,8 @@ export class RecentItemsList extends React.PureComponent<Props> {
 	keyExtractor = (item: string) => item
 
 	render() {
-		const {
-			items,
-			actionLabel,
-			onAction,
-			title,
-			emptyHeader,
-			emptyText,
-		} = this.props
+		const {items, actionLabel, onAction, title, emptyHeader, emptyText} =
+			this.props
 		return (
 			<View>
 				<View style={styles.rowFlex}>

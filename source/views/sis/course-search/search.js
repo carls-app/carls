@@ -105,9 +105,7 @@ function executeSearch(args: {
 			(course.instructors || []).some(name =>
 				keywordSearch(query, name.toLowerCase()),
 			) ||
-			deptNum(course)
-				.toLowerCase()
-				.startsWith(query) ||
+			deptNum(course).toLowerCase().startsWith(query) ||
 			(course.gereqs || []).some(gereq =>
 				gereq.toLowerCase().startsWith(query),
 			),
@@ -303,7 +301,7 @@ class CourseSearchView extends React.PureComponent<Props, State> {
 		const selectedFilters = selectedFilterCombo
 			? resetFilters.map(
 					f => selectedFilterCombo.filters.find(f2 => f2.key === f.key) || f,
-			  )
+				)
 			: resetFilters
 		this.props.onFiltersChange(selectedFilters)
 		this.browseAll()
@@ -367,13 +365,8 @@ class CourseSearchView extends React.PureComponent<Props, State> {
 	}
 
 	render() {
-		const {
-			searchActive,
-			searchPerformed,
-			searchResults,
-			query,
-			browsing,
-		} = this.state
+		const {searchActive, searchPerformed, searchResults, query, browsing} =
+			this.state
 
 		if (this.state.dataLoading) {
 			return <LoadingView text="Loading Course Data…" />

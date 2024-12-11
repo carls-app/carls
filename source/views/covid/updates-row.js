@@ -24,10 +24,7 @@ export class UpdatesRow extends React.PureComponent<Props> {
 	}
 
 	calculateFromNow = (publishedOffset: moment) => {
-		const today = moment
-			.utc()
-			.tz(TIMEZONE)
-			.startOf('day')
+		const today = moment.utc().tz(TIMEZONE).startOf('day')
 
 		if (today.isAfter(publishedOffset, 'day')) {
 			return moment.duration(publishedOffset - today).humanize(true)
