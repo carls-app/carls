@@ -13,12 +13,11 @@ jobs:
 
       - run: npm ci
 
-      - run: npm run validate-bus-data
-      - run: npm run validate-data
+      - run: mise run validate
 
       # Having validated the data, we now prepare a bundle.  This script creates
       # files in a docs/ directory.
-      - run: npm run bundle-data
+      - run: mise run bundle-data
 
       # Notes: actions/checkout@v2 no longer fetches entire history nor enters
       # detached HEAD state.  We really just need to check out an (orphaned)
