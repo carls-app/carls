@@ -5,8 +5,7 @@ category: Libraries
 schedule:
   - title: Hours
     hours:
-      - {days: [Mo, Tu, We, Th, Fr], from: '9:00am', to: '12:00pm'}
-      - {days: [Mo, Tu, We, Th, Fr], from: '1:00pm', to: '4:00pm'}
+      - {days: [Mo, Tu, We, Th, Fr], from: '8:00am', to: '4:00pm'}
 
 breakSchedule:
   fall: []
