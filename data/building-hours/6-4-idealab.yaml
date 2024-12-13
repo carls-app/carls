@@ -4,7 +4,9 @@ category: Help and Support
 schedule:
   - title: Hours
     hours:
-      - {days: [Mo, Tu, We, Th, Fr], from: '8:00am', to: '5:00pm'}
+      - {days: [Mo, Tu, We, Th, Fr, Sa, Su], from: '12:00am', to: '12:00pm'}
+      - {days: [Mo, Tu, We, Th, Fr, Sa, Su], from: '12:00pm', to: '12:00am'}
+      
 
 breakSchedule:
   fall: []
