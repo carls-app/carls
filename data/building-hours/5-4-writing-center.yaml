@@ -5,10 +5,13 @@ category: Libraries
 schedule:
   - title: Hours
     hours:
-      - {days: [Mo, Tu, We, Th, Fr], from: '9:00am', to: '12:00pm'}
-      - {days: [Mo, Tu, We, Th, Fr], from: '2:00pm', to: '5:00pm'}
-      - {days: [Mo, Tu, We, Th], from: '8:00pm', to: '12:00am'}
-      - {days: [Su], from: '8:00pm', to: '12:00am'}
+      - {days: [Mo, Tu, We, Th, Fr], from: '10:00am', to: '12:00pm'}
+      - {days: [Mo, Tu, We, Th], from: '1:00pm', to: '6:00pm'}
+      - {days: [Mo, Tu, We, Th], from: '7:00pm', to: '10:00pm'}
+      - {days: [Fr], from: '1:00pm', to: '5:00pm'}
+      - {days: [Su], from: '2:00pm', to: '6:00pm'}
+      - {days: [Su], from: '7:00pm', to: '10:00pm'}
+
 
 breakSchedule:
   fall: []
