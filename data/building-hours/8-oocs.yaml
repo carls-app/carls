@@ -1,11 +1,11 @@
-name: Office of Off-Campus Studies
+name: Off-Campus Studies
 image: oocs
 category: Student Life & Support
 
 schedule:
   - title: Hours
     hours:
-      - {days: [Mo, Tu, We, Th, Fr], from: '8:00am', to: '5:00pm'}
+      - {days: [Mo, Tu, We, Th, Fr], from: '8:30am', to: '5:00pm'}
 
 breakSchedule:
   fall: []
