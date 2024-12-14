@@ -5,9 +5,9 @@ category: Sayles-Hill Campus Center
 schedule:
   - title: Hours
     hours:
-      - {days: [Mo, Tu, We, Th, Fr], from: '8:30am', to: '6:00pm'}
-      - {days: [Sa], from: '10:00am', to: '4:00pm'}
-      - {days: [Su], from: '12:00pm', to: '4:00pm'}
+      - {days: [Mo, Tu, We, Th], from: '9:00am', to: '5:00pm'}
+      - {days: [Fr, Sa], from: '9:00am', to: '6:00pm'}
+      - {days: [Su], from: '9:00am', to: '1:00pm'}
 
 breakSchedule:
   fall: []
