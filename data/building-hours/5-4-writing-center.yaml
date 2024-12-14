@@ -12,7 +12,6 @@ schedule:
       - {days: [Su], from: '2:00pm', to: '6:00pm'}
       - {days: [Su], from: '7:00pm', to: '10:00pm'}
 
-
 breakSchedule:
   fall: []
   thanksgiving: []
