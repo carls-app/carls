@@ -5,9 +5,9 @@ category: Student Life & Support
 schedule:
   - title: Hours
     hours:
-      - {days: [Mo, Tu, We, Th], from: '8:15am', to: '12:00am'}
-      - {days: [Fr], from: '8:15am', to: '4:00pm'}
-      - {days: [Su], from: '1:00pm', to: '12:00am'}
+      - {days: [Mo, Tu, We, Th], from: '8:15am', to: '10:15am'}
+      - {days: [Fr], from: '8:15am', to: '6:00pm'}
+      - {days: [Su], from: '1:00pm', to: '10:15pm'}
 
 breakSchedule:
   fall: []
