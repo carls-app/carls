@@ -3,8 +3,7 @@ category: Offices
 
 schedule:
   - title: Hours
-    hours:
-      - {days: [Mo, Tu, We, Th, Fr], from: '8:00am', to: '3:00pm'}
+    hours: []
 
 breakSchedule:
   fall: []
