@@ -5,8 +5,8 @@ category: Food
 schedule:
   - title: Hours
     hours:
-      - {days: [Tu, We, Th], from: '7:00pm', to: '12:00am'}
-      - {days: [Fr, Sa], from: '8:00pm', to: '1:00am'}
+      - {days: [Th], from: '7:00pm', to: '12:00am'}
+      - {days: [Fr], from: '8:30pm', to: '12:00am'}
 
 breakSchedule:
   fall: []
