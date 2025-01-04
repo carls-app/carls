@@ -48,18 +48,6 @@ run = "xcrun instruments -s devices | peco --select-1 --query 'Simulator iPhone'
 [tasks.lint]
 run = "npx eslint --cache source/ scripts/ *.js"
 
-[tasks.prepare]
-depends = ["prepare:*"]
-
-[tasks."prepare:patches"]
-run = "ls contrib/*.patch | xargs -n1 patch -p0 -Nfsi || true"
-
-[tasks."prepare:scroll-enabled"]
-run = "sed -i.bak 's/\\(_backedTextInputView.scrollEnabled = \\)YES;/\\1NO;/' node_modules/react-native/Libraries/Text/TextInput/Multiline/RCTMultilineTextInputView.m"
-
-[tasks."prepare:third-party"]
-run = "bash ./scripts/prepare-third-party.sh"
-
 [tasks.prettier]
 run = "npx prettier --write '{source,scripts}/**/*.js' '*.js'"
 
