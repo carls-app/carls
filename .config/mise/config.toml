@@ -37,7 +37,7 @@ run = "npx danger ci"
 run = "npx flow"
 
 [tasks.ios]
-run = "npx react-native run-ios"
+run = "npx expo run:ios"
 
 [tasks."ios:release"]
 run = "npx react-native run-ios --configuration Release"
@@ -58,7 +58,16 @@ run = "pretty-quick"
 run = "pretty-quick"
 
 [tasks.start]
-run = "npx react-native start"
+run = "npx expo start"
+
+[tasks."start:android"]
+run = "npx expo start --android"
+
+[tasks."start:ios"]
+run = "npx expo start --ios"
+
+[tasks."start:web"]
+run = "npx expo start --web"
 
 [tasks.test]
 run = "npx jest"
