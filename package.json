@@ -3,12 +3,9 @@
   "main": "expo-router/entry",
   "version": "1.0.0",
   "scripts": {
-    "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
-    "web": "expo start --web",
-    "test": "jest --watchAll",
-    "lint": "expo lint"
+    "start": "echo 'Please use `mise run start`. Docs: https://mise.jdx.dev/getting-started.html`'",
+    "android": "echo 'Please use `mise run start:android`'",
+    "ios": "echo 'Please use `mise run start:ios`'"
   },
   "jest": {
     "preset": "jest-expo"
