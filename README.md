@@ -1,19 +1,27 @@
-# Welcome to your Expo app 👋
+# CARLS
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Everything Carleton, now in your pocket.
+
+This is an Expo project supported by TypeScript and React Native.
 
 ## Get started
 
 1. Install dependencies
 
-   ```bash
+   ```sh
    npm install
    ```
 
-2. Start the app
+2. Install [mise](https://mise.jdx.dev/getting-started.html#getting-started) (the front-end to our dev environment)
 
-   ```bash
-    npx expo start
+   ```sh
+   brew install mise
+   ```
+
+3. Build the app
+
+   ```sh
+   mise run start
    ```
 
 In the output, you'll find options to open the app in a
@@ -25,16 +33,6 @@ In the output, you'll find options to open the app in a
 
 You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
 
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
 ## Learn more
 
 To learn more about developing your project with Expo, look at the following resources:
@@ -44,7 +42,4 @@ To learn more about developing your project with Expo, look at the following res
 
 ## Join the community
 
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+Thank you for your interest in contributing to the CARLS app. Contributions are accepted in the form of issues and pull requests.
