@@ -17,6 +17,10 @@ export default function RootLayout(): React.JSX.Element {
 					name="home"
 					options={{headerTitle: 'CARLS'}}
 				/>
+				<Stack.Screen
+					name="menus"
+					options={{headerTitle: 'Menus'}}
+				/>
 			</Stack>
 		</QueryClientProvider>
 	)

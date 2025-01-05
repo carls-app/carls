@@ -182,9 +182,6 @@ export function FancyMenu(props: Props): React.JSX.Element {
 						badgeSpecials={!specialsFilterEnabled}
 						corIcons={menuCorIcons}
 						data={item}
-						onPress={() => {
-							navigation.navigate('MenuItemDetail', {item, icons: menuCorIcons})
-						}}
 						spacing={{left: LEFT_MARGIN}}
 					/>
 				)

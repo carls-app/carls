@@ -13,7 +13,7 @@ interface Props {
 	style?: StyleProp<ViewStyle>
 	badgeSpecials?: boolean
 	spacing: {left: number}
-	onPress: () => void
+	onPress?: () => void
 }
 
 export function FoodItemRow({
@@ -26,7 +26,7 @@ export function FoodItemRow({
 	const {left = 0} = props.spacing
 	return (
 		<ListRow
-			arrowPosition="center"
+			arrowPosition={onPress ? 'center' : 'none'}
 			fullWidth={true}
 			onPress={onPress}
 			style={[styles.container, props.style]}
