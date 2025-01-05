@@ -4,8 +4,8 @@
   "version": "1.0.0",
   "scripts": {
     "start": "echo 'Please use `mise run start`. Docs: https://mise.jdx.dev/getting-started.html`'",
-    "android": "echo 'Please use `mise run start:android`'",
-    "ios": "echo 'Please use `mise run start:ios`'"
+    "android": "echo 'Please use `mise run android`'",
+    "ios": "echo 'Please use `mise run ios`'"
   },
   "jest": {
     "preset": "jest-expo"

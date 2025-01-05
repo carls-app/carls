@@ -13,6 +13,7 @@
       "supportsTablet": true
     },
     "android": {
+      "package": "com.carls",
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
