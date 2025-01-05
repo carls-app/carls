@@ -151,7 +151,7 @@ export function BusLine(props: Props): React.JSX.Element {
 
 	let lineMessage = line.notice ?? ''
 	let footerMessage =
-		'Bus routes and times subject to change without notice\n\nData collected by the humans of All About Olaf'
+		'Bus routes and times subject to change without notice\n\nData collected by the humans of Carleton College'
 
 	let footerElement = <ListFooter title={footerMessage} />
 	let headerElement = lineMessage ? (
