@@ -30,6 +30,10 @@ export default function RootLayout(): React.JSX.Element {
 						name="transportation"
 						options={{headerTitle: 'Transportation'}}
 					/>
+					<Stack.Screen
+						name="building-hours"
+						options={{headerTitle: 'Building Hours'}}
+					/>		
 			</Stack>
 		</QueryClientProvider>
 	)
