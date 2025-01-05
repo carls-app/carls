@@ -15,23 +15,21 @@ export default function RootLayout(): React.JSX.Element {
 		<QueryClientProvider client={queryClient}>
 			<Stack
 				screenOptions={{
-				headerTintColor: c.white,
-				headerStyle: {
-					backgroundColor: c.carletonBlue,
-				}
-			}}>
-				<Stack.Screen
-					name="index"
-					options={{headerTitle: 'CARLS'}}
-				/>
-				<Stack.Screen
-					name="menus"
-					options={{headerTitle: 'Menus'}}
-				/>
-				<Stack.Screen
-					name="transportation"
-					options={{headerTitle: 'Transportation'}}
-				/>
+					headerTintColor: c.white,
+					headerStyle: {backgroundColor: c.carletonBlue}
+				}}>
+					<Stack.Screen
+						name="index"
+						options={{headerTitle: 'CARLS'}}
+					/>
+					<Stack.Screen
+						name="menus"
+						options={{headerTitle: 'Menus'}}
+					/>
+					<Stack.Screen
+						name="transportation"
+						options={{headerTitle: 'Transportation'}}
+					/>
 			</Stack>
 		</QueryClientProvider>
 	)
