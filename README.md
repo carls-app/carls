@@ -24,6 +24,12 @@ This is an Expo project supported by TypeScript and React Native.
    mise run ios
    ```
 
+4. Start the dev server (this replaces step 3 if you've built and ran the app previously)
+
+   ```sh
+   mise run start:ios
+   ```
+
 In the output, you'll find options to open the app in a
 
 - [development build](https://docs.expo.dev/develop/development-builds/introduction/)
