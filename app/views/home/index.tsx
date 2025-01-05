@@ -48,6 +48,15 @@ export default function HomeScreenView(): React.JSX.Element {
 								router.navigate('../menus')
 							}}
 						/>
+						<HomeScreenButton
+							title="Building Hours"
+							iconName="clock"
+							foreground="light"
+							tintColor={c.lightBlueToBlueDark[0]}
+							onPress={() => {
+								router.navigate('../building-hours')
+							}}
+						/>						
 					</Column>
 					<Column style={styles.column}>
 						<HomeScreenButton
