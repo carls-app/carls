@@ -90,7 +90,7 @@ export function ListSection<T extends object>({
 					<Text style={styles.title}>
 						{spec.displayTitle ? val.title : val.label}
 					</Text>
-					{val.detail == null ? (
+					{val.detail === null ? (
 						<Text style={styles.detail}>{val.detail}</Text>
 					) : null}
 				</Column>
