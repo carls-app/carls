@@ -49,6 +49,17 @@ export default function HomeScreenView(): React.JSX.Element {
 							}}
 						/>
 					</Column>
+					<Column style={styles.column}>
+						<HomeScreenButton
+							title="Transportation"
+							iconName="address"
+							foreground="light"
+							tintColor={c.grayToDarkGray[0]}
+							onPress={() => {
+								router.navigate('../transportation')
+							}}
+						/>
+					</Column>
 				</View>
 			</ScrollView>
 		</SafeAreaView>
