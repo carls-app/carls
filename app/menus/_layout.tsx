@@ -1,9 +1,10 @@
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6'
 import {Tabs} from 'expo-router'
+import {sharedTabScreenOptions} from '../shared/screenOptions'
 
 export default function TabLayout(): React.JSX.Element {
 	return (
-		<Tabs screenOptions={{headerShown: false}}>
+		<Tabs screenOptions={sharedTabScreenOptions}>
 			<Tabs.Screen
 				name="burton"
 				options={{

@@ -1,5 +1,7 @@
 import * as platform from './platform'
 
+export const carletonBlue = '#0b5091'
+
 export const blue = platform.systemBlue
 export const brown = platform.systemBrown
 export const cyan = platform.systemCyan
