@@ -21,7 +21,7 @@ This is an Expo project supported by TypeScript and React Native.
 3. Build the app
 
    ```sh
-   mise run start
+   mise run ios
    ```
 
 In the output, you'll find options to open the app in a
