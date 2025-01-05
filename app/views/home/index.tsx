@@ -45,7 +45,7 @@ export default function HomeScreenView(): React.JSX.Element {
 							foreground="light"
 							tintColor="#7CBB00"
 							onPress={() => {
-								router.navigate('/menus')
+								router.navigate('../menus')
 							}}
 						/>
 					</Column>
