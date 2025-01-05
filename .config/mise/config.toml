@@ -21,7 +21,7 @@ outputs = ["docs/*"]
 run = "npx react-native bundle --entry-file index.js --dev true --platform android --bundle-output ./android/app/src/main/assets/index.android.bundle --assets-dest ./android/app/src/main/res/ --sourcemap-output ./android/app/src/main/assets/index.android.bundle.map"
 
 [tasks."bundle:ios"]
-run = "npx react-native bundle --entry-file index.js --dev false --platform ios --bundle-output ./ios/AllAboutOlaf/main.jsbundle --assets-dest ./ios --sourcemap-output ./ios/AllAboutOlaf/main.jsbundle.map"
+run = "npx react-native bundle --entry-file index.js --dev false --platform ios --bundle-output ./ios/carls/main.jsbundle --assets-dest ./ios --sourcemap-output ./ios/carls/main.jsbundle.map"
 
 [tasks.check]
 depends = ["prettier", "lint", "flow", "validate-data", "test"]
