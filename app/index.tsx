@@ -1,7 +1,12 @@
+// initialization needs to come first
+import '../polyfills'
+import './init/constants'
+import './init/moment'
+import './init/theme'
+import { configureApiRoot } from './init/api'
+
 import { useEffect, useState } from 'react'
 import { Stack, useRouter, useRootNavigationState } from 'expo-router'
-import { configureApiRoot } from './init/api'
-import './init/constants'
 
 const useIsNavigationReady = () => {
 	const rootNavigationState = useRootNavigationState()
