@@ -14,7 +14,7 @@ export default function RootLayout(): React.JSX.Element {
 		<QueryClientProvider client={queryClient}>
 			<Stack>
 				<Stack.Screen
-					name="home"
+					name="index"
 					options={{headerTitle: 'CARLS'}}
 				/>
 				<Stack.Screen

@@ -31,7 +31,7 @@ const Index = (): React.JSX.Element => {
 
 	useEffect(() => {
 		if (isNavigationReady && !isInitializing) {
-			router.replace('/views/home')
+			router.replace('./views/home')
 		}
 	}, [isNavigationReady, isInitializing, router])
 
