@@ -17,6 +17,10 @@ expo-env.d.ts
 *.key
 *.mobileprovision
 
+# todo: check if this is necessary for expo managing these files
+ios/
+android/
+
 # Metro
 .metro-health-check*
 
