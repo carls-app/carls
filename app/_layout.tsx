@@ -3,6 +3,8 @@ import {useReactNavigationDevTools} from '@dev-plugins/react-navigation'
 import {useReactQueryDevTools} from '@dev-plugins/react-query'
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query'
 import * as c from './modules/colors'
+import { sharedScreenOptions } from './shared/screenOptions'
+import { CloseScreenButton } from './modules/navigation-buttons'
 
 const queryClient = new QueryClient({})
 
@@ -22,6 +24,10 @@ export default function RootLayout(): React.JSX.Element {
 						name="index"
 						options={{headerTitle: 'CARLS'}}
 					/>
+					<Stack.Screen
+						name="settings"
+						options={{headerTitle: 'Settings', presentation: 'modal', headerRight: () => <CloseScreenButton />}}
+					/>						
 					<Stack.Screen
 						name="menus"
 						options={{headerTitle: 'Menus'}}

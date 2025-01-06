@@ -5,6 +5,7 @@ import {useNavigation, useRouter} from 'expo-router'
 import {Column} from '../../modules/layout/column'
 import * as c from '../../modules/colors'
 import { useLayoutEffect } from 'react'
+import { OpenSettingsButton } from '../../modules/navigation-buttons'
 
 const styles = StyleSheet.create({
 	scrollview: {
@@ -26,7 +27,11 @@ export default function HomeScreenView(): React.JSX.Element {
 	const navigation = useNavigation()
 
 	useLayoutEffect(() => {
-		navigation.setOptions({title: 'CARLS'})
+		navigation.setOptions({
+			title: 'CARLS',
+			headerRight: () => <OpenSettingsButton  />,
+		})
+		
 	}, [navigation])
 
 	return (
