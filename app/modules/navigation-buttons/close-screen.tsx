@@ -29,7 +29,7 @@ export function CloseScreenButton({
 			style={[commonStyles.button, buttonStyle]}
 			testID="button-close-screen"
 		>
-			<Text style={[commonStyles.text, styles.text, {color: c.carletonBlue}]}>
+			<Text style={[commonStyles.text, styles.text, {color: c.white}]}>
 				{title ?? 'Done'}
 			</Text>
 		</Touchable>
