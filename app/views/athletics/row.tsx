@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react'
 import {
   StyleSheet,
   ScrollView,
@@ -6,144 +6,160 @@ import {
   Text,
   Image,
   PixelRatio,
-} from "react-native";
+} from 'react-native'
 
-import { AthleticsData } from "./types";
-import { formatGameTime } from "./utils";
+import { AthleticsData } from './types'
 
-import * as c from "../../modules/colors";
+import * as c from '../../modules/colors'
 
-export function AthleticsRow({ data }: { data: AthleticsData }) {
+export function AthleticsRow({
+  data,
+  includePrefix = true,
+}: {
+  data: AthleticsData
+  includePrefix?: boolean
+}) {
   return (
     <ScrollView>
-      {data.map((item, index) => (
-        <View key={`${index}-${item.id}`}>
-          <Text style={styles.sportTime}>{formatGameTime(item.date_utc)}</Text>
-          <View style={styles.container}>
-            <View style={styles.team}>
-              {item.hometeam_logo ? (
-                <Image
-                  style={styles.teamLogo}
-                  source={{ uri: item.hometeam_logo }}
-                />
-              ) : null}
+      {data.map((item, index) => {
+        if (item.prescore_info === 'No team scores') {
+          return null
+        }
 
-              <Text style={styles.teamName}>
-                {item.hometeam.trim().toUpperCase()}
-              </Text>
-            </View>
+        return (
+          <View key={`${index}-${item.id}`} style={styles.rowContainer}>
+            <View style={styles.container}>
+              <View style={styles.teamLeft}>
+                {item.hometeam_logo ? (
+                  <Image
+                    style={styles.teamLogo}
+                    source={{ uri: item.hometeam_logo }}
+                  />
+                ) : null}
 
-            <View style={styles.gameInfo}>
-              <Text style={styles.infoProcess}>
-                {item.prescore_info
-                  ? item.prescore_info
-                  : item.status.indicator}
-              </Text>
+                <Text style={styles.teamName}>{item.hometeam.trim()}</Text>
+              </View>
 
-              {item.status.indicator !== "A" && (
-                <View style={styles.infoScorePanel}>
-                  <Text style={styles.infoScore}>{item.team_score}</Text>
-                  <View style={styles.infoDivider} />
-                  <Text style={styles.infoScore}>{item.opponent_score}</Text>
-                </View>
-              )}
-            </View>
+              <View style={styles.gameInfo}>
+                {item.status.indicator === 'A' ? (
+                  <Text style={styles.infoTime}>{item.time}</Text>
+                ) : (
+                  <>
+                    <Text style={styles.infoProcess} />
 
-            <View style={styles.team}>
-              {item.opponent_logo ? (
-                <Image
-                  style={styles.teamLogo}
-                  source={{ uri: item.opponent_logo }}
-                />
-              ) : null}
+                    {item.status.indicator === 'O' && (
+                      <View style={styles.infoScorePanel}>
+                        <Text style={styles.infoScore}>{item.team_score}</Text>
+                        <View style={styles.infoDivider} />
+                        <Text style={styles.infoScore}>
+                          {item.opponent_score}
+                        </Text>
+                      </View>
+                    )}
+                  </>
+                )}
+              </View>
 
-              <Text style={styles.teamName}>
-                {item.opponent.trim().toUpperCase()}
-              </Text>
+              <View style={styles.teamRight}>
+                {item.opponent_logo ? (
+                  <Image
+                    style={styles.teamLogo}
+                    source={{ uri: item.opponent_logo }}
+                  />
+                ) : null}
+
+                <Text style={styles.teamName}>{item.opponent.trim()}</Text>
+              </View>
             </View>
           </View>
-        </View>
-      ))}
+        )
+      })}
     </ScrollView>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
+  rowContainer: {
+    backgroundColor: c.systemBackground,
+    borderRadius: 10,
+    marginHorizontal: 3,
+    marginVertical: 5,
+    padding: 3,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    elevation: 3,
+  },
   container: {
-    backgroundColor: c.white,
+    backgroundColor: c.systemBackground,
     borderRadius: 5,
     flex: 1,
-    flexDirection: "row",
-    marginHorizontal: 12,
-    marginBottom: 10,
+    padding: 5,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   sportTime: {
     color: c.black,
-    fontWeight: "500",
-    fontSize: 16,
-    padding: 5,
-    textAlign: "center",
+    fontWeight: '500',
+    fontSize: 14,
+    padding: 4,
+    textAlign: 'center',
   },
-  team: {
-    alignItems: "center",
-    borderRadius: 5,
-    flex: 1.5,
+  teamLeft: {
+    alignItems: 'center',
+    flex: 1,
+  },
+  teamRight: {
+    alignItems: 'center',
+    flex: 1,
   },
   teamLogo: {
-    width: 50,
-    height: 50,
-    marginTop: 12,
-    marginBottom: 5,
-  },
-  teamCity: {
-    color: c.black,
-    fontSize: 11,
-    marginTop: 2,
+    width: 30,
+    height: 30,
+    marginVertical: 4,
   },
   teamName: {
-    color: c.black,
-    fontWeight: "bold",
-    fontSize: 13,
-    position: "relative",
-    paddingBottom: 12,
-    top: 0,
-    justifyContent: "center",
-    textAlign: "center",
+    color: c.label,
+    fontSize: 12,
+    textAlign: 'center',
   },
   gameInfo: {
-    alignItems: "center",
-    flex: 1.5,
-    flexDirection: "column",
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 1,
   },
   infoProcess: {
-    color: c.black,
-    fontSize: 10,
-    marginTop: 22,
-    marginBottom: 3,
+    fontSize: 8,
+    marginVertical: 2,
+  },
+  infoTime: {
+    color: c.label,
+    fontSize: 14,
+    textAlignVertical: 'center',
+    textAlign: 'center',
   },
   processUnstart: {
-    fontSize: 22,
-    position: "relative",
-    top: 13,
+    fontSize: 18,
   },
   infoScorePanel: {
-    flex: 1,
-    flexDirection: "row",
-    justifyContent: "center",
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '100%',
   },
   infoScore: {
-    color: c.black,
-    fontWeight: "500",
-    fontSize: 24,
-    textAlign: "center",
-    width: 50,
+    color: c.label,
+    fontWeight: '500',
+    fontSize: 20,
+    textAlign: 'center',
+    width: 40,
   },
   infoDivider: {
     backgroundColor: c.systemGray,
-    height: 25,
-    marginTop: 7,
-    marginLeft: 10,
-    marginRight: 10,
+    height: 20,
     width: 2 / PixelRatio.get(),
+    marginHorizontal: 8,
   },
-});
+})

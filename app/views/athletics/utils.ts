@@ -1,20 +1,53 @@
-import moment from "moment-timezone";
+import moment from 'moment-timezone'
+import { DateGroupedScores, DateSection, Score } from './types'
+import { Constants } from './constants'
 
-export function formatGameTime(dateStr: string): string {
-  const date = moment.tz(dateStr, "M/D/YYYY h:mm:ss A", "America/Chicago");
-  const now = moment();
+const isYesterday = (date: moment.Moment) => {
+  const yesterday = moment().subtract(1, 'day').startOf('day')
+  return date.isSame(yesterday, 'day')
+}
 
-  if (date.isSame(now, "day")) {
-    return `Today ${date.format("h:mm A")}`;
-  }
+const isToday = (date: moment.Moment) => {
+  return date.isSame(moment().startOf('day'), 'day')
+}
 
-  if (date.isSame(now.clone().add(1, "day"), "day")) {
-    return `Tomorrow ${date.format("h:mm A")}`;
-  }
+const isFuture = (date: moment.Moment) => {
+  return date.isAfter(moment().endOf('day'))
+}
 
-  if (date.isSame(now.clone().subtract(1, "day"), "day")) {
-    return `Yesterday ${date.format("h:mm A")}`;
-  }
+export const formatDateString = (date: moment.Moment): string => {
+  return date.format('dddd, MMM D')
+}
 
-  return date.fromNow();
+export const groupScoresByDate = (scores: Score[]): DateGroupedScores[] => {
+  const yesterday: Score[] = []
+  const today: Score[] = []
+  const upcoming: Record<string, Score[]> = {}
+
+  scores.forEach((score) => {
+    const date = moment(score.date_utc, 'M/D/YYYY h:mm:ss A')
+
+    if (isYesterday(date)) {
+      yesterday.push(score)
+    } else if (isToday(date)) {
+      today.push(score)
+    } else if (isFuture(date)) {
+      const dateString = formatDateString(date)
+      if (!upcoming[dateString]) {
+        upcoming[dateString] = []
+      }
+      upcoming[dateString].push(score)
+    }
+  })
+
+  const upcomingSections = Object.keys(upcoming).map((date) => ({
+    title: date as DateSection,
+    data: upcoming[date],
+  }))
+
+  return [
+    { title: Constants.YESTERDAY, data: yesterday },
+    { title: Constants.TODAY, data: today },
+    ...upcomingSections,
+  ]
 }
