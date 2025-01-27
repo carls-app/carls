@@ -1,5 +1,5 @@
-import React from 'react'
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import React, { useEffect, useRef } from 'react'
+import { StyleSheet, Text, TouchableOpacity, View, Animated, Dimensions } from 'react-native'
 import { DateSection } from './types'
 import { Constants } from './constants'
 import * as c from '../../modules/colors'
@@ -26,15 +26,28 @@ export function TabBar({
     }
   }
 
+  const animatedValue = useRef(new Animated.Value(0)).current
+
+  useEffect(() => {
+    const index = sections.indexOf(selectedSection)
+    Animated.spring(animatedValue, {
+      toValue: index,
+      useNativeDriver: false,
+    }).start()
+  }, [selectedSection])
+
+  const tabWidth = Dimensions.get('window').width / sections.length
+  const translateX = animatedValue.interpolate({
+    inputRange: [0, sections.length - 1],
+    outputRange: [0, tabWidth * (sections.length - 1)],
+  })
+
   return (
     <View style={styles.container}>
       {sections.map((section) => (
         <TouchableOpacity
           key={section}
-          style={[
-            styles.tab,
-            selectedSection === section && styles.selectedTab,
-          ]}
+          style={styles.tab}
           onPress={() => handlePress(section)}
         >
           <Text
@@ -48,6 +61,12 @@ export function TabBar({
           </Text>
         </TouchableOpacity>
       ))}
+      <Animated.View
+        style={[
+          styles.animatedTabIndicator,
+          { width: tabWidth, transform: [{ translateX }] },
+        ]}
+      />
     </View>
   )
 }
@@ -58,6 +77,7 @@ const styles = StyleSheet.create({
     backgroundColor: c.systemBackground,
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: c.separator,
+    position: 'relative',
   },
   tab: {
     flex: 1,
@@ -75,5 +95,11 @@ const styles = StyleSheet.create({
   selectedTabText: {
     fontWeight: 'bold',
     color: c.carletonBlue,
+  },
+  animatedTabIndicator: {
+    position: 'absolute',
+    bottom: 0,
+    height: 2,
+    backgroundColor: c.carletonBlue,
   },
 })
