@@ -179,7 +179,12 @@ export const AthleticsListView = () => {
           selectedSection !== Constants.FILTER && (
             <NoticeView
               style={{ backgroundColor: c.transparent }}
-              text={`No games available. Try changing the filters?`}
+              text={
+                selectedSection === Constants.YESTERDAY ||
+                selectedSection === Constants.TODAY
+                  ? `No games ${selectedSection.toLowerCase()}. Try changing the filters?`
+                  : `No ${selectedSection.toLowerCase()} games. Try changing the filters?`
+              }
             />
           )
         }

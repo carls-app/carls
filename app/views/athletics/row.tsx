@@ -28,6 +28,7 @@ export function AthleticsRow({
 
         return (
           <View key={`${index}-${item.id}`} style={styles.rowContainer}>
+            <Text style={styles.sportName}>{item.sport}</Text>
             <View style={styles.container}>
               <View style={styles.teamLeft}>
                 {item.hometeam_logo ? (
@@ -90,6 +91,13 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 5,
     elevation: 3,
+  },
+  sportName: {
+    color: c.label,
+    fontSize: 11,
+    fontWeight: 'bold',
+    padding: 2,
+    textAlign: 'center',
   },
   container: {
     backgroundColor: c.systemBackground,

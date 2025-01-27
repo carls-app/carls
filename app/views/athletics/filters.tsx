@@ -36,6 +36,12 @@ export function AthleticsFilters({
   return (
     <SectionList
       contentContainerStyle={styles.listContainer}
+      ListFooterComponentStyle={styles.listFooter}
+      ListFooterComponent={
+        <Text style={styles.listFooterLabel}>
+          Filter preferences are saved locally to your device.
+        </Text>
+      }
       sections={sports}
       keyExtractor={(item) => item}
       renderItem={({ item }) => (
@@ -91,13 +97,20 @@ export function AthleticsFilters({
 const styles = StyleSheet.create({
   listContainer: {
     paddingHorizontal: 20,
+    height: '100%',
     backgroundColor: c.systemGroupedBackground,
   },
   sectionHeader: {
-    color: c.carletonBlue,
+    color: c.label,
     backgroundColor: c.systemGroupedBackground,
-    fontWeight: 'bold',
     paddingTop: 15,
+  },
+  listFooter: {
+    paddingTop: 15,
+  },
+  listFooterLabel: {
+    color: c.secondaryLabel,
+    fontSize: 12,
   },
   filterButton: {
     backgroundColor: c.systemBackground,
@@ -117,7 +130,7 @@ const styles = StyleSheet.create({
     borderColor: c.carletonBlue,
   },
   selectedFilterButtonText: {
-    color: c.systemBackground,
+    color: c.white,
     fontWeight: 'bold',
   },
 })
