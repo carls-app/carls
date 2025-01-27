@@ -5,21 +5,22 @@ import { Constants } from './constants'
 import * as c from '../../modules/colors'
 
 interface TabBarProps {
-  selectedSection: DateSection
-  onSelectSection: (section: DateSection) => void
+  selectedSection: DateSection | 'Filter'
+  onSelectSection: (section: DateSection | 'Filter') => void
 }
 
 export function TabBar({
   selectedSection,
   onSelectSection,
 }: TabBarProps): React.JSX.Element {
-  const sections: DateSection[] = [
+  const sections: (DateSection | 'Filter')[] = [
     Constants.YESTERDAY,
     Constants.TODAY,
     Constants.UPCOMING,
+    Constants.FILTER,
   ]
 
-  const handlePress = (section: DateSection) => {
+  const handlePress = (section: DateSection | 'Filter') => {
     if (section !== selectedSection) {
       onSelectSection(section)
     }
@@ -37,6 +38,7 @@ export function TabBar({
           onPress={() => handlePress(section)}
         >
           <Text
+            numberOfLines={1}
             style={[
               styles.tabText,
               selectedSection === section && styles.selectedTabText,

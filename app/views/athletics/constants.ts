@@ -4,4 +4,5 @@ export const Constants = {
   UPCOMING: 'Upcoming',
   FINALIZED: 'Finalized',
   ONGOING: 'Ongoing',
+  FILTER: 'Filter',
 }

@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback, useMemo, useState, useEffect } from 'react'
 import { SectionList, StyleSheet, View, Text } from 'react-native'
 import moment from 'moment-timezone'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
@@ -12,11 +12,14 @@ import { TabBar } from './tabbar'
 import { DateSection, Score } from './types'
 import { Constants } from './constants'
 import { formatDateString } from './utils'
+import { AthleticsFilters } from './filters'
+import { useFilterStore } from './store'
 
 export const AthleticsListView = () => {
-  const [selectedSection, setSelectedSection] = React.useState<DateSection>(
+  const [selectedSection, setSelectedSection] = useState<DateSection>(
     Constants.TODAY,
   )
+  const { selectedSports } = useFilterStore()
 
   const {
     data = [],
@@ -28,10 +31,34 @@ export const AthleticsListView = () => {
 
   let insets = useSafeAreaInsets()
 
+  const sports = useMemo(() => {
+    const allSports = data.flatMap((section) =>
+      section.data.map((score) => score.sport),
+    )
+    const uniqueSports = [...new Set(allSports)].sort()
+    const menSports = uniqueSports.filter((sport) => sport.includes("Men's"))
+    const womenSports = uniqueSports.filter((sport) =>
+      sport.includes("Women's"),
+    )
+    return [
+      { title: "Women's Sports", data: womenSports },
+      { title: "Men's Sports", data: menSports },
+    ]
+  }, [data])
+
+  const filteredData = useMemo(() => {
+    return data.map((section) => ({
+      ...section,
+      data: section.data.filter((score) =>
+        selectedSports.includes(score.sport),
+      ),
+    }))
+  }, [data, selectedSports])
+
   const currentSection = useMemo(() => {
     switch (selectedSection) {
       case Constants.UPCOMING:
-        const upcomingData = data
+        const upcomingData = filteredData
           .filter(
             (section) =>
               ![Constants.YESTERDAY, Constants.TODAY].includes(section.title),
@@ -39,9 +66,9 @@ export const AthleticsListView = () => {
           .flatMap((section) => section.data)
         return { title: Constants.UPCOMING, data: upcomingData }
       default:
-        return data.find((section) => section.title === selectedSection)
+        return filteredData.find((section) => section.title === selectedSection)
     }
-  }, [selectedSection, data])
+  }, [selectedSection, filteredData])
 
   const renderSectionHeader = useCallback(
     ({ section: { title } }: { section: { title: string } }) => {
@@ -63,20 +90,6 @@ export const AthleticsListView = () => {
       />
     ),
     [selectedSection],
-  )
-
-  const renderSectionList = useCallback(
-    (sections: { title: string; data: Score[] }[]) => (
-      <SectionList
-        sections={sections}
-        keyExtractor={(item) => item.id}
-        renderItem={renderItem}
-        renderSectionHeader={renderSectionHeader}
-        contentContainerStyle={styles.sectionListContent}
-        contentInset={{ top: 0, bottom: insets.bottom }}
-      />
-    ),
-    [renderItem, renderSectionHeader],
   )
 
   const getSections = useCallback(() => {
@@ -156,7 +169,26 @@ export const AthleticsListView = () => {
         selectedSection={selectedSection}
         onSelectSection={setSelectedSection}
       />
-      {renderSectionList(sections)}
+      {selectedSection === Constants.FILTER && (
+        <AthleticsFilters sports={sports} />
+      )}
+
+      <SectionList
+        sections={sections}
+        ListEmptyComponent={() =>
+          selectedSection !== Constants.FILTER && (
+            <NoticeView
+              style={{ backgroundColor: c.transparent }}
+              text={`No games available. Try changing the filters?`}
+            />
+          )
+        }
+        keyExtractor={(item) => item.id}
+        renderItem={renderItem}
+        renderSectionHeader={renderSectionHeader}
+        contentContainerStyle={styles.sectionListContent}
+        contentInset={{ top: 0, bottom: insets.bottom }}
+      />
     </View>
   )
 }
@@ -167,6 +199,7 @@ const styles = StyleSheet.create({
     backgroundColor: c.secondarySystemBackground,
   },
   sectionListContent: {
+    flexGrow: 1,
     padding: 10,
   },
   sectionHeader: {
