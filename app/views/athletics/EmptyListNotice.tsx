@@ -24,10 +24,8 @@ export const EmptyListNotice = ({ selectedSection }: EmptyListNoticeProps) => {
     case Constants.UPCOMING:
       message = `No ${selectedSection.toLowerCase()} games`
       break
-    case Constants.FILTER:
-      return null
     default:
-      message = `No games`
+      return null
   }
 
   if (showChangeFiltersMessage) {
