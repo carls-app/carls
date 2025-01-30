@@ -8,7 +8,6 @@ interface FilterState {
   setSelectedSports: (sports: string[]) => void
   setTotalSports: (count: number) => void
   toggleSport: (sport: string) => void
-  showChangeFiltersMessage: boolean
 }
 
 export const useFilterStore = create(
@@ -28,12 +27,6 @@ export const useFilterStore = create(
             : [...state.selectedSports, sport]
           return { selectedSports: updatedSports }
         }),
-      get showChangeFiltersMessage() {
-        const filtersWithoutAll = get().selectedSports.filter(filter => filter !== 'All')
-        const noFiltersSelected = filtersWithoutAll.length === 0
-        const allFiltersSelected = filtersWithoutAll.length === get().totalSports
-        return noFiltersSelected || (filtersWithoutAll.length > 0 && !allFiltersSelected)
-      },
     }),
     {
       name: 'athletics',
@@ -41,3 +34,14 @@ export const useFilterStore = create(
     },
   ),
 )
+
+export const selectShowChangeFiltersMessage = (state: FilterState) => {
+  const filtersWithoutAll = state.selectedSports.filter(
+    (filter) => filter !== 'All',
+  )
+  const noFiltersSelected = filtersWithoutAll.length === 0
+  const allFiltersSelected = filtersWithoutAll.length === state.totalSports
+  return (
+    noFiltersSelected || (filtersWithoutAll.length > 0 && !allFiltersSelected)
+  )
+}

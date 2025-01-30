@@ -4,16 +4,21 @@ import { NoticeView } from '../../modules/notice'
 import * as c from '../../modules/colors'
 import { DateSection } from './types'
 import { Constants } from './constants'
-import { useFilterStore } from './store'
+import { useFilterStore, selectShowChangeFiltersMessage } from './store'
 
 interface EmptyListNoticeProps {
   selectedSection: DateSection
   selectedFilters: string[]
 }
 
-export const EmptyListNotice = ({ selectedSection, selectedFilters }: EmptyListNoticeProps) => {
-  const { showChangeFiltersMessage } = useFilterStore()
-  
+export const EmptyListNotice = ({
+  selectedSection,
+  selectedFilters,
+}: EmptyListNoticeProps) => {
+  const showChangeFiltersMessage = useFilterStore(
+    selectShowChangeFiltersMessage,
+  )
+
   let message = ''
   switch (selectedSection) {
     case Constants.YESTERDAY:
@@ -32,10 +37,7 @@ export const EmptyListNotice = ({ selectedSection, selectedFilters }: EmptyListN
   }
 
   return (
-    <NoticeView
-      style={{ backgroundColor: c.transparent }}
-      text={message}
-    />
+    <NoticeView style={{ backgroundColor: c.transparent }} text={message} />
   )
 }
 
