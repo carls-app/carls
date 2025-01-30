@@ -40,9 +40,9 @@ export const groupScoresByDate = (scores: Score[]): DateGroupedScores[] => {
     }
   })
 
-  const upcomingSections = Object.keys(upcoming).map((date) => ({
-    title: date as DateSection,
-    data: upcoming[date],
+  const upcomingSections = Object.entries(upcoming).map(([date, scores]) => ({
+    title: date,
+    data: scores,
   }))
 
   return [

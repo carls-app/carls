@@ -107,12 +107,12 @@ export const AthleticsListView = () => {
         {} as Record<string, Score[]>,
       )
 
-      return Object.keys(upcomingSections || {})
-        .map((date) => ({
+      return Object.entries(upcomingSections || {})
+        .map(([date, scores]) => ({
           title: date,
-          data: upcomingSections?.[date] || [],
+          data: scores,
         }))
-        .filter((section) => (section.data ?? []).length)
+        .filter((section) => section.data.length)
     }
 
     if (selectedSection === Constants.YESTERDAY) {
