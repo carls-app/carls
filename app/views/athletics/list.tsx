@@ -1,5 +1,5 @@
-import React, { useCallback, useMemo, useState, useEffect } from 'react'
-import { SectionList, StyleSheet, View, Text } from 'react-native'
+import React, { useCallback, useMemo, useState } from 'react'
+import { SectionList, StyleSheet, View, Text, TouchableOpacity, Modal, SectionListData } from 'react-native'
 import moment from 'moment-timezone'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
@@ -14,12 +14,13 @@ import { Constants } from './constants'
 import { formatDateString } from './utils'
 import { AthleticsFilters } from './filters'
 import { useFilterStore } from './store'
+import { EmptyListNotice } from './EmptyListNotice'
 
 export const AthleticsListView = () => {
   const [selectedSection, setSelectedSection] = useState<DateSection>(
     Constants.TODAY,
   )
-  const { selectedSports } = useFilterStore()
+  const { selectedSports, setTotalSports } = useFilterStore()
 
   const {
     data = [],
@@ -35,7 +36,9 @@ export const AthleticsListView = () => {
     const allSports = data.flatMap((section) =>
       section.data.map((score) => score.sport),
     )
-    const uniqueSports = [...new Set(allSports)].sort()
+    const uniqueSports = [...new Set(allSports)].sort()  
+    setTotalSports(uniqueSports.length)
+
     const menSports = uniqueSports.filter((sport) => sport.includes("Men's"))
     const womenSports = uniqueSports.filter((sport) =>
       sport.includes("Women's"),
@@ -175,19 +178,7 @@ export const AthleticsListView = () => {
 
       <SectionList
         sections={sections}
-        ListEmptyComponent={() =>
-          selectedSection !== Constants.FILTER && (
-            <NoticeView
-              style={{ backgroundColor: c.transparent }}
-              text={
-                selectedSection === Constants.YESTERDAY ||
-                selectedSection === Constants.TODAY
-                  ? `No games ${selectedSection.toLowerCase()}. Try changing the filters?`
-                  : `No ${selectedSection.toLowerCase()} games. Try changing the filters?`
-              }
-            />
-          )
-        }
+        ListEmptyComponent={<EmptyListNotice selectedSection={selectedSection} selectedFilters={selectedSports} />}
         keyExtractor={(item) => item.id}
         renderItem={renderItem}
         renderSectionHeader={renderSectionHeader}
