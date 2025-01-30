@@ -8,13 +8,9 @@ import { useFilterStore, selectShowChangeFiltersMessage } from './store'
 
 interface EmptyListNoticeProps {
   selectedSection: DateSection
-  selectedFilters: string[]
 }
 
-export const EmptyListNotice = ({
-  selectedSection,
-  selectedFilters,
-}: EmptyListNoticeProps) => {
+export const EmptyListNotice = ({ selectedSection }: EmptyListNoticeProps) => {
   const showChangeFiltersMessage = useFilterStore(
     selectShowChangeFiltersMessage,
   )

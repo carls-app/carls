@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo, useState } from 'react'
-import { SectionList, StyleSheet, View, Text, TouchableOpacity, Modal, SectionListData } from 'react-native'
+import { SectionList, StyleSheet, View, Text } from 'react-native'
 import moment from 'moment-timezone'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
@@ -36,7 +36,7 @@ export const AthleticsListView = () => {
     const allSports = data.flatMap((section) =>
       section.data.map((score) => score.sport),
     )
-    const uniqueSports = [...new Set(allSports)].sort()  
+    const uniqueSports = [...new Set(allSports)].sort()
     setTotalSports(uniqueSports.length)
 
     const menSports = uniqueSports.filter((sport) => sport.includes("Men's"))
@@ -178,7 +178,9 @@ export const AthleticsListView = () => {
 
       <SectionList
         sections={sections}
-        ListEmptyComponent={<EmptyListNotice selectedSection={selectedSection} selectedFilters={selectedSports} />}
+        ListEmptyComponent={
+          <EmptyListNotice selectedSection={selectedSection} />
+        }
         keyExtractor={(item) => item.id}
         renderItem={renderItem}
         renderSectionHeader={renderSectionHeader}
