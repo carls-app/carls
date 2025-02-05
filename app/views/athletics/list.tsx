@@ -47,7 +47,7 @@ export const AthleticsListView = () => {
       { title: "Women's Sports", data: womenSports },
       { title: "Men's Sports", data: menSports },
     ]
-  }, [data])
+  }, [])
 
   const filteredData = useMemo(() => {
     return data.map((section) => ({
