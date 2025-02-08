@@ -38,16 +38,20 @@ export function AthleticsRow({
                   />
                 ) : null}
 
-                <Text style={styles.teamName}>{item.hometeam.trim()}</Text>
+                <Text 
+                  style={styles.teamName}
+                >
+                  {item.hometeam.trim()}
+                </Text>
               </View>
 
               <View style={styles.gameInfo}>
                 {item.status.indicator === 'A' ? (
-                  <Text style={styles.infoTime}>{item.time}</Text>
+                  <View style={styles.infoContainer}>
+                    <Text style={styles.infoTime}>{item.time}</Text>
+                  </View>
                 ) : (
-                  <>
-                    <Text style={styles.infoProcess} />
-
+                  <View style={styles.infoContainer}>
                     {item.status.indicator === 'O' && (
                       <View style={styles.infoScorePanel}>
                         <Text style={styles.infoScore}>{item.team_score}</Text>
@@ -57,7 +61,7 @@ export function AthleticsRow({
                         </Text>
                       </View>
                     )}
-                  </>
+                  </View>
                 )}
               </View>
 
@@ -93,7 +97,7 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   sportName: {
-    color: c.label,
+    color: c.systemGray,
     fontSize: 11,
     fontWeight: 'bold',
     padding: 2,
@@ -106,7 +110,8 @@ const styles = StyleSheet.create({
     padding: 5,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
+    alignItems: 'flex-start',
+    minHeight: 70,
   },
   sportTime: {
     color: c.black,
@@ -116,12 +121,16 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   teamLeft: {
+    width: '37%',
     alignItems: 'center',
-    flex: 1,
+    justifyContent: 'flex-start',
+    paddingHorizontal: 4,
   },
   teamRight: {
+    width: '37%',
     alignItems: 'center',
-    flex: 1,
+    justifyContent: 'flex-start',
+    paddingHorizontal: 4,
   },
   teamLogo: {
     width: 30,
@@ -132,15 +141,20 @@ const styles = StyleSheet.create({
     color: c.label,
     fontSize: 12,
     textAlign: 'center',
+    flexWrap: 'wrap',
+    marginTop: 2,
+    paddingBottom: 4,
   },
   gameInfo: {
-    alignItems: 'center',
+    width: '26%',
+    height: '100%',
     justifyContent: 'center',
-    flex: 1,
+    alignItems: 'center',
   },
-  infoProcess: {
-    fontSize: 8,
-    marginVertical: 2,
+  infoContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   infoTime: {
     color: c.label,

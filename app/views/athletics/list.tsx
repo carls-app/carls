@@ -15,6 +15,7 @@ import { formatDateString } from './utils'
 import { AthleticsFilters } from './filters'
 import { useFilterStore } from './store'
 import { EmptyListNotice } from './EmptyListNotice'
+import { largeListProps } from '../../modules/lists'
 
 export const AthleticsListView = () => {
   const [selectedSection, setSelectedSection] = useState<DateSection>(
@@ -192,6 +193,7 @@ export const AthleticsListView = () => {
         renderSectionHeader={renderSectionHeader}
         contentContainerStyle={styles.sectionListContent}
         contentInset={{ top: 0, bottom: insets.bottom }}
+        {...largeListProps}
       />
     </View>
   )
