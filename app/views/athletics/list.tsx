@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { useCallback, useMemo, useState, useEffect } from 'react'
 import { SectionList, StyleSheet, View, Text } from 'react-native'
 import moment from 'moment-timezone'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
@@ -21,6 +21,8 @@ export const AthleticsListView = () => {
     Constants.TODAY,
   )
   const { selectedSports, setTotalSports } = useFilterStore()
+  
+  const currentTotalSports = useFilterStore(state => state.totalSports)
 
   const {
     data = [],
@@ -32,22 +34,26 @@ export const AthleticsListView = () => {
 
   let insets = useSafeAreaInsets()
 
-  const sports = useMemo(() => {
-    const allSports = data.flatMap((section) =>
-      section.data.map((score) => score.sport),
-    )
-    const uniqueSports = [...new Set(allSports)].sort()
-    setTotalSports(uniqueSports.length)
+  const uniqueSports = useMemo(() => {
+    return [...new Set(data.flatMap(section => section.data.map(score => score.sport)))]
+      .sort()
+  }, [data])
 
-    const menSports = uniqueSports.filter((sport) => sport.includes("Men's"))
-    const womenSports = uniqueSports.filter((sport) =>
-      sport.includes("Women's"),
-    )
+  const sports = useMemo(() => {
+    const menSports = uniqueSports.filter(sport => sport.startsWith("Men's"))
+    const womenSports = uniqueSports.filter(sport => sport.startsWith("Women's"))
     return [
       { title: "Women's Sports", data: womenSports },
       { title: "Men's Sports", data: menSports },
     ]
-  }, [])
+  }, [uniqueSports])
+
+  useEffect(() => {
+     const newTotal = uniqueSports.length
+     if (newTotal !== currentTotalSports) {
+       setTotalSports(newTotal)
+     }
+  }, [uniqueSports, currentTotalSports, setTotalSports])
 
   const filteredData = useMemo(() => {
     return data.map((section) => ({
