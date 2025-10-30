@@ -1,12 +1,10 @@
-name: Olin Hall
-image: olin
+name: Anderson Hall
 category: Academia
 
 schedule:
   - title: Hours
     hours:
       - {days: [Mo, Tu, We, Th, Fr], from: '7:00am', to: '9:00pm'}
-
 
 breakSchedule:
   fall: []

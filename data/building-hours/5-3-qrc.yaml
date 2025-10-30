@@ -1,0 +1,17 @@
+name: Quantitative Resource Center
+category: Libraries
+
+schedule:
+  - title: Hours
+    hours:
+      - {days: [Mo, Tu, We, Th], from: '4:00pm', to: '10:00pm'}
+      - {days: [Su], from: '4:00pm', to: '10:00pm'}
+
+breakSchedule:
+  fall: []
+  thanksgiving: []
+  winter: []
+  interim: []
+  spring: []
+  easter: []
+  summer: []

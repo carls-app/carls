@@ -5,7 +5,7 @@ category: Academia
 schedule:
   - title: Hours
     hours:
-      - {days: [Mo, Tu, We, Th], from: '8:00am', to: '12:00am'}
+      - {days: [Mo, Tu, We, Th, Fr], from: '8:00am', to: '5:00pm'}
 
 breakSchedule:
   fall: []
