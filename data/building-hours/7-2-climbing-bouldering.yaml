@@ -11,9 +11,9 @@ links:
 schedule:
   - title: Hours
     hours:
-      - {days: [Mo, We], from: '3:30pm', to: '9:30pm'}
-      - {days: [Tu, Th], from: '3:30pm', to: '8:30pm'}
-      - {days: [Fr], from: '3:30pm', to: '5:30pm'}
+      - {days: [Mo, We], from: '4:00pm', to: '9:00pm'}
+      - {days: [Tu, Th], from: '4:00pm', to: '9:30pm'}
+      - {days: [Fr], from: '3:00pm', to: '6:00pm'}
       - {days: [Su], from: '2:00pm', to: '5:00pm'}
 
 breakSchedule:
